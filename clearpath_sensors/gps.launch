@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="clearpath_sensors" type="nmea_gps.py" name="gps" output="screen">
+    <param name="port" value="/dev/ttyUSB1" />
+  </node>
+</launch>

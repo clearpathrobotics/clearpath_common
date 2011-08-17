@@ -1,0 +1,6 @@
+Header header
+int8 firmware_major
+int8 firmware_minor
+int8 protocol_major
+int8 protocol_minor
+uint32 firmware_write_time

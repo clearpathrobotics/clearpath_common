@@ -1,0 +1,17 @@
+<package>
+  <description brief="clearpath_teleop">
+
+     clearpath_teleop
+
+  </description>
+  <author>Mike Purvis</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/clearpath_teleop</url>
+  <depend package="rospy"/>
+  <depend package="joy"/>
+  <depend package="geometry_msgs"/>
+  <depend package="std_msgs"/>
+</package>
+
+

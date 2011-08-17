@@ -1,0 +1,14 @@
+<package>
+  <description brief="clearpath_base">
+     clearpath_base
+  </description>
+  <author>Mike Purvis</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/clearpath_base</url>
+  <depend package="rospy"/>
+  <depend package="std_msgs"/>
+  <depend package="geometry_msgs"/>
+</package>
+
+

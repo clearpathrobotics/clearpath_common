@@ -1,0 +1,25 @@
+<launch>
+  <!-- Assuming an inventory of machines in parent directory. -->
+  <include file="../machines.launch" />
+
+  <group ns="clearpath/robots/chameleon">  
+    <node pkg="joy" type="joy_node" name="joy_node">
+      <param name="dev" value="/dev/input/js0" />
+    </node>
+
+    <node pkg="clearpath_base" type="teleop.py" name="clearpath_teleop">
+      <param name="turn_scale" value="1" />
+      <param name="drive_scale" value="0.25" />
+      <param name="dead_zone_x" value="0.1" />
+      <param name="dead_zone_y" value="0.3" />
+    </node>
+
+    <node pkg="clearpath_base" type="kinematic.py" name="clearpath_base">
+      <param name="accel" value="0.5" />
+
+      <!-- Data request frequencies -->
+      <param name="data/system_status" value="10" />
+      <param name="data/power_status" value="1" />
+    </node>
+  </group>
+</launch>

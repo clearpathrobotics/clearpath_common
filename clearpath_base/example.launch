@@ -1,0 +1,28 @@
+<launch>
+  <group ns="clearpath/robots/default">  
+    <!-- For open-loop control, use raw.py instead of kinematic.py. -->
+    <node pkg="clearpath_base" type="kinematic.py" name="clearpath_base" output="screen">
+      <!-- Uncomment the following line to manually specify serial device, rather
+	   than autodetecting between available /dev/ttyUSB and /dev/ttyS devices.
+	  -->
+	  <!-- <param name="port" value="/dev/ttyUSB0" /> -->
+
+      <!-- Horizon Data Subscriptions
+	    The examples shown are available on all platforms. Depending on
+		your platform's equipment, the following may also be available:
+		- velocity (commanded)
+		- differential_speed (commanded)
+		- differential_output (actual)
+		- ackermann_output (actual)
+		- platform_orientation
+		- platform_rotation
+		- encoders
+		- raw_encoders
+		- distance (for rangefinders)
+	  -->
+      <param name="data/system_status" value="10" />
+      <param name="data/safety_status" value="10" />
+      <param name="data/power_status" value="1" />
+    </node>
+  </group>
+</launch>
