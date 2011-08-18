@@ -1,6 +1,6 @@
 <package>
   <description brief="clearpath_base">
-     clearpath_base
+     The base drivers needed to connect with the onboard system for all Clearpath Robotics platforms.
   </description>
   <author>Mike Purvis</author>
   <license>BSD</license>

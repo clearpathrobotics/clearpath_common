@@ -1,7 +1,7 @@
 <package>
   <description brief="clearpath_sensors">
 
-     clearpath_sensors
+     The clearpath_sensors package contains drivers for many of the sensors we have had to use with no previously reliable support.
 
   </description>
   <author>Ryan Gariepy</author>

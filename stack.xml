@@ -1,5 +1,8 @@
 <stack>
-  <description brief="clearpath_common">clearpath_common</description>
+  <description brief="clearpath_common">
+    The clearpath_common stack provides a central repository of software
+    tools used across a variety of the Clearpath Robotics platforms.
+  </description>
   <author>Maintained by Mike Purvis</author>
   <license>BSD</license>  
   <review status="unreviewed" notes=""/>
