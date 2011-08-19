@@ -1,8 +1,6 @@
 <package>
   <description brief="clearpath_teleop">
-
      The clearpath_teleop package contains basic nodes used to quickly launch your Clearpath Robotics platform with a joystick control.
-
   </description>
   <author>Mike Purvis</author>
   <license>BSD</license>
