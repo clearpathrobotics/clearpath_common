@@ -3,7 +3,7 @@
 import roslib; roslib.load_manifest('clearpath_teleop')
 import rospy
 
-from joy.msg import Joy
+from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 
