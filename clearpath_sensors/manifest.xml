@@ -1,6 +1,6 @@
 <package>
   <description brief="clearpath_sensors">
-     The clearpath_sensors package contains drivers for many of the sensors we have had to use with no previously reliable support.
+     The clearpath_sensors package contains drivers for sensors we have had to use with no previously reliable support.
   </description>
   <author>Ryan Gariepy</author>
   <license>BSD</license>
@@ -9,6 +9,8 @@
   <rosdep name="pyserial"/>
   <depend package="rospy"/>
   <depend package="geometry_msgs"/>
+  <depend package="sensor_msgs"/>
+  <depend package="std_msgs"/>
 </package>
 
 

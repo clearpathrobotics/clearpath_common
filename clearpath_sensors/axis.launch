@@ -1,0 +1,15 @@
+<launch>
+  <group ns="axis">
+    <node pkg="clearpath_sensors" type="axis.py" name="axis">
+      <param name="hostname" value="192.168.0.90" />
+      <param name="width" value="704" />
+      <param name="height" value="480" />
+    </node>
+  </group>
+
+  <!-- Viewer window -->
+  <node pkg="image_view" type="image_view" name="image_view">
+    <remap from="image" to="axis" />
+    <param name="image_transport" value="compressed" />
+  </node>
+</launch>
