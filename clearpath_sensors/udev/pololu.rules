@@ -1,0 +1,1 @@
+SUBSYSTEMS=="usb", ATTRS{product}=="Pololu*", SYMLINK+="pololu pololu_$attr{serial}", MODE="0666"

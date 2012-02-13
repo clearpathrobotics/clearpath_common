@@ -6,6 +6,7 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/clearpath_bringup</url>
+  <rosdep name="daemontools" />
   <depend package="rospy"/>
   <depend package="std_msgs"/>
 </package>

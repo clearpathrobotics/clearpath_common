@@ -18,14 +18,20 @@ import data
 # Standard 
 import sys
 import logging
+from threading import Event
+
+
+CMD_TIME_MAX = 0.12
+CMD_TIME_MIN = 0.02
+RECONNECT_TIMEOUT = 1.0
+DATA_TIMEOUT = 1.1
 
 
 class Clearpath:
     def __init__(self):
         rospy.init_node('clearpath_base')
-
-        # Instantiate Clearpath
         self.port = rospy.get_param('~port', '')
+        self.cmd_fill = rospy.get_param('~cmd_fill', True)
 
         if self.port != '':
             # Serial port 
@@ -37,70 +43,93 @@ class Clearpath:
             rospy.loginfo("Using port autodetection")
             self.horizon = Horizon(transport = transports.Serial.autodetect)
 
-        first_error = True
-        while True:
-            if rospy.is_shutdown():
-                # This case is for when someone kills the node
-                # and it never connected.
-                self.horizon = None
-                return
-
-            try:
-                self.horizon.open()
-                rospy.loginfo("Connection successful on %s", self.horizon)
-                break
-
-            except utils.TransportError:
-                if first_error:
-                    rospy.logerr("Unable to connect on %s. Will retry every second.", self.port if self.port != '' else '/dev/ttyUSB* or /dev/ttyS*')
-                    first_error = False
-                rospy.sleep(1.0)
-
-
-        rospy.on_shutdown(self.shutdown_handler)
         announce_pub = rospy.Publisher('/clearpath/announce/robots', String, latch=True)
         announce_pub.publish(rospy.get_namespace());
 
-        # Fetch robot information so we can publish it (useful for logs, etc.)
-        #self.horizon.reset()
-        #rospy.sleep(0.5)
-        platform_name = self.horizon.request_platform_name(subscription=0)
-        platform_info = self.horizon.request_platform_info(subscription=0)
-        firmware_info = self.horizon.request_firmware_info(subscription=0)
-        robot_msg = data.pkg_robot_info(platform_name, platform_info, firmware_info)
-        robot_pub = rospy.Publisher('robot', ClearpathRobot, latch=True)
-        robot_pub.publish(robot_msg);
-
-        self.tx = True
-        self.hz = 10
-        self.do_subscriptions()
-        self.comm_error = False
-
-        self.last_cmd = rospy.Time.now()
         self.freq_pub = rospy.Publisher('cmd_freq', Float32, latch=True)
-        self.horizon.acks(False);
+        self.cmd_sub = rospy.Subscriber("cmd_vel", Twist, self.cmd_vel_handler)
 
-    # ROS calls this when receiving velocity commands. We impose a rate limit
-    # on passing them down to the platform.
-    def cmd_vel_handler(self, data):
-        if self.tx:
+        self.cmd_msg = Twist()
+        self.cmd_time = rospy.Time.now()
+        self.cmd_event = Event()
+
+
+    def run(self):
+        previous_error = False
+        cmd_timeout = False
+
+        # Reconnection loop.
+        while not rospy.is_shutdown():
+            if previous_error:
+                rospy.sleep(RECONNECT_TIMEOUT)
+                
             try:
-                self.cmd_vel(data.linear.x, data.angular.z)
-                self.freq_pub.publish((rospy.Time.now() - self.last_cmd).to_sec())
-                self.last_cmd = rospy.Time.now()
-                self.tx = False
-                self.comm_error = False
-            except IOError as ex:
-                if not self.comm_error:
-                    rospy.logerr('Problem communicating with platform: %s', ex)
-                    self.comm_error = True
-            except ValueError as ex:
-                rospy.logerr('Platform said Bad Values: %f %f', data.linear.x, data.angular.z)
+                if self.horizon.opened:
+                    self.horizon.close()
+                self.horizon.open()
+                self.unsub_all()
+                rospy.loginfo("Connection successful on %s", self.horizon)
+                previous_error = False
+                 
+                # Fetch and publish robot information.
+                self.horizon.acks(True);
+                platform_name = self.horizon.request_platform_name(subscription=0)
+                platform_info = self.horizon.request_platform_info(subscription=0)
+                firmware_info = self.horizon.request_firmware_info(subscription=0)
+                robot_msg = data.pkg_robot_info(platform_name, platform_info, firmware_info)
+                robot_pub = rospy.Publisher('robot', ClearpathRobot, latch=True)
+                robot_pub.publish(robot_msg);
 
-    # ROS calls this when spinning down.
-    def shutdown_handler(self):
+                self.do_subscriptions()
+                self.horizon.acks(False);
+
+                while not rospy.is_shutdown():
+                    self.cmd_event.wait(CMD_TIME_MAX)
+
+                    if (rospy.Time.now() - self.cmd_time).to_sec() > CMD_TIME_MAX:
+                        # Timed out waiting on command message. Send zeros instead to
+                        # keep connection alive.
+                        self.cmd_msg = Twist()
+                        if not cmd_timeout:
+                            rospy.loginfo("User commands timed out.")
+                            cmd_timeout = True
+                    else:
+                        if cmd_timeout:
+                            rospy.loginfo("Receiving user commands.")
+                            cmd_timeout = False
+
+                    self.cmd_event.clear()
+                    
+                    try:
+                        if not cmd_timeout or self.cmd_fill:
+                            self.cmd_vel(self.cmd_msg.linear.x, self.cmd_msg.angular.z)
+                        rospy.sleep(CMD_TIME_MIN)
+                    except: 
+                        rospy.logerr("Problem issuing command to platform. Attempting reconnection.")
+                        break
+
+                    if (rospy.Time.now() - self.data_time).to_sec() > DATA_TIMEOUT:
+                        rospy.logerr("Problem receiving data from platform. Attempting reconnection.")
+                        break
+
+
+            except utils.TransportError:
+                if not previous_error:
+                    rospy.logerr("Connection error on %s. Will retry every second.", self.port if self.port != '' else '/dev/ttyUSB* or /dev/ttyS*')
+                    previous_error = True
+
         self.horizon.close()
-        rospy.loginfo("clearpath_base shutdown")
+
+
+    def cmd_vel_handler(self, msg):
+        """ Received command from ROS. Signal the main thread to send it to robot. """
+        last_cmd_time = self.cmd_time
+
+        self.cmd_msg = msg
+        self.cmd_time = rospy.Time.now()
+        self.cmd_event.set()
+
+        self.freq_pub.publish((last_cmd_time - self.cmd_time).to_sec())
 
 
     def cmd_vel(self, linear_velocity, angular_velocity):
@@ -108,34 +137,33 @@ class Clearpath:
         raise NotImplementedError()
 
 
-    def run(self):
-        if self.horizon == None: return
-
-        rospy.Subscriber("cmd_vel", Twist, self.cmd_vel_handler)
-        rate = rospy.Rate(self.hz)
-
-        while not rospy.is_shutdown():
-            rate.sleep()
-            self.tx = True
-        
-        self.horizon.close()
+    def unsub_all(self):
+        for topic, cls in data.msgs.items():
+            subscribe_func = getattr(self.horizon, 'request_' + topic)
+            try:
+                subscribe_func(0xffff)
+            except:
+                pass
 
 
     def do_subscriptions(self):
-        if hasattr(self, 'publishers'): return
-
         self.publishers = {}
         for topic, frequency in rospy.get_param('~data', {}).items():
-            self.publishers[topic] = rospy.Publisher('data/' + topic, 
-                                                     data.msgs[topic],
-                                                     latch=True)
+            if not topic in self.publishers:
+                self.publishers[topic] = rospy.Publisher('data/' + topic, 
+                                                         data.msgs[topic],
+                                                         latch=True)
             subscribe_func = getattr(self.horizon, 'request_' + topic)
             subscribe_func(frequency)
             rospy.loginfo("Successfully returning data: request_%s", topic)
+
         self.horizon.add_handler(self._receive)
+        self.data_time = rospy.Time.now()
 
 
     def _receive(self, name, payload, timestamp):
+        self.data_time = rospy.Time.now()
+
         try:
             pkg_func = getattr(data, 'pkg_' + name)
         except AttributeError:

@@ -267,6 +267,7 @@ class Client(object):
         
     
     def close(self):
+        self.remove_handler()
         if self._transport != None:
             self._transport.close()
 
@@ -287,39 +288,42 @@ class Client(object):
 
 
     def request(self, name, args):
-        # Prepare 1-off handler for the first response.
-        self._received = None
-        self.add_handler(handler = self._receiver, request = name)
-        
-        # Send the Message - blocks on its ack.
-        if 'self' in args: del args['self']  
-        message = messages.Message.request(name, args, self.timestamp())
-        self.send_message(message)
+        try:
+           # Prepare 1-off handler for the first response.
+            self._received = None
+            self.add_handler(handler = self._receiver, request = name)
+            
+            # Send the Message - blocks on its ack.
+            if 'self' in args: del args['self']  
+            message = messages.Message.request(name, args, self.timestamp())
+            self.send_message(message)
 
-        # If this is explicitly a subscription-cancelation request,
-        # then exit now...
-        if 'subscription' in args and args['subscription'] == 0xFFFF:
-            return;
+            # If this is explicitly a subscription-cancelation request,
+            # then exit now...
+            if 'subscription' in args and args['subscription'] == 0xFFFF:
+                return;
 
-        # Otherwise... wait on a first reply to return.
-        retries = self._retries
-        start = self.timestamp()
-        while True:
-            if self.timestamp() - start > self._rec_timeout:
-                if retries > 0:
-                    message = message.copy(timestamp=self.timestamp())
-                    self.send_message(message)
-                    retries -= 1           
-                    start = self.timestamp()
-                else:
-                    raise utils.TimeoutError (
-                        "Timeout Occurred waiting for response!")
+            # Otherwise... wait on a first reply to return.
+            retries = self._retries
+            start = self.timestamp()
+            while True:
+                if self.timestamp() - start > self._rec_timeout:
+                    if retries > 0:
+                        message = message.copy(timestamp=self.timestamp())
+                        self.send_message(message)
+                        retries -= 1           
+                        start = self.timestamp()
+                    else:
+                        raise utils.TimeoutError (
+                            "Timeout Occurred waiting for response!")
 
-            if self._received != None:
-                self.remove_handler(handler = self._receiver, request = name)
-                return self._received[1]
+                if self._received != None:
+                    return self._received[1]
 
-            time.sleep(0.001)
+                time.sleep(0.001)
+        finally:
+            self.remove_handler(handler = self._receiver, request = name)
+
 
 
     def _receiver(self, name, payload, timestamp):
@@ -388,11 +392,11 @@ class Client(object):
                     handler(tup[0], tup[1], tup[2])
 
 
-    def remove_handler(self, handler, request = None):
+    def remove_handler(self, handler=None, request=None):
         """Horizon Protocol Remove Data Message Handler"""
         code = 0
         if request != None:
-            code = codes.codes[request].data
+            code = codes.codes[request].data()
 
         with self._handlers_lock:
             # Remove Handler

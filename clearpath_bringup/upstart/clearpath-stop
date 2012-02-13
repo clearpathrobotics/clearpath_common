@@ -1,0 +1,19 @@
+#!/bin/bash
+
+log_file=/tmp/clearpath-upstart.log
+DATE=`date`
+echo "$DATE: clearpath-stop" >> $log_file
+
+if [ -s /etc/ros/setup.bash ]; then
+    echo "$DATE: clearpath-stop using setup file /etc/ros/setup.bash" >> $log_file
+    source /etc/ros/setup.bash
+else
+    echo "$DATE: clearpath-stop using setup file /opt/ros/electric/setup.bash" >> $log_file
+    source /opt/ros/electric/setup.bash
+fi
+
+for i in $( rosnode list ); do
+    rosnode kill $i;
+done
+
+killall roslaunch
