@@ -1,5 +1,8 @@
 <launch>
-  <node pkg="clearpath_sensors" type="nmea_gps.py" name="gps" output="screen">
-    <param name="port" value="/dev/ttyUSB1" />
+  <!-- This launcher launches gpsd as well as the client. You should disable
+       automatically launching gpsd with dpkg-reconfigure gpsd.  -->
+  <node pkg="clearpath_sensors" type="gpsd" name="gpsd" args="/dev/ttyUSB0"></node>
+  <node pkg="gpsd_client" type="gpsd_client" name="gpsd_client">
+    <param name="use_gps_time" value="false" />
   </node>
 </launch>
