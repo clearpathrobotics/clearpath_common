@@ -27,6 +27,7 @@ fi
 LAUNCH=/etc/ros/electric/clearpath.launch      
 
 if [ -s $LAUNCH ]; then
+    export HOME=/home/administrator
     setuidgid administrator roslaunch $LAUNCH
 else
   echo "$DATE: Launch file does not exist: $LAUNCH" >> $log_file
