@@ -6,7 +6,7 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/clearpath_sensors</url>
-  <rosdep name="pyserial"/>
+  <rosdep name="python-serial"/>
   <depend package="rospy"/>
   <depend package="geometry_msgs"/>
   <depend package="sensor_msgs"/>

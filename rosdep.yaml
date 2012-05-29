@@ -1,4 +1,4 @@
-pyserial:
+python-serial:
   ubuntu: python-serial
 daemontools:
   ubuntu: daemontools
