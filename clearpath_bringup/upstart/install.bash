@@ -2,9 +2,9 @@
 #
 # Run this as root, from the directory containing it!
 #
-# USAGE: install.bash [interface] [user] [launch_pkg]
+# USAGE: install.bash [interface] [user] [launch_pkg] [release]
 #
-#    Ex: sudo ./install.bash eth0 administrator husky_bringup
+#    Ex: sudo ./install.bash eth0 administrator husky_bringup fuerte
 #
 
 interface=wlan0
@@ -31,19 +31,25 @@ if [ $# -gt 2 ]; then
     fi
 fi
 
+release=$(ls /opt/ros/ | tail -n1)
+
+if [ $# -gt 3 ]; then
+    if [ "$4" != "" ]; then
+        release=$4
+    fi
+fi
 
 echo "Installing using network interface $interface for user $user."
-replacements="s/wlan0/$interface/g;s/administrator/$user/g"
+replacements="s/wlan0/$interface/g;s/administrator/$user/g;s/electric/$release/g"
 sed "$replacements" < clearpath-start > /usr/sbin/clearpath-start
 chmod +x /usr/sbin/clearpath-start
 sed "$replacements" < clearpath-stop > /usr/sbin/clearpath-stop
 chmod +x /usr/sbin/clearpath-stop
 sed "$replacements" < clearpath.conf > /etc/init/clearpath.conf
 
-# Copy files into /etc/ros/electric/clearpath
-mkdir -p /etc/ros
-mkdir -p /etc/ros/electric
-sed "s/clearpath_bringup/$launch_pkg/g" < clearpath.launch > /etc/ros/electric/clearpath.launch
 
-echo ". /opt/ros/electric/setup.bash; export ROS_PACKAGE_PATH=/home/$user/ros:\$ROS_PACKAGE_PATH" > /etc/ros/setup.bash
+# Copy files into /etc/ros/${release}/clearpath
+mkdir -p /etc/ros/${release}
+sed "s/clearpath_bringup/$launch_pkg/g" < clearpath.launch > /etc/ros/${release}/clearpath.launch
 
+echo ". /opt/ros/${release}/setup.bash; export ROS_PACKAGE_PATH=/home/$user/ros:\$ROS_PACKAGE_PATH" > /etc/ros/setup.bash
