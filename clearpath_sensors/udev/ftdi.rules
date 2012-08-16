@@ -1,1 +1,0 @@
-SUBSYSTEMS=="usb", ATTRS{manufacturer}=="FTDI*", SYMLINK+="ftdi ftdi_$attr{serial}", MODE="0666"

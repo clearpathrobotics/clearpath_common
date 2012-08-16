@@ -6,7 +6,6 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 DEST=/etc/udev/rules.d
-cp -v clearpath_base/udev/* $DEST
-cp -v clearpath_sensors/udev/* $DEST
+cp -v clearpath_base/udev/*.rules $DEST
 
 service udev restart

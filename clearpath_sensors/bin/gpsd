@@ -1,2 +1,0 @@
-#!/bin/sh
-gpsd -N -F gpsd.sock $1 

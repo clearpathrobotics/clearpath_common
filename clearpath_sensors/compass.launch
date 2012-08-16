@@ -1,6 +1,0 @@
-<launch>
-  <node pkg="clearpath_sensors" type="cmps09.py" name="cmps09" output="screen">
-    <param name="port" value="/dev/ttyUSB0" />
-    <param name="hz" value="50" />
-  </node>
-</launch>
