@@ -7,6 +7,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/clearpath_base</url>
   <rosdep name="python-serial" />
+  <rosdep name="pkg-config" />
   <depend package="rospy"/>
   <depend package="std_msgs"/>
   <depend package="geometry_msgs"/>
