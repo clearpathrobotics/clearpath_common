@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <name>clearpath_base</name>
+  <version>0.0.0</version>
+  <description>
+     The base drivers needed to connect with the onboard system for all Clearpath Robotics platforms.
+  </description>
+  <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
+  <maintainer email="abencz@clearpathrobotics.com">Alex Bencz</maintainer>
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/clearpath_base</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>messages_generation</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>pkg-config</run_depend>
+  <run_depend>python-serial</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+  <export>
+  </export>
+</package>
