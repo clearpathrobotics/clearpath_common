@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <name>clearpath_common</name>
+  <version>0.2.6</version>
+  <description>The clearpath_common package</description>
+
+  <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
+  <maintainer email="abencz@clearpathrobotics.com">Alex Bencz</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/clearpath_common</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+	  <metapackage/>
+  </export>
+</package>
