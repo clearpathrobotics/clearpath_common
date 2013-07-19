@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>clearpath_common</name>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <description>The clearpath_common package</description>
 
   <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>

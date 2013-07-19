@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>clearpath_base</name>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <description>
      The base drivers needed to connect with the onboard system for all Clearpath Robotics platforms.
   </description>
