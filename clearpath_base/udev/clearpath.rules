@@ -1,1 +1,0 @@
-SUBSYSTEMS=="usb", ATTRS{manufacturer}=="Prolific*", SYMLINK+="clearpath", MODE="0666"
