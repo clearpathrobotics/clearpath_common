@@ -1,4 +1,0 @@
-<launch>
-  <include file="$(find clearpath_bringup)/minimal.launch">
-  </include>
-</launch>

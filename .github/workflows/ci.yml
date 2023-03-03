@@ -1,0 +1,21 @@
+name: clearpath_common_ci
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *" # every day at midnight
+
+jobs:
+  build_and_test:
+    name: humble
+    strategy:
+      matrix:
+        env:
+          - {ROS_DISTRO: humble, ROS_REPO: main}
+          - {ROS_DISTRO: humble, ROS_REPO: testing}
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: 'ros-industrial/industrial_ci@master'
+        env: ${{matrix.env}}
