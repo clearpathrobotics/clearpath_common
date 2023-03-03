@@ -26,6 +26,7 @@ def generate_launch_description():
         executable="robot_state_publisher",
         output="screen",
         parameters=[robot_description],
+        remappings=[('/tf', 'tf'),('/tf_static', 'tf_static')]
     )
 
     return LaunchDescription(
