@@ -5,7 +5,7 @@
   <!-- <xacro:arg name="name" default="" /> -->
 
   <xacro:arg name="prefix" default="" />
-  <xacro:arg name="gazebo_controllers" default="$(find husky_control)/config/control.yaml" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/control.yaml" />
 
   <xacro:include filename="$(find clearpath_description)/urdf/husky/husky_macro.urdf.xacro" />
 

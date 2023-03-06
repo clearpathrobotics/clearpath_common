@@ -9,56 +9,58 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
 
-    lc = LaunchContext()
-    robot_model = LaunchConfiguration('robot_model', default='husky')
+    # Packages
+    pkg_clearpath_control = FindPackageShare('clearpath_control')
+    pkg_clearpath_description = FindPackageShare('clearpath_description')
+
+    # Launch Configurations
+    robot_model = LaunchConfiguration('robot_model')
+    is_sim = LaunchConfiguration('is_sim')
+
+    # Paths
+    robot_config_dir = PathJoinSubstitution([
+        pkg_clearpath_control, 'config', robot_model])
+    robot_description_dir = PathJoinSubstitution([
+        pkg_clearpath_description, 'urdf', robot_model])
 
     # Configs
-    config_platform_ekf = PathJoinSubstitution(
-        [FindPackageShare(
-            'clearpath_control'),
-            'config/' + robot_model.perform(lc),
-            'localization.yaml'
-        ],
-    )
+    config_platform_ekf = [
+        robot_config_dir,
+        'localization.yaml'
+    ]
 
-    config_imu_filter = PathJoinSubstitution(
-        [FindPackageShare(
-            'clearpath_control'),
-            'config/' + robot_model.perform(lc),
-            'imu_filter.yaml'
-        ],
-    )
+    config_imu_filter = [
+        robot_config_dir,
+        'imu_filter.yaml'
+    ]
 
-    config_platform_velocity_controller = PathJoinSubstitution(
-        [FindPackageShare(
-            'clearpath_control'),
-            'config/' + robot_model.perform(lc),
-            'control.yaml'
-        ],
-    )
+    config_platform_velocity_controller = [
+        robot_config_dir,
+        'control.yaml'
+    ]
 
     # Launch Arguments
+    robot_model_command_arg = DeclareLaunchArgument(
+        'robot_model',
+        choices=['husky', 'jackal'],
+        default_value='husky'
+    )
+
+    is_sim_arg = DeclareLaunchArgument(
+        'is_sim',
+        choices=['true', 'false'],
+        default_value='false'
+    )
 
     robot_description_command_arg = DeclareLaunchArgument(
         'robot_description_command',
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            PathJoinSubstitution(
-                 [FindPackageShare(
-                    'clearpath_description'),
-                    'urdf',
-                    robot_model.perform(lc) + '/' + robot_model.perform(lc) + '.urdf.xacro'
-                ]
-            )
+            PathJoinSubstitution([robot_description_dir, robot_model]),
+            '.urdf.xacro'
         ]
     )
-
-    is_sim = LaunchConfiguration('is_sim', default=False)
-
-    is_sim_arg = DeclareLaunchArgument(
-        'is_sim',
-        default_value=is_sim)
 
     robot_description_content = ParameterValue(
         Command(LaunchConfiguration('robot_description_command')),
@@ -119,6 +121,7 @@ def generate_launch_description():
     ])
 
     ld = LaunchDescription()
+    ld.add_action(robot_model_command_arg)
     ld.add_action(robot_description_command_arg)
     ld.add_action(is_sim_arg)
     ld.add_action(localization_group_action)
