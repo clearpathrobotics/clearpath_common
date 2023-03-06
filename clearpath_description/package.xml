@@ -9,6 +9,8 @@
   <author email="pmukherj@clearpathrobotics.com">Prasenjit Mukherjee</author>
   <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
   <author email="paul@bovbel.com">Paul Bovbel</author>
+  <author email="rkreinin@clearpathrobotics.com">Roni Kreinin</author>
+  <author email="tbaltovski@clearpathrobotics.com">Tony Baltovski</author>
 
   <maintainer email="rkreinin@clearpathrobotics.com">Roni Kreinin</maintainer>
   <maintainer email="tbaltovski@clearpathrobotics.com">Tony Baltovski</maintainer>
@@ -17,8 +19,11 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>realsense2_description</depend>
-  <depend>urdf</depend>
+  <exec_depend>realsense2_description</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>velodyne_description</exec_depend>
+  <exec_depend>xacro</exec_depend> 
 
   <export>
     <build_type>ament_cmake</build_type>
