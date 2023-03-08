@@ -1,7 +1,7 @@
-from launch import LaunchContext, LaunchDescription
+from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.conditions import UnlessCondition
-from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
@@ -9,55 +9,55 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
 
-    # Packages
-    pkg_clearpath_control = FindPackageShare('clearpath_control')
-    pkg_clearpath_description = FindPackageShare('clearpath_description')
-
     # Launch Configurations
     robot_model = LaunchConfiguration('robot_model')
     is_sim = LaunchConfiguration('is_sim')
 
-    # Paths
-    robot_config_dir = PathJoinSubstitution([
-        pkg_clearpath_control, 'config', robot_model])
-    robot_description_dir = PathJoinSubstitution([
-        pkg_clearpath_description, 'urdf', robot_model])
-
-    # Configs
-    config_platform_ekf = [
-        robot_config_dir,
-        'localization.yaml'
-    ]
-
-    config_imu_filter = [
-        robot_config_dir,
-        'imu_filter.yaml'
-    ]
-
-    config_platform_velocity_controller = [
-        robot_config_dir,
-        'control.yaml'
-    ]
-
     # Launch Arguments
-    robot_model_command_arg = DeclareLaunchArgument(
+    arg_robot_model = DeclareLaunchArgument(
         'robot_model',
-        choices=['husky', 'jackal'],
-        default_value='husky'
+        choices=['a200', 'j100'],
+        default_value='a200'
     )
 
-    is_sim_arg = DeclareLaunchArgument(
+    arg_is_sim = DeclareLaunchArgument(
         'is_sim',
         choices=['true', 'false'],
         default_value='false'
     )
 
-    robot_description_command_arg = DeclareLaunchArgument(
+    # Packages
+    pkg_clearpath_control = FindPackageShare('clearpath_control')
+    pkg_clearpath_description = FindPackageShare('clearpath_description')
+
+    # Paths
+    dir_robot_config = PathJoinSubstitution([
+        pkg_clearpath_control, 'config', robot_model])
+    dir_robot_description = PathJoinSubstitution([
+        pkg_clearpath_description, 'urdf', robot_model])
+
+    # Configs
+    config_platform_ekf = [
+        dir_robot_config,
+        'localization.yaml'
+    ]
+
+    config_imu_filter = [
+        dir_robot_config,
+        'imu_filter.yaml'
+    ]
+
+    config_platform_velocity_controller = [
+        dir_robot_config,
+        'control.yaml'
+    ]
+
+    arg_robot_description_command = DeclareLaunchArgument(
         'robot_description_command',
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            PathJoinSubstitution([robot_description_dir, robot_model]),
+            PathJoinSubstitution([dir_robot_description, robot_model]),
             '.urdf.xacro'
         ]
     )
@@ -68,7 +68,7 @@ def generate_launch_description():
     )
 
     # Localization
-    localization_group_action = GroupAction([
+    action_localization_group = GroupAction([
         # Extended Kalman Filter
         Node(
             package='robot_localization',
@@ -89,8 +89,8 @@ def generate_launch_description():
     ])
 
     # ROS2 Controllers
-    control_group_action = GroupAction([
-        # ROS2 Control
+    action_control_group = GroupAction([
+        # ROS2 Control Node
         Node(
             package='controller_manager',
             executable='ros2_control_node',
@@ -121,9 +121,9 @@ def generate_launch_description():
     ])
 
     ld = LaunchDescription()
-    ld.add_action(robot_model_command_arg)
-    ld.add_action(robot_description_command_arg)
-    ld.add_action(is_sim_arg)
-    ld.add_action(localization_group_action)
-    ld.add_action(control_group_action)
+    ld.add_action(arg_robot_model)
+    ld.add_action(arg_robot_description_command)
+    ld.add_action(arg_is_sim)
+    ld.add_action(action_localization_group)
+    ld.add_action(action_control_group)
     return ld
