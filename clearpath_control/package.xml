@@ -17,18 +17,18 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>controller_manager</depend>
-  <depend>diff_drive_controller</depend>
-  <depend>imu_filter_madgwick</depend>
-  <depend>interactive_marker_twist_server</depend>
-  <depend>clearpath_description</depend>
-  <depend>joint_state_broadcaster</depend>
-  <depend>joint_trajectory_controller</depend>
-  <depend>joy</depend>
-  <depend>robot_localization</depend>
-  <depend>robot_state_publisher</depend>
-  <depend>teleop_twist_joy</depend>
-  <depend>twist_mux</depend>
+  <exec_depend>clearpath_description</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
+  <exec_depend>imu_filter_madgwick</exec_depend>
+  <exec_depend>interactive_marker_twist_server</exec_depend>
+  <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>teleop_twist_joy</exec_depend>
+  <exec_depend>twist_mux</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
