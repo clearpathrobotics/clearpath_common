@@ -14,6 +14,7 @@ jobs:
         env:
           - {ROS_DISTRO: humble, ROS_REPO: testing}
           - {ROS_DISTRO: humble, ROS_REPO: main}
+      fail-fast: false
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
