@@ -6,16 +6,33 @@ from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
-# Xacro isn't used directly here but it is called to generate the URDF.
-import xacro
-
-
 
 def generate_launch_description():
-    lc = LaunchContext()
-    ld = LaunchDescription()
+    # Launch Configurations
+    robot_model = LaunchConfiguration('robot_model')
+    is_sim = LaunchConfiguration('is_sim')
 
-    robot_model = LaunchConfiguration('robot_model', default='husky')
+    # Launch Arguments
+    arg_robot_model = DeclareLaunchArgument(
+        'robot_model',
+        choices=['a200', 'j100'],
+        default_value='a200'
+    )
+
+    arg_is_sim = DeclareLaunchArgument(
+        'is_sim',
+        choices=['true', 'false'],
+        default_value='false'
+    )
+
+    # Packages
+    pkg_clearpath_platform_description = FindPackageShare('clearpath_platform_description')
+    robot_model = LaunchConfiguration('robot_model', default='a200')
+
+    # Paths
+    dir_robot_description = PathJoinSubstitution([
+        pkg_clearpath_platform_description, 'urdf', robot_model])
+
 
     # Get URDF via xacro
     arg_robot_description_command = DeclareLaunchArgument(
@@ -23,13 +40,8 @@ def generate_launch_description():
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            PathJoinSubstitution(
-                [FindPackageShare(
-                    'clearpath_description'),
-                    'urdf',
-                    robot_model.perform(lc) + '/' + robot_model.perform(lc) + '.urdf.xacro'
-                ]
-            )
+            PathJoinSubstitution([dir_robot_description, robot_model]),
+            '.urdf.xacro'
         ]
     )
 
@@ -45,7 +57,12 @@ def generate_launch_description():
                                       }],
                                       remappings=[('/tf', 'tf'),('/tf_static', 'tf_static')])
 
-
+    ld = LaunchDescription()
+    # Args
+    ld.add_action(arg_robot_model)
     ld.add_action(arg_robot_description_command)
+    ld.add_action(arg_is_sim)
+    ld.add_action(arg_robot_description_command)
+    # Nodes
     ld.add_action(node_robot_state_publisher)
     return ld

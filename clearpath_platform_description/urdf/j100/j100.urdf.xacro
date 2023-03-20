@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="jackal" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="j100" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="prefix" default="" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/control.yaml" />
@@ -32,7 +32,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/jackal/jackal-wheel.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/j100-wheel.stl"/>
         </geometry>
         <material name="black" />
       </visual>
@@ -69,7 +69,7 @@
       <axis xyz="0 1 0" />
     </joint>
 
-    <!-- In reality, Jackal has only two motors, one per side. However, it's more
+    <!-- In reality, J100 has only two motors, one per side. However, it's more
          straightforward for Gazebo to simulate as if there's an actuator per wheel. -->
     <transmission name="${prefix}_wheel_trans">
       <type>transmission_interface/SimpleTransmission</type>
@@ -107,7 +107,7 @@
     <visual>
       <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${PI/2}"/>
       <geometry>
-        <mesh filename="package://clearpath_description/meshes/jackal/jackal-base.stl"/>
+        <mesh filename="package://clearpath_platform_description/meshes/j100/j100-base.stl"/>
       </geometry>
       <material name="dark_grey" />
     </visual>
@@ -129,22 +129,22 @@
       </inertial>
   </link>
 
-  <xacro:unless value="$(optenv JACKAL_FRONT_ACCESSORY_FENDER 0)">
+  <xacro:unless value="$(optenv J100_FRONT_ACCESSORY_FENDER 0)">
     <link name="front_fender_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/jackal/jackal-fender.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/j100-fender.stl"/>
         </geometry>
         <material name="yellow" />
       </visual>
     </link>
   </xacro:unless>
 
-  <xacro:if value="$(optenv JACKAL_FRONT_ACCESSORY_FENDER 0)">
+  <xacro:if value="$(optenv J100_FRONT_ACCESSORY_FENDER 0)">
     <link name="front_fender_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/jackal/accessory_fender.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/accessory_fender.stl"/>
         </geometry>
         <material name="yellow" />
       </visual>
@@ -164,22 +164,22 @@
     <child link="front_fender_link" />
   </joint>
 
-  <xacro:unless value="$(optenv JACKAL_REAR_ACCESSORY_FENDER 0)">
+  <xacro:unless value="$(optenv J100_REAR_ACCESSORY_FENDER 0)">
     <link name="rear_fender_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/jackal/jackal-fender.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/j100-fender.stl"/>
         </geometry>
         <material name="yellow" />
       </visual>
     </link>
   </xacro:unless>
 
-  <xacro:if value="$(optenv JACKAL_REAR_ACCESSORY_FENDER 0)">
+  <xacro:if value="$(optenv J100_REAR_ACCESSORY_FENDER 0)">
     <link name="rear_fender_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/jackal/accessory_fender.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/accessory_fender.stl"/>
         </geometry>
         <material name="yellow" />
       </visual>
@@ -253,13 +253,13 @@
   </joint>
 
   <!-- ROS2 controls -->
-  <ros2_control name="jackal_hardware" type="system">
+  <ros2_control name="j100_hardware" type="system">
     <hardware>
       <xacro:if value="$(arg is_sim)">
         <plugin>gazebo_ros2_control/GazeboSystem</plugin>
       </xacro:if>
       <xacro:unless value="$(arg is_sim)">
-        <plugin>jackal_hardware/JackalHardware</plugin>
+        <plugin>j100_hardware/J100Hardware</plugin>
         <plugin>fake_components/GenericSystem</plugin>
       </xacro:unless>
     </hardware>
@@ -287,13 +287,13 @@
 
   <!-- Bring in simulation data for Gazebo. -->
   <xacro:if value="$(arg is_sim)">
-    <xacro:include filename="$(find clearpath_description)/urdf/jackal/jackal.gazebo" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/j100.gazebo" />
   </xacro:if>
 
   <!-- Optional standard accessories, including their simulation data. The rendering
        of these into the final description is controlled by optenv variables, which
        default each one to off.-->
-  <xacro:include filename="$(find clearpath_description)/urdf/jackal/accessories.urdf.xacro" />
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories.urdf.xacro" />
 
   <!-- Optional custom includes. -->
   <xacro:include filename="$(optenv CPR_URDF_EXTRAS empty.urdf)" />

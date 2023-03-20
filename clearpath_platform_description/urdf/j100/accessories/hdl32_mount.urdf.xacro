@@ -6,14 +6,14 @@
       <link name="${prefix}_hdl32e_mount">
         <visual>
           <geometry>
-            <mesh filename="package://clearpath_description/meshes/jackal/velodyne_tower.stl"/>
+            <mesh filename="package://clearpath_platform_description/meshes/j100/velodyne_tower.stl"/>
           </geometry>
           <origin xyz="0 0 0" rpy="0 0 0" /> 
           <material name="black" />
         </visual>
         <collision>
           <geometry>
-            <mesh filename="package://clearpath_description/meshes/jackal/velodyne_tower.stl"/>
+            <mesh filename="package://clearpath_platform_description/meshes/j100/velodyne_tower.stl"/>
           </geometry>
           <origin xyz="0 0 0" rpy="0 0 0" /> 
         </collision>

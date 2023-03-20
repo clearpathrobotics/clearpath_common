@@ -8,7 +8,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/jackal/stereo-camera-bracket.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/j100/stereo-camera-bracket.stl" />
         </geometry>
         <material name="dark_grey" />
       </visual>
@@ -18,7 +18,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/jackal/stereo-camera-beam.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/j100/stereo-camera-beam.stl" />
         </geometry>
         <material name="dark_grey" />
       </visual>

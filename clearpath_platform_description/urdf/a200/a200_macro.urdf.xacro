@@ -10,24 +10,24 @@
   <xacro:arg name="realsense_rpy" default="$(optenv CPR_REALSENSE_RPY 0 0 0)" />
   <xacro:arg name="realsense_mount" default="$(optenv CPR_REALSENSE_MOUNT_FRAME sensor_arch_mount_link)" />
 
-  <xacro:property name="husky_front_bumper_extend" value="$(optenv HUSKY_FRONT_BUMPER_EXTEND 0)" />
-  <xacro:property name="husky_rear_bumper_extend" value="$(optenv HUSKY_REAR_BUMPER_EXTEND 0)" />
+  <xacro:property name="a200_front_bumper_extend" value="$(optenv A200_FRONT_BUMPER_EXTEND 0)" />
+  <xacro:property name="a200_rear_bumper_extend" value="$(optenv A200_REAR_BUMPER_EXTEND 0)" />
 
   <xacro:arg name="robot_namespace" default="/" />
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="urdf_extras" default="$(optenv CPR_URDF_EXTRAS empty.urdf)" />
 
   <!-- Included URDF/XACRO Files -->
-  <xacro:include filename="$(find clearpath_description)/urdf/husky/decorations.urdf.xacro" />
-  <xacro:include filename="$(find clearpath_description)/urdf/husky/wheel.urdf.xacro" />
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/decorations.urdf.xacro" />
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/wheel.urdf.xacro" />
 
-  <xacro:include filename="$(find clearpath_description)/urdf/husky/accessories/intel_realsense.urdf.xacro"/>
-  <!-- <xacro:include filename="$(find clearpath_description)/urdf/husky/accessories/sick_lms1xx_mount.urdf.xacro"/> -->
-  <xacro:include filename="$(find clearpath_description)/urdf/husky/accessories/sensor_arch.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/accessories/intel_realsense.urdf.xacro"/>
+  <!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/accessories/sick_lms1xx_mount.urdf.xacro"/> -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/accessories/sensor_arch.urdf.xacro"/>
 
   <xacro:property name="M_PI" value="3.14159"/>
 
-  <xacro:macro name="husky" params="prefix">
+  <xacro:macro name="a200" params="prefix">
 
     <!-- Base Size -->
     <xacro:property name="base_x_size" value="0.98740000" />
@@ -48,13 +48,13 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://husky_description/meshes/base_link.dae" />
+          <mesh filename="package://a200_description/meshes/base_link.dae" />
         </geometry>
       </visual>
       <collision>
-        <origin xyz="${( husky_front_bumper_extend - husky_rear_bumper_extend ) / 2.0} 0 ${base_z_size/4}" rpy="0 0 0" />
+        <origin xyz="${( a200_front_bumper_extend - a200_rear_bumper_extend ) / 2.0} 0 ${base_z_size/4}" rpy="0 0 0" />
         <geometry>
-          <box size="${ base_x_size + husky_front_bumper_extend + husky_rear_bumper_extend } ${base_y_size} ${base_z_size/2}"/>
+          <box size="${ base_x_size + a200_front_bumper_extend + a200_rear_bumper_extend } ${base_y_size} ${base_z_size/2}"/>
         </geometry>
       </collision>
       <collision>
@@ -108,21 +108,21 @@
     </joint>
 
 
-    <!-- Husky wheel macros -->
-    <xacro:husky_wheel wheel_prefix="${prefix}front_left">
+    <!-- A200 wheel macros -->
+    <xacro:a200_wheel wheel_prefix="${prefix}front_left">
       <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:husky_wheel>
-    <xacro:husky_wheel wheel_prefix="${prefix}front_right">
+    </xacro:a200_wheel>
+    <xacro:a200_wheel wheel_prefix="${prefix}front_right">
       <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:husky_wheel>
-    <xacro:husky_wheel wheel_prefix="${prefix}rear_left">
+    </xacro:a200_wheel>
+    <xacro:a200_wheel wheel_prefix="${prefix}rear_left">
       <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:husky_wheel>
-    <xacro:husky_wheel wheel_prefix="${prefix}rear_right">
+    </xacro:a200_wheel>
+    <xacro:a200_wheel wheel_prefix="${prefix}rear_right">
       <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:husky_wheel>
+    </xacro:a200_wheel>
 
-    <xacro:husky_decorate />
+    <xacro:a200_decorate />
 
     <!-- <xacro:if value="$(arg laser_enabled)">
 
@@ -161,13 +161,13 @@
       <xacro:intel_realsense_mount prefix="camera" topic="realsense" parent_link="realsense_mountpoint"/>
     </xacro:if>
 
-    <ros2_control name="${prefix}husky_hardware" type="system">
+    <ros2_control name="${prefix}a200_hardware" type="system">
       <hardware>
         <xacro:if value="$(arg is_sim)">
           <plugin>gazebo_ros2_control/GazeboSystem</plugin>
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
-          <plugin>husky_base/HuskyHardware</plugin>
+          <plugin>a200_base/A200Hardware</plugin>
           <plugin>fake_components/GenericSystem</plugin>
           <param name="hw_start_duration_sec">2.0</param>
           <param name="hw_stop_duration_sec">3.0</param>

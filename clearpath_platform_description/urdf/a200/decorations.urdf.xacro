@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<robot name="husky_decorations" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="a200_decorations" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
   <material name="medium_grey"><color rgba="0.6 0.6 0.6 1.0" /></material>
@@ -10,17 +10,17 @@
   <material name="white"><color rgba="1.0 1.0 1.0 1.0" /></material>
   <material name="red"><color rgba="1.0 0.0 0.0 1.0" /></material>
 
-  <xacro:macro name="husky_decorate">
+  <xacro:macro name="a200_decorate">
 
-    <xacro:property name="husky_front_bumper_extend" value="$(optenv HUSKY_FRONT_BUMPER_EXTEND 0)" />
-    <xacro:property name="husky_rear_bumper_extend" value="$(optenv HUSKY_REAR_BUMPER_EXTEND 0)" />
+    <xacro:property name="a200_front_bumper_extend" value="$(optenv A200_FRONT_BUMPER_EXTEND 0)" />
+    <xacro:property name="a200_rear_bumper_extend" value="$(optenv A200_REAR_BUMPER_EXTEND 0)" />
 
-    <!-- Spawn Husky chassis -->
+    <!-- Spawn A200 chassis -->
     <link name="top_chassis_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/husky/top_chassis.dae" />
+          <mesh filename="package://clearpath_platform_description/meshes/a200/top_chassis.dae" />
         </geometry>
       </visual>
     </link>
@@ -31,12 +31,12 @@
       <child link="top_chassis_link" />
     </joint>
 
-    <xacro:if value="$(optenv HUSKY_USER_RAIL_ENABLED true)">
+    <xacro:if value="$(optenv A200_USER_RAIL_ENABLED true)">
       <!-- Spawn user rails -->
       <link name="user_rail_link">
         <visual>
           <geometry>
-            <mesh filename="package://clearpath_description/meshes/husky/user_rail.dae" />
+            <mesh filename="package://clearpath_platform_description/meshes/a200/user_rail.dae" />
           </geometry>
         </visual>
       </link>
@@ -53,29 +53,29 @@
     <link name="front_bumper_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/husky/bumper.dae" />
+          <mesh filename="package://clearpath_platform_description/meshes/a200/bumper.dae" />
         </geometry>
       </visual>
     </link>
 
     <!-- Attach front bumper -->
     <joint name="front_bumper" type="fixed">
-      <origin xyz="${0.48 + husky_front_bumper_extend} 0 0.091" rpy="0 0 0" />
+      <origin xyz="${0.48 + a200_front_bumper_extend} 0 0.091" rpy="0 0 0" />
       <parent link="base_link" />
       <child link="front_bumper_link" />
     </joint>
 
-    <xacro:if value="${husky_front_bumper_extend}">
+    <xacro:if value="${a200_front_bumper_extend}">
       <link name="front_bumper_extension_link">
           <visual>
               <geometry>
-                  <mesh filename="package://clearpath_description/meshes/husky/bumper_extension.dae" />
+                  <mesh filename="package://clearpath_platform_description/meshes/a200/bumper_extension.dae" />
               </geometry>
           </visual>
       </link>
 
       <joint name="front_bumper_extension" type="fixed">
-        <origin xyz="${0.48 + husky_front_bumper_extend} 0 0.091" rpy="0 0 0" />
+        <origin xyz="${0.48 + a200_front_bumper_extend} 0 0.091" rpy="0 0 0" />
         <parent link="base_link" />
         <child link="front_bumper_extension_link" />
       </joint>
@@ -85,48 +85,48 @@
     <link name="rear_bumper_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_description/meshes/husky/bumper.dae" />
+          <mesh filename="package://clearpath_platform_description/meshes/a200/bumper.dae" />
         </geometry>
       </visual>
     </link>
 
     <!-- Attach rear bumper -->
     <joint name="rear_bumper" type="fixed">
-      <origin xyz="${-0.48 - husky_rear_bumper_extend} 0 0.091" rpy="0 0 ${M_PI}" />
+      <origin xyz="${-0.48 - a200_rear_bumper_extend} 0 0.091" rpy="0 0 ${M_PI}" />
       <parent link="base_link" />
       <child link="rear_bumper_link" />
     </joint>
 
-    <xacro:if value="${husky_rear_bumper_extend}">
+    <xacro:if value="${a200_rear_bumper_extend}">
       <link name="rear_bumper_extension_link">
           <visual>
               <geometry>
-                  <mesh filename="package://clearpath_description/meshes/husky/bumper_extension.dae" />
+                  <mesh filename="package://clearpath_platform_description/meshes/a200/bumper_extension.dae" />
               </geometry>
           </visual>
       </link>
 
       <joint name="rear_bumper_extension" type="fixed">
-        <origin xyz="${-0.48 - husky_rear_bumper_extend} 0 0.091" rpy="0 0 ${M_PI}" />
+        <origin xyz="${-0.48 - a200_rear_bumper_extend} 0 0.091" rpy="0 0 ${M_PI}" />
         <parent link="base_link" />
         <child link="rear_bumper_extension_link" />
       </joint>
     </xacro:if>
 
-    <xacro:if value="$(optenv HUSKY_TOP_PLATE_ENABLED true)">
+    <xacro:if value="$(optenv A200_TOP_PLATE_ENABLED true)">
       <!-- Spawn the top plate -->
-      <xacro:if value="$(optenv HUSKY_LARGE_TOP_PLATE false)">
+      <xacro:if value="$(optenv A200_LARGE_TOP_PLATE false)">
         <link name="top_plate_link">
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-              <mesh filename="package://clearpath_description/meshes/husky/large_top_plate.dae" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/large_top_plate.dae" />
             </geometry>
           </visual>
           <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_description/meshes/husky/large_top_plate_collision.stl" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/large_top_plate_collision.stl" />
             </geometry>
           </collision>
         </link>
@@ -150,18 +150,18 @@
         </joint>
       </xacro:if>
 
-      <xacro:unless value="$(optenv HUSKY_LARGE_TOP_PLATE false)">
+      <xacro:unless value="$(optenv A200_LARGE_TOP_PLATE false)">
         <link name="top_plate_link">
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-              <mesh filename="package://clearpath_description/meshes/husky/top_plate.dae" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/top_plate.dae" />
             </geometry>
           </visual>
           <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_description/meshes/husky/top_plate.stl" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/top_plate.stl" />
             </geometry>
           </collision>
         </link>
