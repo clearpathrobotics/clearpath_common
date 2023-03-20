@@ -5,7 +5,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://clearpath_platform_description/meshes/j100/novatel-smart6.stl"/>
+        <mesh filename="package://clearpath_platform_description/meshes/j100/novatel_smart6.stl"/>
       </geometry>
       <material name="novatel_white">
         <color rgba="0.8 0.8 0.8 1.0" />
