@@ -28,13 +28,13 @@ def generate_launch_description():
 
     # Packages
     pkg_clearpath_control = FindPackageShare('clearpath_control')
-    pkg_clearpath_description = FindPackageShare('clearpath_description')
+    pkg_clearpath_platform_description = FindPackageShare('clearpath_platform_description')
 
     # Paths
     dir_robot_config = PathJoinSubstitution([
         pkg_clearpath_control, 'config', robot_model])
     dir_robot_description = PathJoinSubstitution([
-        pkg_clearpath_description, 'urdf', robot_model])
+        pkg_clearpath_platform_description, 'urdf', robot_model])
 
     # Configs
     config_platform_ekf = [
