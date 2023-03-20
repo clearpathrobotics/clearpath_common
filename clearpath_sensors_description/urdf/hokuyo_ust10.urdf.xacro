@@ -65,7 +65,7 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
           <!-- Origin of this mesh is the base of the bracket. -->
-          <mesh filename="package://clearpath_platform_description/meshes/j100/hokuyo_ust10.stl" />
+          <mesh filename="package://clearpath_sensors_description/meshes/hokuyo_ust10.stl" />
         </geometry>
         <material name="dark_grey" />
       </visual>

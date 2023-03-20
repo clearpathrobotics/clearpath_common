@@ -19,7 +19,7 @@
   <!-- 2D Lidars -->
   <!-- <xacro:include filename="$(find lms1xx)/urdf/sick_lms1xx.urdf.xacro" /> 
   <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories/sick_lms1xx_mount.urdf.xacro" />-->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories/hokuyo_ust10.urdf.xacro" />
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/hokuyo_ust10.urdf.xacro" />
   <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories/vlp16_mount.urdf.xacro" />
   <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories/hdl32_mount.urdf.xacro" />
 
@@ -142,8 +142,8 @@
     - smart6 (default)    :: Novatel Smart6
     - smart7              :: Novatel Smart7
   -->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories/novatel_smart6.urdf.xacro" />
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories/novatel_smart7.urdf.xacro" />
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/novatel_smart6.urdf.xacro" />
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/novatel_smart7.urdf.xacro" />
 
   <xacro:if value="$(optenv CPR_NAVSAT 0)">
     <xacro:property name="mount" value="$(optenv CPR_NAVSAT_MOUNT rear)" />
@@ -211,7 +211,6 @@
 
   <!-- Common camera mounts and accessory URDFs. -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories/camera_mount.urdf.xacro" />
-  <!--xacro:include filename="$(find pointgrey_camera_description)/urdf/pointgrey_flea3.urdf.xacro" /-->
 
   <!-- If enabled, generate the flea3 camera payload with a tilt of 30 degrees. -->
   <xacro:if value="$(optenv CPR_FLEA3 0)">
@@ -352,7 +351,6 @@
 
   <!-- Fender Accessories --> 
   <xacro:if value="$(optenv CPR_FRONT_ACCESSORY_FENDER 0)">
-    <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/accessories/hokuyo_ust10.urdf.xacro" />
     <xacro:if value="$(optenv CPR_FRONT_FENDER_UST10 0)">
       <xacro:hokuyo_ust10_mount
         prefix="front"
