@@ -32,7 +32,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/j100/j100-wheel.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/j100_wheel.stl"/>
         </geometry>
         <material name="black" />
       </visual>
@@ -107,7 +107,7 @@
     <visual>
       <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${PI/2}"/>
       <geometry>
-        <mesh filename="package://clearpath_platform_description/meshes/j100/j100-base.stl"/>
+        <mesh filename="package://clearpath_platform_description/meshes/j100/j100_base.stl"/>
       </geometry>
       <material name="dark_grey" />
     </visual>
@@ -133,7 +133,7 @@
     <link name="front_fender_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/j100/j100-fender.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/j100_fender.stl"/>
         </geometry>
         <material name="yellow" />
       </visual>
@@ -168,7 +168,7 @@
     <link name="rear_fender_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/j100/j100-fender.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/j100_fender.stl"/>
         </geometry>
         <material name="yellow" />
       </visual>
