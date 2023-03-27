@@ -15,22 +15,6 @@
     <xacro:property name="a200_front_bumper_extend" value="$(optenv A200_FRONT_BUMPER_EXTEND 0)" />
     <xacro:property name="a200_rear_bumper_extend" value="$(optenv A200_REAR_BUMPER_EXTEND 0)" />
 
-    <!-- Spawn A200 chassis -->
-    <link name="top_chassis_link">
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a200/top_chassis.dae" />
-        </geometry>
-      </visual>
-    </link>
-
-    <!-- Attach chassis to the robot -->
-    <joint name="top_chassis_joint" type="fixed">
-      <parent link="base_link" />
-      <child link="top_chassis_link" />
-    </joint>
-
     <xacro:if value="$(optenv A200_USER_RAIL_ENABLED true)">
       <!-- Spawn user rails -->
       <link name="user_rail_link">

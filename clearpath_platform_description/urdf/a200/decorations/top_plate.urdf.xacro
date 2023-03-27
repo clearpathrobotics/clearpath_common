@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="top_plate" params="large:=false">
+
+        <!-- Spawn the top plate -->
+      <xacro:if value="${large}">
+        <link name="top_plate_link">
+          <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/a200/large_top_plate.dae" />
+            </geometry>
+          </visual>
+          <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/a200/large_top_plate_collision.stl" />
+            </geometry>
+          </collision>
+        </link>
+        <!-- Attach top plate -->
+        <joint name="top_plate_joint" type="fixed">
+          <parent link="base_link" />
+          <child link="top_plate_link"/>
+          <origin xyz="0.0812 0 0.225" rpy="0 0 0"/>
+        </joint>
+        <!-- Top plate front link -->
+        <joint name="top_plate_front_joint" type="fixed">
+          <parent link="top_plate_link" />
+          <child link="top_plate_front_link"/>
+          <origin xyz="0.4125 0 0.00672" rpy="0 0 0"/>
+        </joint>
+        <!-- Top plate rear link-->
+        <joint name="top_plate_rear_joint" type="fixed">
+          <parent link="top_plate_link" />
+          <child link="top_plate_rear_link"/>
+          <origin xyz="-0.4125 0 0.00672" rpy="0 0 0"/>
+        </joint>
+      </xacro:if>
+
+      <xacro:unless value="${large}">
+        <link name="top_plate_link">
+          <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/a200/top_plate.dae" />
+            </geometry>
+          </visual>
+          <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/a200/top_plate.stl" />
+            </geometry>
+          </collision>
+        </link>
+        <!-- Attach top plate -->
+        <joint name="top_plate_joint" type="fixed">
+          <parent link="base_link" />
+          <child link="top_plate_link"/>
+          <origin xyz="0.0812 0 0.245" rpy="0 0 0"/>
+        </joint>
+        <!-- Top plate front link -->
+        <joint name="top_plate_front_joint" type="fixed">
+          <parent link="top_plate_link" />
+          <child link="top_plate_front_link"/>
+          <origin xyz="0.36367 0 0.00639" rpy="0 0 0"/>
+        </joint>
+        <!-- Top plate rear link-->
+        <joint name="top_plate_rear_joint" type="fixed">
+          <parent link="top_plate_link" />
+          <child link="top_plate_rear_link"/>
+          <origin xyz="-0.36633 0 0.00639" rpy="0 0 0"/>
+        </joint>
+
+        <!-- Spawn user rails -->
+        <link name="user_rail_link">
+          <visual>
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/a200/user_rail.dae" />
+            </geometry>
+          </visual>
+        </link>
+
+        <!-- Attach user rails to base link -->
+        <joint name="user_rail" type="fixed">
+          <origin xyz="0.272 0 0.245" rpy="0 0 0" />
+          <parent link="base_link" />
+          <child link="user_rail_link" />
+        </joint>
+      </xacro:unless>
+      <link name="top_plate_front_link"/>
+      <link name="top_plate_rear_link"/>
+
+    </xacro:macro>
+</robot>

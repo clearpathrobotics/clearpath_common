@@ -40,7 +40,8 @@ def generate_launch_description():
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            PathJoinSubstitution([dir_robot_description, robot_model]),
+            '/home/rkreinin/clearpath_ws/a200-0001',
+            #PathJoinSubstitution([dir_robot_description, robot_model]),
             '.urdf.xacro'
         ]
     )
@@ -57,6 +58,18 @@ def generate_launch_description():
                                       }],
                                       remappings=[('/tf', 'tf'),('/tf_static', 'tf_static')])
 
+    node_joint_state_publisher = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        output='screen',
+        #parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
+    )
+
     ld = LaunchDescription()
     # Args
     ld.add_action(arg_robot_model)
@@ -65,4 +78,5 @@ def generate_launch_description():
     ld.add_action(arg_robot_description_command)
     # Nodes
     ld.add_action(node_robot_state_publisher)
+    ld.add_action(node_joint_state_publisher)
     return ld
