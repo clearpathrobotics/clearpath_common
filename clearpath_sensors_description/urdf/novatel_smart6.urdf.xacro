@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="novatel_smart6" params="prefix">
-  <link name="${prefix}_navsat">
+  <xacro:macro name="novatel_smart6" params="name">
+  <link name="${name}_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>

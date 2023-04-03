@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
-  <xacro:macro name="fath_pivot" params="name parent_link mounting_link angle:=0.0 *origin">
+  <xacro:macro name="fath_pivot" params="name parent_link angle:=0.0 *origin">
     <link name="${name}_link">
       <visual>
         <geometry>
@@ -37,7 +37,7 @@
       </collision>
     </link>
 
-    <link name="${mounting_link}" />
+    <link name="${name}_mount" />
 
     <joint name="${name}_joint" type="fixed">
       <parent link="${parent_link}" />
@@ -53,7 +53,7 @@
 
     <joint name="${name}_mount_joint" type="fixed">
       <parent link="${name}_hinge_link" />
-      <child link="${mounting_link}" />
+      <child link="${name}_mount" />
       <origin xyz="0 0 0.0225" rpy="0 0 0" />
     </joint>
   </xacro:macro>

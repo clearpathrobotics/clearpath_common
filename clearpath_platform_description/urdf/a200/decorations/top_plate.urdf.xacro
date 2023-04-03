@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:macro name="top_plate" params="large:=false">
-
+    <xacro:include filename="$(find clearpath_mounts_description)/urdf/common.urdf.xacro" />
+    <xacro:macro name="top_plate" params="model:=default">
         <!-- Spawn the top plate -->
-      <xacro:if value="${large}">
+      <xacro:if value="${model == 'default'}">
         <link name="top_plate_link">
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/large_top_plate.dae" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/large_top_plate.dae" />
             </geometry>
           </visual>
           <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/large_top_plate_collision.stl" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/large_top_plate_collision.stl" />
             </geometry>
           </collision>
         </link>
@@ -36,20 +36,22 @@
           <child link="top_plate_rear_link"/>
           <origin xyz="-0.4125 0 0.00672" rpy="0 0 0"/>
         </joint>
+        <link name="top_plate_front_link"/>
+        <link name="top_plate_rear_link"/>
       </xacro:if>
 
-      <xacro:unless value="${large}">
+      <xacro:if value="${model == 'large'}">
         <link name="top_plate_link">
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/top_plate.dae" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/top_plate.dae" />
             </geometry>
           </visual>
           <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/top_plate.stl" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/top_plate.stl" />
             </geometry>
           </collision>
         </link>
@@ -76,7 +78,7 @@
         <link name="user_rail_link">
           <visual>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/user_rail.dae" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/user_rail.dae" />
             </geometry>
           </visual>
         </link>
@@ -87,9 +89,78 @@
           <parent link="base_link" />
           <child link="user_rail_link" />
         </joint>
-      </xacro:unless>
-      <link name="top_plate_front_link"/>
-      <link name="top_plate_rear_link"/>
+        <link name="top_plate_front_link"/>
+        <link name="top_plate_rear_link"/>
+      </xacro:if>
 
+      <xacro:if value="${model == 'pacs'}">
+        <link name="top_plate_link">
+          <visual>
+            <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/pacs_top_plate.stl" />
+            </geometry>
+          </visual>
+          <collision>
+            <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+            <origin xyz="0 0 0.00317500531673" rpy="0 0 0"/>
+            <geometry>
+              <box size="0.670000076294 0.590000033379 0.00635001063347"/>
+            </geometry>
+          </collision>
+        </link>
+        <!-- Attach PACS top plate -->
+        <joint name="top_plate_joint" type="fixed">
+          <child link="top_plate_link"/>
+          <parent link="base_link"/>
+          <origin xyz="0.048299998045 0 0.227500006557" rpy="0 0 0"/>
+        </joint>
+
+        <!-- Generate PACS mounts -->
+        <xacro:full_mounts
+          name="top_plate"
+          parent_link="top_plate_link"
+          column="a"
+          row="1"
+          columns="7"
+          rows="2"
+          x="0.28"
+          y="0.24"
+          z="0.00635" />
+
+        <xacro:full_mounts
+          name="top_plate"
+          parent_link="top_plate_link"
+          column="a"
+          row="3"
+          columns="1"
+          rows="4"
+          x="0.12"
+          y="0.24"
+          z="0.00635" />
+
+        <xacro:full_mounts
+          name="top_plate"
+          parent_link="top_plate_link"
+          column="g"
+          row="3"
+          columns="1"
+          rows="4"
+          x="0.12"
+          y="-0.24"
+          z="0.00635" />
+
+        <xacro:full_mounts
+          name="top_plate"
+          parent_link="top_plate_link"
+          column="a"
+          row="7"
+          columns="7"
+          rows="2"
+          x="-0.20"
+          y="0.24"
+          z="0.00635" />
+
+      </xacro:if>
     </xacro:macro>
 </robot>
