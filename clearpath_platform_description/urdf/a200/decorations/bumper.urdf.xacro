@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="bumper" params="name extension:=0">
+        <xacro:property name="parent_link" value="front_bumper_mount" />
+        <xacro:if value="${'rear' in name}" >
+            <xacro:property name="parent_link" value="rear_bumper_mount" />
+        </xacro:if>
+
+        <!-- Spawn bumper link -->
+        <link name="${name}_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/bumper.dae" />
+                </geometry>
+            </visual>
+        </link>
+
+        <xacro:unless value="${extension > 0}">
+            <!-- Attach bumper -->
+            <joint name="${name}_joint" type="fixed">
+                <origin xyz="0.075 0 0" rpy="0 0 0" />
+                <parent link="${parent_link}" />
+                <child link="${name}_link" />
+            </joint>
+        </xacro:unless>
+
+        <xacro:if value="${extension > 0}">
+            <link name="${name}_extension_link_1">
+                <visual>
+                    <geometry>
+                        <cylinder radius="0.0095" length="${extension}" />
+                    </geometry>
+                    <material name="dark_grey" />
+                    <origin xyz="${extension / 2} 0 0" rpy="0 ${M_PI/2} 0" />
+                </visual>
+            </link>
+
+            <link name="${name}_extension_link_2">
+                <visual>
+                    <geometry>
+                        <cylinder radius="0.0095" length="${extension}" />
+                    </geometry>
+                    <material name="dark_grey" />
+                    <origin xyz="${extension / 2} 0 0" rpy="0 ${M_PI/2} 0" />
+                </visual>
+            </link>
+
+            <link name="${name}_extension_mount"/>
+
+            <joint name="${name}_extension_joint_1" type="fixed">
+                <origin xyz="0 0.1084 0" rpy="0 0 0" />
+                <parent link="${parent_link}" />
+                <child link="${name}_extension_link_1" />
+            </joint>
+
+            <joint name="${name}_extension_joint_2" type="fixed">
+                <origin xyz="0 -0.1084 0" rpy="0 0 0" />
+                <parent link="${parent_link}" />
+                <child link="${name}_extension_link_2" />
+            </joint>
+
+            <joint name="${name}_extension_mount_joint" type="fixed">
+                <origin xyz="${extension} 0 0" rpy="0 0 0" />
+                <parent link="${parent_link}" />
+                <child link="${name}_extension_mount" />
+            </joint>
+
+            <!-- Attach bumper -->
+            <joint name="${name}_joint" type="fixed">
+                <origin xyz="0.075 0 0" rpy="0 0 0" />
+                <parent link="${name}_extension_mount" />
+                <child link="${name}_link" />
+            </joint>
+        </xacro:if>
+
+    </xacro:macro>
+</robot>

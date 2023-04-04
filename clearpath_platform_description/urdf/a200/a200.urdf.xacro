@@ -101,6 +101,24 @@
       <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
     </xacro:a200_wheel>
 
+    <!-- Front bumper mount -->
+    <link name="front_bumper_mount"/>
+
+    <joint name="front_bumper_mount_joint" type="fixed">
+      <origin xyz="0.406 0 0.091" rpy="0 0 0" />
+      <parent link="base_link" />
+      <child link="front_bumper_mount" />
+    </joint>
+
+    <!-- Rear bumper mount -->
+    <link name="rear_bumper_mount"/>
+
+    <joint name="rear_bumper_mount_joint" type="fixed">
+      <origin xyz="-0.406 0 0.091" rpy="0 0 ${M_PI}" />
+      <parent link="base_link" />
+      <child link="rear_bumper_mount" />
+    </joint>
+
     <ros2_control name="a200_hardware" type="system">
       <hardware>
         <xacro:if value="$(arg is_sim)">

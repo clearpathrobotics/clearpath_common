@@ -1,9 +1,11 @@
+from clearpath_config.common import File
+
 tab = '  '
 
 
 class XacroWriter():
-    def __init__(self, file, robot_name):
-        self.file = open(file, 'w+')
+    def __init__(self, file: File, robot_name: str):
+        self.file = open(file.get_path(), 'w+')
         self.initialize_file(robot_name)
 
     def write(self, string, indent_level=1):

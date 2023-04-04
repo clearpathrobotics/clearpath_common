@@ -1,10 +1,13 @@
-from clearpath_config.mounts.mounts import Mount
+from clearpath_config.mounts.mounts import BaseMount
+from clearpath_config.mounts.fath_pivot import FathPivot
+from clearpath_config.mounts.flir_ptu import FlirPTU
+from clearpath_config.mounts.pacs import PACS
 
 from typing import List
 
 
 class MountDescription():
-    class Base():
+    class BaseDescription():
         pkg_clearpath_mounts_description = 'clearpath_mounts_description'
 
         NAME = 'name'
@@ -12,7 +15,7 @@ class MountDescription():
         XYZ = 'xyz'
         RPY = 'rpy'
 
-        def __init__(self, mount: Mount) -> None:
+        def __init__(self, mount: BaseMount) -> None:
             self.mount = mount
             self.package = self.pkg_clearpath_mounts_description
             self.path = 'urdf/'
@@ -32,7 +35,7 @@ class MountDescription():
             return self.parameters[self.NAME]
 
         def get_model(self) -> str:
-            return self.mount.get_model()
+            return self.mount.MOUNT_MODEL
 
         def get_package(self) -> str:
             return self.package
@@ -46,23 +49,43 @@ class MountDescription():
         def get_rpy(self) -> List[float]:
             return self.mount.get_rpy()
 
-    class FathPivot(Base):
+    class FathPivotDescription(BaseDescription):
         ANGLE = 'angle'
 
-        def __init__(self, mount: Mount) -> None:
+        def __init__(self, mount: FathPivot) -> None:
             super().__init__(mount)
             self.parameters[self.ANGLE] = mount.get_angle()
 
-    class PACS(Base):
+    class PACSRiserDescription(BaseDescription):
+        ROWS = 'rows'
+        COLUMNS = 'columns'
+        THICKNESS = 'thickness'
 
-        def __init__(self, mount: Mount) -> None:
+        def __init__(self, mount: PACS.Riser) -> None:
             super().__init__(mount)
             self.path = 'urdf/pacs/'
+            self.parameters.update({
+                self.ROWS: mount.get_rows(),
+                self.COLUMNS: mount.get_columns(),
+                self.THICKNESS: mount.get_thickness()
+            })
+
+    class PACSBracketDescription(BaseDescription):
+        MODEL = 'model'
+
+        def __init__(self, mount: PACS.Bracket) -> None:
+            super().__init__(mount)
+            self.path = 'urdf/pacs/'
+            self.parameters.update({
+                self.MODEL: mount.get_model(),
+            })
 
     MODEL = {
-        Mount.FATH_PIVOT: FathPivot,
-        Mount.FLIR_PTU: Base,
+        FathPivot.MOUNT_MODEL: FathPivotDescription,
+        FlirPTU.MOUNT_MODEL: BaseDescription,
+        PACS.Bracket.MOUNT_MODEL: PACSBracketDescription,
+        PACS.Riser.MOUNT_MODEL: PACSRiserDescription,
     }
 
-    def __new__(cls, mount: Mount) -> Base:
-        return MountDescription.MODEL[mount.get_model()](mount)
+    def __new__(cls, mount: BaseMount) -> BaseDescription:
+        return MountDescription.MODEL[mount.MOUNT_MODEL](mount)

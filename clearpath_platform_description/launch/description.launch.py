@@ -81,12 +81,6 @@ def generate_launch_description():
                 ('/tf_static', 'tf_static')
             ]
         ),
-
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource([
-        #         PathJoinSubstitution([pkg_clearpath_viz, 'launch', 'view_model.launch.py'])
-        #     ])
-        # )
     ])
 
     event_generate_description = RegisterEventHandler(

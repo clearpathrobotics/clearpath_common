@@ -24,6 +24,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+	<!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" /> -->
 	<!-- Post Quad: adds four posts in a rectangular configuration -->
 	<xacro:macro name="quad_post" params="name parent_link length:=0.08 width:=0.08 height radius:=0.006 *origin">
 		<link name="${name}_link">
