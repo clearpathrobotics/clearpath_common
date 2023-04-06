@@ -24,39 +24,38 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-	<!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" /> -->
-	<!--
+  <!--
 	Riser Leg: standard leg for partial and full risers
 	- 'height' is from parent to the bottom of riser (should substract thickness of riser)
 	-->
-	<xacro:macro name="riser_leg" params="name parent_link height *origin">
-		<link name="${name}_link">
-			<visual>
-				<origin xyz="0 0 ${height/2}" rpy="0 0 0" />
-				<geometry>
-					<box size="0.04 0.02 ${height}" />
-				</geometry>
-				<material name="dark_grey" />
-			</visual>
-			<collision>
-				<origin xyz="0 0 ${height/2}" rpy="0 0 0" />
-				<geometry>
-					<box size="0.04 0.02 ${height}" />
-				</geometry>
-				<material name="dark_grey" />
-			</collision>
-		</link>
-		<link name="${name}_mount"/>
+  <xacro:macro name="riser_leg" params="name parent_link height *origin">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 ${height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="0.04 0.02 ${height}" />
+        </geometry>
+        <material name="dark_grey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="0.04 0.02 ${height}" />
+        </geometry>
+        <material name="dark_grey" />
+      </collision>
+    </link>
+    <link name="${name}_mount"/>
 
-		<joint name="${name}_joint" type="fixed">
-			<child link="${name}_link" />
-			<parent link="${parent_link}" />
-            <insert_block name="origin" />
-		</joint>
-        <joint name="${name}_mount_joint" type="fixed">
-			<child link="${name}_mount" />
-			<parent link="${name}_link" />
-            <origin xyz="0 0 ${height}"/>
-		</joint>
-	</xacro:macro>
+    <joint name="${name}_joint" type="fixed">
+      <child link="${name}_link" />
+      <parent link="${parent_link}" />
+      <insert_block name="origin" />
+    </joint>
+    <joint name="${name}_mount_joint" type="fixed">
+      <child link="${name}_mount" />
+      <parent link="${name}_link" />
+      <origin xyz="0 0 ${height}"/>
+    </joint>
+  </xacro:macro>
 </robot>

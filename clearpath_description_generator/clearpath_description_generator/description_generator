@@ -39,16 +39,18 @@ from clearpath_description_generator.description.mounts import MountDescription
 from clearpath_description_generator.description.platform import PlatformDescription
 from clearpath_description_generator.description.decorations import DecorationsDescription
 
+import getopt
 import sys
 
 
 class DescriptionGenerator():
-    def __init__(self, config: File = None) -> None:
+    def __init__(self, config: File = None,
+                 output_path: str = '/etc/clearpath/') -> None:
         if config:
             self.config_path = config.get_path()
         else:
-            self.config_path = '/etc/clearpath/generic-0001.yaml'
-        self.description_path = '/home/rkreinin/clearpath_ws/'
+            self.config_path = '/etc/clearpath/robot.yaml'
+        self.description_path = output_path
 
         self.pkg_clearpath_platform_description = 'clearpath_platform_description'
         self.pkg_clearpath_mounts_description = 'clearpath_mounts_description'
@@ -59,9 +61,7 @@ class DescriptionGenerator():
 
         self.serial = self.clearpath_config.platform.get_serial_number()
 
-        self.urdf_file = File(self.description_path + self.serial + '.urdf.xacro', creatable=True)
-
-        self.xacro_writer = XacroWriter(self.urdf_file, self.serial)
+        self.xacro_writer = XacroWriter(self.description_path, self.serial)
 
     def generate(self) -> None:
         # Common macros
@@ -103,7 +103,6 @@ class DescriptionGenerator():
         decorations = self.clearpath_config.platform.decorations.get_all_decorations()
         for decoration in decorations:
             if decoration.get_enabled():
-                print(decoration.get_enabled())
                 bumper_description = DecorationsDescription(self.platform, decoration)
 
                 self.xacro_writer.write_include(
@@ -143,8 +142,28 @@ class DescriptionGenerator():
 
 
 def main():
+    # Get options
+    argv = sys.argv[1:5]
+
+    try:
+        options, args = getopt.getopt(argv, 'c:o:', ['config=', 'output_path='])
+    except getopt.GetoptError as err:
+        print(err)
+
     config = None
-    if len(sys.argv) > 1:
-        config = File(sys.argv[1], exists=True)
-    dg = DescriptionGenerator(config)
+    output_path = '/etc/clearpath'
+
+    for option, value in options:
+        if option in ('-c', '--config'):
+            config = File(path=value, exists=True)
+        elif option in ('-o', '--output_path'):
+            output_path = value
+        else:
+            pass
+
+    dg = DescriptionGenerator(config, output_path)
     dg.generate()
+
+
+if __name__ == '__main__':
+    main()

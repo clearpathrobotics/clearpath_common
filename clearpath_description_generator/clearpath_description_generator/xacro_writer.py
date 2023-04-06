@@ -30,18 +30,24 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.common import File
-
-tab = '  '
+import os
+import shlex
+import subprocess
 
 
 class XacroWriter():
-    def __init__(self, file: File, robot_name: str):
-        self.file = open(file.get_path(), 'w+')
+    tab = '  '
+
+    def __init__(self, path: str, robot_name: str):
+        self.file_path = path
+        self.file_name = os.path.join(self.file_path, 'robot.urdf.xacro')
+        # Open temp file
+        subprocess.run(shlex.split('mkdir -p /tmp' + self.file_path))
+        self.file = open('/tmp' + self.file_name, 'w')
         self.initialize_file(robot_name)
 
     def write(self, string, indent_level=1):
-        self.file.write('{0}{1}\n'.format(tab * indent_level, string))
+        self.file.write('{0}{1}\n'.format(self.tab * indent_level, string))
 
     def write_include(self, package, file, path=None):
         self.write(
@@ -92,3 +98,5 @@ class XacroWriter():
     def close_file(self):
         self.write('</robot>', 0)
         self.file.close()
+        # Move temp file to actual file location
+        subprocess.run(shlex.split('sudo mv /tmp' + self.file_name + ' ' + self.file_name))

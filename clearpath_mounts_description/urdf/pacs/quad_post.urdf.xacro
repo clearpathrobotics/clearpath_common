@@ -24,82 +24,81 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-	<!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" /> -->
-	<!-- Post Quad: adds four posts in a rectangular configuration -->
-	<xacro:macro name="quad_post" params="name parent_link length:=0.08 width:=0.08 height radius:=0.006 *origin">
-		<link name="${name}_link">
-			<!-- Top Left -->
-			<visual>
-				<material name="light_grey" />
-				<origin xyz="${length/2} ${width/2} ${height/2}" />
-				<geometry>
-					<cylinder radius="${radius}" length="${height}" />
-				</geometry>
-			</visual>
-			<collision>
-				<material name="light_grey" />
-				<origin xyz="${length/2} ${width/2} ${height/2}" />
-				<geometry>
-					<cylinder radius="${radius}" length="${height}" />
-				</geometry>
-			</collision>
-			<!-- Top Right -->
-			<visual>
-				<material name="light_grey" />
-				<origin xyz="${length/2} ${-width/2} ${height/2}" />
-				<geometry>
-					<cylinder radius="${radius}" length="${height}" />
-				</geometry>
-			</visual>
-			<collision>
-				<material name="light_grey" />
-				<origin xyz="${length/2} ${-width/2} ${height/2}" />
-				<geometry>
-					<cylinder radius="${radius}" length="${height}" />
-				</geometry>
-			</collision>
-			<!-- Bottom Left -->
-			<visual>
-				<material name="light_grey" />
-				<origin xyz="${-length/2} ${width/2} ${height/2}" />
-				<geometry>
-					<cylinder radius="${radius}" length="${height}" />
-				</geometry>
-			</visual>
-			<collision>
-				<material name="light_grey" />
-				<origin xyz="${-length/2} ${width/2} ${height/2}" />
-				<geometry>
-					<cylinder radius="${radius}" length="${height}" />
-				</geometry>
-			</collision>
-			<!-- Bottom Right -->
-			<visual>
-				<material name="light_grey" />
-				<origin xyz="${-length/2} ${-width/2} ${height/2}" />
-				<geometry>
-					<cylinder radius="${radius}" length="${height}" />
-				</geometry>
-			</visual>
-			<collision>
-				<material name="light_grey" />
-				<origin xyz="${-length/2} ${-width/2} ${height/2}" />
-				<geometry>
-					<cylinder radius="${radius}" length="${height}" />
-				</geometry>
-			</collision>
-		</link>
-		<link name="${name}_mount"/>
-		<joint name="${name}_joint" type="fixed">
-			<child link="${name}_link" />
-			<parent link="${parent_link}" />
-			<insert_block name="origin" />
-		</joint>
-		<joint name="${name}_mount_joint" type="fixed">
-			<child link="${name}_mount" />
-			<parent link="${name}_link" />
-			<origin xyz="0 0 ${height}">
-			</origin>
-		</joint>
-	</xacro:macro>
+  <!-- Post Quad: adds four posts in a rectangular configuration -->
+  <xacro:macro name="quad_post" params="name parent_link length:=0.08 width:=0.08 height radius:=0.006 *origin">
+    <link name="${name}_link">
+      <!-- Top Left -->
+      <visual>
+        <material name="light_grey" />
+        <origin xyz="${length/2} ${width/2} ${height/2}" />
+        <geometry>
+          <cylinder radius="${radius}" length="${height}" />
+        </geometry>
+      </visual>
+      <collision>
+        <material name="light_grey" />
+        <origin xyz="${length/2} ${width/2} ${height/2}" />
+        <geometry>
+          <cylinder radius="${radius}" length="${height}" />
+        </geometry>
+      </collision>
+      <!-- Top Right -->
+      <visual>
+        <material name="light_grey" />
+        <origin xyz="${length/2} ${-width/2} ${height/2}" />
+        <geometry>
+          <cylinder radius="${radius}" length="${height}" />
+        </geometry>
+      </visual>
+      <collision>
+        <material name="light_grey" />
+        <origin xyz="${length/2} ${-width/2} ${height/2}" />
+        <geometry>
+          <cylinder radius="${radius}" length="${height}" />
+        </geometry>
+      </collision>
+      <!-- Bottom Left -->
+      <visual>
+        <material name="light_grey" />
+        <origin xyz="${-length/2} ${width/2} ${height/2}" />
+        <geometry>
+          <cylinder radius="${radius}" length="${height}" />
+        </geometry>
+      </visual>
+      <collision>
+        <material name="light_grey" />
+        <origin xyz="${-length/2} ${width/2} ${height/2}" />
+        <geometry>
+          <cylinder radius="${radius}" length="${height}" />
+        </geometry>
+      </collision>
+      <!-- Bottom Right -->
+      <visual>
+        <material name="light_grey" />
+        <origin xyz="${-length/2} ${-width/2} ${height/2}" />
+        <geometry>
+          <cylinder radius="${radius}" length="${height}" />
+        </geometry>
+      </visual>
+      <collision>
+        <material name="light_grey" />
+        <origin xyz="${-length/2} ${-width/2} ${height/2}" />
+        <geometry>
+          <cylinder radius="${radius}" length="${height}" />
+        </geometry>
+      </collision>
+    </link>
+    <link name="${name}_mount"/>
+    <joint name="${name}_joint" type="fixed">
+      <child link="${name}_link" />
+      <parent link="${parent_link}" />
+      <insert_block name="origin" />
+    </joint>
+    <joint name="${name}_mount_joint" type="fixed">
+      <child link="${name}_mount" />
+      <parent link="${name}_link" />
+      <origin xyz="0 0 ${height}">
+      </origin>
+    </joint>
+  </xacro:macro>
 </robot>

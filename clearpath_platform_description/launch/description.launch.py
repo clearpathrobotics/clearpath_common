@@ -1,36 +1,39 @@
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler, GroupAction, IncludeLaunchDescription
-from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, GroupAction, RegisterEventHandler
+from launch.substitutions import (Command, FindExecutable,
+                                  PathJoinSubstitution, LaunchConfiguration)
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
-from launch_ros.substitutions import FindPackageShare
 from launch.event_handlers import OnProcessExit
-from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
-    # Packages
-    pkg_clearpath_viz = FindPackageShare('clearpath_viz')
-
     # Launch Configurations
-    config_file = LaunchConfiguration('config_file', default='/home/rkreinin/clearpath_ws/src/clearpath_config/clearpath_config/sample/a200_config.yaml')
-    output_path = LaunchConfiguration('output_path', default='/home/rkreinin/clearpath_ws/')
-    robot_description_command = LaunchConfiguration('robot_description_command', default=[
+    config_file = LaunchConfiguration(
+        'config_file',
+        default='/etc/clearpath/robot.yaml')
+    output_path = LaunchConfiguration(
+        'output_path',
+        default='/etc/clearpath/')
+    robot_description_command = LaunchConfiguration(
+        'robot_description_command',
+        default=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
             output_path,
-            'a200-0001.urdf.xacro'
+            'robot.urdf.xacro'
         ])
+
     # Launch Arguments
     arg_config_file = DeclareLaunchArgument(
         'config_file',
-        default_value='/home/rkreinin/clearpath_ws/src/clearpath_config/clearpath_config/sample/a200_config.yaml'
+        default_value='/etc/clearpath/robot.yaml'
     )
 
     arg_output_path = DeclareLaunchArgument(
         'output_path',
-        default_value='/home/rkreinin/clearpath_ws/'
+        default_value='/etc/clearpath/'
     )
 
     # Get URDF via xacro
@@ -40,7 +43,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
             output_path,
-            'a200-0001.urdf.xacro'
+            'robot.urdf.xacro'
         ]
     )
 
@@ -54,7 +57,7 @@ def generate_launch_description():
         executable='description_generator',
         name='description_generator',
         output='screen',
-        arguments=[config_file, output_path]
+        arguments=['-c', config_file, '-o', output_path]
     )
 
     group_action_state_publishers = GroupAction([
@@ -66,7 +69,7 @@ def generate_launch_description():
             parameters=[{
                 'robot_description': robot_description_content,
             }],
-            remappings=[('/tf', 'tf'),('/tf_static', 'tf_static')]
+            remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')]
         ),
 
         # Joint State Publisher
