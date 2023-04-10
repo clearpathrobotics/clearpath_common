@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="rear_bumper" params="extend:=0">
+
+        <!-- Spawn rear bumper link -->
+        <link name="rear_bumper_link">
+        <visual>
+            <geometry>
+            <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/bumper.dae" />
+            </geometry>
+        </visual>
+        </link>
+
+        <!-- Attach bumper -->
+        <joint name="rear_bumper" type="fixed">
+        <origin xyz="${-0.48 - extend} 0 0.091" rpy="0 0 ${M_PI}" />
+        <parent link="base_link" />
+        <child link="rear_bumper_link" />
+        </joint>
+
+        <xacro:if value="${extend}">
+            <link name="rear_bumper_extension_link">
+                <visual>
+                    <geometry>
+                        <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/bumper_extension.dae" />
+                    </geometry>
+                </visual>
+            </link>
+
+            <joint name="rear_bumper_extension" type="fixed">
+                <origin xyz="${-0.48 - rear_bumper_extend} 0 0.091" rpy="0 0 ${M_PI}" />
+                <parent link="base_link" />
+                <child link="rear_bumper_extension_link" />
+            </joint>
+        </xacro:if>
+
+    </xacro:macro>
+</robot>

@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!--
+Software License Agreement (BSD)
+
+\file      mounts.urdf.xacro
+\authors   Luis Camero <lcamero@clearpathrobotics.com>
+\copyright Copyright (c) 2022, Clearpath Robotics, Inc., All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that
+the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions and the
+   following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+   following disclaimer in the documentation and/or other materials provided with the distribution.
+ * Neither the name of Clearpath Robotics nor the names of its contributors may be used to endorse or promote
+   products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WAR-
+RANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, IN-
+DIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<robot xmlns:xacro="http://ros.org/wiki/xacro"> 
+  <!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" /> -->
+  <!--
+      Brackets: add user defined bracket per mount name (i.e. A01)
+      - adds extension to increase height of bracket (HUSKY_A01_BRACKET_EXTENSION 0). (e.g. 20, 40, 60, 80)
+      - adds type of bracket (HUSKY_A01_BRACKET_TYPE horizontal). (e.g. horizontal, horizontal_large, vertical)
+      - adds mounting location always as A01_mount
+  -->
+  <xacro:macro name="bracket" params="name parent_link model:=horizontal *origin">
+      <!-- Check to Add Bracket -->
+      <xacro:property name="name_upper"             value="${name.upper()}"/>
+      <xacro:property name="bracket_enabled"        value="1"/>
+      <xacro:property name="bracket_type"           value="${model}"/>
+      <xacro:property name="bracket_xyz"            value="0 0 0"/>
+      <xacro:property name="bracket_rpy"            value="0 0 0"/>
+      <xacro:property name="bracket_extension"      value="0"/>
+      <xacro:property name="bracket_parent"         value="${name}"/>
+      <xacro:property name="bracket_extension_xyz"  value="${bracket_xyz}"/>
+      <xacro:property name="bracket_extension_rpy"  value="${bracket_rpy}"/>
+
+      <xacro:if value="${bracket_enabled}">
+          <!-- Horizontal -->
+          <xacro:if value="${bracket_type == 'horizontal'}">
+              <xacro:property name="mesh_x" value="0.09"/>
+              <xacro:property name="mesh_y" value="0.09"/>
+              <xacro:property name="mesh_z" value="0.010125"/>
+              <xacro:property name="mesh_thickness" value="0.010125"/>
+              <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_horizontal.stl"/>
+          </xacro:if>
+          <!-- Horizontal Large -->
+          <xacro:if value="${bracket_type == 'horizontal_large'}">
+              <xacro:property name="mesh_x" value="0.16"/>
+              <xacro:property name="mesh_y" value="0.16"/>
+              <xacro:property name="mesh_z" value="0.00635"/>
+              <xacro:property name="mesh_thickness" value="0.00635"/>
+              <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_horizontal_large.stl"/>
+          </xacro:if>
+          <!-- Vertical -->
+          <xacro:if value="${bracket_type == 'vertical'}">
+              <xacro:property name="mesh_x" value="0.1"/>
+              <xacro:property name="mesh_y" value="0.1"/>
+              <xacro:property name="mesh_z" value="0.1419"/>
+              <xacro:property name="mesh_thickness" value="0.010125"/>
+              <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_vertical.stl"/>
+              <!-- Vertical Mount -->
+              <link name="${name}_vertical_mount"/>
+              <joint name="${name}_vertical_mount_joint" type="fixed">
+                <child link="${name}_vertical_mount"/>
+                <parent link="${name}_mount"/>
+                <origin xyz="0.0518 0 0.086875" rpy="0 -${pi/2} 0"/>
+              </joint>
+          </xacro:if>
+          <xacro:unless value="${bracket_type == 'vertical' or
+                                  bracket_type == 'horizontal' or
+                                  bracket_type == 'horizontal_large'}">
+              ${xacro.error(str("Bracket type (" + str(bracket_enabled) + ") does not exist. Select between 'vertical', 'horizontal', or 'horizontal_large'"))}
+          </xacro:unless>
+
+          <!-- Add the Bracket-->
+          <xacro:bracket_generic name="${name}" parent_link="${parent_link}" mesh="${mesh}" mesh_thickness="${mesh_thickness}" x="${mesh_x}" y="${mesh_y}" z="${mesh_z}">
+              <origin xyz="${bracket_xyz}" rpy="${bracket_rpy}"/>
+          </xacro:bracket_generic>
+      </xacro:if>
+  </xacro:macro>
+
+  <!--
+      Bracket Generic: adds generic bracket
+  -->
+  <xacro:macro name="bracket_generic" params="name parent_link mesh mesh_thickness x y z *origin">
+    <link name="${name}_link">
+      <visual>
+          <material name="dark_grey"/>
+          <geometry>
+            <mesh filename="${mesh}" />
+          </geometry>
+          <origin xyz="0 0 ${mesh_thickness}" rpy="0 0 0"/>
+      </visual>
+      <collision>
+          <origin xyz="0 0 ${mesh_thickness - z/2}" rpy="0 0 0"/>
+          <geometry>
+            <box size="${x} ${y} ${z}"/>
+          </geometry>
+      </collision>
+    </link>
+
+    <link name="${name}_mount" />
+  
+    <joint name="${name}_joint" type="fixed">
+      <child link="${name}_link"/>
+      <parent link="${parent_link}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <joint name="${name}_mount_joint" type="fixed">
+      <child link="${name}_mount"/>
+      <parent link="${name}_link"/>
+      <origin xyz="0 0 ${mesh_thickness}" rpy="0 0 0" />
+    </joint>
+  </xacro:macro>
+</robot>

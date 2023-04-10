@@ -1,38 +1,40 @@
 
-from launch import  LaunchContext, LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, GroupAction, RegisterEventHandler
+from launch.substitutions import (Command, FindExecutable,
+                                  PathJoinSubstitution, LaunchConfiguration)
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
-from launch_ros.substitutions import FindPackageShare
+from launch.event_handlers import OnProcessExit
 
 
 def generate_launch_description():
     # Launch Configurations
-    robot_model = LaunchConfiguration('robot_model')
-    is_sim = LaunchConfiguration('is_sim')
+    config_file = LaunchConfiguration(
+        'config_file',
+        default='/etc/clearpath/robot.yaml')
+    output_path = LaunchConfiguration(
+        'output_path',
+        default='/etc/clearpath/')
+    robot_description_command = LaunchConfiguration(
+        'robot_description_command',
+        default=[
+            PathJoinSubstitution([FindExecutable(name='xacro')]),
+            ' ',
+            output_path,
+            'robot.urdf.xacro'
+        ])
 
     # Launch Arguments
-    arg_robot_model = DeclareLaunchArgument(
-        'robot_model',
-        choices=['a200', 'j100'],
-        default_value='a200'
+    arg_config_file = DeclareLaunchArgument(
+        'config_file',
+        default_value='/etc/clearpath/robot.yaml'
     )
 
-    arg_is_sim = DeclareLaunchArgument(
-        'is_sim',
-        choices=['true', 'false'],
-        default_value='false'
+    arg_output_path = DeclareLaunchArgument(
+        'output_path',
+        default_value='/etc/clearpath/'
     )
-
-    # Packages
-    pkg_clearpath_platform_description = FindPackageShare('clearpath_platform_description')
-    robot_model = LaunchConfiguration('robot_model', default='a200')
-
-    # Paths
-    dir_robot_description = PathJoinSubstitution([
-        pkg_clearpath_platform_description, 'urdf', robot_model])
-
 
     # Get URDF via xacro
     arg_robot_description_command = DeclareLaunchArgument(
@@ -40,29 +42,63 @@ def generate_launch_description():
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            PathJoinSubstitution([dir_robot_description, robot_model]),
-            '.urdf.xacro'
+            output_path,
+            'robot.urdf.xacro'
         ]
     )
 
     robot_description_content = ParameterValue(
-        Command(LaunchConfiguration('robot_description_command')),
+        Command(robot_description_command),
         value_type=str
     )
 
-    node_robot_state_publisher = Node(package='robot_state_publisher',
-                                      executable='robot_state_publisher',
-                                      parameters=[{
-                                          'robot_description': robot_description_content,
-                                      }],
-                                      remappings=[('/tf', 'tf'),('/tf_static', 'tf_static')])
+    node_description_generator = Node(
+        package='clearpath_description_generator',
+        executable='description_generator',
+        name='description_generator',
+        output='screen',
+        arguments=['-c', config_file, '-o', output_path]
+    )
+
+    group_action_state_publishers = GroupAction([
+
+        # Robot State Publisher
+        Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            parameters=[{
+                'robot_description': robot_description_content,
+            }],
+            remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')]
+        ),
+
+        # Joint State Publisher
+        Node(
+            package='joint_state_publisher',
+            executable='joint_state_publisher',
+            name='joint_state_publisher',
+            output='screen',
+            #parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+            remappings=[
+                ('/tf', 'tf'),
+                ('/tf_static', 'tf_static')
+            ]
+        ),
+    ])
+
+    event_generate_description = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=node_description_generator,
+            on_exit=[group_action_state_publishers]
+        )
+    )
 
     ld = LaunchDescription()
     # Args
-    ld.add_action(arg_robot_model)
-    ld.add_action(arg_robot_description_command)
-    ld.add_action(arg_is_sim)
+    ld.add_action(arg_config_file)
+    ld.add_action(arg_output_path)
     ld.add_action(arg_robot_description_command)
     # Nodes
-    ld.add_action(node_robot_state_publisher)
+    ld.add_action(node_description_generator)
+    ld.add_action(event_generate_description)
     return ld

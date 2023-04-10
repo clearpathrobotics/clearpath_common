@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="novatel_smart7_stand" params="name parent_link height:=0.145 *origin">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.045 0.025 ${height}" />
+        </geometry>
+        <material name="black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.045 0.025 ${height}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${name}_mount"/>
+
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
+    </joint>
+
+    <joint name="${name}_mount_joint" type="fixed">
+      <origin xyz="0 0 ${height}" />
+      <parent link="${name}_link" />
+      <child link="${name}_mount" />
+    </joint>
+  </xacro:macro>
+</robot>
