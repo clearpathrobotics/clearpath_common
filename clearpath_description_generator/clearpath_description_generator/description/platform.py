@@ -57,6 +57,7 @@ class PlatformDescription():
 
     MODEL = {
         Platform.A200: Base,
+        Platform.J100: Base,
     }
 
     def __new__(cls, model: Platform) -> Base:
