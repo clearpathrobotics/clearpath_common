@@ -38,6 +38,7 @@ from clearpath_description_generator.xacro_writer import XacroWriter
 from clearpath_description_generator.description.mounts import MountDescription
 from clearpath_description_generator.description.platform import PlatformDescription
 from clearpath_description_generator.description.decorations import DecorationsDescription
+from clearpath_description_generator.description.sensors import SensorDescription
 
 import getopt
 import sys
@@ -50,13 +51,14 @@ class DescriptionGenerator():
             self.config_path = config.get_path()
         else:
             self.config_path = '/etc/clearpath/robot.yaml'
+
         self.description_path = output_path
 
         self.pkg_clearpath_platform_description = 'clearpath_platform_description'
-        self.pkg_clearpath_mounts_description = 'clearpath_mounts_description'
-        self.pkg_clearpath_sensors_description = 'clearpath_sensors_description'
 
+        # Read YAML
         self.config = ClearpathConfigParser.read_yaml(self.config_path)
+        # Parse YAML into config
         self.clearpath_config = ClearpathConfigParser(self.config)
 
         self.serial = self.clearpath_config.platform.get_serial_number()
@@ -81,6 +83,10 @@ class DescriptionGenerator():
 
         # Mounts
         self.generate_mounts()
+        self.xacro_writer.write_newline()
+
+        # Sensors
+        self.generate_sensors()
         self.xacro_writer.write_newline()
 
         self.xacro_writer.close_file()
@@ -136,6 +142,32 @@ class DescriptionGenerator():
                 parameters=mount_description.get_parameters(),
                 blocks=XacroWriter.add_origin(
                     mount_description.get_xyz(), mount_description.get_rpy())
+            )
+
+            self.xacro_writer.write_newline()
+
+    def generate_sensors(self) -> None:
+        self.xacro_writer.write_comment('Sensors')
+        self.xacro_writer.write_newline()
+        sensors = self.clearpath_config.sensors.get_all_sensors()
+        for sensor in sensors:
+            sensor_description = SensorDescription(sensor)
+
+            self.xacro_writer.write_comment(
+                '{0}'.format(sensor_description.get_name())
+            )
+
+            self.xacro_writer.write_include(
+                package=sensor_description.get_package(),
+                file=sensor_description.get_model(),
+                path=sensor_description.get_path()
+            )
+
+            self.xacro_writer.write_macro(
+                macro='{0}'.format(sensor_description.get_model()),
+                parameters=sensor_description.get_parameters(),
+                blocks=XacroWriter.add_origin(
+                    sensor_description.get_xyz(), sensor_description.get_rpy())
             )
 
             self.xacro_writer.write_newline()

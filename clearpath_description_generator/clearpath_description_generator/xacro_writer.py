@@ -38,13 +38,13 @@ import subprocess
 class XacroWriter():
     tab = '  '
 
-    def __init__(self, path: str, robot_name: str):
+    def __init__(self, path: str, serial_number: str):
         self.file_path = path
         self.file_name = os.path.join(self.file_path, 'robot.urdf.xacro')
         # Open temp file
         subprocess.run(shlex.split('mkdir -p /tmp' + self.file_path))
         self.file = open('/tmp' + self.file_name, 'w')
-        self.initialize_file(robot_name)
+        self.initialize_file(serial_number)
 
     def write(self, string, indent_level=1):
         self.file.write('{0}{1}\n'.format(self.tab * indent_level, string))
