@@ -7,11 +7,11 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
 
     # Launch Configurations
-    robot_model = LaunchConfiguration('robot_model')
+    platform_model = LaunchConfiguration('platform_model')
 
     # Launch Arguments
-    arg_robot_model = DeclareLaunchArgument(
-        'robot_model',
+    arg_platform_model = DeclareLaunchArgument(
+        'platform_model',
         choices=['a200', 'j100'],
         default_value='a200'
     )
@@ -22,7 +22,7 @@ def generate_launch_description():
 
     # Paths
     dir_robot_config = PathJoinSubstitution([
-        pkg_clearpath_control, 'config', robot_model])
+        pkg_clearpath_control, 'config', platform_model])
 
     # Common Configs
     config_twist_mux = PathJoinSubstitution([
@@ -55,7 +55,7 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription()
-    ld.add_action(arg_robot_model)
+    ld.add_action(arg_platform_model)
     ld.add_action(node_interactive_marker_twist_server)
     ld.add_action(node_twist_mux)
     return ld
