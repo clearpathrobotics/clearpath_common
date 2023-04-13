@@ -25,16 +25,16 @@ def generate_launch_description():
         pkg_clearpath_control, 'config', robot_model])
 
     # Common Configs
-    config_twist_mux = PathJoinSubstitution(
+    config_twist_mux = PathJoinSubstitution([
         pkg_clearpath_control,
         'config',
-        'twist_mux.yaml'
+        'twist_mux.yaml']
     )
 
     # Platform Configs
     config_interactive_markers = [
         dir_robot_config,
-        'teleop_interactive_markers.yaml'
+        '/teleop_interactive_markers.yaml'
     ]
 
     node_interactive_marker_twist_server = Node(

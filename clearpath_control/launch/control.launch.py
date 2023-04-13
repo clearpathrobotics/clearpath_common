@@ -39,17 +39,17 @@ def generate_launch_description():
     # Configs
     config_platform_ekf = [
         dir_robot_config,
-        'localization.yaml'
+        '/localization.yaml'
     ]
 
     config_imu_filter = [
         dir_robot_config,
-        'imu_filter.yaml'
+        '/imu_filter.yaml'
     ]
 
     config_platform_velocity_controller = [
         dir_robot_config,
-        'control.yaml'
+        '/control.yaml'
     ]
 
     arg_robot_description_command = DeclareLaunchArgument(
@@ -106,7 +106,7 @@ def generate_launch_description():
         # Joint State Broadcaster
         Node(
             package='controller_manager',
-            executable='spawner.py',
+            executable='spawner',
             arguments=['joint_state_broadcaster'],
             output='screen',
         ),
@@ -114,7 +114,7 @@ def generate_launch_description():
         # Velocity Controller
         Node(
             package='controller_manager',
-            executable='spawner.py',
+            executable='spawner',
             arguments=['platform_velocity_controller'],
             output='screen',
         )

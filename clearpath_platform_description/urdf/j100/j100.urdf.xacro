@@ -129,7 +129,7 @@
           <plugin>gazebo_ros2_control/GazeboSystem</plugin>
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
-          <plugin>j100_hardware/J100Hardware</plugin>
+          <plugin>clearpath_platform/J100Hardware</plugin>
           <plugin>fake_components/GenericSystem</plugin>
         </xacro:unless>
       </hardware>
