@@ -31,7 +31,7 @@
 # of Clearpath Robotics.
 
 from clearpath_config.sensors.base import BaseSensor
-from clearpath_config.sensors.lidars_2d import UST10, LMS1XX
+from clearpath_config.sensors.lidars_2d import HokuyoUST10, SickLMS1XX
 
 from typing import List
 
@@ -79,17 +79,17 @@ class SensorDescription():
         def get_rpy(self) -> List[float]:
             return self.sensor.get_rpy()
 
-    class UST10Description(BaseDescription):
-        def __init__(self, sensor: UST10) -> None:
+    class HokuyoUST10Description(BaseDescription):
+        def __init__(self, sensor: HokuyoUST10) -> None:
             super().__init__(sensor)
 
-    class LMS1XXDescription(BaseDescription):
-        def __init__(self, sensor: LMS1XX) -> None:
+    class SickLMS1XXDescription(BaseDescription):
+        def __init__(self, sensor: SickLMS1XX) -> None:
             super().__init__(sensor)
 
     MODEL = {
-        UST10.SENSOR_MODEL: UST10Description,
-        LMS1XX.SENSOR_MODEL: LMS1XXDescription
+        HokuyoUST10.SENSOR_MODEL: HokuyoUST10Description,
+        SickLMS1XX.SENSOR_MODEL: SickLMS1XXDescription
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:
