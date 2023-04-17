@@ -10,12 +10,12 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
 
     # Launch Configurations
-    robot_model = LaunchConfiguration('robot_model')
+    platform_model = LaunchConfiguration('platform_model')
     is_sim = LaunchConfiguration('is_sim')
 
     # Launch Arguments
-    arg_robot_model = DeclareLaunchArgument(
-        'robot_model',
+    arg_platform_model = DeclareLaunchArgument(
+        'platform_model',
         choices=['a200', 'j100'],
         default_value='a200'
     )
@@ -32,24 +32,24 @@ def generate_launch_description():
 
     # Paths
     dir_robot_config = PathJoinSubstitution([
-        pkg_clearpath_control, 'config', robot_model])
+        pkg_clearpath_control, 'config', platform_model])
     dir_robot_description = PathJoinSubstitution([
-        pkg_clearpath_platform_description, 'urdf', robot_model])
+        pkg_clearpath_platform_description, 'urdf', platform_model])
 
     # Configs
     config_platform_ekf = [
         dir_robot_config,
-        'localization.yaml'
+        '/localization.yaml'
     ]
 
     config_imu_filter = [
         dir_robot_config,
-        'imu_filter.yaml'
+        '/imu_filter.yaml'
     ]
 
     config_platform_velocity_controller = [
         dir_robot_config,
-        'control.yaml'
+        '/control.yaml'
     ]
 
     arg_robot_description_command = DeclareLaunchArgument(
@@ -57,7 +57,7 @@ def generate_launch_description():
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            PathJoinSubstitution([dir_robot_description, robot_model]),
+            PathJoinSubstitution([dir_robot_description, platform_model]),
             '.urdf.xacro'
         ]
     )
@@ -106,7 +106,7 @@ def generate_launch_description():
         # Joint State Broadcaster
         Node(
             package='controller_manager',
-            executable='spawner.py',
+            executable='spawner',
             arguments=['joint_state_broadcaster'],
             output='screen',
         ),
@@ -114,14 +114,14 @@ def generate_launch_description():
         # Velocity Controller
         Node(
             package='controller_manager',
-            executable='spawner.py',
+            executable='spawner',
             arguments=['platform_velocity_controller'],
             output='screen',
         )
     ])
 
     ld = LaunchDescription()
-    ld.add_action(arg_robot_model)
+    ld.add_action(arg_platform_model)
     ld.add_action(arg_robot_description_command)
     ld.add_action(arg_is_sim)
     ld.add_action(action_localization_group)

@@ -9,8 +9,8 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     # Launch Arguments
-    arg_robot_model = DeclareLaunchArgument(
-        'robot_model',
+    arg_platform_model = DeclareLaunchArgument(
+        'platform_model',
         choices=['a200', 'j100'],
         default_value='a200'
     )
@@ -22,7 +22,7 @@ def generate_launch_description():
     )
 
     # Launch Configurations
-    robot_model = LaunchConfiguration('robot_model')
+    platform_model = LaunchConfiguration('platform_model')
     joy_type = EnvironmentVariable('CPR_JOY_TYPE', default_value='ps4')
 
     # Packages
@@ -30,7 +30,7 @@ def generate_launch_description():
 
     # Paths
     dir_robot_config = PathJoinSubstitution([
-        pkg_clearpath_control, 'config', robot_model])
+        pkg_clearpath_control, 'config', platform_model])
     
     file_config_joy = 'teleop_' + joy_type.perform(lc) + '.yaml'
 
@@ -58,7 +58,7 @@ def generate_launch_description():
     )
 
 
-    ld.add_action(arg_robot_model)
+    ld.add_action(arg_platform_model)
     ld.add_action(arg_joy_type)
     ld.add_action(node_joy)
     ld.add_action(node_teleop_twist_joy)

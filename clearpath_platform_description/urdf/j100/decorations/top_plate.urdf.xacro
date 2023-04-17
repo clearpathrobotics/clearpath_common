@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="top_plate" params="model:=default">
+      <xacro:if value="${model == 'ark_enclosure'}">
+         <link name="ark_enclosure_link">
+          <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/j100/decorations/ark_enclosure.stl"/>
+            </geometry>
+            <material name="dark_grey" />
+          </visual>
+        </link>
+        <joint name="ark_enclosure_joint" type="fixed">
+          <parent link="mid_mount" />
+          <child link="ark_enclosure_link" />
+        </joint>
+      </xacro:if>
+    </xacro:macro>
+</robot>
