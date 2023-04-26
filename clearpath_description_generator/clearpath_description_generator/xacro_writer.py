@@ -99,4 +99,4 @@ class XacroWriter():
         self.write('</robot>', 0)
         self.file.close()
         # Move temp file to actual file location
-        subprocess.run(shlex.split('sudo mv /tmp' + self.file_name + ' ' + self.file_name))
+        subprocess.run(shlex.split('mv /tmp' + self.file_name + ' ' + self.file_name))
