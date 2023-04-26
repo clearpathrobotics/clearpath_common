@@ -33,6 +33,7 @@
 from clearpath_config.sensors.base import BaseSensor
 from clearpath_config.sensors.lidars_2d import HokuyoUST10, SickLMS1XX
 from clearpath_config.sensors.cameras import IntelRealsense
+from clearpath_config.sensors.imu import Microstrain
 
 from typing import List
 
@@ -89,13 +90,18 @@ class SensorDescription():
             super().__init__(sensor)
 
     class IntelRealsenseDescription(BaseDescription):
-        def __init__(self, sensor: BaseSensor) -> None:
+        def __init__(self, sensor: IntelRealsense) -> None:
+            super().__init__(sensor)
+
+    class MicrostrainIMUDescription(BaseDescription):
+        def __init__(self, sensor: Microstrain) -> None:
             super().__init__(sensor)
 
     MODEL = {
         HokuyoUST10.SENSOR_MODEL: HokuyoUST10Description,
         SickLMS1XX.SENSOR_MODEL: SickLMS1XXDescription,
         IntelRealsense.SENSOR_MODEL: IntelRealsenseDescription,
+        Microstrain.SENSOR_MODEL: MicrostrainIMUDescription
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:
