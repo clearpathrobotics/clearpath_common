@@ -5,6 +5,7 @@
   <version>0.0.0</version>
   <description>Clearpath Common Metapackage</description>
 
+  <maintainer email="lcamero@clearpathrobotics.com">Luis Camero</maintainer>
   <maintainer email="rkreinin@clearpathrobotics.com">Roni Kreinin</maintainer>
   <maintainer email="tbaltovski@clearpathrobotics.com">Tony Baltovski</maintainer>
 

@@ -32,8 +32,11 @@
 
 from clearpath_config.sensors.base import BaseSensor
 from clearpath_config.sensors.lidars_2d import HokuyoUST10, SickLMS1XX
+from clearpath_config.sensors.lidars_3d import VelodyneLidar
 from clearpath_config.sensors.cameras import IntelRealsense
 from clearpath_config.sensors.imu import Microstrain
+from clearpath_config.sensors.gps import SwiftNavDuro
+
 
 from typing import List
 
@@ -81,27 +84,13 @@ class SensorDescription():
         def get_rpy(self) -> List[float]:
             return self.sensor.get_rpy()
 
-    class HokuyoUST10Description(BaseDescription):
-        def __init__(self, sensor: HokuyoUST10) -> None:
-            super().__init__(sensor)
-
-    class SickLMS1XXDescription(BaseDescription):
-        def __init__(self, sensor: SickLMS1XX) -> None:
-            super().__init__(sensor)
-
-    class IntelRealsenseDescription(BaseDescription):
-        def __init__(self, sensor: IntelRealsense) -> None:
-            super().__init__(sensor)
-
-    class MicrostrainIMUDescription(BaseDescription):
-        def __init__(self, sensor: Microstrain) -> None:
-            super().__init__(sensor)
-
     MODEL = {
-        HokuyoUST10.SENSOR_MODEL: HokuyoUST10Description,
-        SickLMS1XX.SENSOR_MODEL: SickLMS1XXDescription,
-        IntelRealsense.SENSOR_MODEL: IntelRealsenseDescription,
-        Microstrain.SENSOR_MODEL: MicrostrainIMUDescription
+        HokuyoUST10.SENSOR_MODEL: BaseDescription,
+        SickLMS1XX.SENSOR_MODEL: BaseDescription,
+        IntelRealsense.SENSOR_MODEL: BaseDescription,
+        Microstrain.SENSOR_MODEL: BaseDescription,
+        VelodyneLidar.SENSOR_MODEL: BaseDescription,
+        SwiftNavDuro.SENSOR_MODEL: BaseDescription
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:

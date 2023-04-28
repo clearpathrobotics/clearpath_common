@@ -70,8 +70,7 @@ class DescriptionGenerator():
         self.xacro_writer.write_include(
             package=self.pkg_clearpath_platform_description,
             file='common',
-            path='urdf/'
-        )
+            path='urdf/')
 
         # Platform
         self.generate_platform()
@@ -109,16 +108,32 @@ class DescriptionGenerator():
         decorations = self.clearpath_config.platform.decorations.get_all_decorations()
         for decoration in decorations:
             if decoration.get_enabled():
-                bumper_description = DecorationsDescription(self.platform, decoration)
+                decoration_description = DecorationsDescription(self.platform, decoration)
 
                 self.xacro_writer.write_include(
-                    package=bumper_description.get_package(),
-                    file=bumper_description.get_file(),
-                    path=bumper_description.get_path())
+                    package=decoration_description.get_package(),
+                    file=decoration_description.get_file(),
+                    path=decoration_description.get_path())
 
                 self.xacro_writer.write_macro(
-                    macro=bumper_description.get_file(),
-                    parameters=bumper_description.get_parameters())
+                    macro=decoration_description.get_file(),
+                    parameters=decoration_description.get_parameters())
+
+        self.xacro_writer.write_include(
+            package='clearpath_platform_description',
+            file='sensor_arch',
+            path='urdf/a200/decorations/')
+
+        self.xacro_writer.write_macro(
+            macro='sensor_arch',
+            parameters={
+              'parent_link': 'top_plate_link',
+              'size': '510'
+            },
+            blocks=XacroWriter.add_origin(
+              [0.0, 0.0, 0.0],
+              [0.0, 0.0, 0.0])
+            )
 
     def generate_mounts(self) -> None:
         self.xacro_writer.write_comment('Mounts')

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="sick_lms1xx" params="name parent_link *origin">
+    <link name="${name}_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_sensors_description/meshes/sick_lms1xx_small.dae" />
+        </geometry>
+        <material name="blue" >
+          <color rgba="0 0 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_sensors_description/meshes/sick_lms1xx_collision.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${name}_laser"/>
+
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <joint name="${name}_laser_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_laser" />
+      <origin rpy="0 0 0" xyz="0.0549 0 0.0367"/>
+    </joint>
+    
+  </xacro:macro>
+</robot>

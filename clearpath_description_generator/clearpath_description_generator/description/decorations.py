@@ -81,9 +81,21 @@ class DecorationsDescription():
                 self.MODEL: decoration.get_model(),
             })
 
+    class SensorArchDescription(BaseDescription):
+        SIZE = 'size'
+        PARENT_LINK = 'parent_link'
+
+        def __init__(self, platform: str, decoration: BaseDecoration) -> None:
+            super().__init__(platform, decoration)
+            self.parameters.update({
+                self.PARENT_LINK: 'top_plate_link',
+                self.SIZE: '510'
+            })
+
     MODEL = {
         Bumper.DECORATION_MODEL: BumperDescription,
         TopPlate.DECORATION_MODEL: TopPlateDescription,
+        'sensor_arch': SensorArchDescription
     }
 
     def __new__(cls, platform, decoration: BaseDecoration) -> BaseDescription:
