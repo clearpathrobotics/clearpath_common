@@ -41,7 +41,9 @@ def generate_launch_description():
         package='interactive_marker_twist_server',
         executable='marker_server',
         name='twist_server_node',
-        remappings={('cmd_vel', 'twist_marker_server/cmd_vel')},
+        remappings=[('cmd_vel', 'twist_marker_server/cmd_vel'),
+                    ('twist_server/feedback', 'twist_marker_server/feedback'),
+                    ('twist_server/update', 'twist_marker_server/update')],
         parameters=[config_interactive_markers],
         output='screen',
     )
@@ -50,7 +52,7 @@ def generate_launch_description():
         package='twist_mux',
         executable='twist_mux',
         output='screen',
-        remappings={('/cmd_vel_out', '/platform_velocity_controller/cmd_vel_unstamped')},
+        remappings={('cmd_vel_out', 'platform/cmd_vel_unstamped')},
         parameters=[config_twist_mux]
     )
 

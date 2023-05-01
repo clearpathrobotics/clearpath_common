@@ -69,7 +69,10 @@ def generate_launch_description():
             parameters=[{
                 'robot_description': robot_description_content,
             }],
-            remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')]
+            remappings=[
+                ('/tf', 'tf'),
+                ('/tf_static', 'tf_static'),
+                ('joint_states', 'platform/joint_states')]
         ),
     ])
 

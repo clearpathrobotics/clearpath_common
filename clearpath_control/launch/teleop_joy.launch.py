@@ -31,7 +31,7 @@ def generate_launch_description():
     # Paths
     dir_robot_config = PathJoinSubstitution([
         pkg_clearpath_control, 'config', platform_model])
-    
+
     file_config_joy = 'teleop_' + joy_type.perform(lc) + '.yaml'
 
     filepath_config_joy = PathJoinSubstitution([
