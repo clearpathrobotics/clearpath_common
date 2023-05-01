@@ -41,8 +41,8 @@ def generate_launch_description():
 
     node_joy = Node(
         namespace='joy_teleop',
-        package='joy',
-        executable='joy_node',
+        package='joy_linux',
+        executable='joy_linux_node',
         output='screen',
         name='joy_node',
         parameters=[filepath_config_joy]

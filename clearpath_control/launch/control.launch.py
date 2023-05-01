@@ -84,7 +84,11 @@ def generate_launch_description():
             executable='imu_filter_madgwick_node',
             name='imu_filter_node',
             output='screen',
-            parameters=[config_imu_filter]
+            parameters=[config_imu_filter],
+            remappings=[
+              ('imu/data_raw', 'platform/sensors/imu_0/imu/data'),
+              ('imu/mag', 'platform/sensors/imu_0/mag')
+            ]
         )
     ])
 
