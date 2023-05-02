@@ -1,11 +1,10 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction
-from launch.conditions import UnlessCondition
+from launch.conditions import LaunchConfigurationEquals, UnlessCondition
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
-
 
 def generate_launch_description():
 
@@ -76,6 +75,9 @@ def generate_launch_description():
             name='ekf_node',
             output='screen',
             parameters=[config_platform_ekf],
+            remappings=[
+              ('odometry/filtered', 'platform/odom/filtered'),
+            ]
         ),
 
         # Madgwick Filter
@@ -84,7 +86,13 @@ def generate_launch_description():
             executable='imu_filter_madgwick_node',
             name='imu_filter_node',
             output='screen',
-            parameters=[config_imu_filter]
+            parameters=[config_imu_filter],
+            remappings=[
+              ('imu/data_raw', 'platform/sensors/imu_0/data_raw'),
+              ('imu/mag', 'platform/sensors/imu_0/mag'),
+              ('imu/data', 'platform/sensors/imu_0/data')
+            ],
+            condition=LaunchConfigurationEquals('platform_model', 'j100')
         )
     ])
 
@@ -100,6 +108,12 @@ def generate_launch_description():
                 'stdout': 'screen',
                 'stderr': 'screen',
             },
+            remappings=[
+              ('platform_velocity_controller/odom', 'platform/odom'),
+              ('platform_velocity_controller/cmd_vel_unstamped', 'platform/cmd_vel_unstamped'),
+              ('joint_states', 'platform/joint_states'),
+              ('dynamic_joint_states', 'platform/dynamic_joint_states'),
+            ],
             condition=UnlessCondition(is_sim)
         ),
 

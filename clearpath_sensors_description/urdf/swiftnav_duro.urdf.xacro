@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="swiftnav_duro" params="name parent_link *origin">
+    <link name="${name}_link">
+      <visual>
+        <material name="white"/>
+        <geometry>
+          <mesh filename="package://clearpath_sensors_description/meshes/swift_antenna.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <material name="white"/>
+        <origin xyz="0.0000 -0.0000 0.0324"/>
+        <geometry>
+          <sphere radius="0.1122" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${name}_joint" type="fixed">
+      <child link="${name}_link"/>
+      <parent link="${parent_link}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

@@ -69,20 +69,10 @@ def generate_launch_description():
             parameters=[{
                 'robot_description': robot_description_content,
             }],
-            remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')]
-        ),
-
-        # Joint State Publisher
-        Node(
-            package='joint_state_publisher',
-            executable='joint_state_publisher',
-            name='joint_state_publisher',
-            output='screen',
-            #parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
             remappings=[
                 ('/tf', 'tf'),
-                ('/tf_static', 'tf_static')
-            ]
+                ('/tf_static', 'tf_static'),
+                ('joint_states', 'platform/joint_states')]
         ),
     ])
 

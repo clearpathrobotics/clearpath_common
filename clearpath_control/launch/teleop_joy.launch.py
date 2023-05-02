@@ -31,7 +31,7 @@ def generate_launch_description():
     # Paths
     dir_robot_config = PathJoinSubstitution([
         pkg_clearpath_control, 'config', platform_model])
-    
+
     file_config_joy = 'teleop_' + joy_type.perform(lc) + '.yaml'
 
     filepath_config_joy = PathJoinSubstitution([
@@ -41,8 +41,8 @@ def generate_launch_description():
 
     node_joy = Node(
         namespace='joy_teleop',
-        package='joy',
-        executable='joy_node',
+        package='joy_linux',
+        executable='joy_linux_node',
         output='screen',
         name='joy_node',
         parameters=[filepath_config_joy]

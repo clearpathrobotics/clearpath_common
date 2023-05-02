@@ -3,7 +3,7 @@
     <!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" /> -->
     <xacro:macro name="top_plate" params="model:=default">
         <!-- Spawn the top plate -->
-      <xacro:if value="${model == 'default'}">
+      <xacro:if value="${model == 'large'}">
         <link name="top_plate_link">
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
@@ -40,7 +40,7 @@
         <link name="top_plate_rear_link"/>
       </xacro:if>
 
-      <xacro:if value="${model == 'large'}">
+      <xacro:if value="${model == 'default'}">
         <link name="top_plate_link">
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
