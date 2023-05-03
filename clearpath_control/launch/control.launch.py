@@ -6,6 +6,7 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
 
+
 def generate_launch_description():
 
     # Launch Configurations
@@ -36,16 +37,6 @@ def generate_launch_description():
         pkg_clearpath_platform_description, 'urdf', platform_model])
 
     # Configs
-    config_platform_ekf = [
-        dir_robot_config,
-        '/localization.yaml'
-    ]
-
-    config_imu_filter = [
-        dir_robot_config,
-        '/imu_filter.yaml'
-    ]
-
     config_platform_velocity_controller = [
         dir_robot_config,
         '/control.yaml'
@@ -65,36 +56,6 @@ def generate_launch_description():
         Command(LaunchConfiguration('robot_description_command')),
         value_type=str
     )
-
-    # Localization
-    action_localization_group = GroupAction([
-        # Extended Kalman Filter
-        Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_node',
-            output='screen',
-            parameters=[config_platform_ekf],
-            remappings=[
-              ('odometry/filtered', 'platform/odom/filtered'),
-            ]
-        ),
-
-        # Madgwick Filter
-        Node(
-            package='imu_filter_madgwick',
-            executable='imu_filter_madgwick_node',
-            name='imu_filter_node',
-            output='screen',
-            parameters=[config_imu_filter],
-            remappings=[
-              ('imu/data_raw', 'platform/sensors/imu_0/data_raw'),
-              ('imu/mag', 'platform/sensors/imu_0/mag'),
-              ('imu/data', 'platform/sensors/imu_0/data')
-            ],
-            condition=LaunchConfigurationEquals('platform_model', 'j100')
-        )
-    ])
 
     # ROS2 Controllers
     action_control_group = GroupAction([
@@ -138,6 +99,5 @@ def generate_launch_description():
     ld.add_action(arg_platform_model)
     ld.add_action(arg_robot_description_command)
     ld.add_action(arg_is_sim)
-    ld.add_action(action_localization_group)
     ld.add_action(action_control_group)
     return ld
