@@ -3,6 +3,7 @@
 
   <xacro:arg name="robot_namespace" default="/" />
   <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="serial_port" default="/dev/clearpath/prolific" />
 
   <!-- Included URDF/XACRO Files -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/wheel.urdf.xacro" />
@@ -132,8 +133,8 @@
           <param name="wheel_diameter">0.3302</param>
           <param name="max_accel">5.0</param>
           <param name="max_speed">1.0</param>
-          <param name="polling_timeout">10.0</param>
-          <param name="serial_port">/dev/prolific</param>
+          <param name="polling_timeout">0.1</param>
+          <param name="serial_port">$(arg serial_port)</param>
         </xacro:unless>
       </hardware>
       <joint name="front_left_wheel_joint">
