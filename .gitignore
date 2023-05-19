@@ -1,2 +1,4 @@
 __pycache__/
 *.py[cod]
+.obj-x86_64-linux-gnu/
+debian/
