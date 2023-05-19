@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
     <!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" /> -->
-    <xacro:macro name="top_plate" params="model:=default">
+    <xacro:macro name="top_plate" params="model:=default *origin">
         <!-- Spawn the top plate -->
       <xacro:if value="${model == 'large'}">
         <link name="top_plate_link">

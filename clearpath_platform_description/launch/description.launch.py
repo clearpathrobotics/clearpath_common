@@ -1,18 +1,14 @@
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import (Command, FindExecutable,
                                   PathJoinSubstitution, LaunchConfiguration)
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
-from launch.event_handlers import OnProcessExit
 
 
 def generate_launch_description():
     # Launch Configurations
-    config_file = LaunchConfiguration(
-        'config_file',
-        default='/etc/clearpath/robot.yaml')
     output_path = LaunchConfiguration(
         'output_path',
         default='/etc/clearpath/')
@@ -26,11 +22,6 @@ def generate_launch_description():
         ])
 
     # Launch Arguments
-    arg_config_file = DeclareLaunchArgument(
-        'config_file',
-        default_value='/etc/clearpath/robot.yaml'
-    )
-
     arg_output_path = DeclareLaunchArgument(
         'output_path',
         default_value='/etc/clearpath/'
@@ -52,14 +43,6 @@ def generate_launch_description():
         value_type=str
     )
 
-    node_description_generator = Node(
-        package='clearpath_description_generator',
-        executable='description_generator',
-        name='description_generator',
-        output='screen',
-        arguments=['-c', config_file, '-o', output_path]
-    )
-
     group_action_state_publishers = GroupAction([
 
         # Robot State Publisher
@@ -76,19 +59,10 @@ def generate_launch_description():
         ),
     ])
 
-    event_generate_description = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=node_description_generator,
-            on_exit=[group_action_state_publishers]
-        )
-    )
-
     ld = LaunchDescription()
     # Args
-    ld.add_action(arg_config_file)
     ld.add_action(arg_output_path)
     ld.add_action(arg_robot_description_command)
     # Nodes
-    ld.add_action(node_description_generator)
-    ld.add_action(event_generate_description)
+    ld.add_action(group_action_state_publishers)
     return ld
