@@ -6,9 +6,6 @@
         <geometry>
           <mesh filename="package://clearpath_sensors_description/meshes/sick_lms1xx_small.dae" />
         </geometry>
-        <material name="blue" >
-          <color rgba="0 0 1 1" />
-        </material>
       </visual>
       <collision>
         <geometry>

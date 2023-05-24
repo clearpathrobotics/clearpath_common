@@ -21,6 +21,8 @@ def generate_launch_description():
             'robot.urdf.xacro'
         ])
 
+    use_sim_time = LaunchConfiguration('use_sim_time')
+
     # Launch Arguments
     arg_output_path = DeclareLaunchArgument(
         'output_path',
@@ -34,9 +36,18 @@ def generate_launch_description():
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
             output_path,
-            'robot.urdf.xacro'
+            'robot.urdf.xacro',
+            ' ',
+            'is_sim:=',
+            use_sim_time
         ]
     )
+
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='false',
+        choices=['true', 'false'],
+        description='use_sim_time')
 
     robot_description_content = ParameterValue(
         Command(robot_description_command),
@@ -61,6 +72,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     # Args
+    ld.add_action(arg_use_sim_time)
     ld.add_action(arg_output_path)
     ld.add_action(arg_robot_description_command)
     # Nodes
