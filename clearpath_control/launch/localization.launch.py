@@ -14,6 +14,7 @@ def generate_launch_description():
     # Launch Configurations
     config_localization = LaunchConfiguration('localization_config')
     platform_model = LaunchConfiguration('platform_model')
+    use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Launch Arguments
     arg_platform_model = DeclareLaunchArgument(
@@ -28,13 +29,22 @@ def generate_launch_description():
           pkg_clearpath_control, 'config', platform_model, 'localization.yaml'])
     )
 
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use simulation time'
+    )
+
     # Localization
     node_localization = Node(
             package='robot_localization',
             executable='ekf_node',
             name='ekf_node',
             output='screen',
-            parameters=[config_localization],
+            parameters=[
+                config_localization,
+                {'use_sim_time', use_sim_time}],
             remappings=[
               ('odometry/filtered', 'platform/odom/filtered'),
             ]
@@ -43,5 +53,6 @@ def generate_launch_description():
     ld = LaunchDescription()
     ld.add_action(arg_platform_model)
     ld.add_action(arg_localization_config)
+    ld.add_action(arg_use_sim_time)
     ld.add_action(node_localization)
     return ld

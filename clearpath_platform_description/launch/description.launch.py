@@ -9,23 +9,13 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     # Launch Configurations
-    output_path = LaunchConfiguration(
-        'output_path',
-        default='/etc/clearpath/')
-    robot_description_command = LaunchConfiguration(
-        'robot_description_command',
-        default=[
-            PathJoinSubstitution([FindExecutable(name='xacro')]),
-            ' ',
-            output_path,
-            'robot.urdf.xacro'
-        ])
-
+    setup_path = LaunchConfiguration('setup_path')
+    robot_description_command = LaunchConfiguration('robot_description_command')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Launch Arguments
-    arg_output_path = DeclareLaunchArgument(
-        'output_path',
+    arg_setup_path = DeclareLaunchArgument(
+        'setup_path',
         default_value='/etc/clearpath/'
     )
 
@@ -35,7 +25,7 @@ def generate_launch_description():
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            output_path,
+            setup_path,
             'robot.urdf.xacro',
             ' ',
             'is_sim:=',
@@ -45,9 +35,10 @@ def generate_launch_description():
 
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='false',
         choices=['true', 'false'],
-        description='use_sim_time')
+        default_value='false',
+        description='Use simulation time'
+    )
 
     robot_description_content = ParameterValue(
         Command(robot_description_command),
@@ -62,6 +53,7 @@ def generate_launch_description():
             executable='robot_state_publisher',
             parameters=[{
                 'robot_description': robot_description_content,
+                'use_sim_time': use_sim_time,
             }],
             remappings=[
                 ('/tf', 'tf'),
@@ -73,7 +65,7 @@ def generate_launch_description():
     ld = LaunchDescription()
     # Args
     ld.add_action(arg_use_sim_time)
-    ld.add_action(arg_output_path)
+    ld.add_action(arg_setup_path)
     ld.add_action(arg_robot_description_command)
     # Nodes
     ld.add_action(group_action_state_publishers)

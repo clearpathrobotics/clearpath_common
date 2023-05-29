@@ -9,6 +9,7 @@ def launch_setup(context, *args, **kwargs):
     # Launch Configurations
     platform_model = LaunchConfiguration('platform_model')
     joy_type = LaunchConfiguration('joy_type')
+    use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Packages
     pkg_clearpath_control = FindPackageShare('clearpath_control')
@@ -30,7 +31,9 @@ def launch_setup(context, *args, **kwargs):
         executable='joy_linux_node',
         output='screen',
         name='joy_node',
-        parameters=[filepath_config_joy]
+        parameters=[
+            filepath_config_joy,
+            {'use_sim_time': use_sim_time}]
     )
 
     node_teleop_twist_joy = Node(
@@ -39,7 +42,9 @@ def launch_setup(context, *args, **kwargs):
         executable='teleop_node',
         output='screen',
         name='teleop_twist_joy_node',
-        parameters=[filepath_config_joy]
+        parameters=[
+            filepath_config_joy,
+            {'use_sim_time': use_sim_time}]
     )
 
     return [
@@ -64,7 +69,15 @@ def generate_launch_description():
         default_value='ps4'
     )
 
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use simulation time'
+    )
+
     ld.add_action(arg_platform_model)
     ld.add_action(arg_joy_type)
+    ld.add_action(arg_use_sim_time)
     ld.add_action(OpaqueFunction(function=launch_setup))
     return ld

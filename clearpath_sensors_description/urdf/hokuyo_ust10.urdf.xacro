@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="hokuyo_ust10" params="name parent_link *origin">
+  <xacro:macro name="hokuyo_ust10" params="name parent_link *origin
+                                          ang_res:=0.25 min_ang:=-2.35619 max_ang:=2.35619
+                                          update_rate:=40 min_range:=0.06 max_range:=30.0">
     <link name="${name}_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
@@ -34,6 +36,37 @@
       <parent link="${name}_link" />
       <child link="${name}_laser" />
     </joint>
+
+    <xacro:property name="samples" value="${round((max_ang - min_ang) * 180 / (ang_res * pi))}"/>
+
+    <gazebo reference="${name}_laser">
+      <sensor name="${name}" type="gpu_lidar">
+        <update_rate>${update_rate}</update_rate>
+        <visualize>true</visualize>
+        <always_on>true</always_on>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>${samples}</samples>
+              <resolution>1</resolution>
+              <min_angle>${min_ang}</min_angle>
+              <max_angle>${max_ang}</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>0</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>0.01</resolution>
+          </range>
+        </lidar>
+      </sensor>
+    </gazebo>
 
   </xacro:macro>
 

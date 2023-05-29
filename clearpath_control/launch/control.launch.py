@@ -11,7 +11,8 @@ def generate_launch_description():
 
     # Launch Configurations
     platform_model = LaunchConfiguration('platform_model')
-    is_sim = LaunchConfiguration('is_sim')
+    setup_path = LaunchConfiguration('setup_path')
+    use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Launch Arguments
     arg_platform_model = DeclareLaunchArgument(
@@ -20,21 +21,24 @@ def generate_launch_description():
         default_value='a200'
     )
 
-    arg_is_sim = DeclareLaunchArgument(
-        'is_sim',
+    arg_setup_path = DeclareLaunchArgument(
+        'setup_path',
+        default_value='/etc/clearpath/'
+    )
+
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
         choices=['true', 'false'],
-        default_value='false'
+        default_value='false',
+        description='Use simulation time'
     )
 
     # Packages
     pkg_clearpath_control = FindPackageShare('clearpath_control')
-    pkg_clearpath_platform_description = FindPackageShare('clearpath_platform_description')
 
     # Paths
     dir_robot_config = PathJoinSubstitution([
         pkg_clearpath_control, 'config', platform_model])
-    dir_robot_description = PathJoinSubstitution([
-        pkg_clearpath_platform_description, 'urdf', platform_model])
 
     # Configs
     config_platform_velocity_controller = [
@@ -47,8 +51,11 @@ def generate_launch_description():
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            PathJoinSubstitution([dir_robot_description, platform_model]),
-            '.urdf.xacro'
+            setup_path,
+            'robot.urdf.xacro',
+            ' ',
+            'is_sim:=',
+            use_sim_time
         ]
     )
 
@@ -75,7 +82,7 @@ def generate_launch_description():
               ('joint_states', 'platform/joint_states'),
               ('dynamic_joint_states', 'platform/dynamic_joint_states'),
             ],
-            condition=UnlessCondition(is_sim)
+            condition=UnlessCondition(use_sim_time)
         ),
 
         # Joint State Broadcaster
@@ -97,7 +104,8 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     ld.add_action(arg_platform_model)
+    ld.add_action(arg_setup_path)
     ld.add_action(arg_robot_description_command)
-    ld.add_action(arg_is_sim)
+    ld.add_action(arg_use_sim_time)
     ld.add_action(action_control_group)
     return ld
