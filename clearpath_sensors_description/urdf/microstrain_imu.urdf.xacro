@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="microstrain_imu" params="name parent_link *origin">
+  <xacro:macro name="microstrain_imu" params="name parent_link update_rate:=100 *origin">
     <link name="${name}_base_link"/>
 
     <link name="${name}_link">
@@ -23,5 +23,13 @@
       <parent link="${name}_base_link" />
       <child link="${name}_link" />
     </joint>
+
+    <gazebo reference="${name}_link">
+      <sensor type="imu" name="${name}">
+        <always_on>true</always_on>
+        <update_rate>${update_rate}</update_rate>
+        <visualize>true</visualize>
+      </sensor>
+    </gazebo>
   </xacro:macro>
 </robot>

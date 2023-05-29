@@ -154,6 +154,11 @@
           <render_engine>ogre</render_engine>
         </plugin>
       </gazebo>
+
+      <gazebo>
+        <plugin filename="libignition-gazebo-imu-system.so" name="ignition::gazebo::systems::Imu"></plugin>
+      </gazebo>
+      
     </xacro:if>
 
     <ros2_control name="a200_hardware" type="system">
