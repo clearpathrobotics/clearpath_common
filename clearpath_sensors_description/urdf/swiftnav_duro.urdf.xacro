@@ -21,6 +21,12 @@
       <parent link="${parent_link}"/>
       <xacro:insert_block name="origin"/>
     </joint>
-  </xacro:macro>
 
+    <gazebo reference="${name}_link">
+      <sensor name="${name}" type="navsat">
+        <always_on>1</always_on>
+        <update_rate>1</update_rate>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
 </robot>

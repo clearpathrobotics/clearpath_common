@@ -158,6 +158,10 @@
       <gazebo>
         <plugin filename="libignition-gazebo-imu-system.so" name="ignition::gazebo::systems::Imu"></plugin>
       </gazebo>
+
+      <gazebo>
+        <plugin filename="libignition-gazebo-navsat-system.so" name="ignition::gazebo::systems::NavSat"></plugin>
+      </gazebo>
       
     </xacro:if>
 
