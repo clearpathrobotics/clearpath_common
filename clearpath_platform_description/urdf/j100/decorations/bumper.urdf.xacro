@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="bumper" params="name extension:=0">
+  <xacro:macro name="bumper" params="name extension:=0 *origin">
     <xacro:property name="yaw" value="0" />
     <xacro:if value="${'rear' in name}">
       <xacro:property name="yaw" value="${PI}" />

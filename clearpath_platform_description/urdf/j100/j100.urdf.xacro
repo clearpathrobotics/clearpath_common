@@ -85,6 +85,14 @@
       <child link="imu_link" />
     </joint>
 
+    <gazebo reference="imu_link">
+      <sensor type="imu" name="imu_link">
+        <always_on>true</always_on>
+        <update_rate>50</update_rate>
+        <visualize>true</visualize>
+      </sensor>
+    </gazebo>
+
     <!-- TODO: Same note as applies to imu_link -->
     <link name="navsat_link">
       <visual>
@@ -100,6 +108,13 @@
       <child link="navsat_link" />
       <origin xyz="-0.180 0.126 0.1815" />
     </joint>
+
+    <gazebo reference="navsat_link">
+      <sensor name="navsat_link" type="navsat">
+        <always_on>1</always_on>
+        <update_rate>10</update_rate>
+      </sensor>
+    </gazebo>
 
     <link name="mid_mount"></link>
     <joint name="mid_mount_joint" type="fixed">
@@ -122,11 +137,37 @@
       <origin xyz="${mount_spacing} 0 0" />
     </joint>
 
+    <xacro:if value="$(arg is_sim)">
+      <gazebo>
+        <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+          <parameters>$(find clearpath_control)/config/j100/control.yaml</parameters>
+          <ros>
+            <remapping>~/odom:=platform/odom</remapping>
+            <remapping>~/cmd_vel_unstamped:=platform/cmd_vel_unstamped</remapping>
+            <remapping>/tf:=tf</remapping>
+            <remapping>/tf_static:=tf_static</remapping>
+            <remapping>/diagnostics:=diagnostics</remapping>
+            <remapping>joint_states:=platform/joint_states</remapping>
+            <!-- <namespace>$(arg namespace)</namespace> -->
+          </ros>
+        </plugin>
+      </gazebo>
+
+      <gazebo>
+        <plugin filename="libignition-gazebo-pose-publisher-system.so" name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>true</publish_link_pose>
+          <publish_nested_model_pose>true</publish_nested_model_pose>
+          <use_pose_vector_msg>true</use_pose_vector_msg>
+          <update_frequency>50</update_frequency>
+        </plugin>
+      </gazebo>
+    </xacro:if>
+
     <!-- ROS2 controls -->
     <ros2_control name="j100_hardware" type="system">
       <hardware>
         <xacro:if value="$(arg is_sim)">
-          <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+          <plugin>ign_ros2_control/IgnitionSystem</plugin>
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
           <plugin>clearpath_platform/J100Hardware</plugin>
