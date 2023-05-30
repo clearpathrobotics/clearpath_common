@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro" />
-  <xacro:macro name="velodyne_lidar" params="name parent_link *origin">
+  <xacro:macro name="velodyne_lidar" params="name parent_link *origin
+                                             ang_res_h:=0.4 min_ang_h:=-3.141592 max_ang_h:=3.141592
+                                             ang_res_v:=2.0 min_ang_v:=-0.261799 max_ang_v:=0.261799
+                                             update_rate:=20 min_range:=0.9 max_range:=130.0">
     <link name="${name}_link">
       <inertial>
         <mass value="0.83"/>
@@ -56,6 +59,38 @@
       <parent link="${name}_link"/>
       <child link="${name}_laser"/>
     </joint>
+
+    <xacro:property name="samples_h" value="${round((max_ang_h - min_ang_h) * 180 / (ang_res_h * pi))}"/>
+    <xacro:property name="samples_v" value="${round((max_ang_v - min_ang_v) * 180 / (ang_res_v * pi))}"/>
+
+    <gazebo reference="${name}_laser">
+      <sensor name="${name}" type="gpu_lidar">
+        <update_rate>${update_rate}</update_rate>
+        <visualize>true</visualize>
+        <always_on>true</always_on>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>${samples_h}</samples>
+              <resolution>1</resolution>
+              <min_angle>${min_ang_h}</min_angle>
+              <max_angle>${max_ang_h}</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>${samples_v}</samples>
+              <resolution>1</resolution>
+              <min_angle>${min_ang_v}</min_angle>
+              <max_angle>${max_ang_v}</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>0.01</resolution>
+          </range>
+        </lidar>
+      </sensor>
+    </gazebo>
 
   </xacro:macro>
 </robot>
