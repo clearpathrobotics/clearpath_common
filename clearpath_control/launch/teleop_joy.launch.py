@@ -1,29 +1,70 @@
+#!/usr/bin/env python3
+
+# Software License Agreement (BSD)
+#
+# @author    Roni Kreinin <rkreinin@clearpathrobotics.com>
+# @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+# * Redistributions of source code must retain the above copyright notice,
+#   this list of conditions and the following disclaimer.
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+# * Neither the name of Clearpath Robotics nor the names of its contributors
+#   may be used to endorse or promote products derived from this software
+#   without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+# Redistribution and use in source and binary forms, with or without
+# modification, is not permitted without the express permission
+# of Clearpath Robotics.
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
 
 
-def launch_setup(context, *args, **kwargs):
+def generate_launch_description():
     # Launch Configurations
-    platform_model = LaunchConfiguration('platform_model')
-    joy_type = LaunchConfiguration('joy_type')
+    setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    # Packages
-    pkg_clearpath_control = FindPackageShare('clearpath_control')
+    # Launch Arguments
+    arg_setup_path = DeclareLaunchArgument(
+        'setup_path',
+        default_value='/etc/clearpath/'
+    )
+
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use simulation time'
+    )
 
     # Paths
-    dir_robot_config = PathJoinSubstitution([
-        pkg_clearpath_control, 'config', platform_model])
+    dir_platform_config = PathJoinSubstitution([
+        setup_path, 'platform/config'])
 
-    file_config_joy = 'teleop_' + joy_type.perform(context) + '.yaml'
-
-    filepath_config_joy = PathJoinSubstitution([
-        dir_robot_config,
-        file_config_joy]
-    )
+    # Configs
+    config_teleop_joy = [
+        dir_platform_config,
+        '/teleop_joy.yaml'
+    ]
 
     node_joy = Node(
         namespace='joy_teleop',
@@ -32,7 +73,7 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         name='joy_node',
         parameters=[
-            filepath_config_joy,
+            config_teleop_joy,
             {'use_sim_time': use_sim_time}]
     )
 
@@ -43,41 +84,13 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         name='teleop_twist_joy_node',
         parameters=[
-            filepath_config_joy,
+            config_teleop_joy,
             {'use_sim_time': use_sim_time}]
     )
 
-    return [
-        node_joy,
-        node_teleop_twist_joy
-    ]
-
-
-def generate_launch_description():
     ld = LaunchDescription()
-
-    # Launch Arguments
-    arg_platform_model = DeclareLaunchArgument(
-        'platform_model',
-        choices=['a200', 'j100'],
-        default_value='a200'
-    )
-
-    arg_joy_type = DeclareLaunchArgument(
-        'joy_type',
-        choices=['logitech', 'ps4'],
-        default_value='ps4'
-    )
-
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
-
-    ld.add_action(arg_platform_model)
-    ld.add_action(arg_joy_type)
+    ld.add_action(arg_setup_path)
     ld.add_action(arg_use_sim_time)
-    ld.add_action(OpaqueFunction(function=launch_setup))
+    ld.add_action(node_joy)
+    ld.add_action(node_teleop_twist_joy)
     return ld
