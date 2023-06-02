@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Software License Agreement (BSD)
 #
 # @author    Roni Kreinin <rkreinin@clearpathrobotics.com>
@@ -32,55 +30,27 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from clearpath_generator_common.common import BashFile
 
 
-def generate_launch_description():
+class BashWriter():
+    tab = '  '
 
-    # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
-    use_sim_time = LaunchConfiguration('use_sim_time')
+    def __init__(self, bash_file: BashFile):
+        self.bash_file = bash_file
+        self.file = open(self.bash_file.get_full_path(), 'w')
 
-    # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    )
+    def write(self, string, indent_level=0):
+        self.file.write('{0}{1}\n'.format(self.tab * indent_level, string))
 
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
+    def add_export(self, envar: str, value):
+        self.write('export {0}={1}'.format(envar, value))
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
+    def add_unset(self, envar: str):
+        self.write('unset {0}'.format(envar))
 
-    # Configs
-    config_localization = [
-        dir_platform_config,
-        '/localization.yaml'
-    ]
+    def add_source(self, bash_file: BashFile):
+        self.write('source {0}'.format(bash_file.get_full_path()))
 
-    # Localization
-    node_localization = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_node',
-            output='screen',
-            parameters=[config_localization],
-            remappings=[
-              ('odometry/filtered', 'platform/odom/filtered'),
-            ]
-        )
-
-    ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
-    ld.add_action(arg_use_sim_time)
-    ld.add_action(node_localization)
-    return ld
+    def close(self):
+        self.file.close()

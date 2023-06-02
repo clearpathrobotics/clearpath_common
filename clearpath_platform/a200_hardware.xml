@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<library path="a200_hardware">
+  <class name="clearpath_platform/A200Hardware"
+         type="clearpath_platform::A200Hardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      The ros2_control A200Hardware using a system hardware interface-type.
+    </description>
+  </class>
+</library>

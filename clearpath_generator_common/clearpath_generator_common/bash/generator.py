@@ -32,55 +32,36 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from clearpath_generator_common.bash.writer import BashWriter
+from clearpath_generator_common.common import BashFile, BaseGenerator
 
 
-def generate_launch_description():
+class BashGenerator(BaseGenerator):
 
-    # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
-    use_sim_time = LaunchConfiguration('use_sim_time')
+    def generate(self) -> None:
+        self.generate_setup_bash()
 
-    # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    )
+    def generate_setup_bash(self) -> None:
+        clearpath_setup_bash = BashFile(name='setup', path=self.setup_path)
+        bash_writer = BashWriter(clearpath_setup_bash)
 
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
+        workspaces = self.clearpath_config.system.get_workspaces()
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
+        # Source Humble
+        humble_setup_bash = BashFile(name='setup', path='/opt/ros/humble/')
+        bash_writer.add_source(humble_setup_bash)
 
-    # Configs
-    config_localization = [
-        dir_platform_config,
-        '/localization.yaml'
-    ]
+        # Additional workspaces
+        for workspace in workspaces:
+            bash_writer.add_source(
+                BashFile(name='setup', path=workspace.strip('setup.bash')))
 
-    # Localization
-    node_localization = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_node',
-            output='screen',
-            parameters=[config_localization],
-            remappings=[
-              ('odometry/filtered', 'platform/odom/filtered'),
-            ]
-        )
+        # ROS_DOMAIN_ID
+        domain_id = self.clearpath_config.system.get_domain_id()
+        bash_writer.add_export('ROS_DOMAIN_ID', domain_id)
 
-    ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
-    ld.add_action(arg_use_sim_time)
-    ld.add_action(node_localization)
-    return ld
+        # RMW_IMPLEMENTATION
+        rmw = self.clearpath_config.system.get_rmw_implementation()
+        bash_writer.add_export('RMW_IMPLEMENTATION', rmw)
+
+        bash_writer.close()
