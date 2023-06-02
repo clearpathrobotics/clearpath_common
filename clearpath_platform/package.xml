@@ -35,7 +35,6 @@
 
   <exec_depend>clearpath_control</exec_depend>
   <exec_depend>clearpath_platform_description</exec_depend>
-  <exec_depend>wireless_watcher</exec_depend>
   <exec_depend>xacro</exec_depend>
 
   <export>
