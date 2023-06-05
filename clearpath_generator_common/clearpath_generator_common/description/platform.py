@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Software License Agreement (BSD)
 #
 # @author    Roni Kreinin <rkreinin@clearpathrobotics.com>
@@ -32,55 +30,35 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from clearpath_config.platform.platform import Platform
 
 
-def generate_launch_description():
+class PlatformDescription():
+    class Base():
+        pkg_clearpath_platform_description = 'clearpath_platform_description'
 
-    # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
-    use_sim_time = LaunchConfiguration('use_sim_time')
+        def __init__(self, model: Platform) -> None:
+            self.package = self.pkg_clearpath_platform_description
+            self.file = model
+            self.macro = self.file
+            self.path = 'urdf/' + model + '/'
 
-    # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    )
+        def get_file(self) -> str:
+            return self.file
 
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
+        def get_macro(self) -> str:
+            return self.macro
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
+        def get_package(self) -> str:
+            return self.package
 
-    # Configs
-    config_localization = [
-        dir_platform_config,
-        '/localization.yaml'
-    ]
+        def get_path(self) -> str:
+            return self.path
 
-    # Localization
-    node_localization = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_node',
-            output='screen',
-            parameters=[config_localization],
-            remappings=[
-              ('odometry/filtered', 'platform/odom/filtered'),
-            ]
-        )
+    MODEL = {
+        Platform.A200: Base,
+        Platform.J100: Base,
+    }
 
-    ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
-    ld.add_action(arg_use_sim_time)
-    ld.add_action(node_localization)
-    return ld
+    def __new__(cls, model: Platform) -> Base:
+        return PlatformDescription.MODEL[model](model)

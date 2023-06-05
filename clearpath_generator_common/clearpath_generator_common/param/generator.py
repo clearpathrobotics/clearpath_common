@@ -32,55 +32,45 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from clearpath_generator_common.common import BaseGenerator
+from clearpath_generator_common.param.platform import PlatformParam
+
+import os
+import shutil
 
 
-def generate_launch_description():
+class ParamGenerator(BaseGenerator):
+    def __init__(self,
+                 setup_path: str = '/etc/clearpath/') -> None:
+        super().__init__(setup_path)
 
-    # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
-    use_sim_time = LaunchConfiguration('use_sim_time')
+        # Remove existing directories
+        try:
+            shutil.rmtree(self.sensors_params_path)
+        except FileNotFoundError:
+            pass
 
-    # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    )
+        try:
+            shutil.rmtree(self.platform_params_path)
+        except FileNotFoundError:
+            pass
 
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
+        # Make new directories
+        os.makedirs(os.path.dirname(self.sensors_params_path), exist_ok=True)
+        os.makedirs(os.path.dirname(self.platform_params_path), exist_ok=True)
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
+    def generate(self) -> None:
+        self.generate_sensors()
+        self.generate_platform()
 
-    # Configs
-    config_localization = [
-        dir_platform_config,
-        '/localization.yaml'
-    ]
+    def generate_sensors(self) -> None:
+        raise NotImplementedError()
 
-    # Localization
-    node_localization = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_node',
-            output='screen',
-            parameters=[config_localization],
-            remappings=[
-              ('odometry/filtered', 'platform/odom/filtered'),
-            ]
-        )
-
-    ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
-    ld.add_action(arg_use_sim_time)
-    ld.add_action(node_localization)
-    return ld
+    def generate_platform(self) -> None:
+        for param in PlatformParam.PARAMETER:
+            platform_param = PlatformParam(
+                param,
+                self.clearpath_config,
+                self.platform_params_path)
+            platform_param.update_parameters()
+            platform_param.generate_config()

@@ -56,6 +56,7 @@
 
 joy_teleop/teleop_twist_joy_node:
   ros__parameters:
+    use_sim_time: False
     axis_linear:
       x: 1
     scale_linear:
@@ -72,6 +73,7 @@ joy_teleop/teleop_twist_joy_node:
     enable_turbo_button: 5
 joy_teleop/joy_node:
   ros__parameters:
+    use_sim_time: False
     deadzone: 0.1
     autorepeat_rate: 20.0
     dev: /dev/input/ps4

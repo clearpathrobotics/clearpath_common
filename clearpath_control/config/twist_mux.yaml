@@ -1,5 +1,6 @@
 twist_mux:
   ros__parameters:
+    use_sim_time: False
     topics:
       joy:
         topic   : joy_teleop/cmd_vel

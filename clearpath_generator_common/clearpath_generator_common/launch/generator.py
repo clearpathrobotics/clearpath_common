@@ -32,55 +32,55 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from clearpath_generator_common.launch.writer import LaunchWriter
+from clearpath_generator_common.common import BaseGenerator, LaunchFile
+
+import os
+import shutil
 
 
-def generate_launch_description():
+class LaunchGenerator(BaseGenerator):
+    def __init__(self,
+                 setup_path: str = '/etc/clearpath/') -> None:
+        super().__init__(setup_path)
 
-    # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
-    use_sim_time = LaunchConfiguration('use_sim_time')
+        # Remove existing directories
+        try:
+            shutil.rmtree(self.sensors_launch_path)
+        except FileNotFoundError:
+            pass
 
-    # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    )
+        try:
+            shutil.rmtree(self.platform_launch_path)
+        except FileNotFoundError:
+            pass
 
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
+        # Make new directories
+        os.makedirs(os.path.dirname(self.sensors_launch_path), exist_ok=True)
+        os.makedirs(os.path.dirname(self.platform_launch_path), exist_ok=True)
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
+        self.platform_launch_file = LaunchFile(
+            name='platform',
+            package=self.pkg_clearpath_platform,
+            args={
+              'use_sim_time': 'false'
+            })
 
-    # Configs
-    config_localization = [
-        dir_platform_config,
-        '/localization.yaml'
-    ]
+        self.sensors_service_launch_file = LaunchFile(
+            name='sensors-service',
+            path=self.sensors_launch_path)
 
-    # Localization
-    node_localization = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_node',
-            output='screen',
-            parameters=[config_localization],
-            remappings=[
-              ('odometry/filtered', 'platform/odom/filtered'),
-            ]
-        )
+        self.platform_service_launch_file = LaunchFile(
+            'platform-service',
+            path=self.platform_launch_path)
 
-    ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
-    ld.add_action(arg_use_sim_time)
-    ld.add_action(node_localization)
-    return ld
+    def generate(self) -> None:
+        self.generate_sensors()
+        self.generate_platform()
+
+    # This method should be overwritten by the child class
+    def generate_sensors(self) -> None:
+        raise NotImplementedError()
+
+    def generate_platform(self) -> None:
+        raise NotImplementedError()

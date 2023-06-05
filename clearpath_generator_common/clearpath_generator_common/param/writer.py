@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Software License Agreement (BSD)
 #
 # @author    Roni Kreinin <rkreinin@clearpathrobotics.com>
@@ -32,55 +30,29 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from clearpath_generator_common.common import ParamFile
 
 
-def generate_launch_description():
+class ParamWriter():
+    tab = '  '
 
-    # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
-    use_sim_time = LaunchConfiguration('use_sim_time')
+    def __init__(self, param_file: ParamFile):
+        self.param_file = param_file
+        self.file = open(self.param_file.get_full_path(), 'w+')
 
-    # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    )
+    def write(self, string, indent_level=1):
+        self.file.write('{0}{1}\n'.format(self.tab * indent_level, string))
 
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
-
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
-
-    # Configs
-    config_localization = [
-        dir_platform_config,
-        '/localization.yaml'
-    ]
-
-    # Localization
-    node_localization = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_node',
-            output='screen',
-            parameters=[config_localization],
-            remappings=[
-              ('odometry/filtered', 'platform/odom/filtered'),
-            ]
-        )
-
-    ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
-    ld.add_action(arg_use_sim_time)
-    ld.add_action(node_localization)
-    return ld
+    def write_file(self):
+        node: ParamFile.Node
+        starting_indent = 0
+        if self.param_file.namespace != '':
+            self.write('{0}:'.format(self.param_file.namespace), indent_level=0)
+            starting_indent = 1
+        for node in self.param_file.nodes:
+            self.write('{0}:'.format(node.name), indent_level=starting_indent)
+            self.write('ros__parameters:', indent_level=starting_indent + 1)
+            parameters = node.get_parameters()
+            for k in parameters:
+                self.write('{0}: {1}'.format(k, parameters[k]), indent_level=starting_indent + 2)
+        self.file.close()
