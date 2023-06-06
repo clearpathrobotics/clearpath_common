@@ -45,6 +45,7 @@ def generate_launch_description():
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
+    namespace = LaunchConfiguration('namespace')
 
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
@@ -58,15 +59,15 @@ def generate_launch_description():
         description='Use simulation time'
     )
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
+    arg_namespace = DeclareLaunchArgument(
+        'namespace',
+        default_value='',
+        description='Robot namespace'
+    )
 
     # Configs
-    config_control = [
-        dir_platform_config,
-        '/control.yaml'
-    ]
+    config_control = PathJoinSubstitution([
+        setup_path, 'platform/config/control.yaml'])
 
     arg_robot_description_command = DeclareLaunchArgument(
         'robot_description_command',
@@ -77,7 +78,13 @@ def generate_launch_description():
             'robot.urdf.xacro',
             ' ',
             'is_sim:=',
-            use_sim_time
+            use_sim_time,
+            ' ',
+            'gazebo_controllers:=',
+            config_control,
+            ' ',
+            'namespace:=',
+            namespace
         ]
     )
 
@@ -103,6 +110,9 @@ def generate_launch_description():
               ('platform_velocity_controller/cmd_vel_unstamped', 'platform/cmd_vel_unstamped'),
               ('joint_states', 'platform/joint_states'),
               ('dynamic_joint_states', 'platform/dynamic_joint_states'),
+              ('/diagnostics', 'diagnostics'),
+              ('/tf', 'tf'),
+              ('/tf_static', 'tf_static'),
             ],
             condition=UnlessCondition(use_sim_time)
         ),
@@ -126,6 +136,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     ld.add_action(arg_setup_path)
+    ld.add_action(arg_namespace)
     ld.add_action(arg_robot_description_command)
     ld.add_action(arg_use_sim_time)
     ld.add_action(action_control_group)

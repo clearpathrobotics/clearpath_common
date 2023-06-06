@@ -29,20 +29,15 @@
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
-    ExecuteProcess,
     GroupAction,
     IncludeLaunchDescription,
-    LogInfo
 )
-from launch.conditions import LaunchConfigurationEquals, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
-    EnvironmentVariable,
-    FindExecutable,
     LaunchConfiguration,
     PathJoinSubstitution
 )
-from launch_ros.actions import Node
+from launch_ros.actions import PushRosNamespace
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -53,7 +48,6 @@ def generate_launch_description():
     pkg_clearpath_platform_description = FindPackageShare('clearpath_platform_description')
 
     # Launch Arguments
-
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
         default_value='/etc/clearpath/'
@@ -66,9 +60,16 @@ def generate_launch_description():
         description='Use simulation time'
     )
 
+    arg_namespace = DeclareLaunchArgument(
+        'namespace',
+        default_value='',
+        description='Robot namespace'
+    )
+
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
+    namespace = LaunchConfiguration('namespace')
 
     # Launch files
     launch_file_platform_description = PathJoinSubstitution([
@@ -98,18 +99,25 @@ def generate_launch_description():
 
     group_platform_action = GroupAction(
         actions=[
+            PushRosNamespace(namespace),
+
             IncludeLaunchDescription(
               PythonLaunchDescriptionSource(launch_file_platform_description),
               launch_arguments=[
                   ('setup_path', setup_path),
-                  ('use_sim_time', use_sim_time)]),
+                  ('use_sim_time', use_sim_time),
+                  ('namespace', namespace),
+              ]
+            ),
 
             # Launch clearpath_control/control.launch.py which is just robot_localization.
             IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(launch_file_control),
-                launch_arguments=[
-                    ('setup_path', setup_path),
-                    ('use_sim_time', use_sim_time)]
+              PythonLaunchDescriptionSource(launch_file_control),
+              launch_arguments=[
+                  ('setup_path', setup_path),
+                  ('use_sim_time', use_sim_time),
+                  ('namespace', namespace),
+              ]
             ),
 
             # Launch localization (ekf node)
@@ -142,5 +150,6 @@ def generate_launch_description():
     ld = LaunchDescription()
     ld.add_action(arg_setup_path)
     ld.add_action(arg_use_sim_time)
+    ld.add_action(arg_namespace)
     ld.add_action(group_platform_action)
     return ld

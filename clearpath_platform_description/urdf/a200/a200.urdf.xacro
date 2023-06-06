@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:arg name="robot_namespace" default="/" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a200/control.yaml" />
+  <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="serial_port" default="/dev/clearpath/prolific" />
 
@@ -123,7 +124,7 @@
     <xacro:if value="$(arg is_sim)">
       <gazebo>
         <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-          <parameters>$(find clearpath_control)/config/a200/control.yaml</parameters>
+          <parameters>$(arg gazebo_controllers)</parameters>
           <ros>
             <remapping>~/odom:=platform/odom</remapping>
             <remapping>~/cmd_vel_unstamped:=platform/cmd_vel_unstamped</remapping>
@@ -131,7 +132,7 @@
             <remapping>/tf_static:=tf_static</remapping>
             <remapping>/diagnostics:=diagnostics</remapping>
             <remapping>joint_states:=platform/joint_states</remapping>
-            <!-- <namespace>$(arg namespace)</namespace> -->
+            <namespace>$(arg namespace)</namespace>
           </ros>
         </plugin>
       </gazebo>

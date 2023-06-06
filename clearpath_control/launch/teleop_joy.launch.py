@@ -74,7 +74,12 @@ def generate_launch_description():
         name='joy_node',
         parameters=[
             config_teleop_joy,
-            {'use_sim_time': use_sim_time}]
+            {'use_sim_time': use_sim_time}],
+        remappings=[
+            ('/diagnostics', 'diagnostics'),
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static'),
+        ]
     )
 
     node_teleop_twist_joy = Node(

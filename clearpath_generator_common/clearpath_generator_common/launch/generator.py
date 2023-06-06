@@ -63,7 +63,9 @@ class LaunchGenerator(BaseGenerator):
             name='platform',
             package=self.pkg_clearpath_platform,
             args={
-              'use_sim_time': 'false'
+              'setup_path': self.setup_path,
+              'use_sim_time': 'false',
+              'namespace': self.namespace,
             })
 
         self.sensors_service_launch_file = LaunchFile(

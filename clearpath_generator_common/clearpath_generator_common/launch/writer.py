@@ -185,6 +185,7 @@ class LaunchWriter():
                 self.write('name=\'{0}\','.format(node.name), indent_level=2)
                 self.write('executable=\'{0}\','.format(node.executable), indent_level=2)
                 self.write('package=\'{0}\','.format(node.package), indent_level=2)
+                self.write('namespace=\'{0}\','.format(node.namespace), indent_level=2)
                 self.write('output=\'screen\',', indent_level=2)
                 if len(node.arguments) > 0:
                     self.write('arguments=[', indent_level=2)

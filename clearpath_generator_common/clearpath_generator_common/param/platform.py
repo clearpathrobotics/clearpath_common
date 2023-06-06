@@ -56,6 +56,7 @@ class PlatformParam():
             self.parameter = parameter
             self.clearpath_config = clearpath_config
             self.platform = self.clearpath_config.platform.get_model()
+            self.namespace = self.clearpath_config.system.get_namespace()
             self.param_path = param_path
 
             # Clearpath Platform Package
@@ -79,6 +80,7 @@ class PlatformParam():
             # Parameter file to generate
             self.param_file = ParamFile(
                 name=self.parameter,
+                namespace=self.namespace,
                 path=self.param_path)
 
             node: ParamFile.Node
@@ -126,6 +128,7 @@ class PlatformParam():
             # Parameter file to generate
             self.param_file = ParamFile(
                 name=self.parameter,
+                namespace=self.namespace,
                 path=self.param_path)
 
             node: ParamFile.Node
@@ -166,18 +169,19 @@ class PlatformParam():
                     # Add all additional IMU's
                     imus = self.clearpath_config.sensors.get_all_imu()
                     for imu in imus:
-                        imu_name = imu.get_name().replace('_', '')
-                        imu_parameters = {
-                            imu_name: 'platform/sensors/' + imu.get_name() + '/data',
-                            imu_name + '_config': [False, False, False,
-                                                  False, False, False,
-                                                  False, False, False,
-                                                  False, False, True,
-                                                  True, False, False],
-                            imu_name + '_differential': False,
-                            imu_name + '_queue_size': 10
-                        }
-                        updated_parameters.update(imu_parameters)
+                        if imu.get_launch_enabled():
+                            imu_name = imu.get_name().replace('_', '')
+                            imu_parameters = {
+                                imu_name: 'platform/sensors/' + imu.get_name() + '/data',
+                                imu_name + '_config': [False, False, False,
+                                                       False, False, False,
+                                                       False, False, False,
+                                                       False, False, True,
+                                                       True, False, False],
+                                imu_name + '_differential': False,
+                                imu_name + '_queue_size': 10
+                            }
+                            updated_parameters.update(imu_parameters)
                     self.param_file.add_node('ekf_node', updated_parameters)
 
     class TeleopJoyParam(BaseParam):
