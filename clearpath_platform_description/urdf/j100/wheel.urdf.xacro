@@ -31,10 +31,10 @@
     <gazebo reference="${prefix}_wheel_link">
       <material>Gazebo/DarkGrey</material>
       <selfCollide>false</selfCollide>
-      <mu1 value="0.5"/>
-      <mu2 value="0.5"/>
-      <kp value="10000000.0" />
-      <kd value="1" />
+      <mu1 value="1.0"/>
+      <mu2 value="0.4"/>
+      <kp value="10000000000.0" />
+      <kd value="1000.0" />
       <fdir1 value="1 0 0"/>
     </gazebo>
 

@@ -158,7 +158,7 @@ class PlatformParam():
                                             False, False, False,
                                             False, False, False,
                                             False, False, True,
-                                            True, False, False],
+                                            True, True, True],
                             'imu0_differential': False,
                             'imu0_queue_size': 10,
                             # Gravitational acceleration is removed in IMU driver
@@ -177,7 +177,7 @@ class PlatformParam():
                                                        False, False, False,
                                                        False, False, False,
                                                        False, False, True,
-                                                       True, False, False],
+                                                       True, True, True],
                                 imu_name + '_differential': False,
                                 imu_name + '_queue_size': 10
                             }

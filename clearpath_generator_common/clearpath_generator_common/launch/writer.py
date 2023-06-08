@@ -60,6 +60,62 @@ class LaunchWriter():
             self.write('ld.add_action({0})'.format(action))
         self.write('return ld')
 
+    def write_string(self, string: str, indent_level=1):
+        self.write('\'{0}\''.format(string), indent_level)
+
+    def write_boolean(self, boolean: bool, indent_level=1):
+        self.write(boolean, indent_level)
+
+    def write_integer(self, integer: int, indent_level=1):
+        self.write(integer, indent_level)
+
+    def write_variable(self, variable: LaunchFile.Variable, indent_level=1):
+        self.write(variable.name, indent_level)
+
+    def write_obj(self, obj: object, indent_level=1):
+        if isinstance(obj, str):
+            self.write_string(obj, indent_level)
+        elif isinstance(obj, bool):
+            self.write_boolean(obj, indent_level)
+        elif isinstance(obj, int):
+            self.write_integer(obj, indent_level)
+        elif isinstance(obj, LaunchFile.Variable):
+            self.write_variable(obj, indent_level)
+        elif isinstance(obj, dict):
+            self.write_dictionary(obj, indent_level)
+        elif isinstance(obj, list):
+            self.write_list(obj, indent_level)
+        elif isinstance(obj, tuple):
+            self.write_tuple(obj, indent_level)
+
+    def write_key_value_pair(self, key: str, value, indent_level=1):
+        if isinstance(value, str):
+            self.write('\'{0}\': \'{1}\''.format(key, value), indent_level)
+        else:
+            self.write('\'{0}\': {1}'.format(key, value), indent_level)
+
+    def write_dictionary(self, dictionary: dict, indent_level=1):
+        self.write('{', indent_level)
+        for k in dictionary.keys():
+            # Write Key-Value pair
+            self.write_key_value_pair(k, dictionary[k], indent_level + 1)
+            self.write(',', indent_level + 1)
+        self.write('}', indent_level)
+
+    def write_list(self, list: list, indent_level=1):
+        self.write('[', indent_level)
+        for i in list:
+            self.write_obj(i, indent_level + 1)
+            self.write(',', indent_level + 1)
+        self.write(']', indent_level)
+
+    def write_tuple(self, tuple: tuple, indent_level=1):
+        self.write('(', indent_level)
+        self.write_obj(tuple[0], indent_level + 1)
+        self.write(',', indent_level + 1)
+        self.write_obj(tuple[1], indent_level + 1)
+        self.write(')', indent_level)
+
     def find_package(self, package: Package):
         if package not in self.included_packages:
             self.included_packages.append(package)
@@ -155,26 +211,8 @@ class LaunchWriter():
                     'PythonLaunchDescriptionSource([{0}]),'.format(
                       launch_file.declaration), indent_level=2)
                 if launch_file.args is not None:
-                    self.write('launch_arguments=[', indent_level=2)
-                    for key in launch_file.args.keys():
-                        value = launch_file.args.get(key)
-                        if isinstance(value, str):
-                            self.write(
-                              '(\'{0}\', \'{1}\'),'.format(key, value),
-                              indent_level=3)
-                        elif isinstance(value, dict):
-                            self.write(
-                              '(\'{0}\', {1}),'.format(key, value),
-                              indent_level=3)
-                        elif isinstance(value, ParamFile):
-                            self.write(
-                              '(\'{0}\', \'{1}\'),'.format(key, value.get_full_path()),
-                              indent_level=3)
-                        elif isinstance(value, bool):
-                            self.write(
-                              '(\'{0}\', {1}),'.format(key, str(value)),
-                              indent_level=3)
-                    self.write(']', indent_level=2)
+                    self.write('launch_arguments=', indent_level=2)
+                    self.write_obj(launch_file.args, indent_level=3)
                 self.write(')')
                 self.write_newline()
 
@@ -187,41 +225,21 @@ class LaunchWriter():
                 self.write('package=\'{0}\','.format(node.package), indent_level=2)
                 self.write('namespace=\'{0}\','.format(node.namespace), indent_level=2)
                 self.write('output=\'screen\',', indent_level=2)
+                # Arguments
                 if len(node.arguments) > 0:
-                    self.write('arguments=[', indent_level=2)
-                    for arg in node.arguments:
-                        if isinstance(arg, list):
-                            self.write('[', indent_level=3)
-                            for a in arg:
-                                self.write('{0},'.format(a), indent_level=4)
-                            self.write('],', indent_level=3)
-                        elif isinstance(arg, str):
-                            self.write('\'{0}\','.format(arg), indent_level=3)
-                        elif isinstance(arg, bool):
-                            self.write('{0},'.format(str(arg)), indent_level=3)
-                    self.write('],', indent_level=2)
+                    self.write('arguments=', indent_level=2)
+                    self.write_obj(node.arguments, indent_level=3)
+                    self.write(',', indent_level=2)
+                # Remappings
                 if len(node.remappings) > 0:
-                    self.write('remappings=[', indent_level=2)
-                    for remap in node.remappings:
-                        self.write('(', indent_level=3)
-                        if isinstance(remap[0], list):
-                            self.write('[', indent_level=4)
-                            for i in remap[0]:
-                                self.write('{0},'.format(i), indent_level=5)
-                            self.write('],', indent_level=4)
-                        elif isinstance(remap[0], str):
-                            self.write('{0},'.format(remap[0]), indent_level=4)
-                        self.write('{0}'.format(remap[1]), indent_level=4)
-                        self.write('),', indent_level=3)
-                    self.write('],', indent_level=2)
+                    self.write('remappings=', indent_level=2)
+                    self.write_obj(node.remappings, indent_level=3)
+                    self.write(',', indent_level=2)
+                # Parameters
                 if len(node.parameters) > 0:
-                    self.write('parameters=[', indent_level=2)
-                    for parameter in node.parameters:
-                        if isinstance(parameter, dict):
-                            self.write('{0},'.format(parameter), indent_level=3)
-                        elif isinstance(parameter, str):
-                            self.write('{0},'.format(parameter), indent_level=3)
-                    self.write('],', indent_level=2)
+                    self.write('parameters=', indent_level=2)
+                    self.write_obj(node.parameters, indent_level=3)
+                    self.write(',', indent_level=2)
                 self.write(')')
                 self.write_newline()
 
@@ -230,17 +248,8 @@ class LaunchWriter():
             for process in self.processes:
                 self.write('{0} = ExecuteProcess('.format(process.declaration))
                 self.write('shell=True,', indent_level=2)
-                self.write('cmd=[', indent_level=2)
-                if isinstance(process.cmd[0], list):
-                    for cmd in process.cmd:
-                        self.write('[', indent_level=3)
-                        for c in cmd:
-                            self.write('{0},'.format(c), indent_level=4)
-                        self.write('],', indent_level=3)
-                elif isinstance(process.cmd[0], str):
-                    for cmd in process.cmd:
-                        self.write('\'{0}\','.format(cmd), indent_level=3)
-                self.write('],', indent_level=2)
+                self.write('cmd=', indent_level=2)
+                self.write_obj(process.cmd, indent_level=3)
                 self.write(')')
 
         # Create LaunchDescription
