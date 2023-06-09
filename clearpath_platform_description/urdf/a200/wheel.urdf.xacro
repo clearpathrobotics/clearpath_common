@@ -23,13 +23,13 @@
       </collision>
     </link>
 
-    <gazebo reference="${wheel_prefix}_wheel">
+    <!-- <gazebo reference="${wheel_prefix}_wheel">
       <mu1 value="1.0"/>
-      <mu2 value="0.1"/>
-      <kp value="10000000000.0" />
-      <kd value="1000.0" />
+      <mu2 value="0.5"/>
+      <kp value="100000000000000000000.0" />
+      <kd value="1.0" />
       <fdir1 value="1 0 0"/>
-    </gazebo>
+    </gazebo> -->
 
     <joint name="${wheel_prefix}_wheel_joint" type="continuous">
       <parent link="base_link"/>
