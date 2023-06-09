@@ -57,6 +57,7 @@ class LaunchFile():
                      name: str,
                      package: Package,
                      executable: str,
+                     namespace: str = '',
                      parameters: List[dict] | List[str] = [],
                      arguments: List[list] | List[str] = [],
                      remappings: List[tuple] = []) -> None:
@@ -64,9 +65,32 @@ class LaunchFile():
             self.declaration = 'node_' + self.name
             self.package = package
             self.executable = executable
+            self.namespace = namespace
             self.parameters = parameters
             self.arguments = arguments
             self.remappings = remappings
+
+    @staticmethod
+    def get_static_tf_node(name: str,
+                           namespace: str,
+                           parent_link: str,
+                           child_link: str,
+                           use_sim_time: bool = False) -> Node:
+        return LaunchFile.Node(
+            name=name + '_static_tf',
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            namespace=namespace,
+            parameters=[{'use_sim_time': use_sim_time}],
+            arguments=[
+                '--frame-id', parent_link,
+                '--child-frame-id', child_link
+            ],
+            remappings=[
+                ('/tf', 'tf'),
+                ('/tf_static', 'tf_static'),
+            ]
+        )
 
     class Process():
         def __init__(self,
@@ -83,11 +107,15 @@ class LaunchFile():
             self.description = description
             self.declaration = 'launch_arg_' + self.name
 
+    class Variable():
+        def __init__(self, name: str) -> None:
+            self.name = name
+
     def __init__(self,
                  name: str,
                  path: str = 'launch',
                  package: Package = None,
-                 args: dict = None
+                 args: List[tuple] = None
                  ) -> None:
         self.package = package
         self.path = path
@@ -214,6 +242,7 @@ class BaseGenerator():
 
         self.serial_number = self.clearpath_config.platform.get_serial_number()
         self.platform_model = self.clearpath_config.platform.get_model()
+        self.namespace = self.clearpath_config.system.get_namespace()
 
     # This method should be overwritten by the child class
     def generate(self) -> None:

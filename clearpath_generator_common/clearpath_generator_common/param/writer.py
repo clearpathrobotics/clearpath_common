@@ -54,5 +54,12 @@ class ParamWriter():
             self.write('ros__parameters:', indent_level=starting_indent + 1)
             parameters = node.get_parameters()
             for k in parameters:
-                self.write('{0}: {1}'.format(k, parameters[k]), indent_level=starting_indent + 2)
+                if isinstance(parameters[k], dict):
+                    self.write('{0}:'.format(k), indent_level=starting_indent + 2)
+                    for key in parameters[k]:
+                        self.write('{0}: {1}'.format(key, parameters[k][key]), indent_level=starting_indent + 3)
+                elif isinstance(parameters[k], str):
+                    self.write('{0}: \'{1}\''.format(k, parameters[k]), indent_level=starting_indent + 2)
+                else:
+                    self.write('{0}: {1}'.format(k, parameters[k]), indent_level=starting_indent + 2)
         self.file.close()

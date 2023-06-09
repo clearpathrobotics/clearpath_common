@@ -89,7 +89,12 @@ def generate_launch_description():
         package='twist_mux',
         executable='twist_mux',
         output='screen',
-        remappings={('cmd_vel_out', 'platform/cmd_vel_unstamped')},
+        remappings={
+            ('cmd_vel_out', 'platform/cmd_vel_unstamped'),
+            ('/diagnostics', 'diagnostics'),
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static'),
+        },
         parameters=[
             config_twist_mux,
             {'use_sim_time': use_sim_time}]

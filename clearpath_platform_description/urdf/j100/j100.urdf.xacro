@@ -4,7 +4,8 @@
   <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/wheel.urdf.xacro"/>
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="prefix" default="" />
-  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/control.yaml" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/j100/control.yaml" />
+  <xacro:arg name="namespace" default="" />
   <xacro:property name="PI" value="3.1415926535897931" />
 
   <xacro:property name="wheelbase" value="0.262" />
@@ -140,7 +141,7 @@
     <xacro:if value="$(arg is_sim)">
       <gazebo>
         <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-          <parameters>$(find clearpath_control)/config/j100/control.yaml</parameters>
+          <parameters>$(arg gazebo_controllers)</parameters>
           <ros>
             <remapping>~/odom:=platform/odom</remapping>
             <remapping>~/cmd_vel_unstamped:=platform/cmd_vel_unstamped</remapping>
@@ -148,7 +149,7 @@
             <remapping>/tf_static:=tf_static</remapping>
             <remapping>/diagnostics:=diagnostics</remapping>
             <remapping>joint_states:=platform/joint_states</remapping>
-            <!-- <namespace>$(arg namespace)</namespace> -->
+            <namespace>$(arg namespace)</namespace>
           </ros>
         </plugin>
       </gazebo>

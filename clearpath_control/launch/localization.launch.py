@@ -76,6 +76,9 @@ def generate_launch_description():
             parameters=[config_localization],
             remappings=[
               ('odometry/filtered', 'platform/odom/filtered'),
+              ('/diagnostics', 'diagnostics'),
+              ('/tf', 'tf'),
+              ('/tf_static', 'tf_static'),
             ]
         )
 
