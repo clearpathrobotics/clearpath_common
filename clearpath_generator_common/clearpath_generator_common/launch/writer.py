@@ -251,6 +251,7 @@ class LaunchWriter():
                 self.write('cmd=', indent_level=2)
                 self.write_obj(process.cmd, indent_level=3)
                 self.write(')')
+                self.write_newline()
 
         # Create LaunchDescription
         self.write_comment('Create LaunchDescription')
