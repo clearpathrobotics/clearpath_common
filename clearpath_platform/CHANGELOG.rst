@@ -1,0 +1,12 @@
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changelog for package clearpath_platform
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Forthcoming
+-----------
+* Added namespacing support
+* Updated dependencies
+* Added clearpath_generator_common
+  Moved clearpath_platform to clearpath_common
+  Fixed use_sim_time parameter issue with ekf_node
+* Contributors: Roni Kreinin
