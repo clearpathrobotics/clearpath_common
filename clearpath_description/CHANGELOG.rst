@@ -2,8 +2,8 @@
 Changelog for package clearpath_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.1 (2023-06-21)
+------------------
 * Added clearpath_sensors_description.
 * Select launch configuration without launch context
 * Initial jackal description.

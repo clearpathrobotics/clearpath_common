@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.1 (2023-06-21)
+------------------
 * Added namespacing support
 * Updated dependencies
 * Added clearpath_generator_common

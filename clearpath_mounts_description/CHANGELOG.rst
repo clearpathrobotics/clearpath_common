@@ -2,8 +2,8 @@
 Changelog for package clearpath_mounts_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.1 (2023-06-21)
+------------------
 * Standard urdf and yaml file name and path
   Fixed spacing in urdfs
 * Description classes
