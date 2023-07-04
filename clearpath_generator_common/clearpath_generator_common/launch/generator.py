@@ -32,7 +32,6 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_generator_common.launch.writer import LaunchWriter
 from clearpath_generator_common.common import BaseGenerator, LaunchFile
 
 import os

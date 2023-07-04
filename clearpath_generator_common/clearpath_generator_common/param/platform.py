@@ -148,7 +148,7 @@ class PlatformParam():
                     for p in extra_parameters:
                         if p in updated_parameters:
                             updated_parameters[p] = extra_parameters[p]
-                    self.param_file.add_node(node.get_name(), updated_parameters)  
+                    self.param_file.add_node(node.get_name(), updated_parameters)
                 else:
                     updated_parameters = node.get_parameters()
 
