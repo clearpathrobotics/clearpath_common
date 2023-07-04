@@ -20,7 +20,7 @@
 
     <!-- Wheel Mounting Positions -->
     <xacro:property name="wheelbase" value="0.5120" />
-    <xacro:property name="track" value="0.5708" />
+    <xacro:property name="track" value="0.555" />
     <xacro:property name="wheel_vertical_offset" value="0.03282" />
 
     <!-- Wheel Properties -->
@@ -102,6 +102,35 @@
     <xacro:a200_wheel wheel_prefix="rear_right">
       <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
     </xacro:a200_wheel>
+
+    <gazebo>
+      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+        <wheel link_name="front_left_wheel">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>113</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="front_right_wheel">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>113</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="rear_left_wheel">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>113</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="rear_right_wheel">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>113</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
 
     <!-- Front bumper mount -->
     <link name="front_bumper_mount"/>

@@ -110,6 +110,12 @@ class PlatformParam():
             self.default_parameter_file_path = 'config'
 
     class LocalizationParam(BaseParam):
+        imu_config = [False, False, False,
+                      False, False, False,
+                      False, False, False,
+                      False, False, True,
+                      True, False, False]
+
         def __init__(self,
                      parameter: str,
                      clearpath_config: ClearpathConfig,
@@ -142,7 +148,7 @@ class PlatformParam():
                     for p in extra_parameters:
                         if p in updated_parameters:
                             updated_parameters[p] = extra_parameters[p]
-                    self.param_file.add_node(node.get_name(), updated_parameters)  
+                    self.param_file.add_node(node.get_name(), updated_parameters)
                 else:
                     updated_parameters = node.get_parameters()
 
@@ -154,15 +160,11 @@ class PlatformParam():
                     if self.platform == Platform.J100:
                         imu0_parameters = {
                             'imu0': 'platform/sensors/imu_0/data',
-                            'imu0_config': [False, False, False,
-                                            False, False, False,
-                                            False, False, False,
-                                            False, False, True,
-                                            True, True, True],
+                            'imu0_config': self.imu_config,
                             'imu0_differential': False,
                             'imu0_queue_size': 10,
                             # Gravitational acceleration is removed in IMU driver
-                            'imu0_remove_gravitational_acceleration': False
+                            'imu0_remove_gravitational_acceleration': True
                         }
                         updated_parameters.update(imu0_parameters)
 
@@ -173,13 +175,10 @@ class PlatformParam():
                             imu_name = imu.get_name().replace('_', '')
                             imu_parameters = {
                                 imu_name: 'platform/sensors/' + imu.get_name() + '/data',
-                                imu_name + '_config': [False, False, False,
-                                                       False, False, False,
-                                                       False, False, False,
-                                                       False, False, True,
-                                                       True, True, True],
+                                imu_name + '_config': self.imu_config,
                                 imu_name + '_differential': False,
-                                imu_name + '_queue_size': 10
+                                imu_name + '_queue_size': 10,
+                                imu_name + '_remove_gravitational_acceleration': True
                             }
                             updated_parameters.update(imu_parameters)
                     self.param_file.add_node('ekf_node', updated_parameters)

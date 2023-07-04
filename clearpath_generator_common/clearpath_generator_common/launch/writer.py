@@ -29,7 +29,7 @@
 from typing import List
 import os
 
-from clearpath_generator_common.common import LaunchFile, Package, ParamFile
+from clearpath_generator_common.common import LaunchFile, Package
 
 
 class LaunchWriter():
@@ -145,11 +145,15 @@ class LaunchWriter():
         self.write(
             'from launch import LaunchDescription', 0)
         self.write(
-            'from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess', 0)
+            'from launch.actions import {0}'.format(
+              'IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess'),
+            0)
         self.write(
             'from launch.launch_description_sources import PythonLaunchDescriptionSource', 0)
         self.write(
-            'from launch.substitutions import EnvironmentVariable, FindExecutable, PathJoinSubstitution, LaunchConfiguration', 0)
+            'from launch.substitutions import {0}'.format(
+              'EnvironmentVariable, FindExecutable, PathJoinSubstitution, LaunchConfiguration'),
+            0)
         self.write(
             'from launch_ros.actions import Node', 0)
         self.write(
@@ -251,6 +255,7 @@ class LaunchWriter():
                 self.write('cmd=', indent_level=2)
                 self.write_obj(process.cmd, indent_level=3)
                 self.write(')')
+                self.write_newline()
 
         # Create LaunchDescription
         self.write_comment('Create LaunchDescription')
