@@ -2,6 +2,13 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Updated husky track value
+* Wheel slip plugin
+  Significantly improved jackal odom in sim
+* Contributors: Roni Kreinin
+
 0.0.2 (2023-07-04)
 ------------------
 

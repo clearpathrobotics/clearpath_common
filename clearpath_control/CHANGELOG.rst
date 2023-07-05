@@ -2,6 +2,15 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Updated localization configs
+* J100 use Vyaw for localization
+* Updated husky track value
+* Wheel slip plugin
+  Significantly improved jackal odom in sim
+* Contributors: Roni Kreinin
+
 0.0.2 (2023-07-04)
 ------------------
 
