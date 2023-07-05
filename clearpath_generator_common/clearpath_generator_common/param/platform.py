@@ -30,8 +30,8 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.parser import ClearpathConfig
-from clearpath_config.platform.platform import Platform
+from clearpath_config.clearpath_config import ClearpathConfig
+from clearpath_config.common.types.platform import Platform
 
 from clearpath_generator_common.common import ParamFile, Package
 from clearpath_generator_common.param.writer import ParamWriter
@@ -142,7 +142,7 @@ class PlatformParam():
                     for p in extra_parameters:
                         if p in updated_parameters:
                             updated_parameters[p] = extra_parameters[p]
-                    self.param_file.add_node(node.get_name(), updated_parameters)  
+                    self.param_file.add_node(node.get_name(), updated_parameters)
                 else:
                     updated_parameters = node.get_parameters()
 

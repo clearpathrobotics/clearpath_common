@@ -31,10 +31,10 @@
 # of Clearpath Robotics.
 
 from clearpath_config.accessories.accessories import URDFAccessory, BaseAccessory
-from clearpath_config.accessories.box import Box
-from clearpath_config.accessories.cylinder import Cylinder
-from clearpath_config.accessories.mesh import Mesh
-from clearpath_config.accessories.sphere import Sphere
+from clearpath_config.accessories.types.box import Box
+from clearpath_config.accessories.types.cylinder import Cylinder
+from clearpath_config.accessories.types.mesh import Mesh
+from clearpath_config.accessories.types.sphere import Sphere
 
 from typing import List
 

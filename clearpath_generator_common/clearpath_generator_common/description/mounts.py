@@ -30,10 +30,10 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.mounts.base import BaseMount
-from clearpath_config.mounts.fath_pivot import FathPivot
-from clearpath_config.mounts.flir_ptu import FlirPTU
-from clearpath_config.mounts.pacs import PACS
+from clearpath_config.mounts.types.mount import BaseMount
+from clearpath_config.mounts.types.fath_pivot import FathPivot
+from clearpath_config.mounts.types.flir_ptu import FlirPTU
+from clearpath_config.mounts.types.pacs import PACS
 
 from typing import List
 
