@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2023-07-05)
+------------------
 * Updated localization configs
 * J100 use Vyaw for localization
 * Updated husky track value
