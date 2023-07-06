@@ -56,7 +56,7 @@ class PlatformParam():
             self.parameter = parameter
             self.clearpath_config = clearpath_config
             self.platform = self.clearpath_config.platform.get_model()
-            self.namespace = self.clearpath_config.system.get_namespace()
+            self.namespace = self.clearpath_config.system.namespace
             self.param_path = param_path
 
             # Clearpath Platform Package
