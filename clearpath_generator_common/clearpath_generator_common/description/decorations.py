@@ -30,7 +30,10 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.platform.decorations import BaseDecoration, Bumper, TopPlate, Structure
+from clearpath_config.platform.decorations.config import BaseDecoration
+from clearpath_config.platform.types.bumper import Bumper
+from clearpath_config.platform.types.top_plate import TopPlate
+from clearpath_config.platform.types.structure import Structure
 
 from typing import List
 

@@ -45,7 +45,7 @@ class BashGenerator(BaseGenerator):
         clearpath_setup_bash = BashFile(name='setup', path=self.setup_path)
         bash_writer = BashWriter(clearpath_setup_bash)
 
-        workspaces = self.clearpath_config.system.get_workspaces()
+        workspaces = self.clearpath_config.system.workspaces
 
         # Source Humble
         humble_setup_bash = BashFile(name='setup', path='/opt/ros/humble/')
@@ -57,11 +57,11 @@ class BashGenerator(BaseGenerator):
                 BashFile(name='setup', path=workspace.strip('setup.bash')))
 
         # ROS_DOMAIN_ID
-        domain_id = self.clearpath_config.system.get_domain_id()
+        domain_id = self.clearpath_config.system.domain_id
         bash_writer.add_export('ROS_DOMAIN_ID', domain_id)
 
         # RMW_IMPLEMENTATION
-        rmw = self.clearpath_config.system.get_rmw_implementation()
+        rmw = self.clearpath_config.system.rmw_implementation
         bash_writer.add_export('RMW_IMPLEMENTATION', rmw)
 
         bash_writer.close()

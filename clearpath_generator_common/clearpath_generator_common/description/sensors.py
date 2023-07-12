@@ -30,12 +30,12 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.sensors.base import BaseSensor
-from clearpath_config.sensors.lidars_2d import HokuyoUST10, SickLMS1XX, BaseLidar2D
-from clearpath_config.sensors.lidars_3d import VelodyneLidar, BaseLidar3D
-from clearpath_config.sensors.cameras import BaseCamera, IntelRealsense
-from clearpath_config.sensors.imu import BaseIMU, Microstrain
-from clearpath_config.sensors.gps import SwiftNavDuro
+from clearpath_config.sensors.types.sensor import BaseSensor
+from clearpath_config.sensors.types.lidars_2d import HokuyoUST10, SickLMS1XX, BaseLidar2D
+from clearpath_config.sensors.types.lidars_3d import VelodyneLidar, BaseLidar3D
+from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
+from clearpath_config.sensors.types.imu import BaseIMU, Microstrain
+from clearpath_config.sensors.types.gps import SwiftNavDuro
 
 
 from typing import List

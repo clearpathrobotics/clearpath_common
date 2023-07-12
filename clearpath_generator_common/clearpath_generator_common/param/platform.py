@@ -30,8 +30,8 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.parser import ClearpathConfig
-from clearpath_config.platform.platform import Platform
+from clearpath_config.clearpath_config import ClearpathConfig
+from clearpath_config.common.types.platform import Platform
 
 from clearpath_generator_common.common import ParamFile, Package
 from clearpath_generator_common.param.writer import ParamWriter
@@ -56,7 +56,7 @@ class PlatformParam():
             self.parameter = parameter
             self.clearpath_config = clearpath_config
             self.platform = self.clearpath_config.platform.get_model()
-            self.namespace = self.clearpath_config.system.get_namespace()
+            self.namespace = self.clearpath_config.system.namespace
             self.param_path = param_path
 
             # Clearpath Platform Package

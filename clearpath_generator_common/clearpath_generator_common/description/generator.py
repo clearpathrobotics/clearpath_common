@@ -95,7 +95,7 @@ class DescriptionGenerator(BaseGenerator):
     def generate_decorations(self) -> None:
         self.xacro_writer.write_comment('Decorations')
         self.xacro_writer.write_newline()
-        decorations = self.clearpath_config.platform.decorations.get_all_decorations()
+        decorations = self.clearpath_config.platform.decorations.get_all()
 
         for decoration in decorations:
             if decoration.get_enabled():
@@ -188,6 +188,6 @@ class DescriptionGenerator(BaseGenerator):
     def generate_extras(self) -> None:
         self.xacro_writer.write_comment('Extras')
         self.xacro_writer.write_newline()
-        urdf_extras = self.clearpath_config.platform.extras.get_urdf_extras()
+        urdf_extras = self.clearpath_config.platform.extras.urdf
         if urdf_extras:
             self.xacro_writer.write_include(file=urdf_extras)
