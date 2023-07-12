@@ -33,7 +33,7 @@
 from clearpath_config.sensors.base import BaseSensor
 from clearpath_config.sensors.lidars_2d import HokuyoUST10, SickLMS1XX, BaseLidar2D
 from clearpath_config.sensors.lidars_3d import VelodyneLidar, BaseLidar3D
-from clearpath_config.sensors.cameras import BaseCamera, IntelRealsense
+from clearpath_config.sensors.cameras import BaseCamera, IntelRealsense, FlirBlackfly
 from clearpath_config.sensors.imu import BaseIMU, Microstrain
 from clearpath_config.sensors.gps import SwiftNavDuro
 
@@ -161,14 +161,25 @@ class SensorDescription():
                 self.IMAGE_HEIGHT: sensor.get_color_height(),
                 self.IMAGE_WIDTH: sensor.get_color_width(),
             })
+    
+    class FlirBlackflyDescription(CameraDescription):
+        CONNECTION_TYPE = 'connection_type'
 
+        def __init__(self, sensor: FlirBlackfly) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.CONNECTION_TYPE: sensor.get_connection_type()
+            })
+    
     MODEL = {
         HokuyoUST10.SENSOR_MODEL: Lidar2dDescription,
         SickLMS1XX.SENSOR_MODEL: Lidar2dDescription,
         IntelRealsense.SENSOR_MODEL: IntelRealsenseDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
-        SwiftNavDuro.SENSOR_MODEL: BaseDescription
+        SwiftNavDuro.SENSOR_MODEL: BaseDescription,
+        FlirBlackfly.SENSOR_MODEL: FlirBlackflyDescription
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:
