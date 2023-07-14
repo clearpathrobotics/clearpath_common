@@ -53,7 +53,30 @@ class Package():
 
 
 class LaunchFile():
-    class Node():
+    class LaunchComponent():
+        def __init__(self, name: str) -> None:
+            self.name = name
+
+    class Process(LaunchComponent):
+        def __init__(self,
+                     name: str,
+                     cmd: List[list] | List[str]) -> None:
+            super().__init__(name)
+            self.declaration = 'process_' + self.name
+            self.cmd = cmd
+
+    class LaunchArg(LaunchComponent):
+        def __init__(self, name: str, default_value: str = '', description: str = '') -> None:
+            super().__init__(name)
+            self.default_value = default_value
+            self.description = description
+            self.declaration = 'launch_arg_' + self.name
+
+    class Variable(LaunchComponent):
+        def __init__(self, name: str) -> None:
+            super().__init__(name)
+
+    class Node(LaunchComponent):
         def __init__(self,
                      name: str,
                      package: Package,
@@ -62,7 +85,7 @@ class LaunchFile():
                      parameters: List[dict] | List[str] = [],
                      arguments: List[list] | List[str] = [],
                      remappings: List[tuple] = []) -> None:
-            self.name = name
+            super().__init__(name)
             self.declaration = 'node_' + self.name
             self.package = package
             self.executable = executable
@@ -92,25 +115,6 @@ class LaunchFile():
                 ('/tf_static', 'tf_static'),
             ]
         )
-
-    class Process():
-        def __init__(self,
-                     name: str,
-                     cmd: List[list] | List[str]) -> None:
-            self.name = name
-            self.declaration = 'process_' + self.name
-            self.cmd = cmd
-
-    class LaunchArg():
-        def __init__(self, name: str, default_value: str = '', description: str = '') -> None:
-            self.name = name
-            self.default_value = default_value
-            self.description = description
-            self.declaration = 'launch_arg_' + self.name
-
-    class Variable():
-        def __init__(self, name: str) -> None:
-            self.name = name
 
     def __init__(self,
                  name: str,
@@ -171,7 +175,8 @@ class ParamFile():
         self.file = '{0}.yaml'.format(name)
         self.nodes: List[ParamFile.Node] = []
 
-    def get_full_path(self):
+    @property
+    def full_path(self) -> str:
         if self.package:
             return os.path.join(
                 get_package_share_directory(self.package.name), self.path, self.file)
@@ -182,7 +187,7 @@ class ParamFile():
         self.nodes.append(ParamFile.Node(name, parameters))
 
     def read(self) -> None:
-        file_contents = read_yaml(self.get_full_path())
+        file_contents = read_yaml(self.full_path)
 
         for node in file_contents:
             self.add_node(node, file_contents[node]['ros__parameters'])
