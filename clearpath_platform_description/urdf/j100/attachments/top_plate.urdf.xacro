@@ -6,7 +6,7 @@
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/j100/decorations/ark_enclosure.stl"/>
+              <mesh filename="package://clearpath_platform_description/meshes/j100/attachments/ark_enclosure.stl"/>
             </geometry>
             <material name="dark_grey" />
           </visual>

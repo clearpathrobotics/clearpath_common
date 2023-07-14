@@ -8,13 +8,13 @@
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/large_top_plate.dae" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/large_top_plate.dae" />
             </geometry>
           </visual>
           <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/large_top_plate_collision.stl" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/large_top_plate_collision.stl" />
             </geometry>
           </collision>
         </link>
@@ -45,13 +45,13 @@
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/top_plate.dae" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/top_plate.dae" />
             </geometry>
           </visual>
           <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/top_plate.stl" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/top_plate.stl" />
             </geometry>
           </collision>
         </link>
@@ -78,7 +78,7 @@
         <link name="user_rail_link">
           <visual>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/user_rail.dae" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/user_rail.dae" />
             </geometry>
           </visual>
         </link>
@@ -98,7 +98,7 @@
           <visual>
             <material name="dark_grey" />
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/pacs_top_plate.stl" />
+              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/pacs_top_plate.stl" />
             </geometry>
           </visual>
           <collision>
