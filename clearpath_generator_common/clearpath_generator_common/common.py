@@ -34,7 +34,8 @@ import sys
 
 from ament_index_python.packages import get_package_share_directory
 
-from clearpath_config.parser import ClearpathConfigParser
+from clearpath_config.common.utils.yaml import read_yaml
+from clearpath_config.clearpath_config import ClearpathConfig
 
 
 class Package():
@@ -181,8 +182,7 @@ class ParamFile():
         self.nodes.append(ParamFile.Node(name, parameters))
 
     def read(self) -> None:
-        file_contents = ClearpathConfigParser.read_yaml(
-            self.get_full_path())
+        file_contents = read_yaml(self.get_full_path())
 
         for node in file_contents:
             self.add_node(node, file_contents[node]['ros__parameters'])
@@ -236,13 +236,13 @@ class BaseGenerator():
         self.pkg_clearpath_sensors_description = Package('clearpath_sensors_description')
 
         # Read YAML
-        self.config = ClearpathConfigParser.read_yaml(self.config_path)
+        self.config = read_yaml(self.config_path)
         # Parse YAML into config
-        self.clearpath_config = ClearpathConfigParser(self.config)
+        self.clearpath_config = ClearpathConfig(self.config)
 
-        self.serial_number = self.clearpath_config.platform.get_serial_number()
-        self.platform_model = self.clearpath_config.platform.get_model()
-        self.namespace = self.clearpath_config.system.get_namespace()
+        self.serial_number = self.clearpath_config.get_serial_number()
+        self.platform_model = self.clearpath_config.get_model()
+        self.namespace = self.clearpath_config.system.namespace
 
     # This method should be overwritten by the child class
     def generate(self) -> None:
