@@ -142,38 +142,19 @@ class LaunchFile():
 
 
 class ParamFile():
-    class Node():
-        def __init__(self,
-                     name: str,
-                     parameters: dict = {},
-                     ) -> None:
-            self.name = name
-            self.parameters = parameters
-
-        def get_name(self) -> str:
-            return self.name
-
-        def set_name(self, name) -> None:
-            self.name = name
-
-        def get_parameters(self) -> dict:
-            return self.parameters
-
-        def set_parameters(self, parameters: dict):
-            self.parameters = parameters
-
     def __init__(self,
                  name: str,
                  namespace: str = '',
                  path: str = 'config',
-                 package: Package = None
+                 package: Package = None,
+                 parameters: dict = {}
                  ) -> None:
         self.package = package
         self.path = path
         self.namespace = namespace
-        self.name = 'param_file_{0}'.format(name)
-        self.file = '{0}.yaml'.format(name)
-        self.nodes: List[ParamFile.Node] = []
+        self.name = f'param_file_{name}'
+        self.file = f'{name}.yaml'
+        self.parameters = parameters
 
     @property
     def full_path(self) -> str:
@@ -183,14 +164,29 @@ class ParamFile():
         else:
             return os.path.join(self.path, self.file)
 
-    def add_node(self, name: str, parameters: dict) -> None:
-        self.nodes.append(ParamFile.Node(name, parameters))
+    def to_ros_parameters(self) -> dict:
+        """Convert parameters to the ros__parameters format"""
+        ros_parameters = {self.namespace: {}}
+
+        for node in self.parameters:
+            ros_parameters[self.namespace].update({
+                node: {
+                    'ros__parameters': self.parameters[node]
+                }
+            })
+        return ros_parameters
 
     def read(self) -> None:
         file_contents = read_yaml(self.full_path)
 
         for node in file_contents:
-            self.add_node(node, file_contents[node]['ros__parameters'])
+            self.parameters.update({node: file_contents[node]['ros__parameters']})
+
+    def update(self, parameters: dict) -> None:
+        for node in parameters:
+            if node in self.parameters:
+                for param in parameters[node]:
+                    self.parameters[node][param] = parameters[node][param]
 
 
 class BashFile():

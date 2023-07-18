@@ -38,31 +38,32 @@ class ParamWriter():
 
     def __init__(self, param_file: ParamFile):
         self.param_file = param_file
-        self.file = open(self.param_file.get_full_path(), 'w+')
+        self.file = open(self.param_file.full_path, 'w+')
 
     def write(self, string, indent_level=1):
         self.file.write('{0}{1}\n'.format(self.tab * indent_level, string))
 
+    def write_key_value_pair(self, key: str, value, indent_level=1):
+        self.write(f'{key}: {value}', indent_level=indent_level)
+
+    def write_string(self, key: str, value: str, indent_level=1):
+        self.write(f'{key}: \'{value}\'', indent_level=indent_level)
+
+    def write_dictionary(self, key: str, dictionary: dict, indent_level=1):
+        self.write(f'{key}:', indent_level=indent_level)
+        for k in dictionary:
+            self.write_obj(k, dictionary[k], indent_level + 1)
+
+    def write_obj(self, key: str, obj: object, indent_level=1):
+        if isinstance(obj, dict):
+            self.write_dictionary(key, obj, indent_level)
+        elif isinstance(obj, str):
+            self.write_string(key, obj, indent_level)
+        else:
+            self.write_key_value_pair(key, obj, indent_level)
+
     def write_file(self):
-        node: ParamFile.Node
-        starting_indent = 0
-        if self.param_file.namespace != '':
-            self.write('{0}:'.format(self.param_file.namespace), indent_level=0)
-            starting_indent = 1
-        for node in self.param_file.nodes:
-            self.write('{0}:'.format(node.name), indent_level=starting_indent)
-            self.write('ros__parameters:', indent_level=starting_indent + 1)
-            parameters = node.get_parameters()
-            for k in parameters:
-                if isinstance(parameters[k], dict):
-                    self.write('{0}:'.format(k), indent_level=starting_indent + 2)
-                    for key in parameters[k]:
-                        self.write('{0}: {1}'.format(key, parameters[k][key]),
-                                   indent_level=starting_indent + 3)
-                elif isinstance(parameters[k], str):
-                    self.write('{0}: \'{1}\''.format(k, parameters[k]),
-                               indent_level=starting_indent + 2)
-                else:
-                    self.write('{0}: {1}'.format(k, parameters[k]),
-                               indent_level=starting_indent + 2)
+        ros_parameters = self.param_file.to_ros_parameters()
+        for k in ros_parameters:
+            self.write_obj(k, ros_parameters[k])
         self.file.close()
