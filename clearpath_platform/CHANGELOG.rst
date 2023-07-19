@@ -2,6 +2,9 @@
 Changelog for package clearpath_platform
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.0.6 (2023-07-13)
 ------------------
 

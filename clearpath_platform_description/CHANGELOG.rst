@@ -2,6 +2,11 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Renamed URDF and meshes directories
+* Contributors: Luis Camero
+
 0.0.6 (2023-07-13)
 ------------------
 
