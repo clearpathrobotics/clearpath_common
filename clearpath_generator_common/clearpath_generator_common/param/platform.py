@@ -57,7 +57,6 @@ class PlatformParam():
             self.clearpath_config = clearpath_config
             self.platform = self.clearpath_config.platform.get_model()
             self.namespace = self.clearpath_config.system.namespace
-            print(self.namespace)
             self.param_path = param_path
 
             # Clearpath Platform Package
@@ -87,7 +86,6 @@ class PlatformParam():
 
             # TODO: Get user params
             self.param_file.parameters = self.default_param_file.parameters
-            #print(self.param_file.parameters)
 
         def generate_parameter_file(self):
             param_writer = ParamWriter(self.param_file)

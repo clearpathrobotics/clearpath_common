@@ -45,8 +45,8 @@ class AttachmentsDescription():
         def __init__(self, platform: str, attachment: BaseAttachment) -> None:
             self.attachment = attachment
             self.package = self.pkg_clearpath_platform_description
-            self.path = 'urdf/' + platform + '/attachments/'
-            self.file = self.attachment.get_name()
+            self.path = f'urdf/{platform}/attachments/'
+            self.file = self.attachment.name
 
             self.parameters = {}
 
