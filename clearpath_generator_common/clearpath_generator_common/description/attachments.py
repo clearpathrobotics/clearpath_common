@@ -30,7 +30,7 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.platform.decorations.config import BaseDecoration
+from clearpath_config.platform.attachments.config import BaseAttachment
 from clearpath_config.platform.types.bumper import Bumper
 from clearpath_config.platform.types.top_plate import TopPlate
 from clearpath_config.platform.types.structure import Structure
@@ -38,15 +38,15 @@ from clearpath_config.platform.types.structure import Structure
 from typing import List
 
 
-class DecorationsDescription():
+class AttachmentsDescription():
     class BaseDescription():
         pkg_clearpath_platform_description = 'clearpath_platform_description'
 
-        def __init__(self, platform: str, decoration: BaseDecoration) -> None:
-            self.decoration = decoration
+        def __init__(self, platform: str, attachment: BaseAttachment) -> None:
+            self.attachment = attachment
             self.package = self.pkg_clearpath_platform_description
-            self.path = 'urdf/' + platform + '/decorations/'
-            self.file = self.decoration.get_name()
+            self.path = 'urdf/' + platform + '/attachments/'
+            self.file = self.attachment.get_name()
 
             self.parameters = {}
 
@@ -66,48 +66,48 @@ class DecorationsDescription():
             return self.file
 
         def get_xyz(self) -> List[float]:
-            return self.decoration.get_xyz()
+            return self.attachment.get_xyz()
 
         def get_rpy(self) -> List[float]:
-            return self.decoration.get_rpy()
+            return self.attachment.get_rpy()
 
     class BumperDescription(BaseDescription):
         NAME = 'name'
         EXTENSION = 'extension'
 
-        def __init__(self, platform: str, decoration: Bumper) -> None:
-            super().__init__(platform, decoration)
+        def __init__(self, platform: str, attachment: Bumper) -> None:
+            super().__init__(platform, attachment)
             self.file = 'bumper'
             self.parameters.update({
-                self.NAME: decoration.get_name(),
-                self.EXTENSION: decoration.get_extension()
+                self.NAME: attachment.get_name(),
+                self.EXTENSION: attachment.get_extension()
             })
 
     class TopPlateDescription(BaseDescription):
         MODEL = 'model'
 
-        def __init__(self, platform: str, decoration: TopPlate) -> None:
-            super().__init__(platform, decoration)
+        def __init__(self, platform: str, attachment: TopPlate) -> None:
+            super().__init__(platform, attachment)
             self.parameters.update({
-                self.MODEL: decoration.get_model(),
+                self.MODEL: attachment.get_model(),
             })
 
     class StructureDescription(BaseDescription):
         MODEL = 'model'
         PARENT_LINK = 'parent_link'
 
-        def __init__(self, platform: str, decoration: Structure) -> None:
-            super().__init__(platform, decoration)
+        def __init__(self, platform: str, attachment: Structure) -> None:
+            super().__init__(platform, attachment)
             self.parameters.update({
                 self.PARENT_LINK: 'top_plate_link',
-                self.MODEL: decoration.get_model()
+                self.MODEL: attachment.get_model()
             })
 
     MODEL = {
-        Bumper.DECORATION_MODEL: BumperDescription,
-        TopPlate.DECORATION_MODEL: TopPlateDescription,
-        Structure.DECORATION_MODEL: StructureDescription
+        Bumper.ATTACHMENT_MODEL: BumperDescription,
+        TopPlate.ATTACHMENT_MODEL: TopPlateDescription,
+        Structure.ATTACHMENT_MODEL: StructureDescription
     }
 
-    def __new__(cls, platform, decoration: BaseDecoration) -> BaseDescription:
-        return DecorationsDescription.MODEL[decoration.DECORATION_MODEL](platform, decoration)
+    def __new__(cls, platform, attachment: BaseAttachment) -> BaseDescription:
+        return AttachmentsDescription.MODEL[attachment.ATTACHMENT_MODEL](platform, attachment)

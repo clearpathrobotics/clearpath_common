@@ -10,7 +10,7 @@
     <link name="${name}_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/j100/decorations/j100_fender.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/j100/attachments/j100_fender.stl" />
         </geometry>
         <material name="yellow" />
       </visual>

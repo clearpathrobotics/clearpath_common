@@ -10,7 +10,7 @@
         <link name="${name}_link">
             <visual>
                 <geometry>
-                    <mesh filename="package://clearpath_platform_description/meshes/a200/decorations/bumper.dae" />
+                    <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/bumper.dae" />
                 </geometry>
             </visual>
         </link>

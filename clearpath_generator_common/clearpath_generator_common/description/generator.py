@@ -36,8 +36,8 @@ from clearpath_generator_common.common import BaseGenerator
 from clearpath_generator_common.description.writer import XacroWriter
 from clearpath_generator_common.description.mounts import MountDescription
 from clearpath_generator_common.description.platform import PlatformDescription
-from clearpath_generator_common.description.accessories import AccessoryDescription
-from clearpath_generator_common.description.decorations import DecorationsDescription
+from clearpath_generator_common.description.links import LinkDescription
+from clearpath_generator_common.description.attachments import AttachmentsDescription
 from clearpath_generator_common.description.sensors import SensorDescription
 
 
@@ -58,12 +58,12 @@ class DescriptionGenerator(BaseGenerator):
         self.generate_platform()
         self.xacro_writer.write_newline()
 
-        # Decorations
-        self.generate_decorations()
+        # Attachments
+        self.generate_attachments()
         self.xacro_writer.write_newline()
 
-        # Accessories
-        self.generate_accessories()
+        # Links
+        self.generate_links()
         self.xacro_writer.write_newline()
 
         # Mounts
@@ -92,45 +92,45 @@ class DescriptionGenerator(BaseGenerator):
             path=platform_description.get_path())
         self.xacro_writer.write_macro(platform_description.get_macro())
 
-    def generate_decorations(self) -> None:
-        self.xacro_writer.write_comment('Decorations')
+    def generate_attachments(self) -> None:
+        self.xacro_writer.write_comment('Attachments')
         self.xacro_writer.write_newline()
-        decorations = self.clearpath_config.platform.decorations.get_all()
+        attachments = self.clearpath_config.platform.attachments.get_all()
 
-        for decoration in decorations:
-            if decoration.get_enabled():
-                decoration_description = DecorationsDescription(self.platform, decoration)
+        for attachment in attachments:
+            if attachment.get_enabled():
+                attachment_description = AttachmentsDescription(self.platform, attachment)
                 self.xacro_writer.write_include(
-                    package=decoration_description.get_package(),
-                    file=decoration_description.get_file(),
-                    path=decoration_description.get_path())
+                    package=attachment_description.get_package(),
+                    file=attachment_description.get_file(),
+                    path=attachment_description.get_path())
 
                 self.xacro_writer.write_macro(
-                    macro=decoration_description.get_file(),
-                    parameters=decoration_description.get_parameters(),
+                    macro=attachment_description.get_file(),
+                    parameters=attachment_description.get_parameters(),
                     blocks=XacroWriter.add_origin(
-                        decoration_description.get_xyz(),
-                        decoration_description.get_rpy()))
+                        attachment_description.get_xyz(),
+                        attachment_description.get_rpy()))
                 self.xacro_writer.write_newline()
 
-    def generate_accessories(self) -> None:
-        self.xacro_writer.write_comment('Accessories')
+    def generate_links(self) -> None:
+        self.xacro_writer.write_comment('Links')
         self.xacro_writer.write_newline()
-        accessories = self.clearpath_config.accessories.get_all_accessories()
+        links = self.clearpath_config.links.get_all_links()
 
-        for accessory in accessories:
-            accessory_description = AccessoryDescription(accessory)
+        for link in links:
+            link_description = LinkDescription(link)
             self.xacro_writer.write_include(
-                package=accessory_description.get_package(),
-                file=accessory_description.get_file(),
-                path=accessory_description.get_path())
+                package=link_description.get_package(),
+                file=link_description.get_file(),
+                path=link_description.get_path())
 
             self.xacro_writer.write_macro(
-                macro=accessory_description.get_file(),
-                parameters=accessory_description.get_parameters(),
+                macro=link_description.get_file(),
+                parameters=link_description.get_parameters(),
                 blocks=XacroWriter.add_origin(
-                    accessory_description.get_xyz(),
-                    accessory_description.get_rpy()))
+                    link_description.get_xyz(),
+                    link_description.get_rpy()))
             self.xacro_writer.write_newline()
 
     def generate_mounts(self) -> None:

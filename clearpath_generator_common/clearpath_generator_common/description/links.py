@@ -30,31 +30,32 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.accessories.accessories import URDFAccessory, BaseAccessory
-from clearpath_config.accessories.types.box import Box
-from clearpath_config.accessories.types.cylinder import Cylinder
-from clearpath_config.accessories.types.mesh import Mesh
-from clearpath_config.accessories.types.sphere import Sphere
+from clearpath_config.links.links import Link
+from clearpath_config.links.types.link import BaseLink
+from clearpath_config.links.types.box import Box
+from clearpath_config.links.types.cylinder import Cylinder
+from clearpath_config.links.types.mesh import Mesh
+from clearpath_config.links.types.sphere import Sphere
 
 from typing import List
 
 
-class AccessoryDescription():
+class LinkDescription():
     class BaseDescription():
         pkg_clearpath_platform_description = 'clearpath_platform_description'
 
         NAME = 'name'
         PARENT_LINK = 'parent_link'
 
-        def __init__(self, accessory: BaseAccessory) -> None:
-            self.accessory = accessory
+        def __init__(self, link: BaseLink) -> None:
+            self.link = link
             self.package = self.pkg_clearpath_platform_description
-            self.path = 'urdf/accessories/'
-            self.file = self.accessory.get_accessory_type()
+            self.path = 'urdf/links/'
+            self.file = self.link.get_link_type()
 
             self.parameters = {
-                self.NAME: self.accessory.get_name(),
-                self.PARENT_LINK: self.accessory.get_parent()
+                self.NAME: self.link.get_name(),
+                self.PARENT_LINK: self.link.get_parent()
             }
 
         def get_parameters(self) -> dict:
@@ -73,56 +74,56 @@ class AccessoryDescription():
             return self.file
 
         def get_xyz(self) -> List[float]:
-            return self.accessory.get_xyz()
+            return self.link.get_xyz()
 
         def get_rpy(self) -> List[float]:
-            return self.accessory.get_rpy()
+            return self.link.get_rpy()
 
     class BoxDescription(BaseDescription):
         SIZE = 'size'
 
-        def __init__(self, accessory: Box) -> None:
-            super().__init__(accessory)
+        def __init__(self, link: Box) -> None:
+            super().__init__(link)
             self.parameters.update({
-                self.SIZE: str(accessory.get_size()).strip('[]').replace(',', '')
+                self.SIZE: str(link.get_size()).strip('[]').replace(',', '')
             })
 
     class CylinderDescription(BaseDescription):
         RADIUS = 'radius'
         LENGTH = 'length'
 
-        def __init__(self, accessory: Cylinder) -> None:
-            super().__init__(accessory)
+        def __init__(self, link: Cylinder) -> None:
+            super().__init__(link)
             self.parameters.update({
-                self.RADIUS: accessory.get_radius(),
-                self.LENGTH: accessory.get_length()
+                self.RADIUS: link.get_radius(),
+                self.LENGTH: link.get_length()
             })
 
     class SphereDescription(BaseDescription):
         RADIUS = 'radius'
 
-        def __init__(self, accessory: Sphere) -> None:
-            super().__init__(accessory)
+        def __init__(self, link: Sphere) -> None:
+            super().__init__(link)
             self.parameters.update({
-                self.RADIUS: accessory.get_radius()
+                self.RADIUS: link.get_radius()
             })
 
     class MeshDescription(BaseDescription):
         VISUAL = 'visual'
 
-        def __init__(self, accessory: Mesh) -> None:
-            super().__init__(accessory)
+        def __init__(self, link: Mesh) -> None:
+            super().__init__(link)
             self.parameters.update({
-                self.VISUAL: accessory.get_visual()
+                self.VISUAL: link.get_visual()
             })
 
     MODEL = {
-        URDFAccessory.BOX: BoxDescription,
-        URDFAccessory.CYLINDER: CylinderDescription,
-        URDFAccessory.LINK: BaseDescription,
-        URDFAccessory.MESH: MeshDescription,
-        URDFAccessory.SPHERE: SphereDescription,
+        Link.BOX: BoxDescription,
+        Link.CYLINDER: CylinderDescription,
+        Link.FRAME: BaseDescription,
+        Link.MESH: MeshDescription,
+        Link.SPHERE: SphereDescription,
     }
 
-    def __new__(cls, accessory: BaseAccessory) -> BaseDescription:
-        return AccessoryDescription.MODEL[accessory.ACCESSORY_TYPE](accessory)
+    def __new__(cls, link: BaseLink) -> BaseDescription:
+        return LinkDescription.MODEL[link.LINK_TYPE](link)

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="link" params="name parent_link *origin">
+  <xacro:macro name="frame" params="name parent_link *origin">
     <link name="${name}_link"/>
 
     <joint name="${name}_joint" type="fixed">
