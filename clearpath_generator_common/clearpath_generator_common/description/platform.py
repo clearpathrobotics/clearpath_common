@@ -41,19 +41,7 @@ class PlatformDescription():
             self.package = self.pkg_clearpath_platform_description
             self.file = model
             self.macro = self.file
-            self.path = 'urdf/' + model + '/'
-
-        def get_file(self) -> str:
-            return self.file
-
-        def get_macro(self) -> str:
-            return self.macro
-
-        def get_package(self) -> str:
-            return self.package
-
-        def get_path(self) -> str:
-            return self.path
+            self.path = f'urdf/{model}/'
 
     MODEL = {
         Platform.A200: Base,

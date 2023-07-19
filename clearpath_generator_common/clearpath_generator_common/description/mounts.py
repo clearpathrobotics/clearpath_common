@@ -53,40 +53,32 @@ class MountDescription():
             self.path = 'urdf/'
 
             self.parameters = {
-                self.NAME: mount.get_name(),
-                self.PARENT: mount.get_parent()
+                self.NAME: mount.name,
+                self.PARENT: mount.parent
             }
 
-        def get_parameters(self) -> dict:
-            return self.parameters
-
-        def get_parameter(self, parameter: str) -> str:
-            return self.parameters[parameter]
-
-        def get_name(self) -> str:
+        @property
+        def name(self) -> str:
             return self.parameters[self.NAME]
 
-        def get_model(self) -> str:
+        @property
+        def model(self) -> str:
             return self.mount.MOUNT_MODEL
 
-        def get_package(self) -> str:
-            return self.package
+        @property
+        def xyz(self) -> List[float]:
+            return self.mount.xyz
 
-        def get_path(self) -> str:
-            return self.path
-
-        def get_xyz(self) -> List[float]:
-            return self.mount.get_xyz()
-
-        def get_rpy(self) -> List[float]:
-            return self.mount.get_rpy()
+        @property
+        def rpy(self) -> List[float]:
+            return self.mount.rpy
 
     class FathPivotDescription(BaseDescription):
         ANGLE = 'angle'
 
         def __init__(self, mount: FathPivot) -> None:
             super().__init__(mount)
-            self.parameters[self.ANGLE] = mount.get_angle()
+            self.parameters[self.ANGLE] = mount.angle
 
     class PACSRiserDescription(BaseDescription):
         ROWS = 'rows'
@@ -97,9 +89,9 @@ class MountDescription():
             super().__init__(mount)
             self.path = 'urdf/pacs/'
             self.parameters.update({
-                self.ROWS: mount.get_rows(),
-                self.COLUMNS: mount.get_columns(),
-                self.THICKNESS: mount.get_thickness()
+                self.ROWS: mount.rows,
+                self.COLUMNS: mount.columns,
+                self.THICKNESS: mount.thickness
             })
 
     class PACSBracketDescription(BaseDescription):
@@ -109,7 +101,7 @@ class MountDescription():
             super().__init__(mount)
             self.path = 'urdf/pacs/'
             self.parameters.update({
-                self.MODEL: mount.get_model(),
+                self.MODEL: mount.model,
             })
 
     MODEL = {

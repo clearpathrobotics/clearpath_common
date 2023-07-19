@@ -54,30 +54,17 @@ class LinkDescription():
             self.file = self.link.get_link_type()
 
             self.parameters = {
-                self.NAME: self.link.get_name(),
-                self.PARENT_LINK: self.link.get_parent()
+                self.NAME: self.link.name,
+                self.PARENT_LINK: self.link.parent
             }
 
-        def get_parameters(self) -> dict:
-            return self.parameters
+        @property
+        def xyz(self) -> List[float]:
+            return self.link.xyz
 
-        def get_parameter(self, parameter: str) -> str:
-            return self.parameters[parameter]
-
-        def get_package(self) -> str:
-            return self.package
-
-        def get_path(self) -> str:
-            return self.path
-
-        def get_file(self) -> str:
-            return self.file
-
-        def get_xyz(self) -> List[float]:
-            return self.link.get_xyz()
-
-        def get_rpy(self) -> List[float]:
-            return self.link.get_rpy()
+        @property
+        def rpy(self) -> List[float]:
+            return self.link.rpy
 
     class BoxDescription(BaseDescription):
         SIZE = 'size'
@@ -85,7 +72,7 @@ class LinkDescription():
         def __init__(self, link: Box) -> None:
             super().__init__(link)
             self.parameters.update({
-                self.SIZE: str(link.get_size()).strip('[]').replace(',', '')
+                self.SIZE: str(link.size).strip('[]').replace(',', '')
             })
 
     class CylinderDescription(BaseDescription):
@@ -95,8 +82,8 @@ class LinkDescription():
         def __init__(self, link: Cylinder) -> None:
             super().__init__(link)
             self.parameters.update({
-                self.RADIUS: link.get_radius(),
-                self.LENGTH: link.get_length()
+                self.RADIUS: link.radius,
+                self.LENGTH: link.length
             })
 
     class SphereDescription(BaseDescription):
@@ -105,7 +92,7 @@ class LinkDescription():
         def __init__(self, link: Sphere) -> None:
             super().__init__(link)
             self.parameters.update({
-                self.RADIUS: link.get_radius()
+                self.RADIUS: link.radius
             })
 
     class MeshDescription(BaseDescription):
@@ -114,7 +101,7 @@ class LinkDescription():
         def __init__(self, link: Mesh) -> None:
             super().__init__(link)
             self.parameters.update({
-                self.VISUAL: link.get_visual()
+                self.VISUAL: link.visual
             })
 
     MODEL = {

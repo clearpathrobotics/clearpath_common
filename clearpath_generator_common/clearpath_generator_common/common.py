@@ -200,7 +200,8 @@ class BashFile():
         self.name = name
         self.file = '{0}.bash'.format(name)
 
-    def get_full_path(self):
+    @property
+    def full_path(self):
         if self.package:
             return os.path.join(
                 get_package_share_directory(self.package.name), self.path, self.file)

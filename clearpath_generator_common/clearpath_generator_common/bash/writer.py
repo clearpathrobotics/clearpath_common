@@ -38,7 +38,7 @@ class BashWriter():
 
     def __init__(self, bash_file: BashFile):
         self.bash_file = bash_file
-        self.file = open(self.bash_file.get_full_path(), 'w')
+        self.file = open(self.bash_file.full_path, 'w')
 
     def write(self, string, indent_level=0):
         self.file.write('{0}{1}\n'.format(self.tab * indent_level, string))
@@ -50,7 +50,7 @@ class BashWriter():
         self.write('unset {0}'.format(envar))
 
     def add_source(self, bash_file: BashFile):
-        self.write('source {0}'.format(bash_file.get_full_path()))
+        self.write('source {0}'.format(bash_file.full_path))
 
     def close(self):
         self.file.close()
