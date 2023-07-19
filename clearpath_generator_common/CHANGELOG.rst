@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.7 (2023-07-19)
+------------------
 * Renamed description to attachments
 * Rnamed accessories to links
 * Contributors: Luis Camero
