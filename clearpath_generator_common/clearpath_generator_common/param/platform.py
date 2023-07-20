@@ -74,7 +74,7 @@ class PlatformParam():
                 namespace=self.namespace,
                 path=self.param_path)
 
-        def generate_parameters(self) -> None:
+        def generate_parameters(self, use_sim_time: bool = False) -> None:
             # Default parameter file
             self.default_param_file = ParamFile(
                 name=self.default_parameter,
@@ -86,6 +86,9 @@ class PlatformParam():
 
             # TODO: Get user params
             self.param_file.parameters = self.default_param_file.parameters
+            if use_sim_time:
+                for node in self.param_file.parameters:
+                    self.param_file.update({node: {'use_sim_time': True}})
 
         def generate_parameter_file(self):
             param_writer = ParamWriter(self.param_file)
@@ -108,17 +111,8 @@ class PlatformParam():
                       False, False, True,
                       True, False, False]
 
-        def generate_parameters(self) -> None:
-            # Default parameter file
-            self.default_param_file = ParamFile(
-                name=self.default_parameter,
-                package=self.default_parameter_file_package,
-                path=self.default_parameter_file_path,
-                parameters={}
-            )
-            self.default_param_file.read()
-
-            self.param_file.parameters = self.default_param_file.parameters
+        def generate_parameters(self, use_sim_time: bool = False) -> None:
+            super().generate_parameters(use_sim_time)
 
             # TODO: Get user params
             if False:
