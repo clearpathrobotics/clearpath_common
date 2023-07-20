@@ -165,7 +165,7 @@ class ParamFile():
             return os.path.join(self.path, self.file)
 
     def to_ros_parameters(self) -> dict:
-        """Convert parameters to the ros__parameters format"""
+        """Convert parameters to the ros__parameters format."""
         ros_parameters = {self.namespace: {}}
 
         for node in self.parameters:
