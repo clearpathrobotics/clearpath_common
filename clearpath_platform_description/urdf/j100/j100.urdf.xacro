@@ -104,7 +104,7 @@
        to supply the joint between it and imu_link. This is important so that imu_link
        always points to the "active" IMU. When an upgrade IMU is connected, the
        internal_imu_link should remain, but imu_link should point to the upgrade one. -->
-    <link name="imu_link">
+    <link name="imu_0_link">
       <inertial>
         <mass value="0.001"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -113,11 +113,11 @@
     </link>
     <joint name="imu_joint" type="fixed">
       <parent link="chassis_link" />
-      <child link="imu_link" />
+      <child link="imu_0_link" />
     </joint>
 
-    <gazebo reference="imu_link">
-      <sensor type="imu" name="imu_link">
+    <gazebo reference="imu_0_link">
+      <sensor type="imu" name="imu_0_link">
         <always_on>true</always_on>
         <update_rate>50</update_rate>
         <visualize>true</visualize>
@@ -125,7 +125,7 @@
     </gazebo>
 
     <!-- TODO: Same note as applies to imu_link -->
-    <link name="navsat_link">
+    <link name="gps_0_link">
       <visual>
         <geometry>
           <cylinder radius="0.026" length="0.016" />
@@ -136,12 +136,12 @@
     </link>
     <joint name="navsat_joint" type="fixed">
       <parent link="chassis_link" />
-      <child link="navsat_link" />
+      <child link="gps_0_link" />
       <origin xyz="-0.180 0.126 0.1815" />
     </joint>
 
-    <gazebo reference="navsat_link">
-      <sensor name="navsat_link" type="navsat">
+    <gazebo reference="gps_0_link">
+      <sensor name="gps_0_link" type="navsat">
         <always_on>1</always_on>
         <update_rate>10</update_rate>
       </sensor>
