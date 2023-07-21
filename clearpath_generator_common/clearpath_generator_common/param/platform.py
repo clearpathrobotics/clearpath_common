@@ -64,18 +64,9 @@ class PlatformParam():
             self.clearpath_control_package = Package(self.CLEARPATH_CONTROL)
 
             # Default parameter file
-            self.default_parameter_file_path = 'config/' + self.platform
+            self.default_parameter_file_path = f'config/{self.platform}'
             self.default_parameter_file_package = self.clearpath_control_package
             self.default_parameter = self.parameter
-
-        def update_parameters(self, extra_parameters: dict = {}) -> None:
-            # Default parameter file
-            self.default_param_file = ParamFile(
-                name=self.default_parameter,
-                package=self.default_parameter_file_package,
-                path=self.default_parameter_file_path
-            )
-            self.default_param_file.read()
 
             # Parameter file to generate
             self.param_file = ParamFile(
@@ -83,22 +74,26 @@ class PlatformParam():
                 namespace=self.namespace,
                 path=self.param_path)
 
-            node: ParamFile.Node
-            for node in self.default_param_file.nodes:
-                new_parameters = {}  # TODO: Get from config
-                updated_parameters = node.get_parameters()
-                for p in new_parameters:
-                    if p in updated_parameters:
-                        updated_parameters[p] = new_parameters[p]
-                for p in extra_parameters:
-                    if p in updated_parameters:
-                        updated_parameters[p] = extra_parameters[p]
-                self.param_file.add_node(node.get_name(), updated_parameters)
+        def generate_parameters(self, use_sim_time: bool = False) -> None:
+            # Default parameter file
+            self.default_param_file = ParamFile(
+                name=self.default_parameter,
+                package=self.default_parameter_file_package,
+                path=self.default_parameter_file_path,
+                parameters={}
+            )
+            self.default_param_file.read()
 
-        def generate_config(self):
-            sensor_writer = ParamWriter(self.param_file)
-            sensor_writer.write_file()
-            print('Generated config: {0}'.format(self.param_file.get_full_path()))
+            # TODO: Get user params
+            self.param_file.parameters = self.default_param_file.parameters
+            if use_sim_time:
+                for node in self.param_file.parameters:
+                    self.param_file.update({node: {'use_sim_time': True}})
+
+        def generate_parameter_file(self):
+            param_writer = ParamWriter(self.param_file)
+            param_writer.write_file()
+            print(f'Generated config: {self.param_file.full_path}')
 
     class ImuFilterParam(BaseParam):
         def __init__(self,
@@ -116,72 +111,37 @@ class PlatformParam():
                       False, False, True,
                       True, False, False]
 
-        def __init__(self,
-                     parameter: str,
-                     clearpath_config: ClearpathConfig,
-                     param_path: str) -> None:
-            super().__init__(parameter, clearpath_config, param_path)
+        def generate_parameters(self, use_sim_time: bool = False) -> None:
+            super().generate_parameters(use_sim_time)
 
-        def update_parameters(self, extra_parameters: dict = {}) -> None:
-            # Default parameter file
-            self.default_param_file = ParamFile(
-                name=self.default_parameter,
-                package=self.default_parameter_file_package,
-                path=self.default_parameter_file_path
-            )
-            self.default_param_file.read()
+            # TODO: Get user params
+            if False:
+                self.param_file.update(self.clearpath_config.platform.extras)
+            else:
+                if self.platform == Platform.J100:
+                    imu0_parameters = {
+                        'imu0': 'sensors/imu_0/data',
+                        'imu0_config': self.imu_config,
+                        'imu0_differential': False,
+                        'imu0_queue_size': 10,
+                        # Gravitational acceleration is removed in IMU driver
+                        'imu0_remove_gravitational_acceleration': True
+                    }
+                    self.param_file.update({'ekf_node': imu0_parameters})
 
-            # Parameter file to generate
-            self.param_file = ParamFile(
-                name=self.parameter,
-                namespace=self.namespace,
-                path=self.param_path)
-
-            node: ParamFile.Node
-            for node in self.default_param_file.nodes:
-                if False:  # TODO: Check for ros_parameters from config
-                    new_parameters = {}  # TODO: Get from config
-                    updated_parameters = node.get_parameters()
-                    for p in new_parameters:
-                        if p in updated_parameters:
-                            updated_parameters[p] = new_parameters[p]
-                    for p in extra_parameters:
-                        if p in updated_parameters:
-                            updated_parameters[p] = extra_parameters[p]
-                    self.param_file.add_node(node.get_name(), updated_parameters)
-                else:
-                    updated_parameters = node.get_parameters()
-
-                    for p in extra_parameters:
-                        if p in updated_parameters:
-                            updated_parameters[p] = extra_parameters[p]
-
-                    # Add imu0 for J100
-                    if self.platform == Platform.J100:
-                        imu0_parameters = {
-                            'imu0': 'platform/sensors/imu_0/data',
-                            'imu0_config': self.imu_config,
-                            'imu0_differential': False,
-                            'imu0_queue_size': 10,
-                            # Gravitational acceleration is removed in IMU driver
-                            'imu0_remove_gravitational_acceleration': True
+                # Add all additional IMU's
+                imus = self.clearpath_config.sensors.get_all_imu()
+                for imu in imus:
+                    if imu.launch_enabled:
+                        imu_name = imu.name.replace('_', '')
+                        imu_parameters = {
+                            imu_name: f'sensors/{imu.name}/data',
+                            f'{imu_name}_config': self.imu_config,
+                            f'{imu_name}_differential': False,
+                            f'{imu_name}_queue_size': 10,
+                            f'{imu_name}_remove_gravitational_acceleration': True
                         }
-                        updated_parameters.update(imu0_parameters)
-
-                    # Add all additional IMU's
-                    imus = self.clearpath_config.sensors.get_all_imu()
-                    for imu in imus:
-                        if imu.get_launch_enabled():
-                            imu_name = imu.get_name().replace('_', '')
-                            imu_parameters = {
-                                imu_name: 'platform/sensors/' + imu.get_name() + '/data',
-                                imu_name + '_config': self.imu_config,
-                                imu_name + '_differential': False,
-                                imu_name + '_queue_size': 10,
-                                imu_name + '_remove_gravitational_acceleration': True
-                            }
-                            updated_parameters.update(imu_parameters)
-                    self.param_file.add_node('ekf_node', updated_parameters)
+                        self.param_file.update({'ekf_node': imu_parameters})
 
     class TeleopJoyParam(BaseParam):
         def __init__(self,
@@ -189,9 +149,8 @@ class PlatformParam():
                      clearpath_config: ClearpathConfig,
                      param_path: str) -> None:
             super().__init__(parameter, clearpath_config, param_path)
-            self.default_parameter_file_path = 'config/{0}'.format(self.platform)
-            self.default_parameter = 'teleop_{0}'.format(
-                self.clearpath_config.platform.get_controller())
+            self.default_parameter_file_path = f'config/{self.platform}'
+            self.default_parameter = f'teleop_{self.clearpath_config.platform.controller}'
 
     class TwistMuxParam(BaseParam):
         def __init__(self,

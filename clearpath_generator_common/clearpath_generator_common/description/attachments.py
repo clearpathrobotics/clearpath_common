@@ -45,31 +45,18 @@ class AttachmentsDescription():
         def __init__(self, platform: str, attachment: BaseAttachment) -> None:
             self.attachment = attachment
             self.package = self.pkg_clearpath_platform_description
-            self.path = 'urdf/' + platform + '/attachments/'
-            self.file = self.attachment.get_name()
+            self.path = f'urdf/{platform}/attachments/'
+            self.file = self.attachment.name
 
             self.parameters = {}
 
-        def get_parameters(self) -> dict:
-            return self.parameters
+        @property
+        def xyz(self) -> List[float]:
+            return self.attachment.xyz
 
-        def get_parameter(self, parameter: str) -> str:
-            return self.parameters[parameter]
-
-        def get_package(self) -> str:
-            return self.package
-
-        def get_path(self) -> str:
-            return self.path
-
-        def get_file(self) -> str:
-            return self.file
-
-        def get_xyz(self) -> List[float]:
-            return self.attachment.get_xyz()
-
-        def get_rpy(self) -> List[float]:
-            return self.attachment.get_rpy()
+        @property
+        def rpy(self) -> List[float]:
+            return self.attachment.rpy
 
     class BumperDescription(BaseDescription):
         NAME = 'name'
@@ -79,8 +66,8 @@ class AttachmentsDescription():
             super().__init__(platform, attachment)
             self.file = 'bumper'
             self.parameters.update({
-                self.NAME: attachment.get_name(),
-                self.EXTENSION: attachment.get_extension()
+                self.NAME: attachment.name,
+                self.EXTENSION: attachment.extension
             })
 
     class TopPlateDescription(BaseDescription):
@@ -89,7 +76,7 @@ class AttachmentsDescription():
         def __init__(self, platform: str, attachment: TopPlate) -> None:
             super().__init__(platform, attachment)
             self.parameters.update({
-                self.MODEL: attachment.get_model(),
+                self.MODEL: attachment.model,
             })
 
     class StructureDescription(BaseDescription):
@@ -99,8 +86,8 @@ class AttachmentsDescription():
         def __init__(self, platform: str, attachment: Structure) -> None:
             super().__init__(platform, attachment)
             self.parameters.update({
-                self.PARENT_LINK: 'top_plate_link',
-                self.MODEL: attachment.get_model()
+                self.PARENT_LINK: attachment.parent,
+                self.MODEL: attachment.model
             })
 
     MODEL = {

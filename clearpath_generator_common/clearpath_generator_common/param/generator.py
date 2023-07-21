@@ -72,5 +72,5 @@ class ParamGenerator(BaseGenerator):
                 param,
                 self.clearpath_config,
                 self.platform_params_path)
-            platform_param.update_parameters()
-            platform_param.generate_config()
+            platform_param.generate_parameters()
+            platform_param.generate_parameter_file()

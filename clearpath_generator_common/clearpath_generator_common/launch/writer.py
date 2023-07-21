@@ -123,7 +123,7 @@ class LaunchWriter():
     def path_join_substitution(package, folder, file):
         return 'PathJoinSubstitution([{0}, \'{1}\', \'{2}\'])'.format(package, folder, file)
 
-    def declare_launch_arg(self, launch_arg: LaunchFile.LaunchArg):
+    def add_launch_arg(self, launch_arg: LaunchFile.LaunchArg):
         if launch_arg not in self.declared_launch_args:
             # Add launch arg to launch description actions
             self.actions.append(launch_arg.declaration)
@@ -140,6 +140,16 @@ class LaunchWriter():
     def add_process(self, process: LaunchFile.Process):
         if process not in self.processes:
             self.processes.append(process)
+
+    def add(self, component: LaunchFile | LaunchFile.LaunchComponent):
+        if isinstance(component, LaunchFile.LaunchArg):
+            self.add_launch_arg(component)
+        elif isinstance(component, LaunchFile):
+            self.add_launch_file(component)
+        elif isinstance(component, LaunchFile.Node):
+            self.add_node(component)
+        elif isinstance(component, LaunchFile.Process):
+            self.add_process(component)
 
     def initialize_file(self):
         self.write(

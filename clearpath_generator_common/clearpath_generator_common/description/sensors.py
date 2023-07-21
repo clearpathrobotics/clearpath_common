@@ -56,33 +56,25 @@ class SensorDescription():
             self.path = 'urdf/'
 
             self.parameters = {
-                self.NAME: sensor.get_name(),
-                self.PARENT: sensor.get_parent()
+                self.NAME: sensor.name,
+                self.PARENT: sensor.parent
             }
 
-        def get_parameters(self) -> dict:
-            return self.parameters
+        @property
+        def name(self) -> str:
+            return self.sensor.name
 
-        def get_parameter(self, parameter: str) -> str:
-            return self.parameters[parameter]
-
-        def get_name(self) -> str:
-            return self.parameters[self.NAME]
-
-        def get_model(self) -> str:
+        @property
+        def model(self) -> str:
             return self.sensor.SENSOR_MODEL
 
-        def get_package(self) -> str:
-            return self.package
+        @property
+        def xyz(self) -> List[float]:
+            return self.sensor.xyz
 
-        def get_path(self) -> str:
-            return self.path
-
-        def get_xyz(self) -> List[float]:
-            return self.sensor.get_xyz()
-
-        def get_rpy(self) -> List[float]:
-            return self.sensor.get_rpy()
+        @property
+        def rpy(self) -> List[float]:
+            return self.sensor.rpy
 
     class Lidar2dDescription(BaseDescription):
         ANGULAR_RESOLUTION = 'ang_res'
@@ -97,8 +89,8 @@ class SensorDescription():
 
             self.parameters.update({
                 self.ANGULAR_RESOLUTION: 0.5,
-                self.MINIMUM_ANGLE: sensor.get_min_angle(),
-                self.MAXIMUM_ANGLE: sensor.get_max_angle(),
+                self.MINIMUM_ANGLE: sensor.min_angle,
+                self.MAXIMUM_ANGLE: sensor.max_angle,
                 self.MINIMUM_RANGE: 0.05,
                 self.MAXIMUM_RANGE: 25.0,
                 self.UPDATE_RATE: 50
@@ -147,7 +139,7 @@ class SensorDescription():
             super().__init__(sensor)
 
             self.parameters.update({
-                self.UPDATE_RATE: sensor.get_fps()
+                self.UPDATE_RATE: sensor.fps
             })
 
     class IntelRealsenseDescription(CameraDescription):
@@ -158,8 +150,8 @@ class SensorDescription():
             super().__init__(sensor)
 
             self.parameters.update({
-                self.IMAGE_HEIGHT: sensor.get_color_height(),
-                self.IMAGE_WIDTH: sensor.get_color_width(),
+                self.IMAGE_HEIGHT: sensor.color_height,
+                self.IMAGE_WIDTH: sensor.color_width,
             })
 
     MODEL = {

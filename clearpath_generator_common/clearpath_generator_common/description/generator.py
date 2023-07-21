@@ -79,6 +79,7 @@ class DescriptionGenerator(BaseGenerator):
         self.xacro_writer.write_newline()
 
         self.xacro_writer.close_file()
+        print(f'Generated {self.xacro_writer.file_path}robot.urdf.xacro')
 
     def generate_platform(self) -> None:
         self.platform = self.clearpath_config.platform.get_model()
@@ -87,10 +88,10 @@ class DescriptionGenerator(BaseGenerator):
         # Platform macro
         self.xacro_writer.write_comment('Platform')
         self.xacro_writer.write_include(
-            package=platform_description.get_package(),
-            file=platform_description.get_file(),
-            path=platform_description.get_path())
-        self.xacro_writer.write_macro(platform_description.get_macro())
+            package=platform_description.package,
+            file=platform_description.file,
+            path=platform_description.path)
+        self.xacro_writer.write_macro(platform_description.macro)
 
     def generate_attachments(self) -> None:
         self.xacro_writer.write_comment('Attachments')
@@ -101,16 +102,16 @@ class DescriptionGenerator(BaseGenerator):
             if attachment.get_enabled():
                 attachment_description = AttachmentsDescription(self.platform, attachment)
                 self.xacro_writer.write_include(
-                    package=attachment_description.get_package(),
-                    file=attachment_description.get_file(),
-                    path=attachment_description.get_path())
+                    package=attachment_description.package,
+                    file=attachment_description.file,
+                    path=attachment_description.path)
 
                 self.xacro_writer.write_macro(
-                    macro=attachment_description.get_file(),
-                    parameters=attachment_description.get_parameters(),
+                    macro=attachment_description.file,
+                    parameters=attachment_description.parameters,
                     blocks=XacroWriter.add_origin(
-                        attachment_description.get_xyz(),
-                        attachment_description.get_rpy()))
+                        attachment_description.xyz,
+                        attachment_description.rpy))
                 self.xacro_writer.write_newline()
 
     def generate_links(self) -> None:
@@ -121,16 +122,16 @@ class DescriptionGenerator(BaseGenerator):
         for link in links:
             link_description = LinkDescription(link)
             self.xacro_writer.write_include(
-                package=link_description.get_package(),
-                file=link_description.get_file(),
-                path=link_description.get_path())
+                package=link_description.package,
+                file=link_description.file,
+                path=link_description.path)
 
             self.xacro_writer.write_macro(
-                macro=link_description.get_file(),
-                parameters=link_description.get_parameters(),
+                macro=link_description.file,
+                parameters=link_description.parameters,
                 blocks=XacroWriter.add_origin(
-                    link_description.get_xyz(),
-                    link_description.get_rpy()))
+                    link_description.xyz,
+                    link_description.rpy))
             self.xacro_writer.write_newline()
 
     def generate_mounts(self) -> None:
@@ -141,20 +142,20 @@ class DescriptionGenerator(BaseGenerator):
             mount_description = MountDescription(mount)
 
             self.xacro_writer.write_comment(
-                '{0}'.format(mount_description.get_name())
+                '{0}'.format(mount_description.name)
             )
 
             self.xacro_writer.write_include(
-                package=mount_description.get_package(),
-                file=mount_description.get_model(),
-                path=mount_description.get_path()
+                package=mount_description.package,
+                file=mount_description.model,
+                path=mount_description.path
             )
 
             self.xacro_writer.write_macro(
-                macro='{0}'.format(mount_description.get_model()),
-                parameters=mount_description.get_parameters(),
+                macro='{0}'.format(mount_description.model),
+                parameters=mount_description.parameters,
                 blocks=XacroWriter.add_origin(
-                    mount_description.get_xyz(), mount_description.get_rpy())
+                    mount_description.xyz, mount_description.rpy)
             )
 
             self.xacro_writer.write_newline()
@@ -167,20 +168,20 @@ class DescriptionGenerator(BaseGenerator):
             sensor_description = SensorDescription(sensor)
 
             self.xacro_writer.write_comment(
-                '{0}'.format(sensor_description.get_name())
+                '{0}'.format(sensor_description.name)
             )
 
             self.xacro_writer.write_include(
-                package=sensor_description.get_package(),
-                file=sensor_description.get_model(),
-                path=sensor_description.get_path()
+                package=sensor_description.package,
+                file=sensor_description.model,
+                path=sensor_description.path
             )
 
             self.xacro_writer.write_macro(
-                macro='{0}'.format(sensor_description.get_model()),
-                parameters=sensor_description.get_parameters(),
+                macro='{0}'.format(sensor_description.model),
+                parameters=sensor_description.parameters,
                 blocks=XacroWriter.add_origin(
-                    sensor_description.get_xyz(), sensor_description.get_rpy())
+                    sensor_description.xyz, sensor_description.rpy)
             )
 
             self.xacro_writer.write_newline()
