@@ -2,6 +2,16 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Linting
+* use_sim_time support
+* Description and Bash generator cleanup
+* Minor cleanup
+* Param generator
+* Launch generator cleanup
+* Contributors: Roni Kreinin
+
 0.0.7 (2023-07-19)
 ------------------
 * Renamed description to attachments
