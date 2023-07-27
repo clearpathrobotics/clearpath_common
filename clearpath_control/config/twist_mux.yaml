@@ -1,21 +1,15 @@
 twist_mux:
   ros__parameters:
     use_sim_time: False
-    topics:
-      joy:
-        topic   : joy_teleop/cmd_vel
-        timeout : 0.5
-        priority: 10
-      interactive_marker:
-        topic   : twist_marker_server/cmd_vel
-        timeout : 0.5
-        priority: 8
-      external:
-        topic   : cmd_vel
-        timeout : 0.5
-        priority: 1
-    locks:
-      e_stop:
-        topic   : platform/emergency_stop
-        timeout : 0.0
-        priority: 255
+    topics.joy.topic: joy_teleop/cmd_vel
+    topics.joy.timeout: 0.5
+    topics.joy.priority: 10
+    topics.interactive_marker.topic: twist_marker_server/cmd_vel
+    topics.interactive_marker.timeout: 0.5
+    topics.interactive_marker.priority: 8
+    topics.external.topic: cmd_vel
+    topics.external.timeout: 0.5
+    topics.external.priority: 1
+    locks.e_stop.topic: platform/emergency_stop
+    locks.e_stop.timeout: 0.0
+    locks.e_stop.priority: 255

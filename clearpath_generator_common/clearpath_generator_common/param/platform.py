@@ -55,7 +55,7 @@ class PlatformParam():
                      param_path: str) -> None:
             self.parameter = parameter
             self.clearpath_config = clearpath_config
-            self.platform = self.clearpath_config.platform.get_model()
+            self.platform = self.clearpath_config.platform.get_platform_model()
             self.namespace = self.clearpath_config.system.namespace
             self.param_path = param_path
 
@@ -84,8 +84,14 @@ class PlatformParam():
             )
             self.default_param_file.read()
 
-            # TODO: Get user params
             self.param_file.parameters = self.default_param_file.parameters
+
+            # Get extra ros parameters from config
+            extras = self.clearpath_config.platform.extras.ros_parameters
+            for node in extras:
+                if node in self.param_file.parameters:
+                    self.param_file.update({node: extras.get(node)})
+
             if use_sim_time:
                 for node in self.param_file.parameters:
                     self.param_file.update({node: {'use_sim_time': True}})
@@ -105,6 +111,7 @@ class PlatformParam():
             self.default_parameter_file_path = 'config'
 
     class LocalizationParam(BaseParam):
+        EKF_NODE = 'ekf_node'
         imu_config = [False, False, False,
                       False, False, False,
                       False, False, False,
@@ -114,9 +121,9 @@ class PlatformParam():
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
 
-            # TODO: Get user params
-            if False:
-                self.param_file.update(self.clearpath_config.platform.extras)
+            extras = self.clearpath_config.platform.extras.ros_parameters.get(self.EKF_NODE)
+            if extras:
+                self.param_file.update({self.EKF_NODE: extras})
             else:
                 if self.platform == Platform.J100:
                     imu0_parameters = {
@@ -127,7 +134,7 @@ class PlatformParam():
                         # Gravitational acceleration is removed in IMU driver
                         'imu0_remove_gravitational_acceleration': True
                     }
-                    self.param_file.update({'ekf_node': imu0_parameters})
+                    self.param_file.update({self.EKF_NODE: imu0_parameters})
 
                 # Add all additional IMU's
                 imus = self.clearpath_config.sensors.get_all_imu()
@@ -141,7 +148,7 @@ class PlatformParam():
                             f'{imu_name}_queue_size': 10,
                             f'{imu_name}_remove_gravitational_acceleration': True
                         }
-                        self.param_file.update({'ekf_node': imu_parameters})
+                        self.param_file.update({self.EKF_NODE: imu_parameters})
 
     class TeleopJoyParam(BaseParam):
         def __init__(self,
