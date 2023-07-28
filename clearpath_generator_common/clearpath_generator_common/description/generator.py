@@ -82,7 +82,7 @@ class DescriptionGenerator(BaseGenerator):
         print(f'Generated {self.xacro_writer.file_path}robot.urdf.xacro')
 
     def generate_platform(self) -> None:
-        self.platform = self.clearpath_config.platform.get_model()
+        self.platform = self.clearpath_config.platform.get_platform_model()
         platform_description = PlatformDescription(self.platform)
 
         # Platform macro

@@ -31,11 +31,16 @@
 # of Clearpath Robotics.
 
 from clearpath_config.sensors.types.sensor import BaseSensor
-from clearpath_config.sensors.types.lidars_2d import HokuyoUST10, SickLMS1XX, BaseLidar2D
-from clearpath_config.sensors.types.lidars_3d import VelodyneLidar, BaseLidar3D
+from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST10, SickLMS1XX
+from clearpath_config.sensors.types.lidars_3d import BaseLidar3D, VelodyneLidar
 from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
 from clearpath_config.sensors.types.imu import BaseIMU, Microstrain
-from clearpath_config.sensors.types.gps import SwiftNavDuro
+from clearpath_config.sensors.types.gps import (
+    Garmin18x,
+    NovatelSmart6,
+    NovatelSmart7,
+    SwiftNavDuro
+)
 
 
 from typing import List
@@ -160,7 +165,10 @@ class SensorDescription():
         IntelRealsense.SENSOR_MODEL: IntelRealsenseDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
-        SwiftNavDuro.SENSOR_MODEL: BaseDescription
+        SwiftNavDuro.SENSOR_MODEL: BaseDescription,
+        Garmin18x.SENSOR_MODEL: BaseDescription,
+        NovatelSmart6.SENSOR_MODEL: BaseDescription,
+        NovatelSmart7.SENSOR_MODEL: BaseDescription
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:

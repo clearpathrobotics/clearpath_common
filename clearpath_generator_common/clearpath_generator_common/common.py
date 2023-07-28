@@ -34,6 +34,7 @@ import sys
 
 from ament_index_python.packages import get_package_share_directory
 
+from clearpath_config.common.utils.dictionary import flatten_dict
 from clearpath_config.common.utils.yaml import read_yaml
 from clearpath_config.clearpath_config import ClearpathConfig
 
@@ -154,7 +155,8 @@ class ParamFile():
         self.namespace = namespace
         self.name = f'param_file_{name}'
         self.file = f'{name}.yaml'
-        self.parameters = parameters
+        self.parameters = {}
+        self.parameters.update(parameters)
 
     @property
     def full_path(self) -> str:
@@ -185,8 +187,9 @@ class ParamFile():
     def update(self, parameters: dict) -> None:
         for node in parameters:
             if node in self.parameters:
-                for param in parameters[node]:
-                    self.parameters[node][param] = parameters[node][param]
+                flat_parameters = flatten_dict(parameters[node])
+                for param in flat_parameters:
+                    self.parameters[node][param] = flat_parameters[param]
 
 
 class BashFile():
@@ -242,8 +245,8 @@ class BaseGenerator():
         # Parse YAML into config
         self.clearpath_config = ClearpathConfig(self.config)
 
-        self.serial_number = self.clearpath_config.get_serial_number()
-        self.platform_model = self.clearpath_config.get_model()
+        self.serial_number = self.clearpath_config.serial_number
+        self.platform_model = self.clearpath_config.platform.get_platform_model()
         self.namespace = self.clearpath_config.system.namespace
 
     # This method should be overwritten by the child class

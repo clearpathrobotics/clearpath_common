@@ -1,24 +1,20 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="novatel_smart7" params="name parent_link *origin">
+  <xacro:macro name="garmin_18x" params="name parent_link *origin">
     <link name="${name}_link">
       <visual>
-        <origin xyz="-0.095 0 0" rpy="${pi/2} 0 -${pi/2}" />
+        <material name="black"/>
         <geometry>
-          <mesh filename="package://clearpath_sensors_description/meshes/novatel_smart7.stl"/>
+          <cylinder radius="0.0305" length="0.0195" />
         </geometry>
-        <material name="novatel_white">
-          <color rgba="0.8 0.8 0.8 1.0" />
-        </material>
       </visual>
       <collision>
-        <origin xyz="-0.095 0 0" rpy="${pi/2} 0 -${pi/2}" />
+        <material name="black"/>
         <geometry>
-          <mesh filename="package://clearpath_sensors_description/meshes/novatel_smart7.stl"/>
+          <cylinder radius="0.0305" length="0.0195" />
         </geometry>
       </collision>
     </link>
-
     <joint name="${name}_joint" type="fixed">
       <child link="${name}_link"/>
       <parent link="${parent_link}"/>

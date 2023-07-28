@@ -44,18 +44,12 @@
 joy_teleop/teleop_twist_joy_node:
   ros__parameters:
     use_sim_time: False
-    axis_linear:
-      x: 1
-    scale_linear:
-      x: 0.4
-    scale_linear_turbo:
-      x: 2.0
-    axis_angular:
-      yaw: 0
-    scale_angular:
-      yaw: 0.6
-    scale_angular_turbo:
-      yaw: 1.4
+    axis_linear.x: 1
+    scale_linear.x: 0.4
+    scale_linear_turbo.x: 2.0
+    axis_angular.yaw: 0
+    scale_angular.yaw: 0.6
+    scale_angular_turbo.yaw: 1.4
     enable_button: 4
     enable_turbo_button: 5
 joy_teleop/joy_node:
