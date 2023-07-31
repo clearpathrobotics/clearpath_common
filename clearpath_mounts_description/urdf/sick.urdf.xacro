@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="sick" params="name parent_link model:=inverted *origin">
+    <xacro:property name="mount_type" value="${model}"/>
+
+    <link name="${name}_link">
+      <xacro:if value="${model == 'inverted'}">
+        <visual>
+          <geometry>
+            <mesh filename="package://clearpath_mounts_description/meshes/sick_inverted.dae" />
+          </geometry>
+          <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        </visual>
+        <collision>
+          <origin xyz="0 0 0.0585" rpy="0 0 0" />
+          <geometry>
+            <box size="0.1 0.108 0.117" />
+          </geometry>
+        </collision>
+      </xacro:if>
+      <xacro:if value="${model == 'upright'}">
+        <visual>
+          <material name="dark_grey" />
+          <geometry>
+            <mesh filename="package://clearpath_mounts_description/meshes/sick_upright.stl" />
+          </geometry>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+        </visual>
+        <collision>
+          <origin xyz="0 0 0.0585" rpy="0 0 0" />
+          <geometry>
+            <box size="0.1 0.108 0.117" />
+          </geometry>
+        </collision>
+      </xacro:if>
+    </link>
+
+    <link name="${name}_mount" />
+
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+
+    <xacro:if value="${model == 'inverted'}">
+      <joint name="${name}_mount_joint" type="fixed">
+        <parent link="${name}_link" />
+        <child link="${name}_mount" />
+        <origin xyz="-0.0195 0 0.093" rpy="${pi} 0 0" />
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${model == 'upright'}">
+      <joint name="${name}_mount_joint" type="fixed">
+        <parent link="${name}_link" />
+        <child link="${name}_mount" />
+        <origin xyz="-0.0545 0 0.112" rpy="0 0 0" />
+      </joint>
+    </xacro:if>
+  </xacro:macro>
+</robot>

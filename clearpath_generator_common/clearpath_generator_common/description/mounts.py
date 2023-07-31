@@ -34,6 +34,7 @@ from clearpath_config.mounts.types.mount import BaseMount
 from clearpath_config.mounts.types.fath_pivot import FathPivot
 from clearpath_config.mounts.types.flir_ptu import FlirPTU
 from clearpath_config.mounts.types.pacs import PACS
+from clearpath_config.mounts.types.sick import SICKStand
 
 from typing import List
 
@@ -104,11 +105,21 @@ class MountDescription():
                 self.MODEL: mount.model,
             })
 
+    class SICKStandDescription(BaseDescription):
+        MODEL = 'model'
+
+        def __init__(self, mount: SICKStand) -> None:
+            super().__init__(mount)
+            self.parameters.update({
+                self.MODEL: mount.model,
+            })
+
     MODEL = {
         FathPivot.MOUNT_MODEL: FathPivotDescription,
         FlirPTU.MOUNT_MODEL: BaseDescription,
         PACS.Bracket.MOUNT_MODEL: PACSBracketDescription,
         PACS.Riser.MOUNT_MODEL: PACSRiserDescription,
+        SICKStand.MOUNT_MODEL: SICKStandDescription
     }
 
     def __new__(cls, mount: BaseMount) -> BaseDescription:
