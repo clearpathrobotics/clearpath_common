@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.9 (2023-07-31)
+------------------
 * Update platform nodes from extra ros parameters
   Flattened default parameter files
 * Contributors: Roni Kreinin
