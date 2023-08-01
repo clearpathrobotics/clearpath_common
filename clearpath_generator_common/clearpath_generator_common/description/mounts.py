@@ -31,7 +31,6 @@
 # of Clearpath Robotics.
 
 from clearpath_config.mounts.types.mount import BaseMount
-from clearpath_config.mounts.types.disk import Disk
 from clearpath_config.mounts.types.fath_pivot import FathPivot
 from clearpath_config.mounts.types.pacs import PACS
 from clearpath_config.mounts.types.post import Post
