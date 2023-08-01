@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<!--
+Software License Agreement (BSD)
+
+\file      mounts.urdf.xacro
+\authors   Luis Camero <lcamero@clearpathrobotics.com>
+\copyright Copyright (c) 2022, Clearpath Robotics, Inc., All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that
+the following conditions are met:
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the
+following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of Clearpath Robotics nor the names of its contributors may be used to endorse or promote
+products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WAR-
+RANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, IN-
+DIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Post Quad: adds four posts in a rectangular configuration -->
+  <xacro:macro name="post" params="name parent_link model spacing:=0.08 height:=0.075 *origin">
+    <xacro:property name="post_model" value="${model}"/>
+    <xacro:property name="length" value="0.04"/>
+    <xacro:property name="width" value="0.02"/>
+
+    <link name="${name}_link">
+      <!-- Single Post  -->
+      <xacro:if value="${post_model == 'single'}">
+        <visual>
+          <material name="light_grey" />
+          <origin xyz="0 0 ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 0 ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </collision>
+      </xacro:if>
+
+      <!-- Dual Post  -->
+      <xacro:if value="${post_model == 'dual'}">
+        <!-- Left -->
+        <visual>
+          <material name="light_grey" />
+          <origin xyz="0 ${spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 ${spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </collision>
+        <!-- Right -->
+        <visual>
+          <material name="light_grey" />
+          <origin xyz="0 ${-spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 ${-spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </collision>
+      </xacro:if>
+
+      <!-- Quad Post  -->
+      <xacro:if value="${post_model == 'quad'}">
+        <!-- Front Left -->
+        <visual>
+          <material name="light_grey" />
+          <origin xyz="${spacing/2} ${spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="${spacing/2} ${spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </collision>
+        <!-- Front Right -->
+        <visual>
+          <material name="light_grey" />
+          <origin xyz="${spacing/2} ${-spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="${spacing/2} ${-spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </collision>
+        <!-- Rear Left -->
+        <visual>
+          <material name="light_grey" />
+          <origin xyz="${-spacing/2} ${spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="${-spacing/2} ${spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </collision>
+        <!-- Rear Right -->
+        <visual>
+          <material name="light_grey" />
+          <origin xyz="${-spacing/2} ${-spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="${-spacing/2} ${-spacing/2} ${height/2}" />
+          <geometry>
+            <box size="${length} ${width} ${height}" />
+          </geometry>
+        </collision>
+      </xacro:if>
+    </link>
+
+    <link name="${name}_mount"/>
+
+    <joint name="${name}_joint" type="fixed">
+      <child link="${name}_link" />
+      <parent link="${parent_link}" />
+      <insert_block name="origin" />
+    </joint>
+
+    <joint name="${name}_mount_joint" type="fixed">
+      <child link="${name}_mount" />
+      <parent link="${name}_link" />
+      <origin xyz="0 0 ${height}">
+      </origin>
+    </joint>
+  </xacro:macro>
+</robot>

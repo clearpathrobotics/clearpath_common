@@ -97,4 +97,6 @@ class AttachmentsDescription():
     }
 
     def __new__(cls, platform, attachment: BaseAttachment) -> BaseDescription:
-        return AttachmentsDescription.MODEL[attachment.ATTACHMENT_MODEL](platform, attachment)
+        return AttachmentsDescription.MODEL.setdefault(
+            attachment.ATTACHMENT_MODEL,
+            AttachmentsDescription.BaseDescription)(platform, attachment)

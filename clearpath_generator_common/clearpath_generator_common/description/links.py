@@ -107,10 +107,11 @@ class LinkDescription():
     MODEL = {
         Link.BOX: BoxDescription,
         Link.CYLINDER: CylinderDescription,
-        Link.FRAME: BaseDescription,
         Link.MESH: MeshDescription,
         Link.SPHERE: SphereDescription,
     }
 
     def __new__(cls, link: BaseLink) -> BaseDescription:
-        return LinkDescription.MODEL[link.LINK_TYPE](link)
+        return LinkDescription.MODEL.setdefault(
+            link.LINK_TYPE,
+            LinkDescription.BaseDescription)(link)

@@ -31,9 +31,10 @@
 # of Clearpath Robotics.
 
 from clearpath_config.mounts.types.mount import BaseMount
+from clearpath_config.mounts.types.disk import Disk
 from clearpath_config.mounts.types.fath_pivot import FathPivot
-from clearpath_config.mounts.types.flir_ptu import FlirPTU
 from clearpath_config.mounts.types.pacs import PACS
+from clearpath_config.mounts.types.post import Post
 from clearpath_config.mounts.types.sick import SICKStand
 
 from typing import List
@@ -114,13 +115,28 @@ class MountDescription():
                 self.MODEL: mount.model,
             })
 
+    class PostDescription(BaseDescription):
+        MODEL = 'model'
+        SPACING = 'spacing'
+        HEIGHT = 'height'
+
+        def __init__(self, mount: Post) -> None:
+            super().__init__(mount)
+            self.parameters.update({
+                self.MODEL: mount.model,
+                self.SPACING: mount.spacing,
+                self.HEIGHT: mount.height
+            })
+
     MODEL = {
         FathPivot.MOUNT_MODEL: FathPivotDescription,
-        FlirPTU.MOUNT_MODEL: BaseDescription,
         PACS.Bracket.MOUNT_MODEL: PACSBracketDescription,
         PACS.Riser.MOUNT_MODEL: PACSRiserDescription,
-        SICKStand.MOUNT_MODEL: SICKStandDescription
+        SICKStand.MOUNT_MODEL: SICKStandDescription,
+        Post.MOUNT_MODEL: PostDescription
     }
 
     def __new__(cls, mount: BaseMount) -> BaseDescription:
-        return MountDescription.MODEL[mount.MOUNT_MODEL](mount)
+        return MountDescription.MODEL.setdefault(
+            mount.MOUNT_MODEL,
+            MountDescription.BaseDescription)(mount)
