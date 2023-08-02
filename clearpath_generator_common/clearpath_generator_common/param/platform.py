@@ -168,10 +168,8 @@ class PlatformParam():
             self.default_parameter_file_path = 'config'
 
     PARAMETER = {
-        CONTROL: BaseParam,
         IMU_FILTER: ImuFilterParam,
         LOCALIZATION: LocalizationParam,
-        TELEOP_INTERACTIVE_MARKERS: BaseParam,
         TELEOP_JOY: TeleopJoyParam,
         TWIST_MUX: TwistMuxParam,
     }
@@ -180,4 +178,5 @@ class PlatformParam():
                 parameter: str,
                 clearpath_config: ClearpathConfig,
                 param_path: str) -> BaseParam:
-        return PlatformParam.PARAMETER[parameter](parameter, clearpath_config, param_path)
+        return PlatformParam.PARAMETER.setdefault(parameter, PlatformParam.BaseParam)(
+            parameter, clearpath_config, param_path)

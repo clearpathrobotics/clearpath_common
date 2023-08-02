@@ -34,7 +34,7 @@ from clearpath_config.common.types.platform import Platform
 
 
 class PlatformDescription():
-    class Base():
+    class BasePlatform():
         pkg_clearpath_platform_description = 'clearpath_platform_description'
 
         def __init__(self, model: Platform) -> None:
@@ -43,10 +43,5 @@ class PlatformDescription():
             self.macro = self.file
             self.path = f'urdf/{model}/'
 
-    MODEL = {
-        Platform.A200: Base,
-        Platform.J100: Base,
-    }
-
-    def __new__(cls, model: Platform) -> Base:
-        return PlatformDescription.MODEL[model](model)
+    def __new__(cls, model: Platform) -> BasePlatform:
+        return PlatformDescription.BasePlatform(model)

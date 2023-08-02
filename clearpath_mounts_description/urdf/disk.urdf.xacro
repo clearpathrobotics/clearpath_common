@@ -1,34 +1,34 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="novatel_smart7_stand" params="name parent_link height:=0.145 *origin">
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="disk" params="name parent_link *origin">
     <link name="${name}_link">
       <visual>
-        <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+        <material name="dark_grey"/>
         <geometry>
-          <box size="0.045 0.025 ${height}" />
+          <mesh filename="package://clearpath_mounts_description/meshes/disk.stl" />
         </geometry>
-        <material name="black" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
       <collision>
-        <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
         <geometry>
-          <box size="0.045 0.025 ${height}" />
+          <box size="0.104 0.142 0.006" />
         </geometry>
+        <origin xyz="0 0 0.003" rpy="0 0 0" />
       </collision>
     </link>
 
-    <link name="${name}_mount"/>
+    <link name="${name}_mount" />
 
     <joint name="${name}_joint" type="fixed">
-      <xacro:insert_block name="origin" />
       <parent link="${parent_link}" />
       <child link="${name}_link" />
+      <xacro:insert_block name="origin" />
     </joint>
 
     <joint name="${name}_mount_joint" type="fixed">
-      <origin xyz="0 0 ${height}" />
       <parent link="${name}_link" />
       <child link="${name}_mount" />
+      <origin xyz="0 0 0.006" rpy="0 0 0" />
     </joint>
   </xacro:macro>
 </robot>
