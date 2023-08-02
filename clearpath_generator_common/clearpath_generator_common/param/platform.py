@@ -45,6 +45,15 @@ class PlatformParam():
     TELEOP_JOY = 'teleop_joy'
     TWIST_MUX = 'twist_mux'
 
+    PARAMETERS = [
+      CONTROL,
+      IMU_FILTER,
+      LOCALIZATION,
+      TELEOP_INTERACTIVE_MARKERS,
+      TELEOP_JOY,
+      TWIST_MUX
+    ]
+
     class BaseParam():
         CLEARPATH_CONTROL = 'clearpath_control'
         CLEARPATH_PLATFORM = 'clearpath_platform'
