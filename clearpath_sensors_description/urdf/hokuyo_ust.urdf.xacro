@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="hokuyo_ust10" params="name parent_link *origin
+  <xacro:macro name="hokuyo_ust" params="name parent_link *origin
                                           ang_res:=0.25 min_ang:=-2.35619 max_ang:=2.35619
                                           update_rate:=40 min_range:=0.06 max_range:=30.0">
     <link name="${name}_link">
@@ -8,7 +8,7 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
           <!-- Origin of this mesh is the base of the bracket. -->
-          <mesh filename="package://clearpath_sensors_description/meshes/hokuyo_ust10.stl" />
+          <mesh filename="package://clearpath_sensors_description/meshes/hokuyo_ust.stl" />
         </geometry>
         <material name="dark_grey" />
       </visual>

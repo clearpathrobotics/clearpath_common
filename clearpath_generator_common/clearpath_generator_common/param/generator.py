@@ -67,7 +67,7 @@ class ParamGenerator(BaseGenerator):
         raise NotImplementedError()
 
     def generate_platform(self) -> None:
-        for param in PlatformParam.PARAMETER:
+        for param in PlatformParam.PARAMETERS:
             platform_param = PlatformParam(
                 param,
                 self.clearpath_config,
