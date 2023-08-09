@@ -32,6 +32,7 @@
 
 from clearpath_config.platform.attachments.config import BaseAttachment
 from clearpath_config.platform.types.bumper import Bumper
+from clearpath_config.platform.types.fender import Fender
 from clearpath_config.platform.types.top_plate import TopPlate
 from clearpath_config.platform.types.structure import Structure
 
@@ -70,6 +71,15 @@ class AttachmentsDescription():
                 self.EXTENSION: attachment.extension
             })
 
+    class FenderDescription(BaseDescription):
+        MODEL = 'model'
+
+        def __init__(self, platform: str, attachment: Fender) -> None:
+            super().__init__(platform, attachment)
+            self.parameters.update({
+                self.MODEL: attachment.model,
+            })
+
     class TopPlateDescription(BaseDescription):
         MODEL = 'model'
 
@@ -92,6 +102,7 @@ class AttachmentsDescription():
 
     MODEL = {
         Bumper.ATTACHMENT_MODEL: BumperDescription,
+        Fender.ATTACHMENT_MODEL: FenderDescription,
         TopPlate.ATTACHMENT_MODEL: TopPlateDescription,
         Structure.ATTACHMENT_MODEL: StructureDescription
     }
