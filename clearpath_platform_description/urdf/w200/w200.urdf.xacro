@@ -1,6 +1,9 @@
 <?xml version='1.0'?>
 
 <robot name="warthog" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/w200/control.yaml" />
+  <xacro:arg name="namespace" default="" />
+  <xacro:arg name="is_sim" default="false" />
 
   <xacro:property name="PI" value="3.1415926535897931"/>
 
@@ -63,13 +66,6 @@
              izz="${m*(x*x+z*z)/12}" />
   </xacro:macro>
 
-  <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
-  <material name="light_grey"><color rgba="0.4 0.4 0.4 1.0" /></material>
-  <material name="yellow"><color rgba="0.95 0.816 0.082 1.0" /></material>
-  <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
-  <material name="white"><color rgba="0.9 0.9 0.9 1.0" /></material>
-  <material name="red"><color rgba="0.9 0.0 0.0 1.0" /></material>
-
   <xacro:macro name="wheel" params="prefix side *joint_pose">
     <link name="${prefix}_${side}_wheel_link">
       <inertial>
@@ -80,7 +76,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${PI/2}"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/wheel.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/wheel.stl" />
         </geometry>
         <material name="dark_grey" />
       </visual>
@@ -123,14 +119,14 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/tracks.dae" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/tracks.dae" />
         </geometry>
         <material name="dark_grey" />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/tracks_collision.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/tracks_collision.stl" />
         </geometry>
       </collision>
     </link>
@@ -209,14 +205,14 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${side*PI/2}"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/rocker.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/rocker.stl" />
         </geometry>
         <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
       </visual>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${side*PI/2}"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/fenders.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/fenders.stl" />
         </geometry>
         <material name="${warthog_color}">
           <color rgba="${warthog_color_rgba}" />
@@ -225,7 +221,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 ${side*PI/2}"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/fenders.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/fenders.stl" />
         </geometry>
       </collision>
     </link>
@@ -242,7 +238,7 @@
       <visual>
         <origin xyz="0 ${side*-0.0244} 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/light.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/light.stl" />
         </geometry>
         <material name="white"><color rgba="0.9 0.9 0.9 1.0" /></material>
       </visual>
@@ -267,7 +263,7 @@
       <visual>
         <origin xyz="0 ${side*-0.0244} 0" rpy="0 0 ${side*PI}"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/light.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/light.stl" />
         </geometry>
         <material name="red"><color rgba="0.9 0.0 0.0 1.0" /></material>
       </visual>
@@ -301,112 +297,167 @@
     </gazebo>
   </xacro:macro>
 
-  <xacro:diff_unit prefix="left" side="1" left="true"/>
-  <xacro:diff_unit prefix="right" side="-1" left="false"/>
+  <xacro:macro name="w200">
+    <xacro:diff_unit prefix="left" side="1" left="true"/>
+    <xacro:diff_unit prefix="right" side="-1" left="false"/>
 
-  <link name="base_link"></link>
+    <link name="base_link"></link>
 
-  <joint name="base_link_joint" type="fixed">
-    <origin xyz="0 0 0.025" rpy="0 0 0" />
-    <parent link="base_link"/>
-    <child link="chassis_link" />
-  </joint>
+    <joint name="base_link_joint" type="fixed">
+      <origin xyz="0 0 0.025" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="chassis_link" />
+    </joint>
 
-  <link name="chassis_link">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="${chassis_mass}"/>
-      <xacro:box_inertia m="${chassis_mass}" x="${chassis_length}"
-                         y="${chassis_width}" z="${chassis_height}" />
-    </inertial>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://warthog_description/meshes/chassis.stl" />
-      </geometry>
-      <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
-    </visual>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://warthog_description/meshes/e-stop.stl" />
-      </geometry>
-      <material name="red"><color rgba="0.9 0.0 0.0 1.0" /></material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://warthog_description/meshes/chassis-collision.stl" />
-      </geometry>
-    </collision>
-  </link>
+    <link name="chassis_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${chassis_mass}"/>
+        <xacro:box_inertia m="${chassis_mass}" x="${chassis_length}"
+                          y="${chassis_width}" z="${chassis_height}" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/chassis.stl" />
+        </geometry>
+        <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+      </visual>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/e-stop.stl" />
+        </geometry>
+        <material name="red"><color rgba="0.9 0.0 0.0 1.0" /></material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/chassis-collision.stl" />
+        </geometry>
+      </collision>
+    </link>
 
-  <link name="top_chassis_link"></link>
+    <link name="top_chassis_link"></link>
 
-  <joint name="top_link_joint" type="fixed">
-    <origin xyz="0 0 0.27218" rpy="0 0 0" />
-    <parent link="chassis_link"/>
-    <child link="top_chassis_link" />
-  </joint>
+    <joint name="top_link_joint" type="fixed">
+      <origin xyz="0 0 0.27218" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="top_chassis_link" />
+    </joint>
 
-  <!-- This link is purely to complete the visual look -->
-  <link name="diff_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://warthog_description/meshes/diff-link.stl" />
-      </geometry>
-      <material name="light_grey" />
-    </visual>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://warthog_description/meshes/susp-link.stl" />
-      </geometry>
-      <material name="light_grey" />
-    </visual>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://warthog_description/meshes/susp-link.stl" />
-      </geometry>
-      <material name="light_grey" />
-    </visual>
-  </link>
-  <joint name="diff_link_joint" type="fixed">
-    <parent link="chassis_link"/>
-    <child link="diff_link"/>
-    <origin xyz="-0.5826 0 0.24979" rpy="0 0 0" />
-  </joint>
+    <!-- This link is purely to complete the visual look -->
+    <link name="diff_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/diff-link.stl" />
+        </geometry>
+        <material name="light_grey" />
+      </visual>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/susp-link.stl" />
+        </geometry>
+        <material name="light_grey" />
+      </visual>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/susp-link.stl" />
+        </geometry>
+        <material name="light_grey" />
+      </visual>
+    </link>
+    <joint name="diff_link_joint" type="fixed">
+      <parent link="chassis_link"/>
+      <child link="diff_link"/>
+      <origin xyz="-0.5826 0 0.24979" rpy="0 0 0" />
+    </joint>
 
-  <link name="imu_link" />
-  <joint name="imu_link_joint" type="fixed">
-    <origin xyz="$(optenv WARTHOG_IMU_XYZ 0 0 0)" rpy="$(optenv WARTHOG_IMU_RPY 0 0 0)" />
-    <parent link="chassis_link"/>
-    <child link="imu_link" />
-  </joint>
-  <!-- Bring in simulation data for Gazebo. -->
-  <xacro:include filename="$(find warthog_description)/urdf/warthog.gazebo" />
+    <link name="imu_link" />
+    <joint name="imu_link_joint" type="fixed">
+      <origin xyz="$(optenv WARTHOG_IMU_XYZ 0 0 0)" rpy="$(optenv WARTHOG_IMU_RPY 0 0 0)" />
+      <parent link="chassis_link"/>
+      <child link="imu_link" />
+    </joint>
 
-  <!-- Optional standard accessories, including their simulation data. The rendering
-       of these into the final description is controlled by optenv variables, which
-       default each one to off.-->
-  <xacro:include filename="$(find warthog_description)/urdf/accessories.urdf.xacro" />
+     <xacro:if value="$(arg is_sim)">
+      <gazebo>
+        <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+          <parameters>$(arg gazebo_controllers)</parameters>
+          <ros>
+            <remapping>~/odom:=platform/odom</remapping>
+            <remapping>~/cmd_vel_unstamped:=platform/cmd_vel_unstamped</remapping>
+            <remapping>/tf:=tf</remapping>
+            <remapping>/tf_static:=tf_static</remapping>
+            <remapping>/diagnostics:=diagnostics</remapping>
+            <remapping>joint_states:=platform/joint_states</remapping>
+            <namespace>$(arg namespace)</namespace>
+          </ros>
+        </plugin>
+      </gazebo>
 
-  <!-- OutdoorNav -->
-  <xacro:arg name="outdoornav_enabled"       default="$(optenv OUTDOORNAV_ENABLED 0)" />
-  <xacro:arg name="outdoornav_configuration" default="$(optenv OUTDOORNAV_CONFIGURATION standard)" />
+      <gazebo>
+        <plugin filename="libignition-gazebo-pose-publisher-system.so" name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>true</publish_link_pose>
+          <publish_nested_model_pose>true</publish_nested_model_pose>
+          <use_pose_vector_msg>true</use_pose_vector_msg>
+          <update_frequency>50</update_frequency>
+        </plugin>
+      </gazebo>
+    </xacro:if>
 
-  <!-- OutdoorNav URDF Config -->
-  <xacro:if value="$(arg outdoornav_enabled)">
-    <xacro:include filename="$(find cpr_onav_description)/urdf/outdoornav_description.urdf.xacro" />
-    <xacro:outdoornav_sensors outdoornav_configuration="$(arg outdoornav_configuration)" />
-  </xacro:if>
-
-  <!-- Optional custom includes. -->
-  <xacro:include filename="$(optenv WARTHOG_URDF_EXTRAS empty.urdf)" />
-
-  <!-- Optional for Clearpath internal softwares -->
-  <xacro:include filename="$(optenv CPR_URDF_EXTRAS empty.urdf)" />
-
+    <ros2_control name="a200_hardware" type="system">
+      <hardware>
+        <xacro:if value="$(arg is_sim)">
+          <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        </xacro:if>
+        <xacro:unless value="$(arg is_sim)">
+          <plugin>clearpath_platform/A200Hardware</plugin>
+          <plugin>fake_components/GenericSystem</plugin>
+          <param name="hw_start_duration_sec">2.0</param>
+          <param name="hw_stop_duration_sec">3.0</param>
+          <param name="wheel_diameter">0.3302</param>
+          <param name="max_accel">5.0</param>
+          <param name="max_speed">1.0</param>
+          <param name="polling_timeout">0.1</param>
+          <param name="serial_port">$(arg serial_port)</param>
+        </xacro:unless>
+      </hardware>
+      <joint name="front_left_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-1</param>
+          <param name="max">1</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="rear_left_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-1</param>
+          <param name="max">1</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="front_right_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-1</param>
+          <param name="max">1</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="rear_right_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-1</param>
+          <param name="max">1</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+  </xacro:macro>
 </robot>

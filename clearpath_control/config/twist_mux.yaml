@@ -16,4 +16,3 @@ twist_mux:
     locks.e_stop.topic: platform/emergency_stop
     locks.e_stop.timeout: 0.0
     locks.e_stop.priority: 255
-    

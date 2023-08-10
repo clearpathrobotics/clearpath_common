@@ -5,14 +5,14 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/bulkhead.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/bulkhead.stl" />
         </geometry>
         <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://warthog_description/meshes/bulkhead-collision.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/w200/bulkhead-collision.stl" />
         </geometry>
       </collision>
       <inertial>
