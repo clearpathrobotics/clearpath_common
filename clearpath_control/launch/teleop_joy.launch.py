@@ -67,7 +67,6 @@ def generate_launch_description():
     ]
 
     node_joy = Node(
-        namespace='joy_teleop',
         package='joy_linux',
         executable='joy_linux_node',
         output='screen',
@@ -79,18 +78,23 @@ def generate_launch_description():
             ('/diagnostics', 'diagnostics'),
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static'),
+            ('joy', 'joy_teleop/joy'),
+            ('joy/set_feedback', 'joy_teleop/joy/set_feedback'),
         ]
     )
 
     node_teleop_twist_joy = Node(
-        namespace='joy_teleop',
         package='teleop_twist_joy',
         executable='teleop_node',
         output='screen',
         name='teleop_twist_joy_node',
         parameters=[
             config_teleop_joy,
-            {'use_sim_time': use_sim_time}]
+            {'use_sim_time': use_sim_time}],
+        remappings=[
+            ('joy', 'joy_teleop/joy'),
+            ('cmd_vel', 'joy_teleop/cmd_vel'),
+        ]
     )
 
     ld = LaunchDescription()

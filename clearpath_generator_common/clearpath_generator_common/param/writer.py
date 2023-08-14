@@ -65,5 +65,5 @@ class ParamWriter():
     def write_file(self):
         ros_parameters = self.param_file.to_ros_parameters()
         for k in ros_parameters:
-            self.write_obj(k, ros_parameters[k])
+            self.write_obj(k, ros_parameters[k], indent_level=0)
         self.file.close()
