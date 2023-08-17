@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2023-08-17)
+------------------
 * Removed joy_teleop namespace, remap topics to that namespace instead
 * Added fenders for J100
 * Renamed UST10 to UST

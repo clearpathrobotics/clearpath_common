@@ -2,8 +2,8 @@
 Changelog for package clearpath_mounts_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2023-08-17)
+------------------
 * Added disk and post
   Set default values to model dictionaries
 * Inverted and upright sick stand

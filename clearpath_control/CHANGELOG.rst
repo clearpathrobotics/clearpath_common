@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2023-08-17)
+------------------
 * Formatting
 * Removed joy_teleop namespace, remap topics to that namespace instead
 * Contributors: Roni Kreinin
