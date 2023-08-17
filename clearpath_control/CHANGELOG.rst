@@ -2,6 +2,12 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Formatting
+* Removed joy_teleop namespace, remap topics to that namespace instead
+* Contributors: Roni Kreinin
+
 0.0.9 (2023-07-31)
 ------------------
 * Update platform nodes from extra ros parameters

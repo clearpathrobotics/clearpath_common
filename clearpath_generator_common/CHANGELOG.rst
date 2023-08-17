@@ -2,6 +2,19 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Removed joy_teleop namespace, remap topics to that namespace instead
+* Added fenders for J100
+* Renamed UST10 to UST
+  Added parameter node list
+* Removed disk import
+* Added disk and post
+  Set default values to model dictionaries
+* Inverted and upright sick stand
+* Added UM6/7
+* Contributors: Roni Kreinin
+
 0.0.9 (2023-07-31)
 ------------------
 * Added Garmin 18x, Novatel smart 6 and 7
