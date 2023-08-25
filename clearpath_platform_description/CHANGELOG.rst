@@ -2,6 +2,12 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update gps and imu names to fix generated topic
+* Added Ignition frame names to simulate the real robot
+* Contributors: Hilary Luo
+
 0.1.0 (2023-08-17)
 ------------------
 * Added fenders for J100

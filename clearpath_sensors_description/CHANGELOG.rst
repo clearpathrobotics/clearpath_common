@@ -2,6 +2,11 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added Ignition frame names to simulate the real robot
+* Contributors: Hilary Luo
+
 0.1.0 (2023-08-17)
 ------------------
 * Renamed UST10 to UST
