@@ -2,6 +2,14 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Adds Blackfly camera to sensor description (`#33 <https://github.com/clearpathrobotics/clearpath_common/issues/33>`_)
+  * Adds Blackfly camera to sensor description
+  ---------
+  Co-authored-by: fazzrazz <danielduranrojas@gmail.com>
+* Contributors: Hilary Luo
+
 0.1.1 (2023-08-25)
 ------------------
 * Added Ignition frame names to simulate the real robot
