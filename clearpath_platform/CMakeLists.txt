@@ -35,18 +35,18 @@ find_package(tf2_ros REQUIRED)
 add_library(
   a200_hardware
   SHARED
-  src/a200_hardware.cpp
-  src/a200_status.cpp
-  src/horizon_legacy/horizon_legacy_wrapper.cpp
-  src/horizon_legacy/crc.cpp
-  src/horizon_legacy/Logger.cpp
-  src/horizon_legacy/Message.cpp
-  src/horizon_legacy/Message_data.cpp
-  src/horizon_legacy/Message_request.cpp
-  src/horizon_legacy/Message_cmd.cpp
-  src/horizon_legacy/Transport.cpp
-  src/horizon_legacy/Number.cpp
-  src/horizon_legacy/linux_serial.cpp
+  src/a200/hardware.cpp
+  src/a200/status.cpp
+  src/a200/horizon_legacy/horizon_legacy_wrapper.cpp
+  src/a200/horizon_legacy/crc.cpp
+  src/a200/horizon_legacy/Logger.cpp
+  src/a200/horizon_legacy/Message.cpp
+  src/a200/horizon_legacy/Message_data.cpp
+  src/a200/horizon_legacy/Message_request.cpp
+  src/a200/horizon_legacy/Message_cmd.cpp
+  src/a200/horizon_legacy/Transport.cpp
+  src/a200/horizon_legacy/Number.cpp
+  src/a200/horizon_legacy/linux_serial.cpp
 )
 
 target_include_directories(
@@ -68,8 +68,10 @@ ament_target_dependencies(
 add_library(
   j100_hardware
   SHARED
-  src/j100_hardware.cpp
-  src/j100_hardware_interface.cpp
+  src/j100/hardware.cpp
+  src/j100/hardware_interface.cpp
+  src/diff_drive/hardware.cpp
+  src/diff_drive/hardware_interface.cpp
 )
 
 target_include_directories(
@@ -86,14 +88,39 @@ ament_target_dependencies(
   rclcpp
 )
 
+# W200 Hardware
+add_library(
+  w200_hardware
+  SHARED
+  src/w200/hardware.cpp
+  src/w200/hardware_interface.cpp
+  src/diff_drive/hardware.cpp
+  src/diff_drive/hardware_interface.cpp
+)
 
-pluginlib_export_plugin_description_file(hardware_interface a200_hardware.xml)
-pluginlib_export_plugin_description_file(hardware_interface j100_hardware.xml)
+target_include_directories(
+  w200_hardware
+  PRIVATE
+  include
+)
+
+ament_target_dependencies(
+  w200_hardware
+  clearpath_platform_msgs
+  hardware_interface
+  pluginlib
+  rclcpp
+)
+
+
+pluginlib_export_plugin_description_file(hardware_interface src/a200/hardware.xml)
+pluginlib_export_plugin_description_file(hardware_interface src/j100/hardware.xml)
+pluginlib_export_plugin_description_file(hardware_interface src/w200/hardware.xml)
 
 
 # INSTALL
 install(
-  TARGETS a200_hardware j100_hardware
+  TARGETS a200_hardware j100_hardware w200_hardware
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
@@ -113,6 +140,7 @@ ament_export_include_directories(
 ament_export_libraries(
   a200_hardware
   j100_hardware
+  w200_hardware
 )
 ament_export_dependencies(
   hardware_interface

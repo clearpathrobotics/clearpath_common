@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<library path="w200_hardware">
+    <class name="clearpath_platform/W200Hardware"
+           type="clearpath_platform::W200Hardware"
+           base_class_type="hardware_interface::SystemInterface">
+      <description>
+        The ros2_control W200Hardware using a system hardware interface-type.
+      </description>
+    </class>
+  </library>
