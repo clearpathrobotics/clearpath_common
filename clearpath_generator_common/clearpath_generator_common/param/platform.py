@@ -36,6 +36,8 @@ from clearpath_config.common.types.platform import Platform
 from clearpath_generator_common.common import ParamFile, Package
 from clearpath_generator_common.param.writer import ParamWriter
 
+import os
+
 
 class PlatformParam():
     CONTROL = 'control'
@@ -76,6 +78,15 @@ class PlatformParam():
             self.default_parameter_file_path = f'config/{self.platform}'
             self.default_parameter_file_package = self.clearpath_control_package
             self.default_parameter = self.parameter
+
+            # Generic Control
+            if self.platform == Platform.GENERIC and self.parameter == PlatformParam.CONTROL:
+                control = self.clearpath_config.platform.control
+                self.default_parameter = os.path.basename(control['path'])
+                self.default_parameter = os.path.splitext(self.default_parameter)[0]
+                self.default_parameter_file_path = os.path.dirname(control['path'])
+                self.default_parameter_file_package = Package(control['package'])
+                print("\nself.parameter:", self.parameter)
 
             # Parameter file to generate
             self.param_file = ParamFile(
