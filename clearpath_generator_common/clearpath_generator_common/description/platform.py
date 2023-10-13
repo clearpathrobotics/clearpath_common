@@ -31,17 +31,57 @@
 # of Clearpath Robotics.
 
 from clearpath_config.common.types.platform import Platform
+from clearpath_config.clearpath_config import ClearpathConfig
+from clearpath_config.platform.platform import DescriptionPackagePath
+import os
 
 
 class PlatformDescription():
+
     class BasePlatform():
+        def __init__(
+                self,
+                package: str,
+                path: str,
+                file: str,
+                macro: str = None,
+                parameters: dict = None) -> None:
+            self.package = package
+            self.path = path
+            self.file = file
+            self.macro = macro
+            self.parameters = parameters
+
+    class ClearpathPlatform(BasePlatform):
         pkg_clearpath_platform_description = 'clearpath_platform_description'
 
         def __init__(self, model: Platform) -> None:
-            self.package = self.pkg_clearpath_platform_description
-            self.file = model
-            self.macro = self.file
-            self.path = f'urdf/{model}/'
+            super().__init__(
+                package=self.pkg_clearpath_platform_description,
+                path=f'urdf/{model}/',
+                file=model,
+                macro=model,
+                parameters=None
+            )
 
-    def __new__(cls, model: Platform) -> BasePlatform:
-        return PlatformDescription.BasePlatform(model)
+    class GenericPlatform(BasePlatform):
+        def __init__(self, config: ClearpathConfig) -> None:
+            description = config.platform.description
+            print(description)
+            package = description[DescriptionPackagePath.PACKAGE]
+            path = description[DescriptionPackagePath.PATH]
+            macro = description[DescriptionPackagePath.MACRO]
+            parameters = description[DescriptionPackagePath.PARAMETERS]
+            super().__init__(
+                package=package,
+                file=os.path.basename(path),
+                path=os.path.dirname(path)+"/",
+                macro=macro,
+                parameters=parameters
+            )
+
+    def __new__(cls, model: Platform, config: ClearpathConfig) -> BasePlatform:
+        if model == Platform.GENERIC:
+            return PlatformDescription.GenericPlatform(config)
+        else:
+            return PlatformDescription.ClearpathPlatform(model)
