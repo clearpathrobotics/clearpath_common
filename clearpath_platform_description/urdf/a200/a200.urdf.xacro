@@ -183,9 +183,6 @@
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
           <plugin>clearpath_platform/A200Hardware</plugin>
-          <plugin>fake_components/GenericSystem</plugin>
-          <param name="hw_start_duration_sec">2.0</param>
-          <param name="hw_stop_duration_sec">3.0</param>
           <param name="wheel_diameter">0.3302</param>
           <param name="max_accel">5.0</param>
           <param name="max_speed">1.0</param>
