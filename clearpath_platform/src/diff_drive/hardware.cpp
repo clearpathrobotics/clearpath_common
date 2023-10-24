@@ -97,7 +97,7 @@ void DiffDriveHardware::updateJointsFromHardware()
         side = clearpath_platform_msgs::msg::Drive::LEFT;
       }
     }
-    
+
     double delta = msg.drivers[side].measured_travel -
       hw_states_position_[i] - hw_states_position_offset_[i];
 
