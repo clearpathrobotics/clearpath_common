@@ -204,7 +204,6 @@
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
           <plugin>clearpath_platform/J100Hardware</plugin>
-          <plugin>fake_components/GenericSystem</plugin>
         </xacro:unless>
       </hardware>
       <joint name="front_left_wheel_joint">
