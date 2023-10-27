@@ -23,7 +23,7 @@ OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTE
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<robot xmlns:xacro="http://ros.org/wiki/xacro"> 
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" /> -->
   <!--
       Brackets: add user defined bracket per mount name (i.e. A01)
@@ -83,7 +83,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
           <!-- Add the Bracket-->
           <xacro:bracket_generic name="${name}" parent_link="${parent_link}" mesh="${mesh}" mesh_thickness="${mesh_thickness}" x="${mesh_x}" y="${mesh_y}" z="${mesh_z}">
-              <origin xyz="${bracket_xyz}" rpy="${bracket_rpy}"/>
+              <xacro:insert_block name="origin"/>
           </xacro:bracket_generic>
       </xacro:if>
   </xacro:macro>
@@ -109,7 +109,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     </link>
 
     <link name="${name}_mount" />
-  
+
     <joint name="${name}_joint" type="fixed">
       <child link="${name}_link"/>
       <parent link="${parent_link}"/>
