@@ -121,7 +121,7 @@ def generate_launch_description():
         Node(
             package='controller_manager',
             executable='spawner',
-            arguments=['joint_state_broadcaster'],
+            arguments=['--controller-manager-timeout', '60', 'joint_state_broadcaster'],
             output='screen',
         ),
 
@@ -129,7 +129,7 @@ def generate_launch_description():
         Node(
             package='controller_manager',
             executable='spawner',
-            arguments=['platform_velocity_controller'],
+            arguments=['--controller-manager-timeout', '60', 'platform_velocity_controller'],
             output='screen',
         )
     ])
