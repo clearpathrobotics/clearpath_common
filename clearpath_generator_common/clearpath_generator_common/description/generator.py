@@ -88,12 +88,6 @@ class DescriptionGenerator(BaseGenerator):
                 package=self.pkg_clearpath_platform_description.get_name(),
                 file='common',
                 path='urdf/')
-        # Generic Gazebo Controller
-        self.xacro_writer.write_include(
-            package=self.pkg_clearpath_platform_description.get_name(),
-            file='gazebo',
-            path='urdf/generic/',
-        )
 
     def generate_platform(self) -> None:
         self.platform = self.clearpath_config.platform.get_platform_model()
