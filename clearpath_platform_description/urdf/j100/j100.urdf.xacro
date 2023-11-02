@@ -5,6 +5,8 @@
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="prefix" default="" />
   <xacro:arg name="namespace" default="" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/j100/control.yaml"/>
+
   <xacro:property name="PI" value="3.1415926535897931" />
 
   <xacro:property name="wheelbase" value="0.262" />
@@ -167,6 +169,9 @@
       <child link="front_mount" />
       <origin xyz="${mount_spacing} 0 0" />
     </joint>
+
+    <!-- Gazebo Controller -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
 
     <!-- ROS2 controls -->
     <ros2_control name="j100_hardware" type="system">
