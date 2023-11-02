@@ -86,7 +86,6 @@ class PlatformParam():
                 self.default_parameter = os.path.splitext(self.default_parameter)[0]
                 self.default_parameter_file_path = os.path.dirname(control['path'])
                 self.default_parameter_file_package = Package(control['package'])
-                print("\nself.parameter:", self.parameter)
 
             # Parameter file to generate
             self.param_file = ParamFile(
