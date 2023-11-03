@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.3 (2023-11-03)
+------------------
 * [clearpath_platform_description] Removed un-used ros2_control params.
 * Contributors: Tony Baltovski
 
