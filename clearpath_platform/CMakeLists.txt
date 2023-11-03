@@ -31,6 +31,39 @@ find_package(tf2_ros REQUIRED)
 
 ## COMPILE
 
+# Lighting
+set(LIGHTING_EXECUTABLE lighting_node)
+set(LIGHTING_LIB lighting_lib)
+set(LIGHTING_DEPENDENCIES
+    clearpath_platform_msgs
+    sensor_msgs
+    rclcpp
+)
+
+add_library(
+  ${LIGHTING_LIB}
+  SHARED
+  src/lighting/lighting.cpp
+)
+
+ament_target_dependencies(${LIGHTING_LIB} ${LIGHTING_DEPENDENCIES})
+
+target_include_directories(
+  ${LIGHTING_LIB}
+  PRIVATE
+  include
+)
+
+add_executable(${LIGHTING_EXECUTABLE} src/lighting/main.cpp)
+target_link_libraries(${LIGHTING_EXECUTABLE} ${LIGHTING_LIB})
+ament_target_dependencies(${LIGHTING_EXECUTABLE} ${LIGHTING_DEPENDENCIES})
+
+target_include_directories(
+  ${LIGHTING_EXECUTABLE}
+  PRIVATE
+  include
+)
+
 # A200 Hardware
 add_library(
   a200_hardware
@@ -120,7 +153,7 @@ pluginlib_export_plugin_description_file(hardware_interface src/w200/hardware.xm
 
 # INSTALL
 install(
-  TARGETS a200_hardware j100_hardware w200_hardware
+  TARGETS a200_hardware j100_hardware w200_hardware ${LIGHTING_EXECUTABLE}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
