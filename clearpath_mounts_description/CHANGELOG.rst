@@ -2,6 +2,11 @@
 Changelog for package clearpath_mounts_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Load bracket XYZ from block
+* Contributors: Luis Camero
+
 0.1.2 (2023-10-02)
 ------------------
 
