@@ -43,7 +43,9 @@
 #include "clearpath_platform_msgs/msg/status.hpp"
 #include "clearpath_platform_msgs/msg/power.hpp"
 
+#include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/battery_state.hpp"
+#include "std_msgs/msg/bool.hpp"
 
 #include "clearpath_platform/lighting/sequence.hpp"
 
@@ -79,6 +81,24 @@ class Lighting : public rclcpp::Node
 {
 
 public:
+  /** The set of states for which different lighting is provided */
+  enum class State
+  {
+    BatteryFault = 0,
+    ShoreFault,
+    //PumaFault,
+    ShoreAndCharging,
+    ShorePower,
+    Charging,
+    Stopped,
+    NeedsReset,
+    LowBattery,
+    Driving,
+    Idle
+  };
+
+  std::map<State, Sequence> lighting_sequence_;
+
   Lighting();
 
 private:
@@ -92,7 +112,14 @@ private:
 
   void cmdLightsCallback(const clearpath_platform_msgs::msg::Lights::SharedPtr msg);
   void statusCallback(const clearpath_platform_msgs::msg::Status::SharedPtr msg);
+  void powerCallback(const clearpath_platform_msgs::msg::Power::SharedPtr msg);
   void batteryStateCallback(const sensor_msgs::msg::BatteryState::SharedPtr msg);
+  void stopEngagedCallback(const std_msgs::msg::Bool::SharedPtr msg);
+  void cmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
+
+  /** Updates the current lighting state based on all inputs */
+  void setState(Lighting::State new_state);
+  void updateState();
 
   // Publishers
   rclcpp::Publisher<clearpath_platform_msgs::msg::Lights>::SharedPtr cmd_lights_pub_;
@@ -100,7 +127,10 @@ private:
   // Subscribers
   rclcpp::Subscription<clearpath_platform_msgs::msg::Lights>::SharedPtr cmd_lights_sub_;
   rclcpp::Subscription<clearpath_platform_msgs::msg::Status>::SharedPtr status_sub_;
+  rclcpp::Subscription<clearpath_platform_msgs::msg::Power>::SharedPtr power_sub_;
   rclcpp::Subscription<sensor_msgs::msg::BatteryState>::SharedPtr battery_state_sub_;
+  rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr stop_engaged_sub_;
+  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
 
   // Timers
   rclcpp::TimerBase::SharedPtr lighting_timer_;
@@ -108,14 +138,18 @@ private:
 
   // Messages
   clearpath_platform_msgs::msg::Lights lights_msg_;
+  clearpath_platform_msgs::msg::Status status_msg_;
+  clearpath_platform_msgs::msg::Power power_msg_;
+  sensor_msgs::msg::BatteryState battery_state_msg_;
+  std_msgs::msg::Bool stop_engaged_msg_;
+  geometry_msgs::msg::Twist cmd_vel_msg_;
 
   // Variables
   Platform platform_;
+  State state_, old_state_;
   int num_lights_;
   bool user_commands_allowed_;
-  PulseSequence * pulse_;
-  SolidSequence * solid_;
-  BlinkSequence * blink_;
+  Sequence current_sequence_;
 };
 
 }  // namespace clearpath_lighting

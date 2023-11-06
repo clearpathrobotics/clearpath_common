@@ -48,7 +48,6 @@ std::vector<ColorHSV> ColorHSV::fade(ColorHSV start, ColorHSV end, uint32_t step
   double h_step, s_step, v_step;
 
   double a = end.h() - start.h();
-//   a += a > 180.0 ? -360.0 : a < -180.0 ? 360.0 : 0.0;
   h_step = a / steps;
 
   s_step = (end.s() - start.s()) / steps;

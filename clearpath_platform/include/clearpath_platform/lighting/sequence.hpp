@@ -61,9 +61,11 @@ class Sequence
 
 public:
   clearpath_platform_msgs::msg::Lights getLightsMsg();
+  void reset();
+  static LightingState getLightingState(ColorHSV color, int num_rgb);
+  Sequence();
 
 protected:
-  Sequence();
   LightingSequence sequence_;
   uint16_t current_state_, num_states_;
 };

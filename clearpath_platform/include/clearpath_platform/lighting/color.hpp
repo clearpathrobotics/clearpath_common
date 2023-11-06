@@ -56,13 +56,18 @@ struct hsv_t {
 };
 
 static const hsv_t COLOR_RED = hsv_t(0.0, 100.0, 100.0);
+static const hsv_t COLOR_RED_DIM = hsv_t(0.0, 100.0, 50.0);
 static const hsv_t COLOR_MAGENTA = hsv_t(300.0, 100.0, 100.0);
 static const hsv_t COLOR_BLUE = hsv_t(240.0, 100.0, 100.0);
+static const hsv_t COLOR_BLUE_DIM = hsv_t(240.0, 100.0, 50.0);
 static const hsv_t COLOR_CYAN = hsv_t(180.0, 100.0, 100.0);
 static const hsv_t COLOR_GREEN = hsv_t(120.0, 100.0, 100.0);
+static const hsv_t COLOR_GREEN_DIM = hsv_t(120.0, 100.0, 50.0);
 static const hsv_t COLOR_YELLOW = hsv_t(60.0, 100.0, 100.0);
 static const hsv_t COLOR_ORANGE = hsv_t(30.0, 100.0, 100.0);
 static const hsv_t COLOR_WHITE = hsv_t(0.0, 0.0, 100.0);
+static const hsv_t COLOR_WHITE_DIM = hsv_t(0.0, 0.0, 50.0);
+static const hsv_t COLOR_BLACK = hsv_t(0.0, 0.0, 0.0);
 
 
 class ColorHSV

@@ -62,7 +62,16 @@ clearpath_platform_msgs::msg::Lights Sequence::getLightsMsg()
 }
 
 Sequence::Sequence() : current_state_(0)
+{}
+
+void Sequence::reset()
 {
+  current_state_ = 0;
+}
+
+clearpath_lighting::LightingState Sequence::getLightingState(ColorHSV color, int num_rgb)
+{
+  return LightingState(num_rgb, color);
 }
 
 SolidSequence::SolidSequence(const LightingState state)
@@ -103,10 +112,6 @@ BlinkSequence::BlinkSequence(const LightingState first_state,
     }
   }
   num_states_ = steps;
-  for (uint32_t i = 0; i < sequence_.at(0).size(); i++)
-  {
-    std::cout << sequence_.at(0).at(i).h() << std::endl;
-  }
 }
 
 PulseSequence::PulseSequence(const LightingState first_state,
@@ -123,14 +128,5 @@ PulseSequence::PulseSequence(const LightingState first_state,
     std::vector<ColorHSV> reverse = sequence_.at(i);
     std::reverse(reverse.begin(), reverse.end());
     sequence_.at(i).insert(std::end(sequence_.at(i)), std::begin(reverse), std::end(reverse));
-  }
-
-  for (uint32_t i = 0; i < sequence_.at(0).size(); i++)
-  {
-    uint8_t r, g, b;
-    r = sequence_.at(0).at(i).getRgbMsg().red;
-    g = sequence_.at(0).at(i).getRgbMsg().green;
-    b = sequence_.at(0).at(i).getRgbMsg().blue;
-    std::cout << "RGB: [" << static_cast<int>(r) << ", " << static_cast<int>(g) << ", " << static_cast<int>(b) << "]" << std::endl;
   }
 }
