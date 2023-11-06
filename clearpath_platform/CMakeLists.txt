@@ -44,6 +44,8 @@ add_library(
   ${LIGHTING_LIB}
   SHARED
   src/lighting/lighting.cpp
+  src/lighting/sequence.cpp
+  src/lighting/color.cpp
 )
 
 ament_target_dependencies(${LIGHTING_LIB} ${LIGHTING_DEPENDENCIES})

@@ -45,11 +45,15 @@
 
 #include "sensor_msgs/msg/battery_state.hpp"
 
+#include "clearpath_platform/lighting/sequence.hpp"
+
 namespace clearpath_lighting
 {
 
-static constexpr auto LIGHTING_TIMER_TIMEOUT_MS = 20;
+static constexpr auto LIGHTING_TIMER_TIMEOUT_MS = 50;
 static constexpr auto USER_COMMAND_TIMEOUT_MS = 1000;
+
+#define MS_TO_STEPS(ms) (ms / LIGHTING_TIMER_TIMEOUT_MS)
 
 enum Platform
 {
@@ -73,6 +77,7 @@ static std::map<std::string, Platform> ClearpathPlatforms
 
 class Lighting : public rclcpp::Node
 {
+
 public:
   Lighting();
 
@@ -108,6 +113,9 @@ private:
   Platform platform_;
   int num_lights_;
   bool user_commands_allowed_;
+  PulseSequence * pulse_;
+  SolidSequence * solid_;
+  BlinkSequence * blink_;
 };
 
 }  // namespace clearpath_lighting

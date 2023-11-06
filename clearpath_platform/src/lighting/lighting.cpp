@@ -32,8 +32,12 @@
  */
 
 #include "clearpath_platform/lighting/lighting.hpp"
+#include "clearpath_platform/lighting/color.hpp"
+
 
 using clearpath_lighting::Lighting;
+using Lights = clearpath_platform_msgs::msg::Lights;
+using RGB = clearpath_platform_msgs::msg::RGB;
 
 Lighting::Lighting()
 : Node("clearpath_lighting"),
@@ -59,18 +63,27 @@ Lighting::Lighting()
     num_lights_ = 8;
   }
 
-  lights_msg_ = clearpath_platform_msgs::msg::Lights();
+  lights_msg_ = Lights();
   lights_msg_.lights.resize(num_lights_);
 
   initializePublishers();
   initializeSubscribers();
   initializeTimers();
+
+  auto first = LightingState{COLOR_BLUE, COLOR_CYAN, COLOR_ORANGE, COLOR_RED};
+  auto last = LightingState{COLOR_MAGENTA, COLOR_ORANGE, COLOR_WHITE, COLOR_GREEN};
+  pulse_ = new PulseSequence(first, last, MS_TO_STEPS(10000));
+  //blink_ = new BlinkSequence(first, last, MS_TO_STEPS(1000), 0.5);
+  //solid_ = new SolidSequence(first);
 }
 
 void Lighting::spinOnce()
 {
+  lights_msg_ = pulse_->getLightsMsg();
+  //lights_msg_ = blink_->getLightsMsg();
+  //lights_msg_ = solid_->getLightsMsg();
   // If user is not commanding lights, update lights
-  if (!user_commands_allowed_ || !user_timeout_timer_->is_canceled())
+  if (!user_commands_allowed_ || user_timeout_timer_->is_canceled())
   {
     cmd_lights_pub_->publish(lights_msg_);
   }
