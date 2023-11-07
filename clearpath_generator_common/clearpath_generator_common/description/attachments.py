@@ -40,6 +40,9 @@ from typing import List
 
 class AttachmentsDescription():
     class BaseDescription():
+        NAME = 'name'
+        MODEL = 'model'
+        PARENT_LINK = 'parent_link'
         pkg_clearpath_platform_description = 'clearpath_platform_description'
 
         def __init__(self, attachment: BaseAttachment) -> None:
@@ -48,7 +51,11 @@ class AttachmentsDescription():
             self.path = f'urdf/{self.attachment.platform}/attachments/'
             self.file = self.attachment.file
 
-            self.parameters = {}
+            self.parameters = {
+                self.NAME: attachment.name,
+                self.MODEL: attachment.model,
+                self.PARENT_LINK: attachment.parent,
+            }
 
         @property
         def xyz(self) -> List[float]:
@@ -58,42 +65,23 @@ class AttachmentsDescription():
         def rpy(self) -> List[float]:
             return self.attachment.rpy
 
-    class SimpleDescription(BaseDescription):
-        NAME = 'name'
-        MODEL = 'model'
-        PARENT_LINK = 'parent_link'
-
-        def __init__(self, attachment: BaseAttachment) -> None:
-            super().__init__(attachment)
-            self.parameters.update({
-                self.NAME: attachment.name,
-                self.MODEL: attachment.model,
-                self.PARENT_LINK: attachment.parent,
-            })
-
     class BumperDescription(BaseDescription):
-        NAME = 'name'
-        MODEL = 'model'
-        PARENT_LINK = 'parent_link'
         EXTENSION = 'extension'
 
         def __init__(self, attachment: Bumper) -> None:
             super().__init__(attachment)
             self.parameters.update({
-                self.NAME: attachment.name,
-                self.MODEL: attachment.model,
-                self.PARENT_LINK: attachment.parent,
                 self.EXTENSION: attachment.extension
             })
 
     MODEL = {
         # A200
         A200Attachment.BUMPER: BumperDescription,
-        A200Attachment.TOP_PLATE: SimpleDescription,
-        A200Attachment.SENSOR_ARCH: SimpleDescription,
+        A200Attachment.TOP_PLATE: BaseDescription,
+        A200Attachment.SENSOR_ARCH: BaseDescription,
         # J100
-        J100Attachment.FENDER: SimpleDescription,
-        J100Attachment.TOP_PLATE: SimpleDescription,
+        J100Attachment.FENDER: BaseDescription,
+        J100Attachment.TOP_PLATE: BaseDescription,
     }
 
     def __new__(cls, attachment: BaseAttachment) -> BaseDescription:
