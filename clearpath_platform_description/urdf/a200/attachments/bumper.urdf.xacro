@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:macro name="bumper" params="name extension:=0 *origin">
-        <xacro:property name="parent_link" value="front_bumper_mount" />
-        <xacro:if value="${'rear' in name}" >
-            <xacro:property name="parent_link" value="rear_bumper_mount" />
-        </xacro:if>
-
+    <xacro:macro name="bumper" params="name model:='default' parent_link:='front_bumper_mount' extension:=0 *origin">
         <!-- Spawn bumper link -->
         <link name="${name}_link">
             <visual>

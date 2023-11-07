@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:macro name="top_plate" params="model:=default">
+    <xacro:macro name="top_plate" params="name:=ark_enclosure model:=default parent_link:=mid_mount *origin">
       <xacro:if value="${model == 'ark_enclosure'}">
-         <link name="ark_enclosure_link">
+         <link name="${name}_link">
           <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
@@ -11,9 +11,10 @@
             <material name="dark_grey" />
           </visual>
         </link>
-        <joint name="ark_enclosure_joint" type="fixed">
-          <parent link="mid_mount" />
-          <child link="ark_enclosure_link" />
+        <joint name="${name}_joint" type="fixed">
+          <parent link="${parent_link}" />
+          <child link="${name}_link" />
+          <xacro:insert_block name="origin"/>
         </joint>
       </xacro:if>
     </xacro:macro>
