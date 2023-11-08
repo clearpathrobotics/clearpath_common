@@ -34,7 +34,6 @@
 #include "clearpath_platform/lighting/lighting.hpp"
 #include "clearpath_platform/lighting/color.hpp"
 
-
 using clearpath_lighting::Lighting;
 using Lights = clearpath_platform_msgs::msg::Lights;
 using RGB = clearpath_platform_msgs::msg::RGB;
@@ -90,7 +89,7 @@ Lighting::Lighting()
     {State::Stopped, BlinkSequence(
       Sequence::fillLightingState(COLOR_RED, platform_),
       Sequence::fillLightingState(COLOR_BLACK, platform_),
-      MS_TO_STEPS(2000), 0.5)},
+      MS_TO_STEPS(1000), 0.5)},
     
     {State::NeedsReset, BlinkSequence(
       Sequence::fillLightingState(COLOR_ORANGE, platform_),
@@ -112,8 +111,8 @@ Lighting::Lighting()
   current_sequence_ = lighting_sequence_.at(state_);
 
   initializePublishers();
-  initializeSubscribers();
   initializeTimers();
+  initializeSubscribers();
 }
 
 void Lighting::spinOnce()
@@ -149,7 +148,7 @@ void Lighting::spinOnce()
   lights_msg_ = current_sequence_.getLightsMsg();
 
   // If user is not commanding lights, update lights
-  if (!user_commands_allowed_ || user_timeout_timer_ == nullptr || user_timeout_timer_->is_canceled())
+  if (user_timeout_timer_->is_canceled())
   {
     cmd_lights_pub_->publish(lights_msg_);
   }
@@ -203,6 +202,8 @@ void Lighting::initializeSubscribers()
 
 void Lighting::initializeTimers()
 {
+  startUserTimeoutTimer();
+
   lighting_timer_ = this->create_wall_timer(
     std::chrono::milliseconds(LIGHTING_TIMER_TIMEOUT_MS),
     [this]() -> void
@@ -214,7 +215,11 @@ void Lighting::initializeTimers()
 
 void Lighting::startUserTimeoutTimer()
 {
-  if (user_timeout_timer_ == nullptr || user_timeout_timer_->is_canceled())
+  if (user_timeout_timer_ && !user_timeout_timer_->is_canceled())
+  {
+    user_timeout_timer_->reset();
+  }
+  else
   {
     user_timeout_timer_ = this->create_wall_timer(
       std::chrono::milliseconds(USER_COMMAND_TIMEOUT_MS),
@@ -224,7 +229,7 @@ void Lighting::startUserTimeoutTimer()
         user_timeout_timer_->cancel();
       }
     );
-  }
+  }  
 }
 
 void Lighting::cmdLightsCallback(const clearpath_platform_msgs::msg::Lights::SharedPtr msg)
@@ -235,12 +240,7 @@ void Lighting::cmdLightsCallback(const clearpath_platform_msgs::msg::Lights::Sha
     return;
   }
 
-  // Reset timer if it is running
-  if (user_timeout_timer_)
-  {
-    user_timeout_timer_->cancel();
-  }
-
+  // Reset user timeout timer
   startUserTimeoutTimer();
 
   // Publish if allowed
