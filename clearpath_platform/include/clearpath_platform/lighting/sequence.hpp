@@ -38,6 +38,7 @@
 #include <vector>
 
 #include "clearpath_platform/lighting/color.hpp"
+#include "clearpath_platform/lighting/platform.hpp"
 #include "clearpath_platform_msgs/msg/lights.hpp"
 #include "clearpath_platform_msgs/msg/rgb.hpp"
 
@@ -62,7 +63,10 @@ class Sequence
 public:
   clearpath_platform_msgs::msg::Lights getLightsMsg();
   void reset();
-  static LightingState getLightingState(ColorHSV color, int num_rgb);
+  static LightingState fillLightingState(ColorHSV color, clearpath_lighting::Platform platform);
+  static LightingState fillFrontRearLightingState(ColorHSV front_color, ColorHSV rear_color, clearpath_lighting::Platform platform);
+  static LightingState fillLeftRightLightingState(ColorHSV left_color, ColorHSV right_color, clearpath_lighting::Platform platform);
+  static LightingState fillOppositeCornerLightingState(ColorHSV front_left_color, ColorHSV front_right_color, clearpath_lighting::Platform platform);
   Sequence();
 
 protected:

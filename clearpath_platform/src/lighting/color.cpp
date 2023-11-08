@@ -34,7 +34,6 @@
 
 #include <cmath>
 #include "clearpath_platform/lighting/color.hpp"
-#include <iostream>
 
 using clearpath_lighting::ColorHSV;
 

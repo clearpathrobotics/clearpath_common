@@ -1,7 +1,7 @@
 /**
  *
  *  \file
- *  \brief      Lighting Class Header
+ *  \brief      Platform Header
  *  \author     Roni Kreinin <rkreinin@clearpathrobotics.com>
  *  \copyright  Copyright (c) 2023, Clearpath Robotics, Inc.
  *
@@ -32,65 +32,45 @@
  * Adapted from https://gist.github.com/borgel/d9a8bc11aeb5e0005d8320026c46f6f7
  */
 
-#ifndef CLEARPATH_PLATFORM__COLOR_HPP_
-#define CLEARPATH_PLATFORM__COLOR_HPP_
+#ifndef CLEARPATH_PLATFORM__LIGHTING__PLATFORM_HPP_
+#define CLEARPATH_PLATFORM__LIGHTING__PLATFORM_HPP_
 
-#include <vector>
+#include <map>
 #include <stdint.h>
-#include "clearpath_platform_msgs/msg/rgb.hpp"
 
 namespace clearpath_lighting
 {
 
-struct hsv_t {
-  double h;
-  double s;
-  double v;
-
-  hsv_t(double h_, double s_, double v_)
-  {
-    h = h_;
-    s = s_;
-    v = v_;
-  }
-
-  hsv_t()
-  {
-    h = 0.0;
-    s = 0.0;
-    v = 0.0;
-  }
+enum Platform
+{
+  DD100,
+  DO100,
+  DD150,
+  DO150,
+  R100,
+  W200
 };
 
-static const hsv_t COLOR_RED = hsv_t(0.0, 100.0, 100.0);
-static const hsv_t COLOR_RED_DIM = hsv_t(0.0, 100.0, 50.0);
-static const hsv_t COLOR_MAGENTA = hsv_t(300.0, 100.0, 100.0);
-static const hsv_t COLOR_BLUE = hsv_t(240.0, 100.0, 100.0);
-static const hsv_t COLOR_BLUE_DIM = hsv_t(240.0, 100.0, 50.0);
-static const hsv_t COLOR_CYAN = hsv_t(180.0, 100.0, 100.0);
-static const hsv_t COLOR_GREEN = hsv_t(120.0, 100.0, 100.0);
-static const hsv_t COLOR_GREEN_DIM = hsv_t(120.0, 100.0, 50.0);
-static const hsv_t COLOR_YELLOW = hsv_t(60.0, 100.0, 100.0);
-static const hsv_t COLOR_ORANGE = hsv_t(30.0, 100.0, 100.0);
-static const hsv_t COLOR_WHITE = hsv_t(0.0, 0.0, 100.0);
-static const hsv_t COLOR_WHITE_DIM = hsv_t(0.0, 0.0, 50.0);
-static const hsv_t COLOR_BLACK = hsv_t(0.0, 0.0, 0.0);
-
-
-class ColorHSV
+static std::map<std::string, Platform> ClearpathPlatforms
 {
+  {"dd100", Platform::DD100},
+  {"do100", Platform::DO100},
+  {"dd150", Platform::DD150},
+  {"do150", Platform::DO150},
+  {"r100", Platform::R100},
+  {"w200", Platform::W200},
+};
 
-public:
-  ColorHSV(hsv_t hsv);
-  static std::vector<ColorHSV> fade(ColorHSV start, ColorHSV end, uint32_t steps);
-  clearpath_platform_msgs::msg::RGB getRgbMsg();
-  double h() { return hsv_.h; };
-  double s() { return hsv_.s; };
-  double v() { return hsv_.v; };
-private:
-  hsv_t hsv_;
+static std::map<Platform, int> PlatformNumLights
+{
+  {Platform::DD100, 4},
+  {Platform::DO100, 4},
+  {Platform::DD150, 4},
+  {Platform::DO150, 4},
+  {Platform::R100, 8},
+  {Platform::W200, 4},
 };
 
 }
 
-#endif  // CLEARPATH_PLATFORM__COLOR_HPP_
+#endif  // CLEARPATH_PLATFORM__LIGHTING__PLATFORM_HPP_

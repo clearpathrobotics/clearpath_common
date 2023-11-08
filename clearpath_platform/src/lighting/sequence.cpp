@@ -31,15 +31,17 @@
  *
  */
 
+#include <cmath>
+
 #include "clearpath_platform/lighting/sequence.hpp"
 #include "clearpath_platform/lighting/color.hpp"
-#include <cmath>
-#include <iostream>
 
 using clearpath_lighting::BlinkSequence;
 using clearpath_lighting::PulseSequence;
 using clearpath_lighting::Sequence;
 using clearpath_lighting::SolidSequence;
+using clearpath_lighting::LightingState;
+using clearpath_lighting::Platform;
 
 clearpath_platform_msgs::msg::Lights Sequence::getLightsMsg()
 {
@@ -69,10 +71,137 @@ void Sequence::reset()
   current_state_ = 0;
 }
 
-clearpath_lighting::LightingState Sequence::getLightingState(ColorHSV color, int num_rgb)
+LightingState Sequence::fillLightingState(ColorHSV color, Platform platform)
 {
-  return LightingState(num_rgb, color);
+  return LightingState(PlatformNumLights.at(platform), color);
 }
+
+LightingState Sequence::fillFrontRearLightingState(ColorHSV front_color, ColorHSV rear_color, Platform platform)
+{
+  LightingState lighting_state(PlatformNumLights.at(platform), COLOR_BLACK);
+  switch (platform)
+  {
+    case Platform::DD100:
+    case Platform::DO100:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_FRONT_LEFT) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_FRONT_RIGHT) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_REAR_LEFT) = rear_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_REAR_RIGHT) = rear_color;
+      break;
+
+    case Platform::DD150:
+    case Platform::DO150:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_FRONT_LEFT) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_FRONT_RIGHT) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_REAR_LEFT) = rear_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_REAR_RIGHT) = rear_color;
+      break;
+    
+    case Platform::W200:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_FRONT_LEFT) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_FRONT_RIGHT) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_REAR_LEFT) = rear_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_REAR_RIGHT) = rear_color;
+      break;
+    
+    case Platform::R100:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_PORT_UPPER) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_PORT_LOWER) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_STARBOARD_UPPER) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_STARBOARD_LOWER) = front_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_PORT_UPPER) = rear_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_PORT_LOWER) = rear_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_STARBOARD_UPPER) = rear_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_STARBOARD_LOWER) = rear_color;
+      break;
+  }
+  return lighting_state;
+}
+
+LightingState Sequence::fillLeftRightLightingState(ColorHSV left_color, ColorHSV right_color, Platform platform)
+{
+  LightingState lighting_state(PlatformNumLights.at(platform), COLOR_BLACK);
+  switch (platform)
+  {
+    case Platform::DD100:
+    case Platform::DO100:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_FRONT_LEFT) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_REAR_LEFT) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_FRONT_RIGHT) = right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_REAR_RIGHT) = right_color;
+      break;
+
+    case Platform::DD150:
+    case Platform::DO150:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_FRONT_LEFT) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_REAR_LEFT) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_FRONT_RIGHT) = right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_REAR_RIGHT) = right_color;
+      break;
+    
+    case Platform::W200:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_FRONT_LEFT) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_REAR_LEFT) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_FRONT_RIGHT) = right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_REAR_RIGHT) = right_color;
+      break;
+    
+    case Platform::R100:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_PORT_UPPER) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_PORT_LOWER) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_PORT_UPPER) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_PORT_LOWER) = left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_STARBOARD_UPPER) = right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_STARBOARD_LOWER) = right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_STARBOARD_UPPER) = right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_STARBOARD_LOWER) = right_color;
+      break;
+  }
+  return lighting_state;
+}
+
+LightingState Sequence::fillOppositeCornerLightingState(ColorHSV front_left_color, ColorHSV front_right_color, Platform platform)
+{
+  LightingState lighting_state(PlatformNumLights.at(platform), COLOR_BLACK);
+  switch (platform)
+  {
+    case Platform::DD100:
+    case Platform::DO100:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_FRONT_LEFT) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_REAR_RIGHT) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_FRONT_RIGHT) = front_right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D100_LIGHTS_REAR_LEFT) = front_right_color;
+      break;
+
+    case Platform::DD150:
+    case Platform::DO150:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_FRONT_LEFT) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_REAR_RIGHT) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_FRONT_RIGHT) = front_right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::D150_LIGHTS_REAR_LEFT) = front_right_color;
+      break;
+    
+    case Platform::W200:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_FRONT_LEFT) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_REAR_RIGHT) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_FRONT_RIGHT) = front_right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::W200_LIGHTS_REAR_LEFT) = front_right_color;
+      break;
+    
+    case Platform::R100:
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_PORT_UPPER) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_PORT_LOWER) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_STARBOARD_UPPER) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_STARBOARD_LOWER) = front_left_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_STARBOARD_UPPER) = front_right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_FRONT_STARBOARD_LOWER) = front_right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_PORT_UPPER) = front_right_color;
+      lighting_state.at(clearpath_platform_msgs::msg::Lights::R100_LIGHTS_REAR_PORT_LOWER) = front_right_color;
+      break;
+  }
+  return lighting_state;
+}
+  
 
 SolidSequence::SolidSequence(const LightingState state)
 {

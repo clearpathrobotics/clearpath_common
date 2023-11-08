@@ -48,6 +48,7 @@
 #include "std_msgs/msg/bool.hpp"
 
 #include "clearpath_platform/lighting/sequence.hpp"
+#include "clearpath_platform/lighting/platform.hpp"
 
 namespace clearpath_lighting
 {
@@ -56,26 +57,6 @@ static constexpr auto LIGHTING_TIMER_TIMEOUT_MS = 50;
 static constexpr auto USER_COMMAND_TIMEOUT_MS = 1000;
 
 #define MS_TO_STEPS(ms) (ms / LIGHTING_TIMER_TIMEOUT_MS)
-
-enum Platform
-{
-  DD100,
-  DO100,
-  DD150,
-  DO150,
-  R100,
-  W200
-};
-
-static std::map<std::string, Platform> ClearpathPlatforms
-{
-  {"DD100", Platform::DD100},
-  {"DO100", Platform::DO100},
-  {"DD150", Platform::DD150},
-  {"DO150", Platform::DO150},
-  {"R100", Platform::R100},
-  {"W200", Platform::W200},
-};
 
 class Lighting : public rclcpp::Node
 {

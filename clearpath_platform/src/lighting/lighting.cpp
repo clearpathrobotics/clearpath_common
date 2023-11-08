@@ -43,10 +43,9 @@ Lighting::Lighting()
 : Node("clearpath_lighting"),
   state_(State::Idle),
   old_state_(State::Idle),
-  num_lights_(4),
   user_commands_allowed_(false)
 {
-  this->declare_parameter("platform", "DD100");
+  this->declare_parameter("platform", "dd100");
   std::string platform = this->get_parameter("platform").as_string();
 
   try
@@ -60,57 +59,54 @@ Lighting::Lighting()
   
   RCLCPP_INFO(this->get_logger(), "Lighting Platform %s", platform.c_str());
 
-  if (platform_ == Platform::R100)
-  {
-    num_lights_ = 8;
-  }
-
   lights_msg_ = Lights();
 
   lighting_sequence_ = std::map<State, Sequence>{
     {State::BatteryFault, BlinkSequence(
-      Sequence::getLightingState(COLOR_YELLOW, num_lights_),
-      Sequence::getLightingState(COLOR_RED, num_lights_),
+      Sequence::fillLightingState(COLOR_YELLOW, platform_),
+      Sequence::fillLightingState(COLOR_RED, platform_),
       MS_TO_STEPS(2000), 0.5)},
 
     {State::ShoreFault, BlinkSequence(
-      Sequence::getLightingState(COLOR_BLUE, num_lights_),
-      Sequence::getLightingState(COLOR_RED, num_lights_),
+      Sequence::fillLightingState(COLOR_BLUE, platform_),
+      Sequence::fillLightingState(COLOR_RED, platform_),
       MS_TO_STEPS(2000), 0.5)},
 
     {State::ShoreAndCharging, PulseSequence(
-      Sequence::getLightingState(COLOR_BLUE, num_lights_),
-      Sequence::getLightingState(COLOR_GREEN, num_lights_),
+      Sequence::fillLightingState(COLOR_BLUE, platform_),
+      Sequence::fillLightingState(COLOR_GREEN, platform_),
       MS_TO_STEPS(8000))},
     
     {State::ShorePower, PulseSequence(
-      Sequence::getLightingState(COLOR_BLUE, num_lights_),
-      Sequence::getLightingState(COLOR_BLUE_DIM, num_lights_),
+      Sequence::fillLightingState(COLOR_BLUE, platform_),
+      Sequence::fillLightingState(COLOR_BLUE_DIM, platform_),
       MS_TO_STEPS(4000))},
     
     {State::Charging, PulseSequence(
-      Sequence::getLightingState(COLOR_GREEN, num_lights_),
-      Sequence::getLightingState(COLOR_GREEN_DIM, num_lights_),
+      Sequence::fillLightingState(COLOR_GREEN, platform_),
+      Sequence::fillLightingState(COLOR_GREEN_DIM, platform_),
       MS_TO_STEPS(4000))},
     
     {State::Stopped, BlinkSequence(
-      Sequence::getLightingState(COLOR_RED, num_lights_),
-      Sequence::getLightingState(COLOR_BLACK, num_lights_),
+      Sequence::fillLightingState(COLOR_RED, platform_),
+      Sequence::fillLightingState(COLOR_BLACK, platform_),
       MS_TO_STEPS(2000), 0.5)},
     
     {State::NeedsReset, BlinkSequence(
-      Sequence::getLightingState(COLOR_ORANGE, num_lights_),
-      Sequence::getLightingState(COLOR_RED, num_lights_),
+      Sequence::fillLightingState(COLOR_ORANGE, platform_),
+      Sequence::fillLightingState(COLOR_RED, platform_),
       MS_TO_STEPS(2000), 0.5)},
     
     {State::LowBattery, PulseSequence(
-      Sequence::getLightingState(COLOR_ORANGE, num_lights_),
-      Sequence::getLightingState(COLOR_BLACK, num_lights_),
+      Sequence::fillLightingState(COLOR_ORANGE, platform_),
+      Sequence::fillLightingState(COLOR_BLACK, platform_),
       MS_TO_STEPS(4000))},
 
-    {State::Driving, SolidSequence(LightingState{COLOR_WHITE, COLOR_WHITE, COLOR_RED, COLOR_RED})},
+    {State::Driving, SolidSequence(
+      Sequence::fillFrontRearLightingState(COLOR_WHITE, COLOR_RED, platform_))},
 
-    {State::Idle, SolidSequence(LightingState{COLOR_WHITE_DIM, COLOR_WHITE_DIM, COLOR_RED_DIM, COLOR_RED_DIM})},
+    {State::Idle, SolidSequence(
+      Sequence::fillFrontRearLightingState(COLOR_WHITE_DIM, COLOR_RED_DIM, platform_))},
   };
 
   current_sequence_ = lighting_sequence_.at(state_);
@@ -289,7 +285,7 @@ void Lighting::updateState()
 {
   state_ = State::Idle;
   // Shore power connected
-  if (power_msg_.shore_power_connected)
+  if (power_msg_.shore_power_connected == 1)
   {
     // Shore power overvoltage detected on MCU
     if (battery_state_msg_.power_supply_health == sensor_msgs::msg::BatteryState::POWER_SUPPLY_HEALTH_OVERVOLTAGE)
@@ -316,7 +312,7 @@ void Lighting::updateState()
   // Charger connected
   if (battery_state_msg_.power_supply_status == sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_CHARGING) // || wibotic_charging_msg_.data)
   {
-    if (power_msg_.shore_power_connected)
+    if (power_msg_.shore_power_connected == 1)
     {
       setState(State::ShoreAndCharging);
     }
