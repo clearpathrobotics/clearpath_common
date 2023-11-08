@@ -7,7 +7,7 @@
         <geometry>
           <mesh filename="package://clearpath_sensors_description/meshes/novatel_smart6.stl"/>
         </geometry>
-        <material name="novatel_white">
+        <material name="clearpath_novatel_white">
           <color rgba="0.8 0.8 0.8 1.0" />
         </material>
       </visual>

@@ -82,12 +82,11 @@ class DescriptionGenerator(BaseGenerator):
 
     def generate_common(self) -> None:
         self.xacro_writer.write_comment('Common')
-        if self.clearpath_config.get_platform_model() != Platform.GENERIC:
-            # Clearpath Common Materials
-            self.xacro_writer.write_include(
-                package=self.pkg_clearpath_platform_description.get_name(),
-                file='common',
-                path='urdf/')
+        # Clearpath Common Materials
+        self.xacro_writer.write_include(
+            package=self.pkg_clearpath_platform_description.get_name(),
+            file='common',
+            path='urdf/')
 
     def generate_platform(self) -> None:
         self.platform = self.clearpath_config.platform.get_platform_model()

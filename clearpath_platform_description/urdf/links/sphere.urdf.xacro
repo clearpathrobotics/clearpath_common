@@ -6,7 +6,7 @@
         <geometry>
           <sphere radius="${radius}"/>
         </geometry>
-        <material name="dark_grey"/>
+        <material name="clearpath_dark_grey"/>
       </visual>
     </link>
 

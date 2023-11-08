@@ -83,7 +83,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/j100/j100_base.stl"/>
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
       <collision>
         <origin xyz="0 0 ${chassis_height/2}"/>
@@ -132,7 +132,7 @@
           <cylinder radius="0.026" length="0.016" />
         </geometry>
         <origin xyz="0 0 0.008" />
-        <material name="black" />
+        <material name="clearpath_black" />
       </visual>
     </link>
     <joint name="navsat_joint" type="fixed">

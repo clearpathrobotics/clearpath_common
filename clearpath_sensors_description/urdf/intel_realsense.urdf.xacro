@@ -3,7 +3,7 @@
   <xacro:macro name="intel_realsense" params="name parent_link *origin
                                               update_rate:=30.0 image_height:=480 image_width:=640">
 
-    <xacro:macro name="sensor_d435" 
+    <xacro:macro name="sensor_d435"
                  params="parent *origin name:=camera
                          use_nominal_extrinsics:=false add_plug:=false use_mesh:=true">
       <xacro:property name="M_PI" value="3.1415926535897931" />
@@ -62,7 +62,7 @@
             <geometry>
               <box size="${d435_cam_depth} ${d435_cam_width} ${d435_cam_height}"/>
             </geometry>
-            <material name="aluminum"/>
+            <material name="clearpath_aluminum"/>
           </xacro:unless>
         </visual>
         <collision>

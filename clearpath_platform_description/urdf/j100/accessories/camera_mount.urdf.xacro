@@ -8,7 +8,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/j100/camera_bracket.stl" scale="0.001 0.001 0.001" />
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
     </link>
 
@@ -18,7 +18,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/j100/camera_beam.stl" scale="0.001 0.001 0.001" />
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
     </link>
 

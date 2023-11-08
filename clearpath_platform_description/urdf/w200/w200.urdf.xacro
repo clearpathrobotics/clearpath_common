@@ -78,7 +78,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/wheel.stl" />
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
@@ -121,7 +121,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/tracks.dae" />
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -207,14 +207,14 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/rocker.stl" />
         </geometry>
-        <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+        <material name="clearpath_black"><color rgba="0.15 0.15 0.15 1.0" /></material>
       </visual>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${side*PI/2}"/>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/fenders.stl" />
         </geometry>
-        <material name="${warthog_color}">
+        <material name="clearpath_${warthog_color}">
           <color rgba="${warthog_color_rgba}" />
         </material>
       </visual>
@@ -240,7 +240,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/light.stl" />
         </geometry>
-        <material name="white"><color rgba="0.9 0.9 0.9 1.0" /></material>
+        <material name="clearpath_white"><color rgba="0.9 0.9 0.9 1.0" /></material>
       </visual>
     </link>
     <joint name="${prefix}_diff_unit_headlight_joint" type="fixed">
@@ -265,7 +265,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/light.stl" />
         </geometry>
-        <material name="red"><color rgba="0.9 0.0 0.0 1.0" /></material>
+        <material name="clearpath_red"><color rgba="0.9 0.0 0.0 1.0" /></material>
       </visual>
     </link>
     <joint name="${prefix}_diff_unit_taillight_joint" type="fixed">
@@ -321,14 +321,14 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/chassis.stl" />
         </geometry>
-        <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+        <material name="clearpath_black"><color rgba="0.15 0.15 0.15 1.0" /></material>
       </visual>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/e-stop.stl" />
         </geometry>
-        <material name="red"><color rgba="0.9 0.0 0.0 1.0" /></material>
+        <material name="clearpath_red"><color rgba="0.9 0.0 0.0 1.0" /></material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -353,21 +353,21 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/diff-link.stl" />
         </geometry>
-        <material name="light_grey" />
+        <material name="clearpath_light_grey" />
       </visual>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/susp-link.stl" />
         </geometry>
-        <material name="light_grey" />
+        <material name="clearpath_light_grey" />
       </visual>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/susp-link.stl" />
         </geometry>
-        <material name="light_grey" />
+        <material name="clearpath_light_grey" />
       </visual>
     </link>
     <joint name="diff_link_joint" type="fixed">

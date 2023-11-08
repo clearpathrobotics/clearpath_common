@@ -9,7 +9,7 @@
         <geometry>
           <box size="0.1 0.1 0.002" />
         </geometry>
-        <material name="black" />
+        <material name="clearpath_black" />
         <origin xyz="0 0 -0.001" rpy="0 0 0" />
       </visual>
     </link>
@@ -19,7 +19,7 @@
         <geometry>
           <cylinder length="${height}" radius="0.003" />
         </geometry>
-        <material name="white">
+        <material name="clearpath_white">
           <color rgba="1 1 1 1" />
         </material>
         <origin xyz="0 0 ${height/2}" rpy="0 0 0" />
@@ -30,7 +30,7 @@
         <geometry>
           <cylinder length="${height}" radius="0.003" />
         </geometry>
-        <material name="white">
+        <material name="clearpath_white">
           <color rgba="1 1 1 1" />
         </material>
         <origin xyz="0 0 ${height/2}" rpy="0 0 0" />
@@ -41,7 +41,7 @@
         <geometry>
           <cylinder length="${height}" radius="0.003" />
         </geometry>
-        <material name="white">
+        <material name="clearpath_white">
           <color rgba="1 1 1 1" />
         </material>
         <origin xyz="0 0 ${height/2}" rpy="0 0 0" />
@@ -52,7 +52,7 @@
         <geometry>
           <cylinder length="${height}" radius="0.003" />
         </geometry>
-        <material name="white">
+        <material name="clearpath_white">
           <color rgba="1 1 1 1" />
         </material>
         <origin xyz="0 0 ${height/2}" rpy="0 0 0" />
