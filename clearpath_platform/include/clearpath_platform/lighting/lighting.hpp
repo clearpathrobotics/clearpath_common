@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef CLEARPATH_PLATFORM__LIGHTING_HPP_
-#define CLEARPATH_PLATFORM__LIGHTING_HPP_
+#ifndef CLEARPATH_PLATFORM__LIGHTING__LIGHTING_HPP_
+#define CLEARPATH_PLATFORM__LIGHTING__LIGHTING_HPP_
 
 #include <chrono>
 
@@ -135,4 +135,4 @@ private:
 
 }  // namespace clearpath_lighting
 
-#endif  // CLEARPATH_PLATFORM__LIGHTING_HPP_
+#endif  // CLEARPATH_PLATFORM__LIGHTING__LIGHTING_HPP_

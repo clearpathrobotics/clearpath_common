@@ -38,12 +38,16 @@ using clearpath_lighting::Lighting;
 using Lights = clearpath_platform_msgs::msg::Lights;
 using RGB = clearpath_platform_msgs::msg::RGB;
 
+/**
+ * @brief Construct a new Lighting node
+ */
 Lighting::Lighting()
 : Node("clearpath_lighting"),
   state_(State::Idle),
   old_state_(State::Idle),
   user_commands_allowed_(false)
 {
+  // Get platform model from platform parameter
   this->declare_parameter("platform", "dd100");
   std::string platform = this->get_parameter("platform").as_string();
 
@@ -60,6 +64,7 @@ Lighting::Lighting()
 
   lights_msg_ = Lights();
 
+  // Set lighting sequences for each state
   lighting_sequence_ = std::map<State, Sequence>{
     {State::BatteryFault, BlinkSequence(
       Sequence::fillLightingState(COLOR_YELLOW, platform_),
@@ -110,15 +115,21 @@ Lighting::Lighting()
 
   current_sequence_ = lighting_sequence_.at(state_);
 
+  // Initialize ROS2 components
   initializePublishers();
   initializeTimers();
   initializeSubscribers();
 }
 
+/**
+ * @brief Lighting node main loop
+ */
 void Lighting::spinOnce()
 {
+  // Update lighting state using latest status messages
   updateState();
 
+  // Determine if user commands should be allowed
   switch (state_)
   {
     case State::Idle:
@@ -138,6 +149,7 @@ void Lighting::spinOnce()
       break;
   }
 
+  // Change lighting sequence if state has changed
   if (old_state_ != state_)
   {
     current_sequence_ = lighting_sequence_.at(state_);
@@ -145,6 +157,7 @@ void Lighting::spinOnce()
     old_state_ = state_;
   }
   
+  // Get current lighting state from sequence
   lights_msg_ = current_sequence_.getLightsMsg();
 
   // If user is not commanding lights, update lights
@@ -154,6 +167,9 @@ void Lighting::spinOnce()
   }
 }
 
+/**
+ * @brief Initialize publishers
+ */
 void Lighting::initializePublishers()
 {
   cmd_lights_pub_ = this->create_publisher<clearpath_platform_msgs::msg::Lights>(
@@ -161,6 +177,9 @@ void Lighting::initializePublishers()
     rclcpp::SensorDataQoS());
 }
 
+/**
+ * @brief Initialize subscribers
+ */
 void Lighting::initializeSubscribers()
 {
   // User command lights
@@ -200,10 +219,15 @@ void Lighting::initializeSubscribers()
     std::bind(&Lighting::cmdVelCallback, this, std::placeholders::_1));
 }
 
+/**
+ * @brief Initialize timers
+ */
 void Lighting::initializeTimers()
 {
+  // Start user timeout so that user_timeout_timer_ is not null
   startUserTimeoutTimer();
 
+  // Main loop timer
   lighting_timer_ = this->create_wall_timer(
     std::chrono::milliseconds(LIGHTING_TIMER_TIMEOUT_MS),
     [this]() -> void
@@ -213,13 +237,17 @@ void Lighting::initializeTimers()
   );
 }
 
+/**
+ * @brief Start user command timeout timer
+ */
 void Lighting::startUserTimeoutTimer()
 {
+  // Reset timer if active
   if (user_timeout_timer_ && !user_timeout_timer_->is_canceled())
   {
     user_timeout_timer_->reset();
   }
-  else
+  else // Create new timer
   {
     user_timeout_timer_ = this->create_wall_timer(
       std::chrono::milliseconds(USER_COMMAND_TIMEOUT_MS),
@@ -232,6 +260,9 @@ void Lighting::startUserTimeoutTimer()
   }  
 }
 
+/**
+ * @brief User light command callback
+ */
 void Lighting::cmdLightsCallback(const clearpath_platform_msgs::msg::Lights::SharedPtr msg)
 {
   // Do nothing if user commands are not allowed
@@ -247,32 +278,49 @@ void Lighting::cmdLightsCallback(const clearpath_platform_msgs::msg::Lights::Sha
   cmd_lights_pub_->publish(*msg);
 }
 
+/**
+ * @brief MCU status callback
+ */
 void Lighting::statusCallback(const clearpath_platform_msgs::msg::Status::SharedPtr msg)
 {
   status_msg_ = *msg;
 }
 
+/**
+ * @brief MCU power status callback
+ */
 void Lighting::powerCallback(const clearpath_platform_msgs::msg::Power::SharedPtr msg)
 {
   power_msg_ = *msg;
 }
 
+/**
+ * @brief BMS state callback
+ */
 void Lighting::batteryStateCallback(const sensor_msgs::msg::BatteryState::SharedPtr msg)
 {
   battery_state_msg_ = *msg;
 }
 
+/**
+ * @brief Emergency stop callback
+ */
 void Lighting::stopEngagedCallback(const std_msgs::msg::Bool::SharedPtr msg)
 {
   stop_engaged_msg_ = *msg;
 }
 
+/**
+ * @brief Command velocity callback
+ */
 void Lighting::cmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr msg)
 {
   cmd_vel_msg_ = *msg;
 }
 
-/** Updates the current lighting state based on all inputs */
+/**
+ * @brief Update state if new state is higher priority
+ */
 void Lighting::setState(Lighting::State new_state)
 {
   if (new_state < state_)
@@ -281,6 +329,9 @@ void Lighting::setState(Lighting::State new_state)
   }
 }
 
+/**
+ * @brief Update lighting state based on all status messages
+ */
 void Lighting::updateState()
 {
   state_ = State::Idle;
@@ -297,13 +348,14 @@ void Lighting::updateState()
       setState(State::ShorePower);
     }
   }
-  else
+  else // No shore power
   {
+    // Battery health is not good
     if (battery_state_msg_.power_supply_health != sensor_msgs::msg::BatteryState::POWER_SUPPLY_HEALTH_GOOD)
     {
       setState(State::BatteryFault);
     }
-    else if (battery_state_msg_.percentage < 0.2)
+    else if (battery_state_msg_.percentage < 0.2) // Battery low
     {
       setState(State::LowBattery);
     }
@@ -312,6 +364,7 @@ void Lighting::updateState()
   // Charger connected
   if (battery_state_msg_.power_supply_status == sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_CHARGING) // || wibotic_charging_msg_.data)
   {
+    // Shore power connected
     if (power_msg_.shore_power_connected == 1)
     {
       setState(State::ShoreAndCharging);
@@ -327,7 +380,7 @@ void Lighting::updateState()
   }
   else if (cmd_vel_msg_.linear.x != 0.0 ||
            cmd_vel_msg_.linear.y != 0.0 ||
-           cmd_vel_msg_.angular.z != 0.0)
+           cmd_vel_msg_.angular.z != 0.0) // Robot is driving
   {
     setState(State::Driving);
   }

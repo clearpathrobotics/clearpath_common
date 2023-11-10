@@ -1,7 +1,7 @@
 /**
  *
  *  \file
- *  \brief      Pattern Class
+ *  \brief      Sequence Classes
  *  \author     Roni Kreinin <rkreinin@clearpathrobotics.com>
  *  \copyright  Copyright (c) 2023, Clearpath Robotics, Inc.
  *
@@ -43,13 +43,19 @@ using clearpath_lighting::SolidSequence;
 using clearpath_lighting::LightingState;
 using clearpath_lighting::Platform;
 
+/**
+ * @brief Get Lights message at current state in the sequence
+ * Increment current state for the next call
+ */
 clearpath_platform_msgs::msg::Lights Sequence::getLightsMsg()
 {
+  // Reset to initial state if we are at the end of the sequence
   if (current_state_ >= num_states_)
   {
     current_state_ = 0;
   }
 
+  // Fill Lights message
   clearpath_platform_msgs::msg::Lights lights_msg;
   lights_msg.lights.resize(sequence_.size());
 
@@ -63,19 +69,31 @@ clearpath_platform_msgs::msg::Lights Sequence::getLightsMsg()
   return lights_msg;
 }
 
+/**
+ * @brief Default Sequence constructor
+ */
 Sequence::Sequence() : current_state_(0)
 {}
 
+/**
+ * @brief Reset the sequence
+ */
 void Sequence::reset()
 {
   current_state_ = 0;
 }
 
+/**
+ * @brief Fill all lights with a color
+ */
 LightingState Sequence::fillLightingState(ColorHSV color, Platform platform)
 {
   return LightingState(PlatformNumLights.at(platform), color);
 }
 
+/**
+ * @brief Fill front and rear lights with separate colors
+ */
 LightingState Sequence::fillFrontRearLightingState(ColorHSV front_color, ColorHSV rear_color, Platform platform)
 {
   LightingState lighting_state(PlatformNumLights.at(platform), COLOR_BLACK);
@@ -118,6 +136,9 @@ LightingState Sequence::fillFrontRearLightingState(ColorHSV front_color, ColorHS
   return lighting_state;
 }
 
+/**
+ * @brief Fill left and right lights with separate colors
+ */
 LightingState Sequence::fillLeftRightLightingState(ColorHSV left_color, ColorHSV right_color, Platform platform)
 {
   LightingState lighting_state(PlatformNumLights.at(platform), COLOR_BLACK);
@@ -160,6 +181,9 @@ LightingState Sequence::fillLeftRightLightingState(ColorHSV left_color, ColorHSV
   return lighting_state;
 }
 
+/**
+ * @brief Fill opposite corner lights with separate colors
+ */
 LightingState Sequence::fillOppositeCornerLightingState(ColorHSV front_left_color, ColorHSV front_right_color, Platform platform)
 {
   LightingState lighting_state(PlatformNumLights.at(platform), COLOR_BLACK);
@@ -201,8 +225,11 @@ LightingState Sequence::fillOppositeCornerLightingState(ColorHSV front_left_colo
   }
   return lighting_state;
 }
-  
 
+/**
+ * @brief Solid sequence constructor
+ * @param state: Lighting state for solid sequence
+ */
 SolidSequence::SolidSequence(const LightingState state)
 {
   sequence_.resize(state.size());
@@ -213,6 +240,13 @@ SolidSequence::SolidSequence(const LightingState state)
   num_states_ = 1;
 }
 
+/**
+ * @brief Blink sequence constructor
+ * @param first_state: Lighting state for "on" time
+ * @param second_state: Lighting state for "off" time
+ * @param steps: Number of steps in the sequence
+ * @param duty_cycle: Percentage of sequence that is in the "on" state. [0.0 ... 1.0]
+ */
 BlinkSequence::BlinkSequence(const LightingState first_state,
                              const LightingState second_state,
                              uint32_t steps,
@@ -243,6 +277,12 @@ BlinkSequence::BlinkSequence(const LightingState first_state,
   num_states_ = steps;
 }
 
+/**
+ * @brief Pulse sequence constructor
+ * @param first_state: Starting lighting state
+ * @param last_state: Ending lighting state
+ * @param steps: Number of steps in the sequence
+ */
 PulseSequence::PulseSequence(const LightingState first_state,
                              const LightingState last_state,
                              uint32_t steps)

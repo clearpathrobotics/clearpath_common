@@ -37,18 +37,28 @@
 
 using clearpath_lighting::ColorHSV;
 
+/**
+ * @brief ColorHSV constructor
+ * @param hsv: Struct representing HSV color
+ */
 ColorHSV::ColorHSV(hsv_t hsv) : hsv_(hsv)
 {}
 
+/**
+ * @brief Create vector of ColorHSV to fade between two HSV colors
+ * @param start: Starting color
+ * @param end: Ending color
+ * @param steps: Number of steps to fade from start to end
+ * @retval Vector of colors representing the fade
+ */
 std::vector<ColorHSV> ColorHSV::fade(ColorHSV start, ColorHSV end, uint32_t steps)
 {
   std::vector<ColorHSV> fade_vector;
 
   double h_step, s_step, v_step;
 
-  double a = end.h() - start.h();
-  h_step = a / steps;
-
+  // Linearly step from start to end
+  h_step = (end.h() - start.h()) / steps;
   s_step = (end.s() - start.s()) / steps;
   v_step = (end.v() - start.v()) / steps;
 
@@ -68,6 +78,10 @@ std::vector<ColorHSV> ColorHSV::fade(ColorHSV start, ColorHSV end, uint32_t step
   return fade_vector;
 }
 
+/**
+ * @brief Convert HSV color to RGB
+ * @retval RGB message
+ */
 clearpath_platform_msgs::msg::RGB ColorHSV::getRgbMsg()
 {
   clearpath_platform_msgs::msg::RGB rgb;
@@ -75,10 +89,7 @@ clearpath_platform_msgs::msg::RGB ColorHSV::getRgbMsg()
   double f,p,q,t;
   double h, s, v;
 
-  //expand the u8 hue in range 0->255 to 0->359* (there are problems at exactly 360)
-  h = hsv_.h;
-
-  h = std::max(0.0, std::min(360.0, h));
+  h = std::max(0.0, std::min(360.0, hsv_.h));
   s = std::max(0.0, std::min(100.0, hsv_.s));
   v = std::max(0.0, std::min(100.0, hsv_.v));
 
@@ -127,7 +138,6 @@ clearpath_platform_msgs::msg::RGB ColorHSV::getRgbMsg()
         rgb.red = std::round(255.0*v);
         rgb.green = std::round(255.0*p);
         rgb.blue = std::round(255.0*q);
-   }
+  }
   return rgb;
 }
-

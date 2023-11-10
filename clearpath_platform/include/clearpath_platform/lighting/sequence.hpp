@@ -1,7 +1,7 @@
 /**
  *
  *  \file
- *  \brief      Pattern Class header
+ *  \brief      Sequence Classes header
  *  \author     Roni Kreinin <rkreinin@clearpathrobotics.com>
  *  \copyright  Copyright (c) 2023, Clearpath Robotics, Inc.
  *
@@ -32,8 +32,8 @@
  */
 
 
-#ifndef CLEARPATH_PLATFORM__SEQUENCE_HPP_
-#define CLEARPATH_PLATFORM__SEQUENCE_HPP_
+#ifndef CLEARPATH_PLATFORM__LIGHTING__SEQUENCE_HPP_
+#define CLEARPATH_PLATFORM__LIGHTING__SEQUENCE_HPP_
 
 #include <vector>
 
@@ -99,4 +99,4 @@ public:
 
 }  // namespace clearpath_lighting
 
-#endif  // CLEARPATH_PLATFORM__SEQUENCE_HPP_
+#endif  // CLEARPATH_PLATFORM__LIGHTING__SEQUENCE_HPP_

@@ -1,7 +1,7 @@
 /**
  *
  *  \file
- *  \brief      Lighting Class Header
+ *  \brief      Color Class Header
  *  \author     Roni Kreinin <rkreinin@clearpathrobotics.com>
  *  \copyright  Copyright (c) 2023, Clearpath Robotics, Inc.
  *
@@ -32,8 +32,8 @@
  * Adapted from https://gist.github.com/borgel/d9a8bc11aeb5e0005d8320026c46f6f7
  */
 
-#ifndef CLEARPATH_PLATFORM__COLOR_HPP_
-#define CLEARPATH_PLATFORM__COLOR_HPP_
+#ifndef CLEARPATH_PLATFORM__LIGHTING__COLOR_HPP_
+#define CLEARPATH_PLATFORM__LIGHTING__COLOR_HPP_
 
 #include <vector>
 #include <stdint.h>
@@ -93,4 +93,4 @@ private:
 
 }
 
-#endif  // CLEARPATH_PLATFORM__COLOR_HPP_
+#endif  // CLEARPATH_PLATFORM__LIGHTING__COLOR_HPP_
