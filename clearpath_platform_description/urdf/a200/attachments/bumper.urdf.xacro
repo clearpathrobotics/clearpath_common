@@ -11,10 +11,16 @@
         </link>
 
         <xacro:unless value="${extension > 0}">
+            <link name="${name}_base_link"/>
+            <joint name="${name}_base_joint" type="fixed">
+                <xacro:insert_block name="origin"/>
+                <parent link="${parent_link}"/>
+                <child link="${name}_base_link"/>
+            </joint>
             <!-- Attach bumper -->
             <joint name="${name}_joint" type="fixed">
                 <origin xyz="0.075 0 0" rpy="0 0 0" />
-                <parent link="${parent_link}" />
+                <parent link="${name}_base_link" />
                 <child link="${name}_link" />
             </joint>
         </xacro:unless>
@@ -40,23 +46,30 @@
                 </visual>
             </link>
 
+            <link name="${name}_base_link"/>
             <link name="${name}_extension_mount"/>
+
+            <joint name="${name}_base_joint" type="fixed">
+                <xacro:insert_block name="origin"/>
+                <parent link="${parent_link}"/>
+                <child link="${name}_base_link"/>
+            </joint>
 
             <joint name="${name}_extension_joint_1" type="fixed">
                 <origin xyz="0 0.1084 0" rpy="0 0 0" />
-                <parent link="${parent_link}" />
+                <parent link="${name}_base_link" />
                 <child link="${name}_extension_link_1" />
             </joint>
 
             <joint name="${name}_extension_joint_2" type="fixed">
                 <origin xyz="0 -0.1084 0" rpy="0 0 0" />
-                <parent link="${parent_link}" />
+                <parent link="${name}_base_link" />
                 <child link="${name}_extension_link_2" />
             </joint>
 
             <joint name="${name}_extension_mount_joint" type="fixed">
                 <origin xyz="${extension} 0 0" rpy="0 0 0" />
-                <parent link="${parent_link}" />
+                <parent link="${name}_base_link" />
                 <child link="${name}_extension_mount" />
             </joint>
 
