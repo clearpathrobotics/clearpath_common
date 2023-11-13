@@ -150,6 +150,15 @@
       <child link="rear_bumper_mount" />
     </joint>
 
+    <!-- Mid mount -->
+    <link name="mid_mount"/>
+
+    <joint name="mid_mount_joint" type="fixed">
+      <child link="mid_mount"/>
+      <parent link="base_link"/>
+      <origin xyz="0.0 0.0 0.224"/>
+    </joint>
+
     <xacro:if value="$(arg is_sim)">
       <gazebo>
         <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">

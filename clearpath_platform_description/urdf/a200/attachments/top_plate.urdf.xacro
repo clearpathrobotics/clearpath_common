@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" /> -->
-    <xacro:macro name="top_plate" params="name model:=default parent_link:=base_link *origin">
-        <!-- Spawn the top plate -->
+    <xacro:macro name="top_plate" params="name model:=default parent_link:=mid_mount *origin">
+
+      <!-- Large Model -->
       <xacro:if value="${model == 'large'}">
+        <!-- Spawn top plate -->
         <link name="${name}_link">
           <visual>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+            <origin xyz="0.0812 0 0" rpy="0 0 0" />
             <geometry>
               <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/large_top_plate.dae" />
             </geometry>
           </visual>
           <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0.0812 0 0" rpy="0 0 0"/>
             <geometry>
               <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/large_top_plate_collision.stl" />
             </geometry>
@@ -22,34 +23,51 @@
         <joint name="${name}_joint" type="fixed">
           <parent link="${parent_link}" />
           <child link="${name}_link"/>
-          <origin xyz="0.0812 0 0.225" rpy="0 0 0"/>
+          <xacro:insert_block name="origin"/>
         </joint>
         <!-- Top plate front link -->
+        <link name="${name}_front_link"/>
         <joint name="${name}_front_joint" type="fixed">
           <parent link="${name}_link" />
           <child link="${name}_front_link"/>
           <origin xyz="0.4125 0 0.00672" rpy="0 0 0"/>
         </joint>
         <!-- Top plate rear link-->
+        <link name="${name}_rear_link"/>
         <joint name="${name}_rear_joint" type="fixed">
           <parent link="${name}_link" />
           <child link="${name}_rear_link"/>
           <origin xyz="-0.4125 0 0.00672" rpy="0 0 0"/>
         </joint>
-        <link name="${name}_front_link"/>
-        <link name="${name}_rear_link"/>
       </xacro:if>
 
+      <!-- Default Model -->
       <xacro:if value="${model == 'default'}">
+        <!-- Spawn user rails -->
+        <link name="${name}_user_rail_link">
+          <visual>
+            <origin xyz="0.272 0 0.019"/>
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/user_rail.dae" />
+            </geometry>
+          </visual>
+        </link>
+        <!-- Attach user rails to base link -->
+        <joint name="${name}_user_rail_joint" type="fixed">
+          <xacro:insert_block name="origin"/>
+          <parent link="${parent_link}" />
+          <child link="${name}_user_rail_link" />
+        </joint>
+        <!-- Spawn top plate -->
         <link name="${name}_link">
           <visual>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+            <origin xyz="0.0812 0 0" rpy="0 0 0" />
             <geometry>
               <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/top_plate.dae" />
             </geometry>
           </visual>
           <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0.0812 0 0" rpy="0 0 0"/>
             <geometry>
               <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/top_plate.stl" />
             </geometry>
@@ -57,45 +75,32 @@
         </link>
         <!-- Attach top plate -->
         <joint name="${name}_joint" type="fixed">
-          <parent link="${parent_link}" />
+          <parent link="${name}_user_rail_link" />
           <child link="${name}_link"/>
-          <origin xyz="0.0812 0 0.245" rpy="0 0 0"/>
+          <origin xyz="0 0 0.021" rpy="0 0 0"/>
         </joint>
         <!-- Top plate front link -->
+        <link name="${name}_front_link"/>
         <joint name="${name}_front_joint" type="fixed">
           <parent link="${name}_link" />
           <child link="${name}_front_link"/>
           <origin xyz="0.36367 0 0.00639" rpy="0 0 0"/>
         </joint>
         <!-- Top plate rear link-->
+        <link name="${name}_rear_link"/>
         <joint name="${name}_rear_joint" type="fixed">
           <parent link="${name}_link" />
           <child link="${name}_rear_link"/>
           <origin xyz="-0.36633 0 0.00639" rpy="0 0 0"/>
         </joint>
-
-        <!-- Spawn user rails -->
-        <link name="user_rail_link">
-          <visual>
-            <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/user_rail.dae" />
-            </geometry>
-          </visual>
-        </link>
-
-        <!-- Attach user rails to base link -->
-        <joint name="user_rail" type="fixed">
-          <origin xyz="0.272 0 0.245" rpy="0 0 0" />
-          <parent link="base_link" />
-          <child link="user_rail_link" />
-        </joint>
-        <link name="${name}_front_link"/>
-        <link name="${name}_rear_link"/>
       </xacro:if>
 
+      <!-- PACS Model -->
       <xacro:if value="${model == 'pacs'}">
+        <!-- Spawn top plate -->
         <link name="${name}_link">
           <visual>
+            <origin xyz="0.0483 0 0"/>
             <material name="dark_grey" />
             <geometry>
               <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/pacs_top_plate.stl" />
@@ -103,9 +108,9 @@
           </visual>
           <collision>
             <material name="dark_grey" />
-            <origin xyz="0 0 0.00317500531673" rpy="0 0 0"/>
+            <origin xyz="0.0483 0 0.003175" rpy="0 0 0"/>
             <geometry>
-              <box size="0.670000076294 0.590000033379 0.00635001063347"/>
+              <box size="0.67 0.59 0.00635"/>
             </geometry>
           </collision>
         </link>
@@ -113,7 +118,7 @@
         <joint name="${name}_joint" type="fixed">
           <child link="${name}_link"/>
           <parent link="${parent_link}"/>
-          <origin xyz="0.048299998045 0 0.227500006557" rpy="0 0 0"/>
+          <xacro:insert_block name="origin"/>
         </joint>
 
         <!-- Generate PACS mounts -->
@@ -160,7 +165,6 @@
           x="-0.20"
           y="0.24"
           z="0.00635" />
-
       </xacro:if>
     </xacro:macro>
 </robot>
