@@ -32,7 +32,6 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.common.types.platform import Platform
 from clearpath_generator_common.common import BaseGenerator
 from clearpath_generator_common.description.writer import XacroWriter
 from clearpath_generator_common.description.mounts import MountDescription
