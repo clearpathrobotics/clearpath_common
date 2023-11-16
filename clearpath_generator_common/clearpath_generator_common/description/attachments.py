@@ -33,6 +33,7 @@
 from clearpath_config.platform.attachments.a200 import A200Attachment
 from clearpath_config.platform.attachments.config import BaseAttachment
 from clearpath_config.platform.attachments.j100 import J100Attachment
+from clearpath_config.platform.attachments.w200 import W200Attachment
 from clearpath_config.platform.types.bumper import Bumper
 
 from typing import List
@@ -82,6 +83,10 @@ class AttachmentsDescription():
         # J100
         J100Attachment.FENDER: BaseDescription,
         J100Attachment.TOP_PLATE: BaseDescription,
+        # W200
+        W200Attachment.GENERATOR: BaseDescription,
+        W200Attachment.BULKHEAD: BaseDescription,
+        W200Attachment.ARM_MOUNT: BaseDescription,
     }
 
     def __new__(cls, attachment: BaseAttachment) -> BaseDescription:
