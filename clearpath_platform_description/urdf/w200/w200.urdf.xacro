@@ -338,12 +338,12 @@
       </collision>
     </link>
 
-    <link name="top_chassis_link"></link>
+    <link name="default_mount"></link>
 
-    <joint name="top_link_joint" type="fixed">
+    <joint name="default_mount_joint" type="fixed">
       <origin xyz="0 0 0.27218" rpy="0 0 0" />
       <parent link="chassis_link"/>
-      <child link="top_chassis_link" />
+      <child link="default_mount" />
     </joint>
 
     <!-- This link is purely to complete the visual look -->
