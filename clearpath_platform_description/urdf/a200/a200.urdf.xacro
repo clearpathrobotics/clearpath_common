@@ -150,11 +150,11 @@
       <child link="rear_bumper_mount" />
     </joint>
 
-    <!-- Mid mount -->
-    <link name="mid_mount"/>
+    <!-- Default mount -->
+    <link name="default_mount"/>
 
-    <joint name="mid_mount_joint" type="fixed">
-      <child link="mid_mount"/>
+    <joint name="default_mount_joint" type="fixed">
+      <child link="default_mount"/>
       <parent link="base_link"/>
       <origin xyz="0.0 0.0 0.224"/>
     </joint>

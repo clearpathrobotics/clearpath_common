@@ -149,23 +149,23 @@
       </sensor>
     </gazebo>
 
-    <link name="mid_mount"></link>
-    <joint name="mid_mount_joint" type="fixed">
+    <link name="default_mount"></link>
+    <joint name="default_mount_joint" type="fixed">
       <parent link="chassis_link" />
-      <child link="mid_mount" />
+      <child link="default_mount" />
       <origin xyz="0 0 ${chassis_height}" />
     </joint>
 
     <link name="rear_mount"></link>
     <joint name="rear_mount_joint" type="fixed">
-      <parent link="mid_mount" />
+      <parent link="default_mount" />
       <child link="rear_mount" />
       <origin xyz="${-mount_spacing} 0 0" />
     </joint>
 
     <link name="front_mount"></link>
     <joint name="front_mount_joint" type="fixed">
-      <parent link="mid_mount" />
+      <parent link="default_mount" />
       <child link="front_mount" />
       <origin xyz="${mount_spacing} 0 0" />
     </joint>
