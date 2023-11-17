@@ -156,17 +156,17 @@
       <origin xyz="0 0 ${chassis_height}" />
     </joint>
 
-    <link name="rear_mount"></link>
-    <joint name="rear_mount_joint" type="fixed">
+    <link name="rear_0_mount"></link>
+    <joint name="rear_0_mount_joint" type="fixed">
       <parent link="default_mount" />
-      <child link="rear_mount" />
+      <child link="rear_0_mount" />
       <origin xyz="${-mount_spacing} 0 0" />
     </joint>
 
-    <link name="front_mount"></link>
-    <joint name="front_mount_joint" type="fixed">
+    <link name="front_0_mount"></link>
+    <joint name="front_0_mount_joint" type="fixed">
       <parent link="default_mount" />
-      <child link="front_mount" />
+      <child link="front_0_mount" />
       <origin xyz="${mount_spacing} 0 0" />
     </joint>
 
