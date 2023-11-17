@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="rear_fender" params="model *origin">
+  <xacro:macro name="fender" params="name model parent_link:=base_link *origin">
     <!-- Spawn fender link -->
-    <link name="rear_fender_link">
+    <link name="${name}_link">
       <visual>
         <geometry>
           <xacro:if value="${model == 'default'}">
@@ -17,19 +17,19 @@
     </link>
 
     <xacro:if value="${model == 'sensor'}">
-      <link name="rear_fender_mount"/>
-      <joint name="rear_fender_mount_joint" type="fixed">
+      <link name="${name}_mount"/>
+      <joint name="${name}_mount_joint" type="fixed">
         <origin xyz="0.25629 0 0.07455" rpy="${pi} 0 0" />
-        <parent link="rear_fender_link" />
-        <child link="rear_fender_mount" />
+        <parent link="${name}_link" />
+        <child link="${name}_mount" />
       </joint>
     </xacro:if>
 
     <!-- Attach fender -->
-    <joint name="rear_fender_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
-      <parent link="base_link" />
-      <child link="rear_fender_link" />
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
     </joint>
 
   </xacro:macro>

@@ -100,12 +100,11 @@ class DescriptionGenerator(BaseGenerator):
 
         for attachment in attachments:
             if attachment.get_enabled():
-                attachment_description = AttachmentsDescription(self.platform, attachment)
+                attachment_description = AttachmentsDescription(attachment)
                 self.xacro_writer.write_include(
                     package=attachment_description.package,
                     file=attachment_description.file,
                     path=attachment_description.path)
-
                 self.xacro_writer.write_macro(
                     macro=attachment_description.file,
                     parameters=attachment_description.parameters,
