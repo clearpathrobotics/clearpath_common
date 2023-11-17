@@ -205,13 +205,6 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${side*PI/2}"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/w200/rocker.stl" />
-        </geometry>
-        <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
-      </visual>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 ${side*PI/2}"/>
-        <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/fenders.stl" />
         </geometry>
         <material name="${warthog_color}">
@@ -224,6 +217,13 @@
           <mesh filename="package://clearpath_platform_description/meshes/w200/fenders.stl" />
         </geometry>
       </collision>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${side*PI/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/rocker.stl" />
+        </geometry>
+        <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+      </visual>
     </link>
     <joint name="${prefix}_diff_unit_joint" type="revolute">
       <limit upper="0.4" lower="-0.4" effort="100" velocity="1"/>
