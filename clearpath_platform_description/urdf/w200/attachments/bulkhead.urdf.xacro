@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="bulkhead" params="name:=bulkhead model:=default parent_link:=mid_mount *origin">
+  <xacro:macro name="bulkhead" params="name:=bulkhead model:=default parent_link:=default_mount *origin">
     <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/attachments/arm_mount.urdf.xacro"/>
     <link name="${name}_link">
       <visual>

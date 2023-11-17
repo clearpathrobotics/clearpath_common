@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:macro name="top_plate" params="name model:=default parent_link:=mid_mount *origin">
+    <xacro:macro name="top_plate" params="name model:=default parent_link:=default_mount *origin">
 
       <!-- Large Model -->
       <xacro:if value="${model == 'large'}">

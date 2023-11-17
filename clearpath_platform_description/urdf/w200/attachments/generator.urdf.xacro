@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="generator" params="name:=generator model:=default parent_link:=mid_mount *origin">
+  <xacro:macro name="generator" params="name:=generator model:=default parent_link:=default_mount *origin">
     <link name="${name}_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
