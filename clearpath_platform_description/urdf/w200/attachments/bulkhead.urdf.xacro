@@ -38,7 +38,7 @@
 
     <xacro:if value="${model == 'arm_mount'}">
       <xacro:arm_mount parent_link="${name}_front_mount_link">
-        <origin xyz="0.0 0.0 0.02" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
       </xacro:arm_mount>
     </xacro:if>
   </xacro:macro>

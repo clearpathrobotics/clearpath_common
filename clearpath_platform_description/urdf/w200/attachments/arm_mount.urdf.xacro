@@ -3,14 +3,14 @@
   <xacro:macro name="arm_mount" params="name:=arm_mount model:=default parent_link:=default_mount *origin">
     <link name="${name}_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/arm-mount-plate.stl" />
         </geometry>
         <material name="light_grey"/>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/arm-mount-plate.stl" />
         </geometry>
