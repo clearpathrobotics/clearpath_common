@@ -4,6 +4,7 @@
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="serial_port" default="/dev/clearpath/prolific" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a200/control.yaml"/>
 
   <!-- Included URDF/XACRO Files -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/wheel.urdf.xacro" />
@@ -158,6 +159,10 @@
       <origin xyz="0.0 0.0 0.224"/>
     </joint>
 
+    <!-- Gazebo Controller -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
+
+    <!-- ROS2 controls -->
     <ros2_control name="a200_hardware" type="system">
       <hardware>
         <xacro:if value="$(arg is_sim)">
