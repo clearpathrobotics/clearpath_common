@@ -60,20 +60,6 @@ def generate_launch_description():
     )
 
     group_action_state_publishers = GroupAction([
-        # Joint State Publisher
-        # Node(
-        #     package='joint_state_publisher',
-        #     executable='joint_state_publisher',
-        #     name='joint_state_publisher',
-        #     output='screen',
-        #     parameters=[
-        #         {'use_sim_time': use_sim_time,
-        #         'rate': 50}],
-        #     remappings=[
-        #         ('/tf', 'tf'),
-        #         ('/tf_static', 'tf_static'),
-        #         ('joint_states', 'platform/joint_states')]
-        # ),
         # Robot State Publisher
         Node(
             package='robot_state_publisher',
