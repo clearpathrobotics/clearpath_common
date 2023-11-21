@@ -134,7 +134,7 @@ class PlatformParam():
             if extras:
                 self.param_file.update({self.EKF_NODE: extras})
             else:
-                if self.platform == Platform.J100:
+                if self.platform != Platform.A200:
                     imu0_parameters = {
                         'imu0': 'sensors/imu_0/data',
                         'imu0_config': self.imu_config,
