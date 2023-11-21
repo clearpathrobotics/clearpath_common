@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="bulkhead" params="name:=bulkhead model:=default parent_link:=default_mount *origin">
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/attachments/arm_mount.urdf.xacro"/>
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/bulkhead.stl" />
+        </geometry>
+        <material name="clearpath_black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/bulkhead-collision.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.35915 0 -0.6956" rpy="0 0 0"/>
+        <mass value="14.38835"/>
+        <inertia ixx="1.13395" ixy="0.0" ixz="-0.42719" iyy="2.59727" iyz="0.0" izz="3.42344"/>
+      </inertial>
+    </link>
+
+    <joint name="${name}_link_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent_link}"/>
+      <child link="${name}_link" />
+    </joint>
+
+    <link name="${name}_front_mount_link"/>
+    <joint name="${name}_front_mount_link_joint" type="fixed">
+      <origin xyz="0.33987 0 0.0" rpy="0 0 0" />
+      <parent link="${name}_link"/>
+      <child link="${name}_front_mount_link" />
+    </joint>
+
+    <xacro:if value="${model == 'arm_mount'}">
+      <xacro:arm_mount parent_link="${name}_front_mount_link">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      </xacro:arm_mount>
+    </xacro:if>
+  </xacro:macro>
+</robot>

@@ -149,6 +149,15 @@
       <child link="rear_bumper_mount" />
     </joint>
 
+    <!-- Default mount -->
+    <link name="default_mount"/>
+
+    <joint name="default_mount_joint" type="fixed">
+      <child link="default_mount"/>
+      <parent link="base_link"/>
+      <origin xyz="0.0 0.0 0.224"/>
+    </joint>
+
     <ros2_control name="a200_hardware" type="system">
       <hardware>
         <xacro:if value="$(arg is_sim)">
