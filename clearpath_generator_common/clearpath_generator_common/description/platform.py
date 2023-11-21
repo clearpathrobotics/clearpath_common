@@ -67,7 +67,6 @@ class PlatformDescription():
     class GenericPlatform(BasePlatform):
         def __init__(self, config: ClearpathConfig) -> None:
             description = config.platform.description
-            print(description)
             package = description[DescriptionPackagePath.PACKAGE]
             path = description[DescriptionPackagePath.PATH]
             macro = description[DescriptionPackagePath.MACRO]
