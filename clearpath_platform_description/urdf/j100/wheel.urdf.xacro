@@ -10,7 +10,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/j100/j100_wheel.stl"/>
         </geometry>
-        <material name="black" />
+        <material name="clearpath_black" />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>

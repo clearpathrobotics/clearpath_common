@@ -31,7 +31,7 @@
                     <geometry>
                         <cylinder radius="0.0095" length="${extension}" />
                     </geometry>
-                    <material name="dark_grey" />
+                    <material name="clearpath_dark_grey" />
                     <origin xyz="${extension / 2} 0 0" rpy="0 ${M_PI/2} 0" />
                 </visual>
             </link>
@@ -41,7 +41,7 @@
                     <geometry>
                         <cylinder radius="0.0095" length="${extension}" />
                     </geometry>
-                    <material name="dark_grey" />
+                    <material name="clearpath_dark_grey" />
                     <origin xyz="${extension / 2} 0 0" rpy="0 ${M_PI/2} 0" />
                 </visual>
             </link>

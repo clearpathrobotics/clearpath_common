@@ -60,7 +60,6 @@ def generate_launch_description():
     )
 
     group_action_state_publishers = GroupAction([
-
         # Robot State Publisher
         Node(
             package='robot_state_publisher',

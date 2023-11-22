@@ -7,7 +7,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/arm-mount-plate.stl" />
         </geometry>
-        <material name="light_grey"/>
+        <material name="clearpath_light_grey"/>
       </visual>
       <collision>
         <origin xyz="0 0 0.02" rpy="0 0 0"/>

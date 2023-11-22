@@ -25,24 +25,24 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
-    <material name="medium_grey"><color rgba="0.6 0.6 0.6 1.0" /></material>
-    <material name="light_grey"><color rgba="0.8 0.8 0.8 1.0" /></material>
-    <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
-    <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
-    <material name="white"><color rgba="1.0 1.0 1.0 1.0" /></material>
-    <material name="red"><color rgba="1.0 0.0 0.0 1.0" /></material>
+    <material name="clearpath_dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+    <material name="clearpath_medium_grey"><color rgba="0.6 0.6 0.6 1.0" /></material>
+    <material name="clearpath_light_grey"><color rgba="0.8 0.8 0.8 1.0" /></material>
+    <material name="clearpath_yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+    <material name="clearpath_black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+    <material name="clearpath_white"><color rgba="1.0 1.0 1.0 1.0" /></material>
+    <material name="clearpath_red"><color rgba="1.0 0.0 0.0 1.0" /></material>
 
-    <material name="aluminum">
+    <material name="clearpath_aluminum">
       <color rgba="0.5 0.5 0.5 1"/>
     </material>
-    <material name="plastic">
-      <color rgba="0.1 0.1 0.1 1"/>
+    <material name="clearpath_plastic">
+      <color rgba="0.1 0.1 0.1   1"/>
     </material>
 
-    <!-- 
+    <!--
         Standard Mount: adds link (w/o geometry) at given position
-        - assumes orientation of parent 
+        - assumes orientation of parent
     -->
     <xacro:macro name="mount" params="name parent_link coordinate:=None *origin">
         <!-- Add Empty Mount -->

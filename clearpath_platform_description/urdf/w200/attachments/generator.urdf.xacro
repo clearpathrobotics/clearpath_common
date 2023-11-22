@@ -7,7 +7,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/generator.stl" />
         </geometry>
-        <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+        <material name="clearpath_black"><color rgba="0.15 0.15 0.15 1.0" /></material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>

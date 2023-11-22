@@ -24,7 +24,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <!-- 
+  <!--
         Full Riser: add plate sized riser
         - within PACS grid framework, only input required is 'level' (height)
         - adds legs and mounts
@@ -51,7 +51,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
             <box size="${rows * spacing} ${columns * spacing} ${thickness}"/>
           </xacro:unless>
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
         <origin xyz="${-(rows / 2) * spacing + spacing / 2} ${-(columns / 2) * spacing + spacing / 2} ${thickness / 2}" rpy="0 0 0" />
       </visual>
       <collision>
@@ -59,7 +59,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         <geometry>
           <box size="0.11 0.59 ${thickness}" />
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </collision>
     </link>
     <!-- Row Riser Plate Joint -->

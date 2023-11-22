@@ -12,7 +12,7 @@
             <mesh filename="package://clearpath_platform_description/meshes/j100/attachments/sensor_fender.stl" />
           </xacro:if>
         </geometry>
-        <material name="yellow" />
+        <material name="clearpath_yellow" />
       </visual>
     </link>
 

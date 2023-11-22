@@ -3,7 +3,7 @@
   <xacro:macro name="disk" params="name parent_link *origin">
     <link name="${name}_link">
       <visual>
-        <material name="dark_grey"/>
+        <material name="clearpath_dark_grey"/>
         <geometry>
           <mesh filename="package://clearpath_mounts_description/meshes/disk.stl" />
         </geometry>

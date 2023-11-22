@@ -3,13 +3,13 @@
   <xacro:macro name="swiftnav_duro" params="name parent_link *origin">
     <link name="${name}_link">
       <visual>
-        <material name="white"/>
+        <material name="clearpath_white"/>
         <geometry>
           <mesh filename="package://clearpath_sensors_description/meshes/swift_antenna.stl"/>
         </geometry>
       </visual>
       <collision>
-        <material name="white"/>
+        <material name="clearpath_white"/>
         <origin xyz="0.0000 -0.0000 0.0324"/>
         <geometry>
           <sphere radius="0.1122" />

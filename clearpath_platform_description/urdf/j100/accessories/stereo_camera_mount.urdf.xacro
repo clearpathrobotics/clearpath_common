@@ -10,7 +10,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/j100/stereo_camera_bracket.stl" />
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
     </link>
 
@@ -20,7 +20,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/j100/stereo_camera_beam.stl" />
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
     </link>
 
