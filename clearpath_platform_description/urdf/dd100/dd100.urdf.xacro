@@ -102,6 +102,7 @@
     </gazebo>
 
     <!-- Mounting Hard Points -->
+    <link name="default_mount"/>
     <link name="front_2_mount"/>
     <link name="front_1_mount"/>
     <link name="front_0_mount"/>
@@ -109,6 +110,11 @@
     <link name="rear_1_mount"/>
     <link name="rear_0_mount"/>
 
+    <joint name="default_mount_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="front_0_mount"/>
+      <child link="default_mount"/>
+    </joint>
     <joint name="front_0_mount_joint" type="fixed">
       <origin xyz="0.040 0 0.064263" rpy="0 0 0" />
       <parent link="chassis_link"/>
