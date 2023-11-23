@@ -158,12 +158,12 @@
     <link name="rear_0_mount"/>
 
     <joint name="default_mount_joint" type="fixed">
-      <origin xyz="-0.012 0 0.064263" rpy="0 0 0" />
+      <origin xyz="-0.0124 0 0.064263" rpy="0 0 0" />
       <parent link="chassis_link"/>
       <child link="default_mount" />
     </joint>
     <joint name="front_0_mount_joint" type="fixed">
-      <origin xyz="0.132 0 0" rpy="0 0 0" />
+      <origin xyz="0.1324 0 0" rpy="0 0 0" />
       <parent link="default_mount"/>
       <child link="front_0_mount" />
     </joint>
