@@ -1,0 +1,19 @@
+ekf_node:
+  ros__parameters:
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom
+    publish_tf: true
+    two_d_mode: true
+    use_sim_time: false
+
+    frequency: 50.0
+
+    odom0: platform/odom
+    odom0_config: [true, true, false,
+                  false, false, true,
+                  true, true, false,
+                  false, false, true,
+                  false, false, false]
+    odom0_differential: false
+    odom0_queue_size: 10
