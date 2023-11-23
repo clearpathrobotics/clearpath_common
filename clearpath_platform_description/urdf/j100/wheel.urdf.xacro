@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="a200_wheel">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="j100_wheel">
 
   <xacro:macro name="j100_wheel" params="prefix *joint_pose">
 
@@ -40,16 +40,5 @@
       <axis xyz="0 1 0" />
     </joint>
 
-    <!-- In reality, J100 has only two motors, one per side. However, it's more
-         straightforward for Gazebo to simulate as if there's an actuator per wheel. -->
-    <transmission name="${prefix}_wheel_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${prefix}_wheel">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="${prefix}_actuator">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
   </xacro:macro>
 </robot>
