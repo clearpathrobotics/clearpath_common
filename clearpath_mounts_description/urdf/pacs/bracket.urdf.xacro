@@ -28,64 +28,51 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <!--
       Brackets: add user defined bracket per mount name (i.e. A01)
       - adds extension to increase height of bracket (HUSKY_A01_BRACKET_EXTENSION 0). (e.g. 20, 40, 60, 80)
-      - adds type of bracket (HUSKY_A01_BRACKET_TYPE horizontal). (e.g. horizontal, horizontal_large, vertical)
+      - adds type of bracket (HUSKY_A01_BRACKET_TYPE horizontal). (e.g. horizontal, large, vertical)
       - adds mounting location always as A01_mount
   -->
   <xacro:macro name="bracket" params="name parent_link model:=horizontal *origin">
-      <!-- Check to Add Bracket -->
-      <xacro:property name="name_upper"             value="${name.upper()}"/>
-      <xacro:property name="bracket_enabled"        value="1"/>
-      <xacro:property name="bracket_type"           value="${model}"/>
-      <xacro:property name="bracket_xyz"            value="0 0 0"/>
-      <xacro:property name="bracket_rpy"            value="0 0 0"/>
-      <xacro:property name="bracket_extension"      value="0"/>
-      <xacro:property name="bracket_parent"         value="${name}"/>
-      <xacro:property name="bracket_extension_xyz"  value="${bracket_xyz}"/>
-      <xacro:property name="bracket_extension_rpy"  value="${bracket_rpy}"/>
+    <!-- Horizontal -->
+    <xacro:if value="${model == 'horizontal'}">
+        <xacro:property name="mesh_x" value="0.09"/>
+        <xacro:property name="mesh_y" value="0.09"/>
+        <xacro:property name="mesh_z" value="0.010125"/>
+        <xacro:property name="mesh_thickness" value="0.010125"/>
+        <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_horizontal.stl"/>
+    </xacro:if>
+    <!-- Horizontal Large -->
+    <xacro:if value="${model == 'large'}">
+        <xacro:property name="mesh_x" value="0.16"/>
+        <xacro:property name="mesh_y" value="0.16"/>
+        <xacro:property name="mesh_z" value="0.00635"/>
+        <xacro:property name="mesh_thickness" value="0.00635"/>
+        <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_horizontal_large.stl"/>
+    </xacro:if>
+    <!-- Vertical -->
+    <xacro:if value="${model == 'vertical'}">
+        <xacro:property name="mesh_x" value="0.1"/>
+        <xacro:property name="mesh_y" value="0.1"/>
+        <xacro:property name="mesh_z" value="0.1419"/>
+        <xacro:property name="mesh_thickness" value="0.010125"/>
+        <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_vertical.stl"/>
+        <!-- Vertical Mount -->
+        <link name="${name}_vertical_mount"/>
+        <joint name="${name}_vertical_mount_joint" type="fixed">
+          <child link="${name}_vertical_mount"/>
+          <parent link="${name}_mount"/>
+          <origin xyz="0.0518 0 0.086875" rpy="0 -${pi/2} 0"/>
+        </joint>
+    </xacro:if>
+    <xacro:unless value="${model == 'vertical' or
+                            model == 'horizontal' or
+                            model == 'large'}">
+        ${xacro.error(str("Bracket type (" + str(bracket_enabled) + ") does not exist. Select between 'vertical', 'horizontal', or 'large'"))}
+    </xacro:unless>
 
-      <xacro:if value="${bracket_enabled}">
-          <!-- Horizontal -->
-          <xacro:if value="${bracket_type == 'horizontal'}">
-              <xacro:property name="mesh_x" value="0.09"/>
-              <xacro:property name="mesh_y" value="0.09"/>
-              <xacro:property name="mesh_z" value="0.010125"/>
-              <xacro:property name="mesh_thickness" value="0.010125"/>
-              <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_horizontal.stl"/>
-          </xacro:if>
-          <!-- Horizontal Large -->
-          <xacro:if value="${bracket_type == 'horizontal_large'}">
-              <xacro:property name="mesh_x" value="0.16"/>
-              <xacro:property name="mesh_y" value="0.16"/>
-              <xacro:property name="mesh_z" value="0.00635"/>
-              <xacro:property name="mesh_thickness" value="0.00635"/>
-              <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_horizontal_large.stl"/>
-          </xacro:if>
-          <!-- Vertical -->
-          <xacro:if value="${bracket_type == 'vertical'}">
-              <xacro:property name="mesh_x" value="0.1"/>
-              <xacro:property name="mesh_y" value="0.1"/>
-              <xacro:property name="mesh_z" value="0.1419"/>
-              <xacro:property name="mesh_thickness" value="0.010125"/>
-              <xacro:property name="mesh" value="package://clearpath_mounts_description/meshes/pacs/bracket_vertical.stl"/>
-              <!-- Vertical Mount -->
-              <link name="${name}_vertical_mount"/>
-              <joint name="${name}_vertical_mount_joint" type="fixed">
-                <child link="${name}_vertical_mount"/>
-                <parent link="${name}_mount"/>
-                <origin xyz="0.0518 0 0.086875" rpy="0 -${pi/2} 0"/>
-              </joint>
-          </xacro:if>
-          <xacro:unless value="${bracket_type == 'vertical' or
-                                  bracket_type == 'horizontal' or
-                                  bracket_type == 'horizontal_large'}">
-              ${xacro.error(str("Bracket type (" + str(bracket_enabled) + ") does not exist. Select between 'vertical', 'horizontal', or 'horizontal_large'"))}
-          </xacro:unless>
-
-          <!-- Add the Bracket-->
-          <xacro:bracket_generic name="${name}" parent_link="${parent_link}" mesh="${mesh}" mesh_thickness="${mesh_thickness}" x="${mesh_x}" y="${mesh_y}" z="${mesh_z}">
-              <origin xyz="${bracket_xyz}" rpy="${bracket_rpy}"/>
-          </xacro:bracket_generic>
-      </xacro:if>
+    <!-- Add the Bracket-->
+    <xacro:bracket_generic name="${name}" parent_link="${parent_link}" mesh="${mesh}" mesh_thickness="${mesh_thickness}" x="${mesh_x}" y="${mesh_y}" z="${mesh_z}">
+      <xacro:insert_block name="origin"/>
+    </xacro:bracket_generic>
   </xacro:macro>
 
   <!--

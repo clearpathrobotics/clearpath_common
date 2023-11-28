@@ -92,18 +92,12 @@
         </geometry>
       </collision>
       <inertial>
-        <!-- Center of mass -->
         <origin xyz="0.012  0.002 0.067" rpy="0 0 0"/>
         <mass value="16.523"/>
-        <!-- Moments of inertia: ( chassis without wheels ) -->
         <inertia ixx="0.3136" ixy="-0.0008" ixz="0.0164" iyy="0.3922" iyz="-0.0009" izz="0.4485"/>
       </inertial>
     </link>
 
-    <!-- TODO: Make this internal_imu_link or something, and use a mixed-in xacro
-       to supply the joint between it and imu_link. This is important so that imu_link
-       always points to the "active" IMU. When an upgrade IMU is connected, the
-       internal_imu_link should remain, but imu_link should point to the upgrade one. -->
     <link name="imu_0_link">
       <inertial>
         <mass value="0.001"/>
@@ -125,7 +119,6 @@
       </sensor>
     </gazebo>
 
-    <!-- TODO: Same note as applies to imu_link -->
     <link name="gps_0_link">
       <visual>
         <geometry>
