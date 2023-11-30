@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="w200_track">
+
+  <xacro:macro name="w200_track" params="prefix side *joint_pose">
+    <link name="${prefix}_${side}_track_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/tracks.dae" />
+        </geometry>
+        <material name="clearpath_dark_grey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/tracks_collision.stl" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}_${side}_track_joint" type="fixed">
+      <parent link="${side}_diff_unit_link"/>
+      <child link="${prefix}_${side}_track_link"/>
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- This adds wheels that rotate instead of tracks. -->
+    <link name="${prefix}_${side}_wheel_link">
+      <collision>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius*wheel_to_track_ratio}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}_${side}_wheel_joint" type="continuous">
+      <parent link="${side}_diff_unit_link"/>
+      <child link="${prefix}_${side}_wheel_link"/>
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0"/>
+    </joint>
+    <transmission name="${prefix}_${side}_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_${side}_wheel_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_${side}_actuator">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+</robot>
