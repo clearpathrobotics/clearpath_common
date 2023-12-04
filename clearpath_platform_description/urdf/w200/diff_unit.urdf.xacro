@@ -13,7 +13,7 @@
     </xacro:if>
     <xacro:if value="${side == 'right'}">
         <xacro:property name="flip" value="-1"/>
-    <xacro:if>
+    </xacro:if>
 
     <link name="${side}_diff_unit_link">
       <inertial>
@@ -27,9 +27,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/fenders.stl" />
         </geometry>
-        <material name="clearpath_diff_unit">
-          <color rgba="${warthog_color}" />
-        </material>
+        <material name="${warthog_color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 ${flip*PI/2}"/>
@@ -42,7 +40,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/rocker.stl" />
         </geometry>
-        <material name="clearpath_black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+        <material name="clearpath_black"/>
       </visual>
     </link>
     <joint name="${side}_diff_unit_joint" type="fixed">
@@ -60,7 +58,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/light.stl" />
         </geometry>
-        <material name="clearpath_white"><color rgba="0.9 0.9 0.9 1.0" /></material>
+        <material name="clearpath_white"/>
       </visual>
     </link>
     <joint name="${side}_diff_unit_headlight_joint" type="fixed">
@@ -85,7 +83,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/w200/light.stl" />
         </geometry>
-        <material name="clearpath_red"><color rgba="0.9 0.0 0.0 1.0" /></material>
+        <material name="clearpath_red"/>
       </visual>
     </link>
     <joint name="${side}_diff_unit_taillight_joint" type="fixed">
@@ -108,8 +106,6 @@
       <selfCollide>false</selfCollide>
       <visual>
         <material>
-          <ambient>${warthog_color}</ambient>
-          <diffuse>${warthog_color}</diffuse>
           <specular>0.1 0.1 0.1 1</specular>
           <emissive>0 0 0 0</emissive>
         </material>

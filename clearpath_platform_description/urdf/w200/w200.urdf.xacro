@@ -5,7 +5,7 @@
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="color" default="yellow"/>
-  <xacro:arg name="wheel" default="wheel" /> <!-- tracks -->
+  <xacro:arg name="wheel" default="track" /> <!-- tracks -->
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/w200/control.yaml"/>
 
   <!-- Include URDF/XACRO Files -->
@@ -23,6 +23,7 @@
   <xacro:property name="axle_x_offset" value="0.457367" />
   <xacro:property name="axle_y_offset" value="0.0" />
   <xacro:property name="axle_z_offset" value="-0.012977" />
+  <xacro:property name="track_z_offset" value="-0.2" />
 
   <xacro:property name="diff_unit_length" value="1.34" />
   <xacro:property name="diff_unit_width"  value="0.28" />
@@ -42,22 +43,11 @@
 
   <!-- Colors: yellow, orange, olive, sand -->
   <xacro:property name="color"          value="$(arg color)"/>
-  <xacro:property name="warthog_yellow" value="0.95 0.816 0.082 1.0"/>
-  <xacro:property name="warthog_orange" value="1.0 0.48 0.0 1.0"/>
-  <xacro:property name="warthog_olive"  value="0.333 0.419 0.184 1.0"/>
-  <xacro:property name="warthog_sand"   value="0.86 0.75 0.54 1.0"/>
-  <xacro:if value="${color == 'yellow'}">
-    <xacro:property name="warthog_color" value="warthog_yellow" />
-  </xacro:if>
-  <xacro:if value="${color == 'orange'}">
-    <xacro:property name="warthog_color" value="warthog_orange" />
-  </xacro:if>
-  <xacro:if value="${color == 'olive'}">
-    <xacro:property name="warthog_color" value="warthog_olive" />
-  </xacro:if>
-  <xacro:if value="${color == 'sand'}">
-    <xacro:property name="warthog_color" value="warthog_sand" />
-  </xacro:if>
+  <xacro:property name="warthog_color"  value="${'warthog_'+color}"/>
+  <material name="warthog_yellow"><color rgba="0.95 0.816 0.082 1.0"/></material>
+  <material name="warthog_orange"><color rgba="1.0 0.48 0.0 1.0"/></material>
+  <material name="warthog_olive"><color rgba="0.333 0.419 0.184 1.0"/></material>
+  <material name="warthog_sand"><color rgba="0.86 0.75 0.54 1.0"/></material>
 
   <xacro:macro name="w200">
     <!-- Chassis -->
@@ -148,19 +138,19 @@
     </xacro:if>
 
     <!-- Tracks -->
-    <xacro:if value="${wheel == 'tracks'}">
-      <xacro:track prefix="front" side="left">
+    <xacro:if value="${wheel == 'track'}">
+      <xacro:w200_track prefix="front" side="left">
         <origin xyz="${axle_x_offset*1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 0" />
-      </xacro:track>
-      <xacro:track prefix="front" side="right">
+      </xacro:w200_track>
+      <xacro:w200_track prefix="front" side="right">
         <origin xyz="${axle_x_offset*1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 0" />
-      </xacro:track>
-      <xacro:track prefix="rear" side="left">
+      </xacro:w200_track>
+      <xacro:w200_track prefix="rear" side="left">
         <origin xyz="${axle_x_offset*-1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 ${PI}" />
-      </xacro:track>
-      <xacro:track prefix="rear" side="right">
+      </xacro:w200_track>
+      <xacro:w200_track prefix="rear" side="right">
         <origin xyz="${axle_x_offset*-1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 ${PI}" />
-      </xacro:track>
+      </xacro:w200_track>
     </xacro:if>
 
     <!-- Virtual Mounting Point -->
@@ -210,38 +200,38 @@
           <param name="hw_stop_duration_sec">3.0</param>
           <param name="wheel_diameter">0.6</param>
           <param name="max_accel">50.0</param>
-          <param name="max_speed">5.0</param>
+          <param name="max_speed">25.0</param>
           <param name="polling_timeout">0.1</param>
         </xacro:unless>
       </hardware>
       <joint name="front_left_wheel_joint">
         <command_interface name="velocity">
-          <param name="min">-5</param>
-          <param name="max">5</param>
+          <param name="min">-25</param>
+          <param name="max">25</param>
         </command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
       </joint>
       <joint name="rear_left_wheel_joint">
         <command_interface name="velocity">
-          <param name="min">-5</param>
-          <param name="max">5</param>
+          <param name="min">-25</param>
+          <param name="max">25</param>
         </command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
       </joint>
       <joint name="front_right_wheel_joint">
         <command_interface name="velocity">
-          <param name="min">-5</param>
-          <param name="max">5</param>
+          <param name="min">-25</param>
+          <param name="max">25</param>
         </command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
       </joint>
       <joint name="rear_right_wheel_joint">
         <command_interface name="velocity">
-          <param name="min">-5</param>
-          <param name="max">5</param>
+          <param name="min">-25</param>
+          <param name="max">25</param>
         </command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
