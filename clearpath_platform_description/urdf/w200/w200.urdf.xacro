@@ -5,7 +5,7 @@
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="color" default="yellow"/>
-  <xacro:arg name="wheel" default="track" /> <!-- tracks -->
+  <xacro:arg name="wheel" default="default" /> <!-- tracks -->
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/w200/control.yaml"/>
 
   <!-- Include URDF/XACRO Files -->
@@ -122,7 +122,7 @@
     </joint>
 
     <!-- Wheels -->
-    <xacro:if value="${wheel == 'wheel'}">
+    <xacro:if value="${wheel == 'default'}">
       <xacro:w200_wheel prefix="front" side="left">
         <origin xyz="${axle_x_offset*1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 0" />
       </xacro:w200_wheel>
