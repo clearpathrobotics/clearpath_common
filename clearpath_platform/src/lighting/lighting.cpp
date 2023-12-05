@@ -78,18 +78,24 @@ Lighting::Lighting()
 
     {State::ShoreAndCharging, PulseSequence(
       Sequence::fillLightingState(COLOR_BLUE, platform_),
-      Sequence::fillLightingState(COLOR_GREEN, platform_),
-      MS_TO_STEPS(8000))},
+      Sequence::fillLightingState(COLOR_YELLOW, platform_),
+      MS_TO_STEPS(12000))},
     
-    {State::ShorePower, PulseSequence(
+    {State::ShoreAndCharged, PulseSequence(
       Sequence::fillLightingState(COLOR_BLUE, platform_),
-      Sequence::fillLightingState(COLOR_BLUE_DIM, platform_),
-      MS_TO_STEPS(4000))},
+      Sequence::fillLightingState(COLOR_GREEN, platform_),
+      MS_TO_STEPS(12000))},
+    
+    {State::ShorePower, SolidSequence(
+      Sequence::fillLightingState(COLOR_BLUE, platform_))},
     
     {State::Charging, PulseSequence(
       Sequence::fillLightingState(COLOR_GREEN, platform_),
-      Sequence::fillLightingState(COLOR_GREEN_DIM, platform_),
-      MS_TO_STEPS(4000))},
+      Sequence::fillLightingState(COLOR_YELLOW, platform_),
+      MS_TO_STEPS(6000))},
+    
+    {State::Charged, SolidSequence(
+      Sequence::fillLightingState(COLOR_GREEN, platform_))},
     
     {State::Stopped, BlinkSequence(
       Sequence::fillLightingState(COLOR_RED, platform_),
@@ -136,7 +142,9 @@ void Lighting::spinOnce()
     case State::Driving:
     case State::ShorePower:
     case State::ShoreAndCharging:
+    case State::ShoreAndCharged:
     case State::Charging:
+    case State::Charged:
       user_commands_allowed_ = true;
       break;
     case State::LowBattery:
@@ -364,15 +372,31 @@ void Lighting::updateState()
   // Charger connected
   if (battery_state_msg_.power_supply_status == sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_CHARGING) // || wibotic_charging_msg_.data)
   {
-    // Shore power connected
-    if (power_msg_.shore_power_connected == 1)
+    // Fully charged
+    if (battery_state_msg_.percentage == 1.0)
     {
-      setState(State::ShoreAndCharging);
+      // Shore power connected
+      if (power_msg_.shore_power_connected == 1)
+      {
+        setState(State::ShoreAndCharged);
+      }
+      else
+      {
+        setState(State::Charged);
+      }
     }
     else
     {
-      setState(State::Charging);
-    }
+      // Shore power connected
+      if (power_msg_.shore_power_connected == 1)
+      {
+        setState(State::ShoreAndCharging);
+      }
+      else
+      {
+        setState(State::Charging);
+      }
+    }    
   }
   else if (stop_engaged_msg_.data) // E-Stop
   {
