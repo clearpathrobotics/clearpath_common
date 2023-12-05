@@ -72,13 +72,12 @@ class PlatformDescription():
             package = description[DescriptionPackagePath.PACKAGE]
             path = description[DescriptionPackagePath.PATH]
             macro = description[DescriptionPackagePath.MACRO]
-            parameters = description[DescriptionPackagePath.PARAMETERS]
             super().__init__(
                 package=package,
                 file=os.path.basename(path),
                 path=os.path.dirname(path)+"/",
                 macro=macro,
-                parameters=parameters
+                parameters=None
             )
 
     def __new__(cls, model: Platform, config: ClearpathConfig) -> BasePlatform:

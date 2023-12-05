@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="j100"
   xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/wheel.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/wheels/wheel.urdf.xacro"/>
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="prefix" default="" />
   <xacro:arg name="namespace" default="" />
@@ -25,7 +25,7 @@
 
   <xacro:property name="mount_spacing" value="0.120" />
 
-  <xacro:macro name="j100">
+  <xacro:macro name="j100" params="wheel:='default'">
 
     <xacro:j100_wheel prefix="front_left">
       <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
