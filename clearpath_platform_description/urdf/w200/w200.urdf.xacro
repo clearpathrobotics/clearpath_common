@@ -4,52 +4,48 @@
 
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
-  <xacro:arg name="color" default="yellow"/>
-  <xacro:arg name="wheel" default="default" /> <!-- tracks -->
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/w200/control.yaml"/>
-
   <!-- Include URDF/XACRO Files -->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/diff_unit.urdf.xacro"/>
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/track.urdf.xacro"/>
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/wheel.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/wheels/track.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/wheels/wheel.urdf.xacro"/>
   <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/diff_unit.urdf.xacro"/>
 
-  <xacro:property name="wheel"        value="$(arg wheel)" />
-  <xacro:property name="wheel_radius" value="0.3" />
-  <xacro:property name="wheel_width"  value="0.25" />
-  <xacro:property name="wheel_mass"   value="15" />
-  <xacro:property name="wheel_to_track_ratio" value="0.5962" />
+  <xacro:macro name="w200" params="wheel:='default' color:='yellow'">
+    <!-- Colors: yellow, orange, olive, sand -->
+    <xacro:property name="warthog_color"  value="${'warthog_'+color}"/>
+    <material name="warthog_yellow"><color rgba="0.95 0.816 0.082 1.0"/></material>
+    <material name="warthog_orange"><color rgba="1.0 0.48 0.0 1.0"/></material>
+    <material name="warthog_olive"><color rgba="0.333 0.419 0.184 1.0"/></material>
+    <material name="warthog_sand"><color rgba="0.86 0.75 0.54 1.0"/></material>
 
-  <xacro:property name="axle_x_offset" value="0.457367" />
-  <xacro:property name="axle_y_offset" value="0.0" />
-  <xacro:property name="axle_z_offset" value="-0.012977" />
-  <xacro:property name="track_z_offset" value="-0.2" />
+    <!-- Variables -->
+    <xacro:property name="wheel_radius" value="0.3" />
+    <xacro:property name="wheel_width"  value="0.25" />
+    <xacro:property name="wheel_mass"   value="15" />
+    <xacro:property name="wheel_to_track_ratio" value="0.5962" />
 
-  <xacro:property name="diff_unit_length" value="1.34" />
-  <xacro:property name="diff_unit_width"  value="0.28" />
-  <xacro:property name="diff_unit_height" value="0.63"/>
-  <xacro:property name="diff_unit_mass"   value="50" />
+    <xacro:property name="axle_x_offset" value="0.457367" />
+    <xacro:property name="axle_y_offset" value="0.0" />
+    <xacro:property name="axle_z_offset" value="-0.012977" />
+    <xacro:property name="track_z_offset" value="-0.2" />
 
-  <xacro:property name="diff_unit_offset_x" value="0.00" />
-  <xacro:property name="diff_unit_offset_y" value="0.56821" />
-  <xacro:property name="diff_unit_offset_z" value="0.0" />
+    <xacro:property name="diff_unit_length" value="1.34" />
+    <xacro:property name="diff_unit_width"  value="0.28" />
+    <xacro:property name="diff_unit_height" value="0.63"/>
+    <xacro:property name="diff_unit_mass"   value="50" />
 
-  <xacro:property name="chassis_length" value="1.35" />
-  <xacro:property name="chassis_width"  value="0.70" />
-  <xacro:property name="chassis_height" value="0.30" />
-  <xacro:property name="chassis_mass"   value="100" />
+    <xacro:property name="diff_unit_offset_x" value="0.00" />
+    <xacro:property name="diff_unit_offset_y" value="0.56821" />
+    <xacro:property name="diff_unit_offset_z" value="0.0" />
 
-  <xacro:property name="dummy_inertia" value="1e-09"/>
+    <xacro:property name="chassis_length" value="1.35" />
+    <xacro:property name="chassis_width"  value="0.70" />
+    <xacro:property name="chassis_height" value="0.30" />
+    <xacro:property name="chassis_mass"   value="100" />
 
-  <!-- Colors: yellow, orange, olive, sand -->
-  <xacro:property name="color"          value="$(arg color)"/>
-  <xacro:property name="warthog_color"  value="${'warthog_'+color}"/>
-  <material name="warthog_yellow"><color rgba="0.95 0.816 0.082 1.0"/></material>
-  <material name="warthog_orange"><color rgba="1.0 0.48 0.0 1.0"/></material>
-  <material name="warthog_olive"><color rgba="0.333 0.419 0.184 1.0"/></material>
-  <material name="warthog_sand"><color rgba="0.86 0.75 0.54 1.0"/></material>
+    <xacro:property name="dummy_inertia" value="1e-09"/>
 
-  <xacro:macro name="w200">
     <!-- Chassis -->
     <link name="base_link"></link>
 
