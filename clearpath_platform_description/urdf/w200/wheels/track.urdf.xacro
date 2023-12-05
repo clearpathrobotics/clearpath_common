@@ -40,13 +40,6 @@
         <mass value="${wheel_mass}" />
         <xacro:wheel_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_width}" />
       </inertial>
-      <visual>
-        <material name="clearpath_red"/>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
-        <geometry>
-          <cylinder radius="${wheel_radius*wheel_to_track_ratio}" length="${wheel_width}"/>
-        </geometry>
-      </visual>
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
