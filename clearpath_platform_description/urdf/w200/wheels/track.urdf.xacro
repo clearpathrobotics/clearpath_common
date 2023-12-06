@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="w200_track">
+
+  <xacro:macro name="w200_track" params="prefix side *joint_pose">
+    <xacro:property name="rotate" value="${(prefix=='rear')*math.pi}"/>
+
+    <link name="${prefix}_${side}_track_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/tracks.dae" />
+        </geometry>
+        <material name="clearpath_dark_grey" />
+      </visual>
+      <collision>
+        <origin xyz="-0.281 0 -0.1892" rpy="${math.pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="0.095" length="0.27"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0.4805 0 -0.1345" rpy="${math.pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="0.095" length="0.27"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}_${side}_track_joint" type="fixed">
+      <parent link="${side}_diff_unit_link"/>
+      <child link="${prefix}_${side}_track_link"/>
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- This adds wheels that rotate instead of tracks. -->
+    <link name="${prefix}_${side}_wheel_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="${wheel_mass}" />
+        <xacro:wheel_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_width}" />
+      </inertial>
+      <collision>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius*wheel_to_track_ratio}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}_${side}_wheel_joint" type="continuous">
+      <parent link="${prefix}_${side}_track_link"/>
+      <child link="${prefix}_${side}_wheel_link"/>
+      <origin xyz="0.12 0. -0.18" rpy="0 0 ${rotate}"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+    <gazebo reference="${prefix}_${side}_wheel_link">
+      <selfCollide>false</selfCollide>
+      <mu1>0.5</mu1>
+      <mu2>0.5</mu2>
+      <fdir1 value="1 0 0" />
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+  </xacro:macro>
+</robot>

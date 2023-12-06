@@ -55,13 +55,15 @@ class PlatformDescription():
     class ClearpathPlatform(BasePlatform):
         pkg_clearpath_platform_description = 'clearpath_platform_description'
 
-        def __init__(self, model: Platform) -> None:
+        def __init__(self, config: ClearpathConfig) -> None:
             super().__init__(
                 package=self.pkg_clearpath_platform_description,
-                path=f'urdf/{model}/',
-                file=model,
-                macro=model,
-                parameters=None
+                path=f'urdf/{config.get_platform_model()}/',
+                file=config.get_platform_model(),
+                macro=config.get_platform_model(),
+                parameters={
+                    'wheel': config.platform.wheel,
+                }
             )
 
     class GenericPlatform(BasePlatform):
@@ -70,17 +72,16 @@ class PlatformDescription():
             package = description[DescriptionPackagePath.PACKAGE]
             path = description[DescriptionPackagePath.PATH]
             macro = description[DescriptionPackagePath.MACRO]
-            parameters = description[DescriptionPackagePath.PARAMETERS]
             super().__init__(
                 package=package,
                 file=os.path.basename(path),
                 path=os.path.dirname(path)+"/",
                 macro=macro,
-                parameters=parameters
+                parameters=None
             )
 
     def __new__(cls, model: Platform, config: ClearpathConfig) -> BasePlatform:
         if model == Platform.GENERIC:
             return PlatformDescription.GenericPlatform(config)
         else:
-            return PlatformDescription.ClearpathPlatform(model)
+            return PlatformDescription.ClearpathPlatform(config)

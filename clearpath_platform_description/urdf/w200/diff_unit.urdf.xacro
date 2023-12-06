@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="w200_diff_unit">
+
+  <xacro:macro name="box_inertia" params="m x y z">
+    <inertia ixx="${m*(y*y+z*z)/12}" ixy="0" ixz="0"
+             iyy="${m*(x*x+z*z)/12}" iyz="0"
+             izz="${m*(x*x+z*z)/12}" />
+  </xacro:macro>
+
+  <xacro:macro name="w200_diff_unit" params="side">
+    <xacro:if value="${side == 'left'}">
+        <xacro:property name="flip" value="1"/>
+    </xacro:if>
+    <xacro:if value="${side == 'right'}">
+        <xacro:property name="flip" value="-1"/>
+    </xacro:if>
+
+    <link name="${side}_diff_unit_link">
+      <inertial>
+        <origin xyz="0 ${flip*-1*0.05} 0.197" rpy="0 0 0"/>
+        <mass value="${diff_unit_mass}"/>
+        <xacro:box_inertia m="${diff_unit_mass}" x="${diff_unit_length}"
+                           y="${diff_unit_width}" z="${diff_unit_height}" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${flip*PI/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/fenders.stl" />
+        </geometry>
+        <material name="${warthog_color}"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${flip*PI/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/fenders.stl" />
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${flip*PI/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/rocker.stl" />
+        </geometry>
+        <material name="clearpath_black"/>
+      </visual>
+    </link>
+    <joint name="${side}_diff_unit_joint" type="fixed">
+      <limit upper="0.4" lower="-0.4" effort="100" velocity="1"/>
+      <parent link="chassis_link"/>
+      <child link="${side}_diff_unit_link"/>
+      <origin xyz="${diff_unit_offset_x} ${diff_unit_offset_y*flip} ${diff_unit_offset_z}" rpy="0 0 0" />
+      <axis xyz="0 1 0"/>
+      <dynamics damping="100" friction="0.5"/>
+    </joint>
+
+    <link name="${side}_diff_unit_headlight_link">
+      <visual>
+        <origin xyz="0 ${flip*-0.0244} 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/light.stl" />
+        </geometry>
+        <material name="clearpath_white"/>
+      </visual>
+    </link>
+    <joint name="${side}_diff_unit_headlight_joint" type="fixed">
+      <parent link="${side}_diff_unit_link" />
+      <child link="${side}_diff_unit_headlight_link" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    <gazebo reference="${side}_diff_unit_headlight_link">
+      <visual>
+        <material>
+          <ambient>0.9 0.9 0.9 1</ambient>
+          <diffuse>0.9 0.9 0.9 1</diffuse>
+          <specular>0.9 0.9 0.9 1</specular>
+          <emissive>0.9 0.9 0.9 1</emissive>
+        </material>
+      </visual>
+    </gazebo>
+
+    <link name="${side}_diff_unit_taillight_link">
+      <visual>
+        <origin xyz="0 ${flip*-0.0244} 0" rpy="0 0 ${flip*PI}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/light.stl" />
+        </geometry>
+        <material name="clearpath_red"/>
+      </visual>
+    </link>
+    <joint name="${side}_diff_unit_taillight_joint" type="fixed">
+      <parent link="${side}_diff_unit_link" />
+      <child link="${side}_diff_unit_taillight_link" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    <gazebo reference="${side}_diff_unit_taillight_link">
+      <visual>
+        <material>
+          <ambient>0.9 0 0 1</ambient>
+          <diffuse>0.9 0 0 1</diffuse>
+          <specular>0.9 0 0 1</specular>
+          <emissive>0.9 0 0 1</emissive>
+        </material>
+      </visual>
+    </gazebo>
+
+    <gazebo reference="${side}_diff_unit_link">
+      <selfCollide>false</selfCollide>
+      <visual>
+        <material>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

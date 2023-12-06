@@ -6,12 +6,12 @@
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/dd100/control.yaml"/>
 
   <!-- Included URDF/XACRO Files -->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/wheel.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/wheels/wheel.urdf.xacro"/>
 
   <xacro:property name="PI" value="3.1415926535897931" />
 
   <!-- DD100 Platform Macro -->
-  <xacro:macro name="dd100">
+  <xacro:macro name="dd100" params="wheel:='default'">
     <!-- Variables -->
     <xacro:property name="wheel_radius" value="0.049" />
     <xacro:property name="wheel_mass" value="0.111" />

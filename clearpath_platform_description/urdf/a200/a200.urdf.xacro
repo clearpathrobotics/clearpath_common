@@ -7,11 +7,11 @@
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a200/control.yaml"/>
 
   <!-- Included URDF/XACRO Files -->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/wheel.urdf.xacro" />
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/wheels/wheel.urdf.xacro" />
 
   <xacro:property name="M_PI" value="3.14159"/>
 
-  <xacro:macro name="a200">
+  <xacro:macro name="a200" params="wheel:='default'">
 
     <!-- Base Size -->
     <xacro:property name="base_x_size" value="0.98740000" />
