@@ -63,9 +63,9 @@ W200HardwareInterface::W200HardwareInterface(std::string node_name)
 }
 
 /**
- * @brief Feedback subscription callback
- * 
- * @param msg 
+ * @brief Callback for left feedback
+ *
+ * @param msg
  */
 void W200HardwareInterface::feedback_left_callback(const std_msgs::msg::Float64::SharedPtr msg)
 {
@@ -73,8 +73,11 @@ void W200HardwareInterface::feedback_left_callback(const std_msgs::msg::Float64:
   has_left_feedback_ = true;
 }
 
-/// @brief 
-/// @param msg 
+/**
+ * @brief Callback for right feedback
+ *
+ * @param msg
+ */
 void W200HardwareInterface::feedback_right_callback(const std_msgs::msg::Float64::SharedPtr msg)
 {
   feedback_right_ = *msg;
@@ -97,19 +100,33 @@ void W200HardwareInterface::drive_command(const float & left_wheel, const float 
   pub_right_cmd->publish(msg_right_cmd);
 }
 
-/// @brief 
-/// @return 
+/**
+ * @brief Check if there is new feedback on both left and right side
+ *
+ * @return true
+ * @return false
+ */
 bool W200HardwareInterface::has_new_feedback()
 {
-  return has_left_feedback_ && has_right_feedback_;
+  return (has_left_feedback_ && has_right_feedback_);
 }
 
+/**
+ * @brief Get the left side feedback
+ *
+ * @return std_msgs::msg::Float64
+ */
 std_msgs::msg::Float64 W200HardwareInterface::get_left_feedback()
 {
   has_left_feedback_ = false;
   return feedback_left_;
 }
 
+/**
+ * @brief Get the right side feedback
+ *
+ * @return std_msgs::msg::Float64
+ */
 std_msgs::msg::Float64 W200HardwareInterface::get_right_feedback()
 {
   has_right_feedback_ = false;

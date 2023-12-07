@@ -82,7 +82,7 @@ public:
   hardware_interface::return_type write(const rclcpp::Time & time, const rclcpp::Duration & period) override;
 protected:
   void writeCommandsToHardware();
-  void updateJointsFromHardware();
+  void updateJointsFromHardware(const rclcpp::Duration & period);
   virtual hardware_interface::CallbackReturn getHardwareInfo(const hardware_interface::HardwareInfo & info);
   virtual hardware_interface::CallbackReturn validateJoints();
   virtual hardware_interface::CallbackReturn initHardwareInterface();
@@ -90,7 +90,7 @@ protected:
 
   // Store the command for the robot
   std::vector<double> hw_commands_;
-  std::vector<double> hw_states_velocity_;
+  std::vector<double> hw_states_position_, hw_states_position_offset_, hw_states_velocity_;
 
   std::map<std::string, uint8_t> wheel_joints_;
 
