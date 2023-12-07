@@ -191,13 +191,7 @@
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
           <plugin>clearpath_platform/W200Hardware</plugin>
-          <plugin>fake_components/GenericSystem</plugin>
-          <param name="hw_start_duration_sec">2.0</param>
-          <param name="hw_stop_duration_sec">3.0</param>
           <param name="wheel_diameter">0.6</param>
-          <param name="max_accel">50.0</param>
-          <param name="max_speed">25.0</param>
-          <param name="polling_timeout">0.1</param>
         </xacro:unless>
       </hardware>
       <joint name="front_left_wheel_joint">

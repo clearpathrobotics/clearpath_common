@@ -129,8 +129,6 @@ add_library(
   SHARED
   src/w200/hardware.cpp
   src/w200/hardware_interface.cpp
-  src/diff_drive/hardware.cpp
-  src/diff_drive/hardware_interface.cpp
 )
 
 target_include_directories(

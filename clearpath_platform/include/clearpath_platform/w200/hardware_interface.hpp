@@ -35,17 +35,33 @@
 #ifndef CLEARPATH_PLATFORM__W200_HARDWARE_INTERFACE_HPP_
 #define CLEARPATH_PLATFORM__W200_HARDWARE_INTERFACE_HPP_
 
-#include "clearpath_platform/diff_drive/hardware_interface.hpp"
+#include "rclcpp/rclcpp.hpp"
+
+#include <std_msgs/msg/float64.hpp>
 
 namespace clearpath_platform
 {
 
 class W200HardwareInterface
-: public DiffDriveHardwareInterface
+: public rclcpp::Node
 {
   public:
   explicit W200HardwareInterface(std::string node_name);
+  void feedback_left_callback(const std_msgs::msg::Float64::SharedPtr msg);
+  void feedback_right_callback(const std_msgs::msg::Float64::SharedPtr msg);
+  void drive_command(const float & left_wheel, const float & right_wheel);
+  bool has_new_feedback();
+  std_msgs::msg::Float64 get_left_feedback();
+  std_msgs::msg::Float64 get_right_feedback();
 
+  private:
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr pub_left_cmd;
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr pub_right_cmd;
+  rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr sub_left_feedback_;
+  rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr sub_right_feedback_;
+
+  std::atomic<std_msgs::msg::Float64> feedback_left_, feedback_right_;
+  std::atomic_bool has_left_feedback_, has_right_feedback_;
 };
 
 }  // namespace clearpath_platform

@@ -41,8 +41,77 @@ using clearpath_platform::W200HardwareInterface;
  * 
  */
 W200HardwareInterface::W200HardwareInterface(std::string node_name)
-: DiffDriveHardwareInterface(node_name)
+: Node(node_name)
 {
+  sub_left_feedback_ = create_subscription<std_msgs::msg::Float64>(
+    "platform/motor/left/status/velocity",
+    rclcpp::SensorDataQoS(),
+    std::bind(&W200HardwareInterface::feedback_left_callback, this, std::placeholders::_1));
 
+  sub_right_feedback_ = create_subscription<std_msgs::msg::Float64>(
+    "platform/motor/right/status/velocity",
+    rclcpp::SensorDataQoS(),
+    std::bind(&W200HardwareInterface::feedback_right_callback, this, std::placeholders::_1));
+
+  pub_left_cmd = create_publisher<std_msgs::msg::Float64>(
+    "platform/motor/left/cmd_velocity",
+    rclcpp::SensorDataQoS());
+
+  pub_right_cmd = create_publisher<std_msgs::msg::Float64>(
+    "platform/motor/right/cmd_velocity",
+    rclcpp::SensorDataQoS());
 }
 
+/**
+ * @brief Feedback subscription callback
+ * 
+ * @param msg 
+ */
+void W200HardwareInterface::feedback_left_callback(const std_msgs::msg::Float64::SharedPtr msg)
+{
+  feedback_left_ = *msg;
+  has_left_feedback_ = true;
+}
+
+/// @brief 
+/// @param msg 
+void W200HardwareInterface::feedback_right_callback(const std_msgs::msg::Float64::SharedPtr msg)
+{
+  feedback_right_ = *msg;
+  has_right_feedback_ = true;
+}
+
+/**
+ * @brief Publish Drive message
+ * 
+ * @param left_wheel Left wheel command
+ * @param right_wheel Right wheel command
+ * @param mode Command mode
+ */
+void W200HardwareInterface::drive_command(const float & left_wheel, const float & right_wheel)
+{
+  std_msgs::msg::Float64 msg_left_cmd, msg_right_cmd;
+  msg_left_cmd.data = left_wheel;
+  msg_right_cmd.data = right_wheel;
+  pub_left_cmd->publish(msg_left_cmd);
+  pub_right_cmd->publish(msg_right_cmd);
+}
+
+/// @brief 
+/// @return 
+bool W200HardwareInterface::has_new_feedback()
+{
+  return has_left_feedback_ && has_right_feedback_;
+}
+
+std_msgs::msg::Float64 W200HardwareInterface::get_left_feedback()
+{
+  has_left_feedback_ = false;
+  return feedback_left_;
+}
+
+std_msgs::msg::Float64 W200HardwareInterface::get_right_feedback()
+{
+  has_right_feedback_ = false;
+  return feedback_right_;
+}

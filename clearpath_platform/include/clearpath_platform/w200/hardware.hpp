@@ -35,18 +35,67 @@
 #ifndef CLEARPATH_PLATFORM_W200__HARDWARE_HPP_
 #define CLEARPATH_PLATFORM_W200__HARDWARE_HPP_
 
+#include <memory>
+#include <string>
+#include <vector>
+#include <chrono>
 
-#include "clearpath_platform/diff_drive/hardware.hpp"
+#include "hardware_interface/handle.hpp"
+#include "hardware_interface/hardware_info.hpp"
+#include "hardware_interface/system_interface.hpp"
+#include "hardware_interface/types/hardware_interface_return_values.hpp"
+#include "hardware_interface/visibility_control.h"
+
 #include "clearpath_platform/w200/hardware_interface.hpp"
 
 
 namespace clearpath_platform
 {
 
-class W200Hardware : public DiffDriveHardware
+static constexpr uint8_t DIFF_DRIVE_TWO_JOINTS = 2;
+static constexpr uint8_t DIFF_DRIVE_FOUR_JOINTS = 4;
+
+class W200Hardware : public hardware_interface::SystemInterface
 {
-  private:
-  hardware_interface::CallbackReturn initHardwareInterface() override;
+public:
+  RCLCPP_SHARED_PTR_DEFINITIONS(W200Hardware)
+
+  HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
+
+  HARDWARE_INTERFACE_PUBLIC
+  std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
+
+  HARDWARE_INTERFACE_PUBLIC
+  std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
+
+  HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
+
+  HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
+
+  HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::return_type read(const rclcpp::Time & time, const rclcpp::Duration & period) override;
+
+  HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::return_type write(const rclcpp::Time & time, const rclcpp::Duration & period) override;
+protected:
+  void writeCommandsToHardware();
+  void updateJointsFromHardware();
+  virtual hardware_interface::CallbackReturn getHardwareInfo(const hardware_interface::HardwareInfo & info);
+  virtual hardware_interface::CallbackReturn validateJoints();
+  virtual hardware_interface::CallbackReturn initHardwareInterface();
+  std::shared_ptr<W200HardwareInterface> node_;
+
+  // Store the command for the robot
+  std::vector<double> hw_commands_;
+  std::vector<double> hw_states_velocity_;
+
+  std::map<std::string, uint8_t> wheel_joints_;
+
+  uint8_t num_joints_;
+  std::string hw_name_;
 };
 
 }  // namespace clearpath_platform
