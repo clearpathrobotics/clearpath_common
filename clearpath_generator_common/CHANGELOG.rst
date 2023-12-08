@@ -2,6 +2,17 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.3 (2023-11-03)
+------------------
+
+0.1.2 (2023-10-02)
+------------------
+* Adds Blackfly camera to sensor description (`#33 <https://github.com/clearpathrobotics/clearpath_common/issues/33>`_)
+  * Adds Blackfly camera to sensor description
+  ---------
+  Co-authored-by: fazzrazz <danielduranrojas@gmail.com>
+* Contributors: Hilary Luo
+
 0.1.1 (2023-08-25)
 ------------------
 

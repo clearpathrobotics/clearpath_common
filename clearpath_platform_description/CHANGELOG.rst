@@ -2,6 +2,14 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.3 (2023-11-03)
+------------------
+* [clearpath_platform_description] Removed un-used ros2_control params.
+* Contributors: Tony Baltovski
+
+0.1.2 (2023-10-02)
+------------------
+
 0.1.1 (2023-08-25)
 ------------------
 * Update gps and imu names to fix generated topic
