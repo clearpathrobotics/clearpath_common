@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2023-12-08)
+------------------
 * Added W200 Hardware interface.
 * Use path substitution
 * Removed testing visual for track virtual wheel

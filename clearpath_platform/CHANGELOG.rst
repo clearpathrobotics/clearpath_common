@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2023-12-08)
+------------------
 * Pass robot description to controller manager over topic
 * [clearpath_platform] Re-added position state to hardware interface.
 * Added W200 Hardware interface.
