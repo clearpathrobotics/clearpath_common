@@ -2,6 +2,50 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added W200 Hardware interface.
+* Use path substitution
+* Removed testing visual for track virtual wheel
+* Added wheel parameters to all robot
+* Color and wheel are now parameters
+* Updated collision model
+* Added w200 tracks
+* First pass
+* Removed serial from URDF
+* Accurate mounts shift
+* Added DD150
+* Re-add caster
+* Added default mount
+* Removed friction on rear_caster
+* Added dd100
+* Removed transmission and cleaned up URDF
+* Removed erroneaous change
+* Removed print
+* Updated gazebo simulation
+* Changed default parent to default_mount
+* Set color appropriately
+* Arm Mount at base
+* Mounts re-numbering
+* Formatted W200 attachment URDF
+* Changed top_chassis_link to default_mount
+* Changed mid_mount to default_mount
+* Renamed sensor_arch namespace
+* Changed sensor arch parent
+* Added mid_mount
+* Origin to bumper
+* Added  to materials
+* Attachment URDF match changes
+* Add gazebo controller to URDF without macro
+* Moved gazebo controller to common
+* Fixes to control parameters and naming
+* Base diff drive hardware and hardware interface class
+  J100 and W200 inherit from diff drive
+  Moved each platform into its own folder
+* Fixed package names and added w200 urdf macro
+* Initial Warthog addition
+* Contributors: Hilary Luo, Luis Camero, Roni Kreinin, Tony Baltovski
+
 0.1.3 (2023-11-03)
 ------------------
 * [clearpath_platform_description] Removed un-used ros2_control params.

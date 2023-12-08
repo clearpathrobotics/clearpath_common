@@ -2,6 +2,26 @@
 Changelog for package clearpath_platform
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Pass robot description to controller manager over topic
+* [clearpath_platform] Re-added position state to hardware interface.
+* Added W200 Hardware interface.
+* Use path substitution
+* Updated lighting patterns
+  Added charged state
+* Comments
+* Cleanup
+* Fill lights by platform
+* Lighting states
+* Working HSV
+* Initial lighting node
+* Whitespace
+* Base diff drive hardware and hardware interface class
+  J100 and W200 inherit from diff drive
+  Moved each platform into its own folder
+* Contributors: Luis Camero, Roni Kreinin, Tony Baltovski
+
 0.1.3 (2023-11-03)
 ------------------
 

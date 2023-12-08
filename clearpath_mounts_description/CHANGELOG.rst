@@ -2,6 +2,12 @@
 Changelog for package clearpath_mounts_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed bracket origin
+* Added  to materials
+* Contributors: Luis Camero
+
 0.1.3 (2023-11-03)
 ------------------
 * Load bracket XYZ from block

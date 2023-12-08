@@ -2,6 +2,30 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added wheel parameters to all robot
+* Wheel is now parameter
+* Adds Blackfly camera to sensor description (`#33 <https://github.com/clearpathrobotics/clearpath_common/issues/33>`_)
+  * Adds Blackfly camera to sensor description
+  ---------
+  Co-authored-by: fazzrazz <danielduranrojas@gmail.com>
+* Removed print in platform description generator
+* Add imu0 to ekf_node for all platforms except A200
+* Added W200 attachments to generator
+* Platform no longer required
+* Added  to materials
+* Removed unecessary SimpleDescription
+* Attachments not restricted by platform
+* Simplified attachment generation
+* Removed debug print
+* Removed gazebo include from generator
+* Read control.yaml directly from clearpath config specified file
+* Allow for no macro to be added
+* Moved gazebo controller to common
+* Added Generic platform
+* Contributors: Hilary Luo, Luis Camero, Roni Kreinin
+
 0.1.3 (2023-11-03)
 ------------------
 

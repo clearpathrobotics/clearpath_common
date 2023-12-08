@@ -2,6 +2,24 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Pass robot description to controller manager over topic
+* Added W200 Hardware interface.
+* Fixed dingo control param
+* Added DD150
+* Fixed name
+* Removed comments
+* Reduced speed on turbo dd100
+* Added dd100
+* Added fixes to control and localization
+* Extended timeout to a minute
+* Added configuration files for generic robots
+* Fixes to control parameters and naming
+* Fixed package names and added w200 urdf macro
+* Initial Warthog addition
+* Contributors: Hilary Luo, Luis Camero, Roni Kreinin, Tony Baltovski
+
 0.1.3 (2023-11-03)
 ------------------
 
