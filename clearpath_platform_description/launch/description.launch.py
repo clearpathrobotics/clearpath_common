@@ -26,21 +26,25 @@ def generate_launch_description():
         description='Robot namespace'
     )
 
+    # Paths
+    robot_urdf = PathJoinSubstitution([
+        setup_path, 'robot.urdf.xacro'])
+    config_control = PathJoinSubstitution([
+        setup_path, 'platform/config/control.yaml'])
+
     # Get URDF via xacro
     arg_robot_description_command = DeclareLaunchArgument(
         'robot_description_command',
         default_value=[
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            setup_path,
-            'robot.urdf.xacro',
+            robot_urdf,
             ' ',
             'is_sim:=',
             use_sim_time,
             ' ',
             'gazebo_controllers:=',
-            setup_path,
-            'platform/config/control.yaml',
+            config_control,
             ' ',
             'namespace:=',
             namespace
@@ -60,7 +64,6 @@ def generate_launch_description():
     )
 
     group_action_state_publishers = GroupAction([
-
         # Robot State Publisher
         Node(
             package='robot_state_publisher',

@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <robot name="j100"
   xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/wheel.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/wheels/wheel.urdf.xacro"/>
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="prefix" default="" />
-  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/j100/control.yaml" />
   <xacro:arg name="namespace" default="" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/j100/control.yaml"/>
+
   <xacro:property name="PI" value="3.1415926535897931" />
 
   <xacro:property name="wheelbase" value="0.262" />
@@ -24,7 +25,7 @@
 
   <xacro:property name="mount_spacing" value="0.120" />
 
-  <xacro:macro name="j100">
+  <xacro:macro name="j100" params="wheel:='default'">
 
     <xacro:j100_wheel prefix="front_left">
       <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
@@ -68,7 +69,6 @@
       </plugin>
     </gazebo>
 
-
     <link name="base_link"></link>
 
     <joint name="base_link_joint" type="fixed">
@@ -83,7 +83,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/j100/j100_base.stl"/>
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
       <collision>
         <origin xyz="0 0 ${chassis_height/2}"/>
@@ -92,18 +92,12 @@
         </geometry>
       </collision>
       <inertial>
-        <!-- Center of mass -->
         <origin xyz="0.012  0.002 0.067" rpy="0 0 0"/>
         <mass value="16.523"/>
-        <!-- Moments of inertia: ( chassis without wheels ) -->
         <inertia ixx="0.3136" ixy="-0.0008" ixz="0.0164" iyy="0.3922" iyz="-0.0009" izz="0.4485"/>
       </inertial>
     </link>
 
-    <!-- TODO: Make this internal_imu_link or something, and use a mixed-in xacro
-       to supply the joint between it and imu_link. This is important so that imu_link
-       always points to the "active" IMU. When an upgrade IMU is connected, the
-       internal_imu_link should remain, but imu_link should point to the upgrade one. -->
     <link name="imu_0_link">
       <inertial>
         <mass value="0.001"/>
@@ -125,14 +119,13 @@
       </sensor>
     </gazebo>
 
-    <!-- TODO: Same note as applies to imu_link -->
     <link name="gps_0_link">
       <visual>
         <geometry>
           <cylinder radius="0.026" length="0.016" />
         </geometry>
         <origin xyz="0 0 0.008" />
-        <material name="black" />
+        <material name="clearpath_black" />
       </visual>
     </link>
     <joint name="navsat_joint" type="fixed">
@@ -149,52 +142,29 @@
       </sensor>
     </gazebo>
 
-    <link name="mid_mount"></link>
-    <joint name="mid_mount_joint" type="fixed">
+    <link name="default_mount"></link>
+    <joint name="default_mount_joint" type="fixed">
       <parent link="chassis_link" />
-      <child link="mid_mount" />
+      <child link="default_mount" />
       <origin xyz="0 0 ${chassis_height}" />
     </joint>
 
-    <link name="rear_mount"></link>
-    <joint name="rear_mount_joint" type="fixed">
-      <parent link="mid_mount" />
-      <child link="rear_mount" />
+    <link name="rear_0_mount"></link>
+    <joint name="rear_0_mount_joint" type="fixed">
+      <parent link="default_mount" />
+      <child link="rear_0_mount" />
       <origin xyz="${-mount_spacing} 0 0" />
     </joint>
 
-    <link name="front_mount"></link>
-    <joint name="front_mount_joint" type="fixed">
-      <parent link="mid_mount" />
-      <child link="front_mount" />
+    <link name="front_0_mount"></link>
+    <joint name="front_0_mount_joint" type="fixed">
+      <parent link="default_mount" />
+      <child link="front_0_mount" />
       <origin xyz="${mount_spacing} 0 0" />
     </joint>
 
-    <xacro:if value="$(arg is_sim)">
-      <gazebo>
-        <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-          <parameters>$(arg gazebo_controllers)</parameters>
-          <ros>
-            <remapping>~/odom:=platform/odom</remapping>
-            <remapping>~/cmd_vel_unstamped:=platform/cmd_vel_unstamped</remapping>
-            <remapping>/tf:=tf</remapping>
-            <remapping>/tf_static:=tf_static</remapping>
-            <remapping>/diagnostics:=diagnostics</remapping>
-            <remapping>joint_states:=platform/joint_states</remapping>
-            <namespace>$(arg namespace)</namespace>
-          </ros>
-        </plugin>
-      </gazebo>
-
-      <gazebo>
-        <plugin filename="libignition-gazebo-pose-publisher-system.so" name="ignition::gazebo::systems::PosePublisher">
-          <publish_link_pose>true</publish_link_pose>
-          <publish_nested_model_pose>true</publish_nested_model_pose>
-          <use_pose_vector_msg>true</use_pose_vector_msg>
-          <update_frequency>50</update_frequency>
-        </plugin>
-      </gazebo>
-    </xacro:if>
+    <!-- Gazebo Controller -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
 
     <!-- ROS2 controls -->
     <ros2_control name="j100_hardware" type="system">

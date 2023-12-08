@@ -30,26 +30,33 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
+from clearpath_config.platform.attachments.a200 import A200Attachment
 from clearpath_config.platform.attachments.config import BaseAttachment
+from clearpath_config.platform.attachments.j100 import J100Attachment
+from clearpath_config.platform.attachments.w200 import W200Attachment
 from clearpath_config.platform.types.bumper import Bumper
-from clearpath_config.platform.types.fender import Fender
-from clearpath_config.platform.types.top_plate import TopPlate
-from clearpath_config.platform.types.structure import Structure
 
 from typing import List
 
 
 class AttachmentsDescription():
     class BaseDescription():
+        NAME = 'name'
+        MODEL = 'model'
+        PARENT_LINK = 'parent_link'
         pkg_clearpath_platform_description = 'clearpath_platform_description'
 
-        def __init__(self, platform: str, attachment: BaseAttachment) -> None:
+        def __init__(self, attachment: BaseAttachment) -> None:
             self.attachment = attachment
             self.package = self.pkg_clearpath_platform_description
-            self.path = f'urdf/{platform}/attachments/'
-            self.file = self.attachment.name
+            self.path = f'urdf/{self.attachment.platform}/attachments/'
+            self.file = self.attachment.file
 
-            self.parameters = {}
+            self.parameters = {
+                self.NAME: attachment.name,
+                self.MODEL: attachment.model,
+                self.PARENT_LINK: attachment.parent,
+            }
 
         @property
         def xyz(self) -> List[float]:
@@ -60,54 +67,29 @@ class AttachmentsDescription():
             return self.attachment.rpy
 
     class BumperDescription(BaseDescription):
-        NAME = 'name'
         EXTENSION = 'extension'
 
-        def __init__(self, platform: str, attachment: Bumper) -> None:
-            super().__init__(platform, attachment)
-            self.file = 'bumper'
+        def __init__(self, attachment: Bumper) -> None:
+            super().__init__(attachment)
             self.parameters.update({
-                self.NAME: attachment.name,
                 self.EXTENSION: attachment.extension
             })
 
-    class FenderDescription(BaseDescription):
-        MODEL = 'model'
-
-        def __init__(self, platform: str, attachment: Fender) -> None:
-            super().__init__(platform, attachment)
-            self.parameters.update({
-                self.MODEL: attachment.model,
-            })
-
-    class TopPlateDescription(BaseDescription):
-        MODEL = 'model'
-
-        def __init__(self, platform: str, attachment: TopPlate) -> None:
-            super().__init__(platform, attachment)
-            self.parameters.update({
-                self.MODEL: attachment.model,
-            })
-
-    class StructureDescription(BaseDescription):
-        MODEL = 'model'
-        PARENT_LINK = 'parent_link'
-
-        def __init__(self, platform: str, attachment: Structure) -> None:
-            super().__init__(platform, attachment)
-            self.parameters.update({
-                self.PARENT_LINK: attachment.parent,
-                self.MODEL: attachment.model
-            })
-
     MODEL = {
-        Bumper.ATTACHMENT_MODEL: BumperDescription,
-        Fender.ATTACHMENT_MODEL: FenderDescription,
-        TopPlate.ATTACHMENT_MODEL: TopPlateDescription,
-        Structure.ATTACHMENT_MODEL: StructureDescription
+        # A200
+        A200Attachment.BUMPER: BumperDescription,
+        A200Attachment.TOP_PLATE: BaseDescription,
+        A200Attachment.SENSOR_ARCH: BaseDescription,
+        # J100
+        J100Attachment.FENDER: BaseDescription,
+        J100Attachment.TOP_PLATE: BaseDescription,
+        # W200
+        W200Attachment.GENERATOR: BaseDescription,
+        W200Attachment.BULKHEAD: BaseDescription,
+        W200Attachment.ARM_MOUNT: BaseDescription,
     }
 
-    def __new__(cls, platform, attachment: BaseAttachment) -> BaseDescription:
+    def __new__(cls, attachment: BaseAttachment) -> BaseDescription:
         return AttachmentsDescription.MODEL.setdefault(
             attachment.ATTACHMENT_MODEL,
-            AttachmentsDescription.BaseDescription)(platform, attachment)
+            AttachmentsDescription.BaseDescription)(attachment)

@@ -45,8 +45,6 @@ def generate_launch_description():
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
-    namespace = LaunchConfiguration('namespace')
-
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
         default_value='/etc/clearpath/'
@@ -59,39 +57,9 @@ def generate_launch_description():
         description='Use simulation time'
     )
 
-    arg_namespace = DeclareLaunchArgument(
-        'namespace',
-        default_value='',
-        description='Robot namespace'
-    )
-
     # Configs
     config_control = PathJoinSubstitution([
         setup_path, 'platform/config/control.yaml'])
-
-    arg_robot_description_command = DeclareLaunchArgument(
-        'robot_description_command',
-        default_value=[
-            PathJoinSubstitution([FindExecutable(name='xacro')]),
-            ' ',
-            setup_path,
-            'robot.urdf.xacro',
-            ' ',
-            'is_sim:=',
-            use_sim_time,
-            ' ',
-            'gazebo_controllers:=',
-            config_control,
-            ' ',
-            'namespace:=',
-            namespace
-        ]
-    )
-
-    robot_description_content = ParameterValue(
-        Command(LaunchConfiguration('robot_description_command')),
-        value_type=str
-    )
 
     # ROS2 Controllers
     action_control_group = GroupAction([
@@ -99,8 +67,7 @@ def generate_launch_description():
         Node(
             package='controller_manager',
             executable='ros2_control_node',
-            parameters=[{'robot_description': robot_description_content},
-                        config_control],
+            parameters=[config_control],
             output={
                 'stdout': 'screen',
                 'stderr': 'screen',
@@ -113,6 +80,7 @@ def generate_launch_description():
               ('/diagnostics', 'diagnostics'),
               ('/tf', 'tf'),
               ('/tf_static', 'tf_static'),
+              ('~/robot_description', 'robot_description')
             ],
             condition=UnlessCondition(use_sim_time)
         ),
@@ -121,7 +89,7 @@ def generate_launch_description():
         Node(
             package='controller_manager',
             executable='spawner',
-            arguments=['joint_state_broadcaster'],
+            arguments=['--controller-manager-timeout', '60', 'joint_state_broadcaster'],
             output='screen',
         ),
 
@@ -129,15 +97,13 @@ def generate_launch_description():
         Node(
             package='controller_manager',
             executable='spawner',
-            arguments=['platform_velocity_controller'],
+            arguments=['--controller-manager-timeout', '60', 'platform_velocity_controller'],
             output='screen',
         )
     ])
 
     ld = LaunchDescription()
     ld.add_action(arg_setup_path)
-    ld.add_action(arg_namespace)
-    ld.add_action(arg_robot_description_command)
     ld.add_action(arg_use_sim_time)
     ld.add_action(action_control_group)
     return ld

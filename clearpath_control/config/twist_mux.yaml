@@ -7,6 +7,9 @@ twist_mux:
     topics.interactive_marker.topic: twist_marker_server/cmd_vel
     topics.interactive_marker.timeout: 0.5
     topics.interactive_marker.priority: 8
+    topics.rc.topic: rc_teleop/cmd_vel
+    topics.rc.timeout: 0.5
+    topics.rc.priority: 12
     topics.external.topic: cmd_vel
     topics.external.timeout: 0.5
     topics.external.priority: 1

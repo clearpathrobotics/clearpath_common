@@ -116,7 +116,6 @@ def generate_launch_description():
               launch_arguments=[
                   ('setup_path', setup_path),
                   ('use_sim_time', use_sim_time),
-                  ('namespace', namespace),
               ]
             ),
 
@@ -137,7 +136,8 @@ def generate_launch_description():
                     ('use_sim_time', use_sim_time)]
             ),
 
-            # Launch clearpath_control/teleop_joy.launch.py which is tele-operation using a physical joystick.
+            # Launch clearpath_control/teleop_joy.launch.py which is tele-operation using a
+            # physical joystick.
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(launch_file_teleop_joy),
                 launch_arguments=[

@@ -66,6 +66,8 @@ class XacroWriter():
 
     def write_macro(self, macro, parameters=None, blocks=None):
         params = ''
+        if macro is None:
+            return
         if parameters is not None:
             for p in parameters:
                 params += ' {0}="{1}"'.format(p, parameters[p])

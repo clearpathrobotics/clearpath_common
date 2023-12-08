@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="flir_blackfly">
-    <!-- 
+    <!--
         camera_{x,y,z,mass} are physical properties of camera collision model
         lens_{r, h, mass} are physical properties of the camera lens
         hfov, fps, width, height, format, near, and far are simulation
@@ -20,7 +20,7 @@
                 <geometry>
                     <mesh filename="package://clearpath_sensors_description/meshes/flir_blackfly.stl"/>
                 </geometry>
-                <material name="dark_grey" />
+                <material name="clearpath_dark_grey" />
             </visual>
             <collision>
                 <origin xyz="0.003 0 0.0145" rpy="0 0 0" />
@@ -46,7 +46,7 @@
                 <geometry>
                 <cylinder radius="0.016" length="0.04"/>
                 </geometry>
-                <material name="dark_grey" />
+                <material name="clearpath_dark_grey" />
             </visual>
             <collision>
                 <origin xyz="0.02 0 0" rpy="0 1.5707 0" />

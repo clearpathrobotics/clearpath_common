@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="sensor_arch">
+  <xacro:macro name="sensor_arch" params="name parent_link:=default_mount model:=sensor_arch_510 *origin">
+    <xacro:if value="${model == 'sensor_arch_510'}">
+      <!-- Spawn the sensor arch link -->
+      <link name="${name}_link">
+        <visual>
+          <origin xyz="0 0 0.51" rpy="0 0 0"/>
+          <geometry>
+            <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/510_mm_sensor_arch.dae" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 0 0.51" rpy="0 0 0"/>
+          <geometry>
+            <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/510_mm_sensor_arch.dae" />
+          </geometry>
+        </collision>
+      </link>
+
+      <link name="${name}_mount"/>
+
+      <!-- Attach the sensor arch to the top plate -->
+      <joint name="${name}_joint" type="fixed">
+        <xacro:insert_block name="origin"/>
+        <parent link="${parent_link}"/>
+        <child link="${name}_link"/>
+      </joint>
+
+      <joint name="sensor_arch_mount_joint" type="fixed">
+        <origin xyz="0 0 0.51" rpy="0 0 0"/>
+        <parent link="${name}_link"/>
+        <child link="${name}_mount"/>
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${model == 'sensor_arch_300'}">
+      <!-- Spawn the sensor arch link -->
+      <link name="${name}_link">
+        <visual>
+          <origin xyz="0 0 0.3" rpy="0 0 0"/>
+          <geometry>
+            <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/300_mm_sensor_arch.dae" />
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 0 0.3" rpy="0 0 0"/>
+          <geometry>
+            <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/300_mm_sensor_arch.dae" />
+          </geometry>
+        </collision>
+      </link>
+
+      <link name="${name}_mount"/>
+
+      <!-- Attach the sensor arch to the top plate -->
+      <joint name="${name}_joint" type="fixed">
+        <xacro:insert_block name="origin"/>
+        <parent link="${parent_link}"/>
+        <child link="${name}_link"/>
+      </joint>
+
+      <joint name="${name}_mount_joint" type="fixed">
+        <origin xyz="0 0 0.3" rpy="0 0 0"/>
+        <parent link="${name}_link"/>
+        <child link="${name}_mount"/>
+      </joint>
+    </xacro:if>
+  </xacro:macro>
+</robot>

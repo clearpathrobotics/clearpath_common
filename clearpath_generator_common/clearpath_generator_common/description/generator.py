@@ -48,11 +48,9 @@ class DescriptionGenerator(BaseGenerator):
         self.xacro_writer = XacroWriter(self.setup_path, self.serial_number)
 
     def generate(self) -> None:
-        # Common macros
-        self.xacro_writer.write_include(
-            package=self.pkg_clearpath_platform_description.get_name(),
-            file='common',
-            path='urdf/')
+        # Common Macros
+        self.generate_common()
+        self.xacro_writer.write_newline()
 
         # Platform
         self.generate_platform()
@@ -81,9 +79,17 @@ class DescriptionGenerator(BaseGenerator):
         self.xacro_writer.close_file()
         print(f'Generated {self.xacro_writer.file_path}robot.urdf.xacro')
 
+    def generate_common(self) -> None:
+        self.xacro_writer.write_comment('Common')
+        # Clearpath Common Materials
+        self.xacro_writer.write_include(
+            package=self.pkg_clearpath_platform_description.get_name(),
+            file='common',
+            path='urdf/')
+
     def generate_platform(self) -> None:
         self.platform = self.clearpath_config.platform.get_platform_model()
-        platform_description = PlatformDescription(self.platform)
+        platform_description = PlatformDescription(self.platform, self.clearpath_config)
 
         # Platform macro
         self.xacro_writer.write_comment('Platform')
@@ -91,7 +97,9 @@ class DescriptionGenerator(BaseGenerator):
             package=platform_description.package,
             file=platform_description.file,
             path=platform_description.path)
-        self.xacro_writer.write_macro(platform_description.macro)
+        self.xacro_writer.write_macro(
+            macro=platform_description.macro,
+            parameters=platform_description.parameters)
 
     def generate_attachments(self) -> None:
         self.xacro_writer.write_comment('Attachments')
@@ -100,12 +108,11 @@ class DescriptionGenerator(BaseGenerator):
 
         for attachment in attachments:
             if attachment.get_enabled():
-                attachment_description = AttachmentsDescription(self.platform, attachment)
+                attachment_description = AttachmentsDescription(attachment)
                 self.xacro_writer.write_include(
                     package=attachment_description.package,
                     file=attachment_description.file,
                     path=attachment_description.path)
-
                 self.xacro_writer.write_macro(
                     macro=attachment_description.file,
                     parameters=attachment_description.parameters,

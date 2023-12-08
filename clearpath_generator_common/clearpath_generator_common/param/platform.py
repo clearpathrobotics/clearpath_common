@@ -36,6 +36,8 @@ from clearpath_config.common.types.platform import Platform
 from clearpath_generator_common.common import ParamFile, Package
 from clearpath_generator_common.param.writer import ParamWriter
 
+import os
+
 
 class PlatformParam():
     CONTROL = 'control'
@@ -76,6 +78,14 @@ class PlatformParam():
             self.default_parameter_file_path = f'config/{self.platform}'
             self.default_parameter_file_package = self.clearpath_control_package
             self.default_parameter = self.parameter
+
+            # Generic Control
+            if self.platform == Platform.GENERIC and self.parameter == PlatformParam.CONTROL:
+                control = self.clearpath_config.platform.control
+                self.default_parameter = os.path.basename(control['path'])
+                self.default_parameter = os.path.splitext(self.default_parameter)[0]
+                self.default_parameter_file_path = os.path.dirname(control['path'])
+                self.default_parameter_file_package = Package(control['package'])
 
             # Parameter file to generate
             self.param_file = ParamFile(
@@ -134,7 +144,7 @@ class PlatformParam():
             if extras:
                 self.param_file.update({self.EKF_NODE: extras})
             else:
-                if self.platform == Platform.J100:
+                if self.platform != Platform.A200:
                     imu0_parameters = {
                         'imu0': 'sensors/imu_0/data',
                         'imu0_config': self.imu_config,

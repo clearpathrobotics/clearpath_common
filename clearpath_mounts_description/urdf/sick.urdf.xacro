@@ -20,7 +20,7 @@
       </xacro:if>
       <xacro:if value="${model == 'upright'}">
         <visual>
-          <material name="dark_grey" />
+          <material name="clearpath_dark_grey" />
           <geometry>
             <mesh filename="package://clearpath_mounts_description/meshes/sick_upright.stl" />
           </geometry>

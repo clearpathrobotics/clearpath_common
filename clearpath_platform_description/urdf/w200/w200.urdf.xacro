@@ -1,0 +1,261 @@
+<?xml version='1.0'?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="namespace" default="" />
+  <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/w200/control.yaml"/>
+  <!-- Include URDF/XACRO Files -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/wheels/track.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/wheels/wheel.urdf.xacro"/>
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/diff_unit.urdf.xacro"/>
+
+  <xacro:macro name="w200" params="wheel:='default' color:='yellow'">
+    <!-- Colors: yellow, orange, olive, sand -->
+    <xacro:property name="warthog_color"  value="${'warthog_'+color}"/>
+    <material name="warthog_yellow"><color rgba="0.95 0.816 0.082 1.0"/></material>
+    <material name="warthog_orange"><color rgba="1.0 0.48 0.0 1.0"/></material>
+    <material name="warthog_olive"><color rgba="0.333 0.419 0.184 1.0"/></material>
+    <material name="warthog_sand"><color rgba="0.86 0.75 0.54 1.0"/></material>
+
+    <!-- Variables -->
+    <xacro:property name="wheel_radius" value="0.3" />
+    <xacro:property name="wheel_width"  value="0.25" />
+    <xacro:property name="wheel_mass"   value="15" />
+    <xacro:property name="wheel_to_track_ratio" value="0.5962" />
+
+    <xacro:property name="axle_x_offset" value="0.457367" />
+    <xacro:property name="axle_y_offset" value="0.0" />
+    <xacro:property name="axle_z_offset" value="-0.012977" />
+    <xacro:property name="track_z_offset" value="-0.2" />
+
+    <xacro:property name="diff_unit_length" value="1.34" />
+    <xacro:property name="diff_unit_width"  value="0.28" />
+    <xacro:property name="diff_unit_height" value="0.63"/>
+    <xacro:property name="diff_unit_mass"   value="50" />
+
+    <xacro:property name="diff_unit_offset_x" value="0.00" />
+    <xacro:property name="diff_unit_offset_y" value="0.56821" />
+    <xacro:property name="diff_unit_offset_z" value="0.0" />
+
+    <xacro:property name="chassis_length" value="1.35" />
+    <xacro:property name="chassis_width"  value="0.70" />
+    <xacro:property name="chassis_height" value="0.30" />
+    <xacro:property name="chassis_mass"   value="100" />
+
+    <xacro:property name="dummy_inertia" value="1e-09"/>
+
+    <!-- Chassis -->
+    <link name="base_link"></link>
+
+    <joint name="base_link_joint" type="fixed">
+      <origin xyz="0 0 0.025" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="chassis_link" />
+    </joint>
+
+    <link name="chassis_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${chassis_mass}"/>
+        <xacro:box_inertia m="${chassis_mass}" x="${chassis_length}"
+                          y="${chassis_width}" z="${chassis_height}" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/chassis.stl" />
+        </geometry>
+        <material name="clearpath_black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+      </visual>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/e-stop.stl" />
+        </geometry>
+        <material name="clearpath_red"><color rgba="0.9 0.0 0.0 1.0" /></material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/chassis-collision.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Diff. Unit -->
+    <xacro:w200_diff_unit side="left" />
+    <xacro:w200_diff_unit side="right" />
+
+    <link name="diff_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/diff-link.stl" />
+        </geometry>
+        <material name="clearpath_light_grey" />
+      </visual>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/susp-link.stl" />
+        </geometry>
+        <material name="clearpath_light_grey" />
+      </visual>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/susp-link.stl" />
+        </geometry>
+        <material name="clearpath_light_grey" />
+      </visual>
+    </link>
+    <joint name="diff_link_joint" type="fixed">
+      <parent link="chassis_link"/>
+      <child link="diff_link"/>
+      <origin xyz="-0.5826 0 0.24979" rpy="0 0 0" />
+    </joint>
+
+    <!-- Wheels -->
+    <xacro:if value="${wheel == 'default'}">
+      <xacro:w200_wheel prefix="front" side="left">
+        <origin xyz="${axle_x_offset*1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 0" />
+      </xacro:w200_wheel>
+      <xacro:w200_wheel prefix="front" side="right">
+        <origin xyz="${axle_x_offset*1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 0" />
+      </xacro:w200_wheel>
+      <xacro:w200_wheel prefix="rear" side="left">
+        <origin xyz="${axle_x_offset*-1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 0" />
+      </xacro:w200_wheel>
+      <xacro:w200_wheel prefix="rear" side="right">
+        <origin xyz="${axle_x_offset*-1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 0" />
+      </xacro:w200_wheel>
+    </xacro:if>
+
+    <!-- Tracks -->
+    <xacro:if value="${wheel == 'track'}">
+      <xacro:w200_track prefix="front" side="left">
+        <origin xyz="${axle_x_offset*1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 0" />
+      </xacro:w200_track>
+      <xacro:w200_track prefix="front" side="right">
+        <origin xyz="${axle_x_offset*1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 0" />
+      </xacro:w200_track>
+      <xacro:w200_track prefix="rear" side="left">
+        <origin xyz="${axle_x_offset*-1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 ${PI}" />
+      </xacro:w200_track>
+      <xacro:w200_track prefix="rear" side="right">
+        <origin xyz="${axle_x_offset*-1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 ${PI}" />
+      </xacro:w200_track>
+    </xacro:if>
+
+    <!-- Virtual Mounting Point -->
+    <link name="default_mount"></link>
+
+    <joint name="default_mount_joint" type="fixed">
+      <origin xyz="0 0 0.27218" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="default_mount" />
+    </joint>
+
+    <!-- Internal IMU -->
+    <link name="imu_0_link">
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0" izz="${dummy_inertia}"/>
+      </inertial>
+    </link>
+    <joint name="imu_joint" type="fixed">
+      <parent link="chassis_link" />
+      <child link="imu_0_link" />
+    </joint>
+
+    <gazebo reference="imu_0_link">
+      <sensor type="imu" name="imu_0">
+        <always_on>true</always_on>
+        <update_rate>50</update_rate>
+        <visualize>true</visualize>
+        <ignition_frame_id>imu_0_link</ignition_frame_id>
+      </sensor>
+    </gazebo>
+
+    <!-- Gazebo Controller -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
+
+    <!-- ROS2 controls -->
+    <ros2_control name="w200_hardware" type="system">
+      <hardware>
+        <xacro:if value="$(arg is_sim)">
+          <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        </xacro:if>
+        <xacro:unless value="$(arg is_sim)">
+          <plugin>clearpath_platform/W200Hardware</plugin>
+          <param name="wheel_diameter">0.6</param>
+        </xacro:unless>
+      </hardware>
+      <joint name="front_left_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-25</param>
+          <param name="max">25</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="rear_left_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-25</param>
+          <param name="max">25</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="front_right_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-25</param>
+          <param name="max">25</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="rear_right_wheel_joint">
+        <command_interface name="velocity">
+          <param name="min">-25</param>
+          <param name="max">25</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+    <xacro:if value="$(arg is_sim)">
+      <gazebo>
+        <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+          <wheel link_name="front_left_wheel_link">
+            <slip_compliance_lateral>1.0</slip_compliance_lateral>
+            <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+            <wheel_normal_force>686</wheel_normal_force>
+            <wheel_radius>${wheel_radius}</wheel_radius>
+          </wheel>
+          <wheel link_name="front_right_wheel_link">
+            <slip_compliance_lateral>1.0</slip_compliance_lateral>
+            <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+            <wheel_normal_force>686</wheel_normal_force>
+            <wheel_radius>${wheel_radius}</wheel_radius>
+          </wheel>
+          <wheel link_name="rear_left_wheel_link">
+            <slip_compliance_lateral>1.0</slip_compliance_lateral>
+            <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+            <wheel_normal_force>686</wheel_normal_force>
+            <wheel_radius>${wheel_radius}</wheel_radius>
+          </wheel>
+          <wheel link_name="rear_right_wheel_link">
+            <slip_compliance_lateral>1.0</slip_compliance_lateral>
+            <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+            <wheel_normal_force>686</wheel_normal_force>
+            <wheel_radius>${wheel_radius}</wheel_radius>
+          </wheel>
+        </plugin>
+      </gazebo>
+    </xacro:if>
+  </xacro:macro>
+</robot>

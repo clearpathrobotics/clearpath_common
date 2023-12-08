@@ -10,7 +10,7 @@
           <!-- Origin of this mesh is the base of the bracket. -->
           <mesh filename="package://clearpath_sensors_description/meshes/hokuyo_ust.stl" />
         </geometry>
-        <material name="dark_grey" />
+        <material name="clearpath_dark_grey" />
       </visual>
     </link>
 

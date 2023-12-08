@@ -3,13 +3,13 @@
   <xacro:macro name="garmin_18x" params="name parent_link *origin">
     <link name="${name}_link">
       <visual>
-        <material name="black"/>
+        <material name="clearpath_black"/>
         <geometry>
           <cylinder radius="0.0305" length="0.0195" />
         </geometry>
       </visual>
       <collision>
-        <material name="black"/>
+        <material name="clearpath_black"/>
         <geometry>
           <cylinder radius="0.0305" length="0.0195" />
         </geometry>

@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="namespace" default="" />
+  <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/dd100/control.yaml"/>
+
+  <!-- Included URDF/XACRO Files -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/wheels/wheel.urdf.xacro"/>
+
+  <xacro:property name="PI" value="3.1415926535897931" />
+
+  <!-- DD100 Platform Macro -->
+  <xacro:macro name="dd100" params="wheel:='default'">
+    <!-- Variables -->
+    <xacro:property name="wheel_radius" value="0.049" />
+    <xacro:property name="wheel_mass" value="0.111" />
+    <xacro:property name="wheel_width" value="0.02032" />
+    <xacro:property name="wheel_x_offset" value="0.0989838" />
+    <xacro:property name="wheel_z_offset" value="0.0345" />
+    <xacro:property name="wheelbase" value="0.2160016" />
+
+    <xacro:property name="dummy_inertia" value="1e-09"/>
+
+    <!-- Chassis -->
+    <link name="base_link"></link>
+
+    <joint name="base_link_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="chassis_link" />
+    </joint>
+
+    <link name="chassis_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/dd100/chassis.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/dd100/chassis_collision.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="10.0"/>
+        <inertia
+          ixx="0.2216" ixy="0" ixz="0"
+          iyy="0.2458" iyz="0"
+          izz="0.4474"/>
+        </inertial>
+    </link>
+
+    <!-- Wheels -->
+    <xacro:dd100_wheel prefix="front_left">
+      <origin xyz="${wheel_x_offset} ${wheelbase+wheel_width/2} ${wheel_z_offset}" rpy="0 0 0" />
+    </xacro:dd100_wheel>
+    <xacro:dd100_wheel prefix="front_right">
+      <origin xyz="${wheel_x_offset} ${-wheelbase-wheel_width/2} ${wheel_z_offset}" rpy="0 0 0" />
+    </xacro:dd100_wheel>
+    <gazebo>
+      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+        <wheel link_name="front_left_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>39.2</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="front_right_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>39.2</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
+
+    <!-- Caster -->
+    <link name="rear_caster">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <sphere radius="0.01"/>
+        </geometry>
+        <material name="clearpath_black"/>
+      </visual>
+      <collision>
+        <geometry>
+          <sphere radius="0.01"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.0</mu>
+              <mu2>0.0</mu2>
+              <slip1>1.0</slip1>
+              <slip2>1.0</slip2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <inertial>
+        <mass value="0.1" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+      </inertial>
+    </link>
+    <joint name="rear_caster_joint" type="fixed">
+      <parent link="chassis_link"/>
+      <child link="rear_caster"/>
+      <origin xyz="-0.244 0 -0.00674" rpy="0 0 0"/>
+    </joint>
+    <gazebo reference="rear_caster">
+      <turnGravityOff>false</turnGravityOff>
+      <kp>1000000.0</kp>
+      <kd>100.0</kd>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <fdir1>1 0 0</fdir1>
+      <minDepth>0.00</minDepth>
+      <implicitSpringDamper>1</implicitSpringDamper>
+    </gazebo>
+
+    <!-- Internal IMU -->
+    <link name="imu_0_link">
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0" izz="${dummy_inertia}"/>
+      </inertial>
+    </link>
+    <joint name="imu_joint" type="fixed">
+      <parent link="chassis_link" />
+      <child link="imu_0_link" />
+    </joint>
+
+    <gazebo reference="imu_0_link">
+      <sensor type="imu" name="imu_0">
+        <always_on>true</always_on>
+        <update_rate>50</update_rate>
+        <visualize>true</visualize>
+        <ignition_frame_id>imu_0_link</ignition_frame_id>
+      </sensor>
+    </gazebo>
+
+    <!-- Mounting Hard Points -->
+    <link name="default_mount"/>
+    <link name="front_2_mount"/>
+    <link name="front_1_mount"/>
+    <link name="front_0_mount"/>
+    <link name="rear_2_mount"/>
+    <link name="rear_1_mount"/>
+    <link name="rear_0_mount"/>
+
+    <joint name="default_mount_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="front_0_mount"/>
+      <child link="default_mount"/>
+    </joint>
+    <joint name="front_0_mount_joint" type="fixed">
+      <origin xyz="0.040 0 0.064263" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="front_0_mount" />
+    </joint>
+    <joint name="front_1_mount_joint" type="fixed">
+      <origin xyz="0.080 0 0" rpy="0 0 0" />
+      <parent link="front_0_mount"/>
+      <child link="front_1_mount" />
+    </joint>
+    <joint name="front_2_mount_joint" type="fixed">
+      <origin xyz="0.080 0 0" rpy="0 0 0" />
+      <parent link="front_1_mount"/>
+      <child link="front_2_mount" />
+    </joint>
+    <joint name="rear_0_mount_joint" type="fixed">
+      <origin xyz="-0.040 0 0.064263" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="rear_0_mount" />
+    </joint>
+    <joint name="rear_1_mount_joint" type="fixed">
+      <origin xyz="-0.080 0 0" rpy="0 0 0" />
+      <parent link="rear_0_mount"/>
+      <child link="rear_1_mount" />
+    </joint>
+    <joint name="rear_2_moint_joint" type="fixed">
+      <origin xyz="-0.080 0 0" rpy="0 0 0" />
+      <parent link="rear_1_mount"/>
+      <child link="rear_2_mount" />
+    </joint>
+
+    <!-- Bumper Mounts -->
+    <link name="front_bumper_mount"/>
+    <link name="rear_bumper_mount"/>
+    <joint name="front_bumper_mount_joint" type="fixed">
+      <origin xyz="0.274 0 0.0345125" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="front_bumper_mount" />
+    </joint>
+    <joint name="rear_bumper_mount_joint" type="fixed">
+      <origin xyz="-0.274 0 0.0345125" rpy="0 0 ${PI}" />
+      <parent link="chassis_link"/>
+      <child link="rear_bumper_mount" />
+    </joint>
+
+    <!-- Gazebo Controller -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
+
+    <!-- ROS2 controls -->
+    <ros2_control name="dd100_hardware" type="system">
+      <hardware>
+        <xacro:if value="$(arg is_sim)">
+          <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        </xacro:if>
+        <xacro:unless value="$(arg is_sim)">
+          <plugin>clearpath_platform/DD100Hardware</plugin>
+          <plugin>fake_components/GenericSystem</plugin>
+        </xacro:unless>
+      </hardware>
+      <joint name="front_left_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="front_right_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+  </xacro:macro>
+</robot>

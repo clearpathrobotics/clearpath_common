@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="fender" params="name model parent_link:=base_link *origin">
+    <!-- Spawn fender link -->
+    <link name="${name}_link">
+      <visual>
+        <geometry>
+          <xacro:if value="${model == 'default'}">
+            <mesh filename="package://clearpath_platform_description/meshes/j100/attachments/default_fender.stl" />
+          </xacro:if>
+          <xacro:if value="${model == 'sensor'}">
+            <mesh filename="package://clearpath_platform_description/meshes/j100/attachments/sensor_fender.stl" />
+          </xacro:if>
+        </geometry>
+        <material name="clearpath_yellow" />
+      </visual>
+    </link>
+
+    <xacro:if value="${model == 'sensor'}">
+      <link name="${name}_mount"/>
+      <joint name="${name}_mount_joint" type="fixed">
+        <origin xyz="0.25629 0 0.07455" rpy="${pi} 0 0" />
+        <parent link="${name}_link" />
+        <child link="${name}_mount" />
+      </joint>
+    </xacro:if>
+
+    <!-- Attach fender -->
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
+    </joint>
+
+  </xacro:macro>
+</robot>

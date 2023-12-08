@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="arm_mount" params="name:=arm_mount model:=default parent_link:=default_mount *origin">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/arm-mount-plate.stl" />
+        </geometry>
+        <material name="clearpath_light_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/w200/arm-mount-plate.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+        <mass value="1.45"/>
+        <xacro:box_inertia m="1.45" x="0.16838" y="0.16838" z="0.02" />
+      </inertial>
+    </link>
+    <joint name="${name}_link_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent_link}"/>
+      <child link="${name}_link" />
+    </joint>
+  </xacro:macro>
+</robot>
