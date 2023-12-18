@@ -223,13 +223,44 @@
     </link>
 
     <!-- Rocker -->
-    <xacro:r100_rocker prefix="front" joint_type="revolute" location="1" >
+    <xacro:r100_rocker prefix="front" joint_type="fixed" location="1" >
       <limit lower="-0.08726" upper="0.08726" effort="0" velocity="0" />
     </xacro:r100_rocker>
 
     <xacro:r100_rocker prefix="rear" joint_type="fixed" location="-1" >
       <limit effort="0" velocity="0" />
     </xacro:r100_rocker>
+
+    <gazebo>
+      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+        <wheel link_name="front_left_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>20</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="front_right_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>20</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+        <wheel link_name="rear_left_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>20</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="rear_right_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>20</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
 
     <!-- Internal IMU -->
     <link name="imu_0_link">
