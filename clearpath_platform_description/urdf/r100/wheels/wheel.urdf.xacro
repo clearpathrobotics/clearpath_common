@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="r100_wheel">
+
+  <xacro:macro name="r100_wheel" params="prefix side *joint_pose">
+
+    <link name="${prefix}_${side}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${math.pi/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/wheel.stl"/>
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${math.pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="2.3"/>
+        <inertia
+          ixx="3.3212e-3" ixy="0" ixz="0"
+          iyy="6.6424e-3" iyz="0"
+          izz="3.3212e-3"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="${prefix}_wheel_link">
+      <material>Gazebo/DarkGrey</material>
+      <selfCollide>false</selfCollide>
+      <mu1 value="0.5"/>
+      <mu2 value="0.5"/>
+      <!-- <fdir1 value="1 0 0"/> -->
+    </gazebo>
+
+    <joint name="${prefix}_${side}_wheel_joint" type="continuous">
+      <parent link="${prefix}_rocker_link"/>
+      <child link="${prefix}_${side}_wheel_link" />
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>
