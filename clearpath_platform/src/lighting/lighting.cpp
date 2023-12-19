@@ -207,6 +207,12 @@ void Lighting::initializeSubscribers()
     "platform/mcu/status/power",
     rclcpp::SensorDataQoS(),
     std::bind(&Lighting::powerCallback, this, std::placeholders::_1));
+  
+  // MCU stop status
+  stop_status_sub_ = this->create_subscription<clearpath_platform_msgs::msg::StopStatus>(
+    "platform/mcu/status/stop",
+    rclcpp::SensorDataQoS(),
+    std::bind(&Lighting::stopStatusCallback, this, std::placeholders::_1));
 
   // Battery state
   battery_state_sub_ = this->create_subscription<sensor_msgs::msg::BatteryState>(
@@ -303,6 +309,14 @@ void Lighting::powerCallback(const clearpath_platform_msgs::msg::Power::SharedPt
 }
 
 /**
+ * @brief MCU stop status callback
+ */
+void Lighting::stopStatusCallback(const clearpath_platform_msgs::msg::StopStatus::SharedPtr msg)
+{
+  stop_status_msg_ = *msg;
+}
+
+/**
  * @brief BMS state callback
  */
 void Lighting::batteryStateCallback(const sensor_msgs::msg::BatteryState::SharedPtr msg)
@@ -396,15 +410,22 @@ void Lighting::updateState()
       {
         setState(State::Charging);
       }
-    }    
+    }
   }
-  else if (stop_engaged_msg_.data) // E-Stop
+
+  if (stop_status_msg_.needs_reset)
+  {
+    setState(State::NeedsReset);
+  }
+  
+  if (stop_engaged_msg_.data) // E-Stop
   {
     setState(State::Stopped);
   }
-  else if (cmd_vel_msg_.linear.x != 0.0 ||
-           cmd_vel_msg_.linear.y != 0.0 ||
-           cmd_vel_msg_.angular.z != 0.0) // Robot is driving
+
+  if (cmd_vel_msg_.linear.x != 0.0 ||
+      cmd_vel_msg_.linear.y != 0.0 ||
+      cmd_vel_msg_.angular.z != 0.0) // Robot is driving
   {
     setState(State::Driving);
   }
