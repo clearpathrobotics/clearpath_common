@@ -7,6 +7,7 @@
 
   <!-- Included URDF/Xacro Files -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/wheels/wheel.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/wheels/mecanum_wheel.urdf.xacro"/>
 
   <xacro:property name="PI" value="${math.pi}" />
 
@@ -59,18 +60,18 @@
     </link>
 
     <!-- Wheels -->
-    <xacro:do100_wheel prefix="front_left">
+    <xacro:do100_mecanum_wheel prefix="front_left" side="-1">
       <origin xyz="${wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_wheel>
-    <xacro:do100_wheel prefix="front_right">
+    </xacro:do100_mecanum_wheel>
+    <xacro:do100_mecanum_wheel prefix="front_right" side="1">
       <origin xyz="${wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_wheel>
-    <xacro:do100_wheel prefix="rear_left">
+    </xacro:do100_mecanum_wheel>
+    <xacro:do100_mecanum_wheel prefix="rear_left" side="1">
       <origin xyz="${-wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_wheel>
-    <xacro:do100_wheel prefix="rear_right">
+    </xacro:do100_mecanum_wheel>
+    <xacro:do100_mecanum_wheel prefix="rear_right" side="-1">
       <origin xyz="${-wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_wheel>
+    </xacro:do100_mecanum_wheel>
     <gazebo>
       <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
         <wheel link_name="front_left_wheel_link">
@@ -85,8 +86,6 @@
           <wheel_normal_force>20</wheel_normal_force>
           <wheel_radius>${wheel_radius}</wheel_radius>
         </wheel>
-      </plugin>
-      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
         <wheel link_name="rear_left_wheel_link">
           <slip_compliance_lateral>1.0</slip_compliance_lateral>
           <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
@@ -219,4 +218,10 @@
       </joint>
     </ros2_control>
   </xacro:macro>
+
+  <!-- Joint State Publisher -->
+  <plugin
+    filename="ignition-gazebo-joint-state-publisher-system"
+    name="ignition::gazebo::systems::JointStatePublisher"
+  />
 </robot>

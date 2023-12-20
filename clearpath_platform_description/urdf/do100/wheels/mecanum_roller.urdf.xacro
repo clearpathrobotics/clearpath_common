@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="do100_mecanum_roller">
+
+  <!-- Single Roller -->
+  <xacro:macro name="do100_mecanum_roller" params="prefix parent *origin">
+    <link name="${prefix}_mecanum_roller">
+      <visual>
+        <material name="clearpath_black"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/do100/mecanum_roller.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="0.00965"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0.006 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="0.0095"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0.012 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="0.0089"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0.018 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="0.00785"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 -0.006 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="0.0095"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 -0.012 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="0.0089"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 -0.018 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="0.00785"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="${pi} 0 0"/>
+        <mass value="0.05"/>
+        <inertia
+          ixx="0.00001085" ixy="0" ixz="0"
+          iyy="0.00001085" iyz="0"
+          izz="0.00000250"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_mecanum_roller_joint" type="continuous">
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.001" friction="0.0001"/>
+      <child link="${prefix}_mecanum_roller"/>
+      <parent link="${parent}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <gazebo reference="${prefix}_mecanum_roller">
+      <mu1 value="0.8"/>
+      <mu2 value="0.8"/>
+      <!-- <kp value="10000000.0" />
+      <kd value="1.0" /> -->
+      <fdir1 value="0 1 0"/>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+        <wheel link_name="${prefix}_mecanum_roller">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>20</wheel_normal_force>
+          <wheel_radius>0.01</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+</robot>

@@ -25,8 +25,8 @@ platform_velocity_controller:
 
     # pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.03]
     # twist_covariance_diagonal: [0.001, 0.001, 0.001, 1000000.0, 1000000.0, 0.03]
-    twist_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
-    pose_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
 
     cmd_vel_timeout: 0.5
 
