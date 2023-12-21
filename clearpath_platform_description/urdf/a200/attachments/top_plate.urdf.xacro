@@ -100,7 +100,7 @@
         <!-- Spawn top plate -->
         <link name="${name}_link">
           <visual>
-            <origin xyz="0.0483 0 0"/>
+            <origin xyz="0 0 0"/>
             <material name="clearpath_dark_grey" />
             <geometry>
               <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/pacs_top_plate.stl" />
@@ -108,7 +108,7 @@
           </visual>
           <collision>
             <material name="clearpath_dark_grey" />
-            <origin xyz="0.0483 0 0.003175" rpy="0 0 0"/>
+            <origin xyz="0 0 0.003175" rpy="0 0 0"/>
             <geometry>
               <box size="0.67 0.59 0.00635"/>
             </geometry>
