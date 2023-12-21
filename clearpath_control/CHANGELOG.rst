@@ -2,6 +2,9 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.2.0 (2023-12-08)
 ------------------
 * Pass robot description to controller manager over topic
