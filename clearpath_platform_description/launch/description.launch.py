@@ -13,6 +13,8 @@ def generate_launch_description():
     robot_description_command = LaunchConfiguration('robot_description_command')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
+    tf_topic = LaunchConfiguration('tf_topic')
+    frame_prefix = LaunchConfiguration('frame_prefix')
 
     # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
@@ -25,6 +27,17 @@ def generate_launch_description():
         default_value='',
         description='Robot namespace'
     )
+
+    arg_tf_topic = DeclareLaunchArgument(
+        'tf_topic',
+        default_value='/tf',
+        description='TF topic'
+    )
+
+    arg_frame_prefix = DeclareLaunchArgument(
+        'frame_prefix',
+        default_value=[namespace,'/'],
+        description='TF prefix for all TFs generated')
 
     # Paths
     robot_urdf = PathJoinSubstitution([
@@ -71,10 +84,11 @@ def generate_launch_description():
             parameters=[{
                 'robot_description': robot_description_content,
                 'use_sim_time': use_sim_time,
+                'frame_prefix': frame_prefix
             }],
             remappings=[
-                ('/tf', 'tf'),
-                ('/tf_static', 'tf_static'),
+                ('/tf', tf_topic),
+                ('/tf_static', [tf_topic, '_static']),
                 ('joint_states', 'platform/joint_states')]
         ),
     ])
@@ -84,6 +98,8 @@ def generate_launch_description():
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_setup_path)
     ld.add_action(arg_namespace)
+    ld.add_action(arg_tf_topic)
+    ld.add_action(arg_frame_prefix)
     ld.add_action(arg_robot_description_command)
     # Nodes
     ld.add_action(group_action_state_publishers)
