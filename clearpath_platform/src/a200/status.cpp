@@ -32,19 +32,19 @@ a200_status::A200Status::A200Status()
 : Node("a200_status_node")
 {
   pub_power_= create_publisher<clearpath_platform_msgs::msg::Power>(
-    "platform/power",
+    "platform/mcu/status/power",
     rclcpp::SensorDataQoS());
 
   pub_status_= create_publisher<clearpath_platform_msgs::msg::Status>(
-    "platform/status",
+    "platform/mcu/status",
     rclcpp::SensorDataQoS());
 
 //   pub_stop_status_= create_publisher<clearpath_platform_msgs::msg::StopStatus>(
-//     "platform/stop_status",
+//     "platform/mcu/status/stop",
 //     rclcpp::SensorDataQoS());
 
   pub_stop_state_= create_publisher<std_msgs::msg::Bool>(
-    "platform/safety_stop",
+    "platform/emergency_stop",
     rclcpp::SensorDataQoS());
 
   pub_driver_left_temp_ = create_publisher<std_msgs::msg::Float32>(
