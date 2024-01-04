@@ -32,6 +32,9 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
+import os
+
+from clearpath_config.common.types.package_path import PackagePath
 from clearpath_generator_common.common import BaseGenerator
 from clearpath_generator_common.description.writer import XacroWriter
 from clearpath_generator_common.description.mounts import MountDescription
@@ -198,4 +201,7 @@ class DescriptionGenerator(BaseGenerator):
         self.xacro_writer.write_newline()
         urdf_extras = self.clearpath_config.platform.extras.urdf
         if urdf_extras:
-            self.xacro_writer.write_include(file=urdf_extras)
+            self.xacro_writer.write_include(file=os.path.basename(urdf_extras[PackagePath.PATH]),
+                                            path=os.path.dirname(
+                                                urdf_extras[PackagePath.PATH])+"/",
+                                            package=urdf_extras[PackagePath.PACKAGE])

@@ -29,7 +29,9 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+import os
 
+from clearpath_config.common.types.file import File
 from clearpath_config.links.links import Link
 from clearpath_config.links.types.link import BaseLink
 from clearpath_config.links.types.box import Box
@@ -101,7 +103,8 @@ class LinkDescription():
         def __init__(self, link: Mesh) -> None:
             super().__init__(link)
             self.parameters.update({
-                self.VISUAL: link.visual
+                self.VISUAL: os.path.join("$(find " + link.visual.package + ")",
+                                          File.clean(link.visual.path, make_abs=False))
             })
 
     MODEL = {
