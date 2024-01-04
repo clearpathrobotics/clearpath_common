@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.2 (2024-01-04)
+------------------
 * Fixed status topic names
 * Contributors: Roni Kreinin
 
