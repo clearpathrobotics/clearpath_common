@@ -73,20 +73,10 @@
     <gazebo reference="${prefix}_mecanum_roller">
       <mu1 value="0.8"/>
       <mu2 value="0.8"/>
-      <!-- <kp value="10000000.0" />
-      <kd value="1.0" /> -->
-      <fdir1 value="0 1 0"/>
+      <kp value="10000000.0" />
+      <kd value="1.0" />
+      <fdir1 value="1 0 0"/>
     </gazebo>
 
-    <gazebo>
-      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
-        <wheel link_name="${prefix}_mecanum_roller">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>20</wheel_normal_force>
-          <wheel_radius>0.01</wheel_radius>
-        </wheel>
-      </plugin>
-    </gazebo>
   </xacro:macro>
 </robot>
