@@ -60,18 +60,35 @@
     </link>
 
     <!-- Wheels -->
-    <xacro:do100_mecanum_wheel prefix="front_left" side="-1">
-      <origin xyz="${wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_mecanum_wheel>
-    <xacro:do100_mecanum_wheel prefix="front_right" side="1">
-      <origin xyz="${wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_mecanum_wheel>
-    <xacro:do100_mecanum_wheel prefix="rear_left" side="1">
-      <origin xyz="${-wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_mecanum_wheel>
-    <xacro:do100_mecanum_wheel prefix="rear_right" side="-1">
-      <origin xyz="${-wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_mecanum_wheel>
+    <xacro:if value="$(arg is_sim)">
+      <xacro:do100_mecanum_wheel prefix="front_left" side="-1">
+        <origin xyz="${wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:do100_mecanum_wheel>
+      <xacro:do100_mecanum_wheel prefix="front_right" side="1">
+        <origin xyz="${wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:do100_mecanum_wheel>
+      <xacro:do100_mecanum_wheel prefix="rear_left" side="1">
+        <origin xyz="${-wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:do100_mecanum_wheel>
+      <xacro:do100_mecanum_wheel prefix="rear_right" side="-1">
+        <origin xyz="${-wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:do100_mecanum_wheel>
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+      <xacro:do100_wheel prefix="front_left">
+        <origin xyz="${wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:do100_wheel>
+      <xacro:do100_wheel prefix="front_right">
+        <origin xyz="${wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:do100_wheel>
+      <xacro:do100_wheel prefix="rear_left">
+        <origin xyz="${-wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:do100_wheel>
+      <xacro:do100_wheel prefix="rear_right">
+        <origin xyz="${-wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:do100_wheel>
+    </xacro:unless>
+
     <gazebo>
       <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
         <wheel link_name="front_left_wheel_link">
