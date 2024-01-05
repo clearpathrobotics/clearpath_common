@@ -203,5 +203,5 @@ class DescriptionGenerator(BaseGenerator):
         if urdf_extras:
             self.xacro_writer.write_include(file=os.path.basename(urdf_extras[PackagePath.PATH]),
                                             path=os.path.dirname(
-                                                urdf_extras[PackagePath.PATH])+"/",
+                                                urdf_extras[PackagePath.PATH]),
                                             package=urdf_extras[PackagePath.PACKAGE])
