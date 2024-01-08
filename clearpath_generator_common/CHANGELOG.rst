@@ -2,6 +2,11 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Handle file paths with no directory (files in root directory of the package)
+* Contributors: Hilary Luo
+
 0.2.2 (2024-01-04)
 ------------------
 * Enable extras urdf and meshes to be linked by package (`#53 <https://github.com/clearpathrobotics/clearpath_common/issues/53>`_)
