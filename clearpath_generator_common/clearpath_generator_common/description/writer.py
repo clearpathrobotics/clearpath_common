@@ -51,14 +51,11 @@ class XacroWriter():
             file = file + '.urdf.xacro'
         if path is None:
             path = ''
+        file_path = os.path.join(path, file)
         if package:
-            self.write(
-                '<xacro:include filename="$(find {0})/{1}{2}"/>'.format(
-                    package, path, file))
+            self.write('<xacro:include filename="$(find {0})/{1}"/>'.format(package, file_path))
         else:
-            self.write(
-                '<xacro:include filename="{0}{1}"/>'.format(
-                    path, file))
+            self.write('<xacro:include filename="{0}"/>'.format(file_path))
 
     def write_extras(self, path):
         self.write_comment('Extras')
