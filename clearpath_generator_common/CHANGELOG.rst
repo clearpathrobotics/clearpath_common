@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.3 (2024-01-08)
+------------------
 * Handle file paths with no directory (files in root directory of the package)
 * Contributors: Hilary Luo
 
