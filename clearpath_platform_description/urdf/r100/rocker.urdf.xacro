@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="r100_rocker">
+
   <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/wheels/wheel.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/wheels/mecanum_wheel.urdf.xacro"/>
+
   <xacro:macro name="r100_rocker" params="prefix joint_type location *joint_limits">
     <link name="${prefix}_rocker_link">
       <visual>
@@ -28,11 +31,22 @@
       <xacro:insert_block name="joint_limits" />
     </joint>
 
-    <xacro:r100_wheel prefix="${prefix}" side="left">
-      <origin xyz="0 ${rocker_width/2 + wheel_width/2} 0" rpy="0 0 0" />
-    </xacro:r100_wheel>
-    <xacro:r100_wheel prefix="${prefix}" side="right">
-      <origin xyz="0 ${-(rocker_width/2 + wheel_width/2)} 0" rpy="0 0 0" />
-    </xacro:r100_wheel>
+    <xacro:if value="$(arg is_sim)">
+      <xacro:r100_mecanum_wheel parent="${prefix}_rocker_link" prefix="${prefix}_left" side="${-location}">
+          <origin xyz="0 ${rocker_width/2 + wheel_width/2} 0" rpy="0 0 0" />
+        </xacro:r100_mecanum_wheel>
+        <xacro:r100_mecanum_wheel parent="${prefix}_rocker_link" prefix="${prefix}_right" side="${location}">
+          <origin xyz="0 ${-(rocker_width/2 + wheel_width/2)} 0" rpy="0 0 0" />
+        </xacro:r100_mecanum_wheel>
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+      <xacro:r100_wheel parent="${prefix}_rocker_link" prefix="${prefix}_left">
+        <origin xyz="0 ${rocker_width/2 + wheel_width/2} 0" rpy="0 0 0" />
+      </xacro:r100_wheel>
+      <xacro:r100_wheel parent="${prefix}_rocker_link" prefix="${prefix}_right">
+        <origin xyz="0 ${-(rocker_width/2 + wheel_width/2)} 0" rpy="0 0 0" />
+      </xacro:r100_wheel>
+    </xacro:unless>
+
   </xacro:macro>
 </robot>

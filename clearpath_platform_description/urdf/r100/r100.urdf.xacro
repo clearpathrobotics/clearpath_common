@@ -14,6 +14,7 @@
     <!-- Variables -->
     <xacro:property name="wheel_radius" value="0.0759" />
     <xacro:property name="wheel_width" value="0.0790" />
+    <xacro:property name="wheel_mass" value="0.8" />
 
     <xacro:property name="chassis_length" value="0.960" />
     <xacro:property name="chassis_width" value="0.793" />
@@ -245,8 +246,6 @@
           <wheel_normal_force>20</wheel_normal_force>
           <wheel_radius>${wheel_radius}</wheel_radius>
         </wheel>
-      </plugin>
-      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
         <wheel link_name="rear_left_wheel_link">
           <slip_compliance_lateral>1.0</slip_compliance_lateral>
           <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="r100_wheel">
 
-  <xacro:macro name="r100_wheel" params="prefix side *joint_pose">
+  <xacro:macro name="r100_wheel" params="parent prefix *joint_pose">
 
-    <link name="${prefix}_${side}_wheel_link">
+    <link name="${prefix}_wheel_link">
       <visual>
         <origin xyz="0 0 0" rpy="${math.pi/2} 0 0"/>
         <geometry>
@@ -35,9 +35,9 @@
       <!-- <fdir1 value="1 0 0"/> -->
     </gazebo>
 
-    <joint name="${prefix}_${side}_wheel_joint" type="continuous">
-      <parent link="${prefix}_rocker_link"/>
-      <child link="${prefix}_${side}_wheel_link" />
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="${parent}"/>
+      <child link="${prefix}_wheel_link" />
       <xacro:insert_block name="joint_pose" />
       <axis xyz="0 1 0" />
     </joint>
