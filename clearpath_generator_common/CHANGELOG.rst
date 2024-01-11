@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.4 (2024-01-11)
+------------------
 * [clearpath_generator_common] Added package description.
 * Contributors: Tony Baltovski
 
