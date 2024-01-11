@@ -2,6 +2,11 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* [clearpath_generator_common] Added package description.
+* Contributors: Tony Baltovski
+
 0.2.3 (2024-01-08)
 ------------------
 * Handle file paths with no directory (files in root directory of the package)
