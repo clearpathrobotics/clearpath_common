@@ -33,7 +33,7 @@ find_package(tf2_ros REQUIRED)
 
 # Lighting
 set(LIGHTING_EXECUTABLE lighting_node)
-set(LIGHTING_LIB lighting_lib)
+set(LIGHTING_LIB clearpath_platform_lighting)
 set(LIGHTING_DEPENDENCIES
     clearpath_platform_msgs
     sensor_msgs
@@ -153,7 +153,11 @@ pluginlib_export_plugin_description_file(hardware_interface src/w200/hardware.xm
 
 # INSTALL
 install(
-  TARGETS a200_hardware j100_hardware w200_hardware ${LIGHTING_EXECUTABLE}
+  TARGETS a200_hardware
+          j100_hardware
+          w200_hardware
+          ${LIGHTING_EXECUTABLE}
+          ${LIGHTING_LIB}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
@@ -174,6 +178,7 @@ ament_export_libraries(
   a200_hardware
   j100_hardware
   w200_hardware
+  ${LIGHTING_LIB}
 )
 ament_export_dependencies(
   hardware_interface
