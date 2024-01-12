@@ -102,10 +102,15 @@ class LinkDescription():
 
         def __init__(self, link: Mesh) -> None:
             super().__init__(link)
-            self.parameters.update({
-                self.VISUAL: os.path.join("$(find " + link.visual.package + ")",
-                                          File.clean(link.visual.path, make_abs=False))
-            })
+            if (link.visual.package):
+                self.parameters.update({
+                    self.VISUAL: os.path.join("package://" + link.visual.package,
+                                              File.clean(link.visual.path, make_abs=False))
+                })
+            else:
+                self.parameters.update({
+                    self.VISUAL: "file://" + File.clean(link.visual.path, make_abs=False)
+                })
 
     MODEL = {
         Link.BOX: BoxDescription,
