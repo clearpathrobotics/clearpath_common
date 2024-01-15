@@ -2,6 +2,11 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* switch finding meshes to use the package:// command
+* Contributors: Hilary Luo
+
 0.2.4 (2024-01-11)
 ------------------
 * [clearpath_generator_common] Added package description.
