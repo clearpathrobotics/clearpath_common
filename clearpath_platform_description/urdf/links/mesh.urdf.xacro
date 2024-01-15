@@ -4,7 +4,7 @@
     <link name="${name}_link">
       <visual>
         <geometry>
-          <mesh filename="file://${visual}"/>
+          <mesh filename="${visual}"/>
         </geometry>
         <material name="clearpath_dark_grey"/>
       </visual>
