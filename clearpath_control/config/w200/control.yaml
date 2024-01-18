@@ -29,6 +29,7 @@ platform_velocity_controller:
 
     open_loop: false
     enable_odom_tf: false
+    tf_frame_prefix_enable: false
 
     cmd_vel_timeout: 0.25
     #publish_limited_velocity: true
