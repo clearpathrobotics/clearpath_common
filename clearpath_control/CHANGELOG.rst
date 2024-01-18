@@ -2,6 +2,11 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Disable tf_frame_prefix_enable
+* Contributors: Luis Camero
+
 0.2.5 (2024-01-15)
 ------------------
 
