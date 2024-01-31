@@ -41,16 +41,19 @@ class BashWriter():
         self.file = open(self.bash_file.full_path, 'w')
 
     def write(self, string, indent_level=0):
-        self.file.write('{0}{1}\n'.format(self.tab * indent_level, string))
+        self.file.write(f'{self.tab * indent_level}{string}\n')
 
-    def add_export(self, envar: str, value):
-        self.write('export {0}={1}'.format(envar, value))
+    def add_export(self, envar: str, value, indent_level=0):
+        self.write(f'{self.tab * indent_level}export {envar}={value}')
 
-    def add_unset(self, envar: str):
-        self.write('unset {0}'.format(envar))
+    def add_unset(self, envar: str, indent_level=0):
+        self.write(f'{self.tab * indent_level}unset {envar}')
 
-    def add_source(self, bash_file: BashFile):
-        self.write('source {0}'.format(bash_file.full_path))
+    def add_source(self, bash_file: BashFile, indent_level=0):
+        self.write(f'{self.tab * indent_level}source {bash_file.full_path}')
+
+    def add_echo(self, msg: str, indent_level=0):
+        self.write(f'{self.tab * indent_level}echo "{msg}"')
 
     def close(self):
         self.file.close()

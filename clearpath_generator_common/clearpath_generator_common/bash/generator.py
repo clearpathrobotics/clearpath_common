@@ -32,36 +32,59 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
+from clearpath_config.common.types.discovery import Discovery
 from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BashFile, BaseGenerator
 
 
 class BashGenerator(BaseGenerator):
 
+    ROS_DISTRO_PATH = '/opt/ros/humble/'
+
     def generate(self) -> None:
+        # Generate setup.bash
         self.generate_setup_bash()
 
     def generate_setup_bash(self) -> None:
-        clearpath_setup_bash = BashFile(name='setup', path=self.setup_path)
+        clearpath_setup_bash = BashFile(filename='setup.bash', path=self.setup_path)
         bash_writer = BashWriter(clearpath_setup_bash)
 
         workspaces = self.clearpath_config.system.workspaces
 
         # Source Humble
-        humble_setup_bash = BashFile(name='setup', path='/opt/ros/humble/')
+        humble_setup_bash = BashFile(filename='setup.bash', path=self.ROS_DISTRO_PATH)
         bash_writer.add_source(humble_setup_bash)
 
         # Additional workspaces
         for workspace in workspaces:
             bash_writer.add_source(
-                BashFile(name='setup', path=workspace.strip('setup.bash')))
+                BashFile(filename='setup.bash', path=workspace.strip('setup.bash')))
 
         # ROS_DOMAIN_ID
         domain_id = self.clearpath_config.system.domain_id
         bash_writer.add_export('ROS_DOMAIN_ID', domain_id)
 
         # RMW_IMPLEMENTATION
-        rmw = self.clearpath_config.system.rmw_implementation
+        rmw = self.clearpath_config.system.middleware.rmw_implementation
         bash_writer.add_export('RMW_IMPLEMENTATION', rmw)
+
+        # Fast DDS Discovery Server
+        if self.clearpath_config.system.middleware.discovery == Discovery.SERVER:
+            server_str = self.clearpath_config.system.middleware.get_servers_string()
+            bash_writer.add_export('ROS_DISCOVERY_SERVER', f'"{server_str}"')
+
+            # If this is not being called by systemd then set as super user (for ROS 2 cli tools)
+            bash_writer.write('if [ "$1" != "no-super-client" ]; then')
+            bash_writer.add_export('ROS_SUPER_CLIENT', True, indent_level=1)
+            bash_writer.write('echo "Set as Super Client"', indent_level=1)
+            # If this is being called by systemd then check for and a custom profile
+            if self.clearpath_config.system.middleware.profile:
+                bash_writer.write('else')
+                bash_writer.add_export(
+                    'FASTRTPS_DEFAULT_PROFILES_FILE',
+                    self.clearpath_config.system.middleware.profile,
+                    indent_level=1)
+                bash_writer.write('echo "Set as ROS Super Client"', indent_level=1)
+            bash_writer.write('fi')
 
         bash_writer.close()
