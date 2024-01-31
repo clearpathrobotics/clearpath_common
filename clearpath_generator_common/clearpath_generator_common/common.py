@@ -194,14 +194,13 @@ class ParamFile():
 
 class BashFile():
     def __init__(self,
-                 name: str,
+                 filename: str,
                  path: str,
                  package: Package = None,
                  ) -> None:
         self.package = package
         self.path = path
-        self.name = name
-        self.file = '{0}.bash'.format(name)
+        self.file = filename
 
     @property
     def full_path(self):
