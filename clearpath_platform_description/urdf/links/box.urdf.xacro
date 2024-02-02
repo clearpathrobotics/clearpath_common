@@ -6,9 +6,13 @@
         <geometry>
           <box size="${size}"/>
         </geometry>
-        <material name="clearpath_dark_grey"/>
+        <material name="clearpath_dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
       </visual>
     </link>
+
+    <gazebo reference="${name}_link">
+    <material>Gazebo/DarkGrey</material>
+    </gazebo>
 
     <joint name="${name}_joint" type="fixed">
       <parent link="${parent_link}" />

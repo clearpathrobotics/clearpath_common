@@ -18,12 +18,12 @@
       </inertial>
       <visual>
         <geometry>
-          <mesh filename="package://velodyne_description/meshes/VLP16_base_1.dae"/>
+          <mesh filename="file://$(find velodyne_description)/meshes/VLP16_base_1.dae"/>
         </geometry>
       </visual>
       <visual>
         <geometry>
-          <mesh filename="package://velodyne_description/meshes/VLP16_base_2.dae"/>
+          <mesh filename="file://$(find velodyne_description)/meshes/VLP16_base_2.dae"/>
         </geometry>
       </visual>
       <collision>
@@ -32,7 +32,7 @@
           <cylinder radius="0.0516" length="0.0717"/>
         </geometry>
       </collision>
-    </link>
+  </link>
 
     <joint name="${name}_joint" type="fixed">
       <xacro:insert_block name="origin"/>
@@ -49,7 +49,7 @@
       <visual>
         <origin xyz="0 0 -0.0377"/>
         <geometry>
-          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae"/>
+          <mesh filename="file://$(find velodyne_description)/meshes/VLP16_scan.dae"/>
         </geometry>
       </visual>
     </link>
@@ -64,34 +64,43 @@
     <xacro:property name="samples_v" value="${round((max_ang_v - min_ang_v) * 180 / (ang_res_v * pi))}"/>
 
     <gazebo reference="${name}_laser">
-      <sensor name="${name}" type="gpu_lidar">
+      <sensor name="${name}" type="gpu_ray">
+          <pose>0 0 0 0 0 0</pose>
+          <plugin name="gazebo_ros_gpu_laser" filename="libgazebo_ros_velodyne_laser.so">
+            <ros>
+            <remapping>/gazebo_ros_gpu_laser/out:=vecow/LidarPointCloud</remapping>
+            </ros>
+            <frameName>laser_link</frameName>
+            <min_range>${min_range}</min_range>
+            <max_range>${max_range}</max_range>
+            <gaussianNoise>0.008</gaussianNoise>
+            <updateRate>${update_rate}</updateRate>
+          </plugin>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>${samples_h}</samples>
+                <resolution>${ang_res_h}</resolution>
+                <min_angle>${min_ang_h}</min_angle>
+                <max_angle>${max_ang_h}</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>${samples_v}</samples>
+                <resolution>${ang_res_v}</resolution>
+                <min_angle>${min_ang_v}</min_angle>
+                <max_angle>${max_ang_v}</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>${min_range}</min>
+              <max>${max_range}</max>
+              <resolution>0.004</resolution>
+            </range>
+        </ray>
         <update_rate>${update_rate}</update_rate>
-        <visualize>true</visualize>
+        <visualize>false</visualize>
         <always_on>true</always_on>
-        <ignition_frame_id>${name}_laser</ignition_frame_id>
-        <lidar>
-          <scan>
-            <horizontal>
-              <samples>${samples_h}</samples>
-              <resolution>1</resolution>
-              <min_angle>${min_ang_h}</min_angle>
-              <max_angle>${max_ang_h}</max_angle>
-            </horizontal>
-            <vertical>
-              <samples>${samples_v}</samples>
-              <resolution>1</resolution>
-              <min_angle>${min_ang_v}</min_angle>
-              <max_angle>${max_ang_v}</max_angle>
-            </vertical>
-          </scan>
-          <range>
-            <min>${min_range}</min>
-            <max>${max_range}</max>
-            <resolution>0.01</resolution>
-          </range>
-        </lidar>
       </sensor>
     </gazebo>
-
   </xacro:macro>
 </robot>

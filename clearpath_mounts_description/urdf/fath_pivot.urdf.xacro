@@ -4,7 +4,7 @@
     <link name="${name}_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_mounts_description/meshes/fath_pivot_mount_base.dae" />
+          <mesh filename="file://$(find clearpath_mounts_description)/meshes/fath_pivot_mount_base.dae" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
       </visual>
@@ -25,7 +25,7 @@
     <link name="${name}_hinge_link">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_mounts_description/meshes/fath_pivot_mount.dae" />
+          <mesh filename="file://$(find clearpath_mounts_description)/meshes/fath_pivot_mount.dae" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
       </visual>

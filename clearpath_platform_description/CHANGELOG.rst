@@ -2,23 +2,6 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.2.6 (2024-01-18)
-------------------
-
-0.2.5 (2024-01-15)
-------------------
-* switch finding meshes to use the package:// command
-* Contributors: Hilary Luo
-
-0.2.4 (2024-01-11)
-------------------
-
-0.2.3 (2024-01-08)
-------------------
-
-0.2.2 (2024-01-04)
-------------------
-
 0.2.1 (2023-12-21)
 ------------------
 * PACS top plate was not centred with generated frames

@@ -1,7 +1,7 @@
 controller_manager:
   ros__parameters:
-    update_rate: 50  # Hz
-    use_sim_time: False
+    update_rate: 100  # Hz
+    use_sim_time: True
 
     joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
 
@@ -9,7 +9,7 @@ controller_manager:
 
 platform_velocity_controller:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     left_wheel_names: [ "front_left_wheel_joint", "rear_left_wheel_joint" ]
     right_wheel_names: [ "front_right_wheel_joint", "rear_right_wheel_joint" ]
 
@@ -21,15 +21,14 @@ platform_velocity_controller:
     left_wheel_radius_multiplier: 1.0
     right_wheel_radius_multiplier: 1.0
 
-    publish_rate: 50.0
+    publish_rate: 100.0
     odom_frame_id: odom
     base_frame_id: base_link
     pose_covariance_diagonal : [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
     twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
 
     open_loop: false
-    enable_odom_tf: false
-    tf_frame_prefix_enable: false
+    enable_odom_tf: True
 
     cmd_vel_timeout: 0.5
     #publish_limited_velocity: true

@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:arg name="namespace" default="" />
-  <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="is_sim" default="true" />
   <xacro:arg name="serial_port" default="/dev/clearpath/prolific" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a200/control.yaml"/>
 
@@ -32,7 +32,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a200/base_link.dae" />
+          <mesh filename="file://$(find clearpath_platform_description)/meshes/a200/base_link.dae" />
         </geometry>
       </visual>
       <collision>
@@ -63,7 +63,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a200/top_chassis.dae" />
+          <mesh filename="file://$(find clearpath_platform_description)/meshes/a200/top_chassis.dae" />
         </geometry>
       </visual>
     </link>
@@ -104,28 +104,28 @@
     </xacro:a200_wheel>
 
     <gazebo>
-      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+      <plugin name="WheelSlip" filename="libgazebo_ros_wheel_slip.so">
         <wheel link_name="front_left_wheel">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <slip_compliance_lateral>0.1</slip_compliance_lateral>
+          <slip_compliance_longitudinal>0.1</slip_compliance_longitudinal>
           <wheel_normal_force>113</wheel_normal_force>
           <wheel_radius>${wheel_radius}</wheel_radius>
         </wheel>
         <wheel link_name="front_right_wheel">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <slip_compliance_lateral>0.1</slip_compliance_lateral>
+          <slip_compliance_longitudinal>0.1</slip_compliance_longitudinal>
           <wheel_normal_force>113</wheel_normal_force>
           <wheel_radius>${wheel_radius}</wheel_radius>
         </wheel>
         <wheel link_name="rear_left_wheel">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <slip_compliance_lateral>0.1</slip_compliance_lateral>
+          <slip_compliance_longitudinal>0.1</slip_compliance_longitudinal>
           <wheel_normal_force>113</wheel_normal_force>
           <wheel_radius>${wheel_radius}</wheel_radius>
         </wheel>
         <wheel link_name="rear_right_wheel">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <slip_compliance_lateral>0.1</slip_compliance_lateral>
+          <slip_compliance_longitudinal>0.1</slip_compliance_longitudinal>
           <wheel_normal_force>113</wheel_normal_force>
           <wheel_radius>${wheel_radius}</wheel_radius>
         </wheel>
@@ -166,7 +166,7 @@
     <ros2_control name="a200_hardware" type="system">
       <hardware>
         <xacro:if value="$(arg is_sim)">
-          <plugin>ign_ros2_control/IgnitionSystem</plugin>
+          <plugin>gazebo_ros2_control/GazeboSystem</plugin>
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
           <plugin>clearpath_platform/A200Hardware</plugin>

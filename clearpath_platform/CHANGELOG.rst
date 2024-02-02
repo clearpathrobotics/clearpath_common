@@ -2,25 +2,6 @@
 Changelog for package clearpath_platform
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.2.6 (2024-01-18)
-------------------
-
-0.2.5 (2024-01-15)
-------------------
-
-0.2.4 (2024-01-11)
-------------------
-* Fixed lighting lib install
-* Contributors: Roni Kreinin
-
-0.2.3 (2024-01-08)
-------------------
-
-0.2.2 (2024-01-04)
-------------------
-* Fixed status topic names
-* Contributors: Roni Kreinin
-
 0.2.1 (2023-12-21)
 ------------------
 

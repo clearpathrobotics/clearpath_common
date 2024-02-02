@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xm version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:macro name="top_plate" params="name model:=default parent_link:=default_mount *origin">
 
@@ -9,13 +9,13 @@
           <visual>
             <origin xyz="0.0812 0 0" rpy="0 0 0" />
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/large_top_plate.dae" />
+              <mesh filename="file://$(find clearpath_platform_description)/meshes/a200/attachments/large_top_plate.dae" />
             </geometry>
           </visual>
           <collision>
             <origin xyz="0.0812 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/large_top_plate_collision.stl" />
+              <mesh filename="file://$(find clearpath_platform_description)/meshes/a200/attachments/large_top_plate_collision.stl" />
             </geometry>
           </collision>
         </link>
@@ -48,7 +48,7 @@
           <visual>
             <origin xyz="0.272 0 0.019"/>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/user_rail.dae" />
+              <mesh filename="file://$(find clearpath_platform_description)/meshes/a200/attachments/user_rail.dae" />
             </geometry>
           </visual>
         </link>
@@ -63,13 +63,13 @@
           <visual>
             <origin xyz="0.0812 0 0" rpy="0 0 0" />
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/top_plate.dae" />
+              <mesh filename="file://$(find clearpath_platform_description)/meshes/a200/attachments/top_plate.dae" />
             </geometry>
           </visual>
           <collision>
             <origin xyz="0.0812 0 0" rpy="0 0 0"/>
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/top_plate.stl" />
+              <mesh filename="file://$(find clearpath_platform_description)/meshes/a200/attachments/top_plate.stl" />
             </geometry>
           </collision>
         </link>
@@ -103,7 +103,7 @@
             <origin xyz="0 0 0"/>
             <material name="clearpath_dark_grey" />
             <geometry>
-              <mesh filename="package://clearpath_platform_description/meshes/a200/attachments/pacs_top_plate.stl" />
+              <mesh filename="file://$(find clearpath_platform_description)/meshes/a200/attachments/pacs_top_plate.stl" />
             </geometry>
           </visual>
           <collision>
@@ -166,5 +166,11 @@
           y="0.24"
           z="0.00635" />
       </xacro:if>
+
+       <gazebo reference="${name}_link">
+          <material>Gazebo/DarkGrey</material>
+       </gazebo>
+          
     </xacro:macro>
+
 </robot>

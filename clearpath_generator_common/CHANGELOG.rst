@@ -2,29 +2,6 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.2.6 (2024-01-18)
-------------------
-
-0.2.5 (2024-01-15)
-------------------
-* switch finding meshes to use the package:// command
-* Contributors: Hilary Luo
-
-0.2.4 (2024-01-11)
-------------------
-* [clearpath_generator_common] Added package description.
-* Contributors: Tony Baltovski
-
-0.2.3 (2024-01-08)
-------------------
-* Handle file paths with no directory (files in root directory of the package)
-* Contributors: Hilary Luo
-
-0.2.2 (2024-01-04)
-------------------
-* Enable extras urdf and meshes to be linked by package (`#53 <https://github.com/clearpathrobotics/clearpath_common/issues/53>`_)
-* Contributors: Hilary Luo
-
 0.2.1 (2023-12-21)
 ------------------
 

@@ -24,13 +24,13 @@
       <child link="${name}_link" />
     </joint>
 
-    <gazebo reference="${name}_link">
+    <gazebo reference="${name}_base_link">
       <sensor type="imu" name="${name}">
         <always_on>true</always_on>
+        <plugin name="my_imu_plugin" filename="libgazebo_ros_imu_sensor.so"></plugin>
         <update_rate>${update_rate}</update_rate>
         <visualize>true</visualize>
-        <ignition_frame_id>${name}_link</ignition_frame_id>
-      </sensor>
+        </sensor>
     </gazebo>
   </xacro:macro>
 </robot>
