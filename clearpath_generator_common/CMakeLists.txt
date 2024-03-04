@@ -11,6 +11,7 @@ find_package(ament_cmake_python REQUIRED)
 
 install(PROGRAMS
   ${PROJECT_NAME}/description/generate_description
+  ${PROJECT_NAME}/discovery_server/generate_discovery_server
   ${PROJECT_NAME}/bash/generate_bash
   DESTINATION lib/${PROJECT_NAME}
 )
