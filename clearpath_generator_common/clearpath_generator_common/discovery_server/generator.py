@@ -2,8 +2,8 @@
 
 # Software License Agreement (BSD)
 #
-# @author    Roni Kreinin <rkreinin@clearpathrobotics.com>
-# @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
+# @author    Hilary Luo <hluo@clearpathrobotics.com>
+# @copyright (c) 2024, Clearpath Robotics, Inc., All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -33,59 +33,52 @@
 # of Clearpath Robotics.
 
 from clearpath_config.common.types.discovery import Discovery
+from clearpath_config.common.types.rmw_implementation import RMWImplementation
 from clearpath_generator_common.bash.writer import BashWriter
-from clearpath_generator_common.common import BashFile, BaseGenerator
+from clearpath_generator_common.common import BaseGenerator, BashFile
 
 
-class BashGenerator(BaseGenerator):
+class DiscoveryServerGenerator(BaseGenerator):
 
     ROS_DISTRO_PATH = '/opt/ros/humble/'
 
     def generate(self) -> None:
-        # Generate setup.bash
-        self.generate_setup_bash()
+        # Generate the file that launches the FastDDS discovery server
+        self.generate_server_start()
 
-    def generate_setup_bash(self) -> None:
-        clearpath_setup_bash = BashFile(filename='setup.bash', path=self.setup_path)
-        bash_writer = BashWriter(clearpath_setup_bash)
-
-        workspaces = self.clearpath_config.system.workspaces
+    def generate_server_start(self) -> None:
+        # Generate script that launches the discovery server
+        discovery_server_start = BashFile(filename='discovery-server-start', path=self.setup_path)
+        bash_writer = BashWriter(discovery_server_start)
 
         # Source Humble
         humble_setup_bash = BashFile(filename='setup.bash', path=self.ROS_DISTRO_PATH)
         bash_writer.add_source(humble_setup_bash)
 
-        # Additional workspaces
-        for workspace in workspaces:
-            bash_writer.add_source(
-                BashFile(filename='setup.bash', path=workspace.strip('setup.bash')))
+        # If Fast DDS Discovery Server is selected then check if a local server should be run
+        middleware_config = self.clearpath_config.system.middleware
+        if ((middleware_config.rmw_implementation == RMWImplementation.FAST_RTPS) and
+                (middleware_config.discovery == Discovery.SERVER)):
 
-        # ROS_DOMAIN_ID
-        domain_id = self.clearpath_config.system.domain_id
-        bash_writer.add_export('ROS_DOMAIN_ID', domain_id)
+            # For Debug:
+            # for i, s in enumerate(self.clearpath_config.system.middleware.servers.get_all()):
+            #     print(f"Server {i} is {str(s)}")
+            # print(f"Localhost is {self.clearpath_config.system.localhost}")
 
-        # RMW_IMPLEMENTATION
-        rmw = self.clearpath_config.system.middleware.rmw_implementation
-        bash_writer.add_export('RMW_IMPLEMENTATION', rmw)
-
-        # Custom DDS Profile
-        if self.clearpath_config.system.middleware.profile:
-            bash_writer.add_export(
-                'FASTRTPS_DEFAULT_PROFILES_FILE', self.clearpath_config.system.middleware.profile)
-
-        # Fast DDS Discovery Server
-        if self.clearpath_config.system.middleware.discovery == Discovery.SERVER:
-            server_str = self.clearpath_config.system.middleware.get_servers_string()
-            bash_writer.add_export('ROS_DISCOVERY_SERVER', f'"{server_str}"')
-
-            # If this is not being called by systemd then set as super user (for ROS 2 cli tools)
-            bash_writer.write('if [ -t 0 ]; then')
-            bash_writer.add_export('ROS_SUPER_CLIENT', True, indent_level=1)
-            bash_writer.write('else')
-            bash_writer.add_unset('ROS_SUPER_CLIENT', indent_level=1)
-            bash_writer.write('fi')
-
+            ls = middleware_config.get_local_server()
+            if ls and ls.enabled:
+                bash_writer.write(
+                    f'fastdds discovery -i {ls.server_id} -l 127.0.0.1 -p {ls.port}'
+                )
+            else:
+                bash_writer.add_echo(
+                    'No local discovery server enabled. ' +
+                    'If this was launched as a service then the service will now end.'
+                )
         else:
-            bash_writer.add_unset('ROS_DISCOVERY_SERVER')
+            bash_writer.add_echo(
+                'Discovery server not enabled. ' +
+                'If this was launched as a service then the service will now end.'
+            )
 
         bash_writer.close()
