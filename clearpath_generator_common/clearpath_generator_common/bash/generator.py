@@ -79,9 +79,12 @@ class BashGenerator(BaseGenerator):
             bash_writer.add_export('ROS_DISCOVERY_SERVER', f'"{server_str}"')
 
             # If this is not being called by systemd then set as super user (for ROS 2 cli tools)
-            bash_writer.write('if [ "$1" != "no-super-client" ]; then')
+            bash_writer.write('if [ -t 0 ]; then')
             bash_writer.add_export('ROS_SUPER_CLIENT', True, indent_level=1)
+            bash_writer.write('else')
+            bash_writer.add_unset('ROS_SUPER_CLIENT', indent_level=1)
             bash_writer.write('fi')
+
         else:
             bash_writer.add_unset('ROS_DISCOVERY_SERVER')
 
