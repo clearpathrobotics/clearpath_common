@@ -1,0 +1,3 @@
+/**/device:
+  ros__parameters:
+    pointcloud.enable: true
