@@ -9,7 +9,7 @@
         <!-- move the mesh around w.r.t. the link's frame -->
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         <!-- set color of the link -->
-        <material name="donut_color">
+        <material name="${name}_color">
           <color rgba="0 1.0 1.0 1.0"/>
         </material>
         <!-- add the mesh -->
@@ -22,7 +22,7 @@
         <!-- move the collision box around -->
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.01"/>
         <!-- set color of the bounding box -->
-        <material name="donut_color">
+        <material name="${name}_color">
           <color rgba="0 1.0 1.0 1.0"/>
         </material>
         <!-- add the bounding box -->
@@ -33,7 +33,7 @@
     </link>
 
     <!-- Connect to the rest of the robot using the parameters -->
-    <joint name="${name}_joint"/>
+    <joint name="${name}_joint" type="fixed">
       <child link="${name}_link"/>
       <parent link="${parent}"/>
       <xacro:insert_block name="origin"/>

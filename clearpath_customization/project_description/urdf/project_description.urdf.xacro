@@ -8,7 +8,7 @@
   </xacro:sensor_d435>
 
   <!-- Include macro from this package -->
-  <xacro:include filename="$(find project_bringup)/urdf/donut.stl"/>
+  <xacro:include filename="$(find project_description)/urdf/donut.urdf.xacro"/>
   <!-- Call macro to add mesh to robot -->
   <xacro:donut name="donut" parent="default_mount">
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
