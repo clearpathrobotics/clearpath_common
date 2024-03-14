@@ -8,8 +8,8 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     # Node Name, Package and Executable
     name = "device"
-    package = "realsense_camera"
-    executable = "realsense_camera_node"
+    package = "realsense2_camera"
+    executable = "realsense2_camera_node"
 
     # Namespace from Clearpath Config
     namespace = ClearpathConfig('/etc/clearpath/robot.yaml').system.namespace
