@@ -13,6 +13,7 @@ def generate_launch_description():
 
     # Namespace from Clearpath Config
     namespace = ClearpathConfig('/etc/clearpath/robot.yaml').system.namespace
+    extra_namespace = "/extras/device/"
 
     # Project Directory
     pkg_project_bringup = FindPackageShare('project_bringup')
@@ -23,7 +24,7 @@ def generate_launch_description():
     # Node
     device_node = Node(
         name=name,
-        namespace=namespace,
+        namespace=namespace + extra_namespace,
         package=package,
         executable=executable,
         parameters=[device_params],
