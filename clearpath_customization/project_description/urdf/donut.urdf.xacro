@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Sample xacro macro to include mesh into URDF -->
+  <xacro:macro name="donut" params="name parent *origin" />
+    <!-- Create link -->
+    <link name="${name}_link">
+      <!-- Add visual component, mesh -->
+      <visual>
+        <!-- move the mesh around w.r.t. the link's frame -->
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <!-- set color of the link -->
+        <material name="${name}_color">
+          <color rgba="0 1.0 1.0 1.0"/>
+        </material>
+        <!-- add the mesh -->
+        <geometry>
+          <mesh filename="package://project_description/meshes/donut.stl"/>
+        </geometry>
+      </visual>
+      <!-- Add collision component -->
+      <collision>
+        <!-- move the collision box around -->
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.01"/>
+        <!-- set color of the bounding box -->
+        <material name="${name}_color">
+          <color rgba="0 1.0 1.0 1.0"/>
+        </material>
+        <!-- add the bounding box -->
+        <geometry>
+          <box size="0.08 0.08 0.02"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Connect to the rest of the robot using the parameters -->
+    <joint name="${name}_joint" type="fixed">
+      <child link="${name}_link"/>
+      <parent link="${parent}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+  </xacro:macro>
+</robot>

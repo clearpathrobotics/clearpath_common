@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Include macro from device description package -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+  <!-- Call macro to instantiate device -->
+  <xacro:sensor_d435 parent="default_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:sensor_d435>
+
+  <!-- Include macro from this package -->
+  <xacro:include filename="$(find project_description)/urdf/donut.urdf.xacro"/>
+  <!-- Call macro to add mesh to robot -->
+  <xacro:donut name="donut" parent="default_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:donut>
+</robot>
