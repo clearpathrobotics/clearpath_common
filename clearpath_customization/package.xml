@@ -5,8 +5,6 @@
   <version>0.2.6</version>
   <description>Clearpath customization packages.</description>
 
-  <author email="lcamero@clearpathrobotics.com">Luis Camero</author>
-
   <maintainer email="lcamero@clearpathrobotics.com">Luis Camero</maintainer>
 
   <license>BSD</license>
