@@ -25,6 +25,13 @@
           <child link="${name}_link"/>
           <xacro:insert_block name="origin"/>
         </joint>
+        <!-- Top plate default link -->
+        <link name="${name}_default_mount"/>
+        <joint name="${name}_default_joint" type="fixed">
+          <parent link="${name}_link" />
+          <child link="${name}_default_mount"/>
+          <origin xyz="0.0812 0 0.00672" rpy="0 0 0"/>
+        </joint>
         <!-- Top plate front link -->
         <link name="${name}_front_mount"/>
         <joint name="${name}_front_joint" type="fixed">
@@ -78,6 +85,13 @@
           <parent link="${name}_user_rail_link" />
           <child link="${name}_link"/>
           <origin xyz="0 0 0.021" rpy="0 0 0"/>
+        </joint>
+        <!-- Top plate default link -->
+        <link name="${name}_default_mount"/>
+        <joint name="${name}_default_joint" type="fixed">
+          <parent link="${name}_link" />
+          <child link="${name}_default_mount"/>
+          <origin xyz="0.07987 0 0.00639" rpy="0 0 0"/>
         </joint>
         <!-- Top plate front link -->
         <link name="${name}_front_mount"/>
