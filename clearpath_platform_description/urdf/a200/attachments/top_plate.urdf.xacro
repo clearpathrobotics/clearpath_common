@@ -25,19 +25,26 @@
           <child link="${name}_link"/>
           <xacro:insert_block name="origin"/>
         </joint>
+        <!-- Top plate default link -->
+        <link name="${name}_default_mount"/>
+        <joint name="${name}_default_joint" type="fixed">
+          <parent link="${name}_link" />
+          <child link="${name}_default_mount"/>
+          <origin xyz="0.0812 0 0.00672" rpy="0 0 0"/>
+        </joint>
         <!-- Top plate front link -->
         <link name="${name}_front_mount"/>
         <joint name="${name}_front_joint" type="fixed">
           <parent link="${name}_link" />
           <child link="${name}_front_mount"/>
-          <origin xyz="0.4125 0 0.00672" rpy="0 0 0"/>
+          <origin xyz="0.4937 0 0.00672" rpy="0 0 0"/>
         </joint>
         <!-- Top plate rear link-->
         <link name="${name}_rear_mount"/>
         <joint name="${name}_rear_joint" type="fixed">
           <parent link="${name}_link" />
           <child link="${name}_rear_mount"/>
-          <origin xyz="-0.4125 0 0.00672" rpy="0 0 0"/>
+          <origin xyz="-0.3313 0 0.00672" rpy="0 0 0"/>
         </joint>
       </xacro:if>
 
@@ -79,25 +86,33 @@
           <child link="${name}_link"/>
           <origin xyz="0 0 0.021" rpy="0 0 0"/>
         </joint>
+        <!-- Top plate default link -->
+        <link name="${name}_default_mount"/>
+        <joint name="${name}_default_joint" type="fixed">
+          <parent link="${name}_link" />
+          <child link="${name}_default_mount"/>
+          <origin xyz="0.07987 0 0.00639" rpy="0 0 0"/>
+        </joint>
         <!-- Top plate front link -->
         <link name="${name}_front_mount"/>
         <joint name="${name}_front_joint" type="fixed">
           <parent link="${name}_link" />
           <child link="${name}_front_mount"/>
-          <origin xyz="0.36367 0 0.00639" rpy="0 0 0"/>
+          <origin xyz="0.44487 0 0.00639" rpy="0 0 0"/>
         </joint>
         <!-- Top plate rear link-->
         <link name="${name}_rear_mount"/>
         <joint name="${name}_rear_joint" type="fixed">
           <parent link="${name}_link" />
           <child link="${name}_rear_mount"/>
-          <origin xyz="-0.36633 0 0.00639" rpy="0 0 0"/>
+          <origin xyz="-0.28513 0 0.00639" rpy="0 0 0"/>
         </joint>
       </xacro:if>
 
       <!-- PACS Model -->
       <xacro:if value="${model == 'pacs'}">
         <!-- Spawn top plate -->
+        <link name="${name}_adjust_link"/>
         <link name="${name}_link">
           <visual>
             <origin xyz="0 0 0"/>
@@ -115,10 +130,15 @@
           </collision>
         </link>
         <!-- Attach PACS top plate -->
-        <joint name="${name}_joint" type="fixed">
-          <child link="${name}_link"/>
+        <joint name="${name}_adjust_joint" type="fixed">
+          <child link="${name}_adjust_link"/>
           <parent link="${parent_link}"/>
           <xacro:insert_block name="origin"/>
+        </joint>
+        <joint name="${name}_joint" type="fixed">
+          <child link="${name}_link"/>
+          <parent link="${name}_adjust_link"/>
+          <origin xyz="0.04825 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </joint>
 
         <!-- Generate PACS mounts -->

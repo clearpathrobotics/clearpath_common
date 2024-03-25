@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="arm_mount" params="name:=arm_mount model:=default parent_link:=default_mount *origin">
+  <xacro:macro name="arm_plate" params="name:=arm_plate model:=default parent_link:=default_mount *origin">
     <link name="${name}_link">
       <visual>
         <origin xyz="0 0 0.02" rpy="0 0 0"/>
@@ -25,6 +25,12 @@
       <xacro:insert_block name="origin"/>
       <parent link="${parent_link}"/>
       <child link="${name}_link" />
+    </joint>
+    <link name="${name}_mount"/>
+    <joint name="${name}_mount_joint" type="fixed">
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <parent link="${name}_link"/>
+      <child link="${name}_mount"/>
     </joint>
   </xacro:macro>
 </robot>

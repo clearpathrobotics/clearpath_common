@@ -86,7 +86,7 @@ class AttachmentsDescription():
         # W200
         W200Attachment.GENERATOR: BaseDescription,
         W200Attachment.BULKHEAD: BaseDescription,
-        W200Attachment.ARM_MOUNT: BaseDescription,
+        W200Attachment.ARM_PLATE: BaseDescription,
     }
 
     def __new__(cls, attachment: BaseAttachment) -> BaseDescription:
