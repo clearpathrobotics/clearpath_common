@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.7 (2024-04-08)
+------------------
 * ARM_MOUNT to ARM_PLATE
 * Added simple package writer to copy package from template
 * Check terminal to set ROS_SUPER_CLIENT
