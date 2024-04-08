@@ -2,8 +2,8 @@
 Changelog for package clearpath_customization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.7 (2024-04-08)
+------------------
 * Removed author tag
 * Fixed mismatched tag
 * Updated package.xml to match
