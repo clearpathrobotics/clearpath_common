@@ -31,9 +31,10 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
-from ament_index_python.packages import get_package_share_directory, PackageNotFoundError
 import os
 import shutil
+
+from ament_index_python.packages import get_package_share_directory, PackageNotFoundError
 
 
 class PackageWriter():
@@ -60,7 +61,7 @@ class PackageWriter():
         ))
         shutil.copytree(src=template, dst=destination)
         # Rename all files
-        print("Renaming all template, '%s', files to `%s`." % (
+        print("Renaming all template, '%s', files to '%s'." % (
             template_name,
             destination_name
         ))
@@ -71,7 +72,7 @@ class PackageWriter():
                     dst = src.replace(template_name, destination_name)
                     shutil.move(src, dst)
         # Replace all instances
-        print("Replacing all instances of `%s` with `%s`." % (
+        print("Replacing all instances of '%s' with '%s'." % (
             template_name,
             destination_name
         ))

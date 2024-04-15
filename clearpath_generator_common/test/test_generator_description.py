@@ -27,9 +27,11 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import os
 import shutil
-import xacro
 
 from ament_index_python.packages import get_package_share_directory
+
+import xacro
+
 from clearpath_generator_common.description.generator import DescriptionGenerator
 
 
@@ -57,7 +59,7 @@ class TestRobotLaunchGenerator:
                 ))
             # Try to Load Xacro
             try:
-                xacro.process_file(os.path.join(os.path.dirname(dst), "robot.urdf.xacro")).toxml()
+                xacro.process_file(os.path.join(os.path.dirname(dst), 'robot.urdf.xacro')).toxml()
             except xacro.XacroException as e:
                 errors.append("Sample '%s' xacro failed to load: '%s'" % (
                     sample,

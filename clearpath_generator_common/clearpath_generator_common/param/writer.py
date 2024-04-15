@@ -47,7 +47,7 @@ class ParamWriter():
         self.write(f'{key}: {value}', indent_level=indent_level)
 
     def write_string(self, key: str, value: str, indent_level=1):
-        self.write(f'{key}: \'{value}\'', indent_level=indent_level)
+        self.write(f"{key}: '{value}'", indent_level=indent_level)
 
     def write_dictionary(self, key: str, dictionary: dict, indent_level=1):
         self.write(f'{key}:', indent_level=indent_level)

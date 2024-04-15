@@ -31,15 +31,15 @@
 # of Clearpath Robotics.
 import os
 
+from typing import List
+
 from clearpath_config.common.types.file import File
 from clearpath_config.links.links import Link
-from clearpath_config.links.types.link import BaseLink
 from clearpath_config.links.types.box import Box
 from clearpath_config.links.types.cylinder import Cylinder
+from clearpath_config.links.types.link import BaseLink
 from clearpath_config.links.types.mesh import Mesh
 from clearpath_config.links.types.sphere import Sphere
-
-from typing import List
 
 
 class LinkDescription():
@@ -104,12 +104,12 @@ class LinkDescription():
             super().__init__(link)
             if (link.visual.package):
                 self.parameters.update({
-                    self.VISUAL: os.path.join("package://" + link.visual.package,
+                    self.VISUAL: os.path.join('package://' + link.visual.package,
                                               File.clean(link.visual.path, make_abs=False))
                 })
             else:
                 self.parameters.update({
-                    self.VISUAL: "file://" + File.clean(link.visual.path, make_abs=False)
+                    self.VISUAL: 'file://' + File.clean(link.visual.path, make_abs=False)
                 })
 
     MODEL = {

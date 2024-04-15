@@ -29,19 +29,18 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+from typing import List
 
-from clearpath_config.sensors.types.sensor import BaseSensor
-from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
-from clearpath_config.sensors.types.lidars_3d import BaseLidar3D, VelodyneLidar
-from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense, FlirBlackfly
+from clearpath_config.sensors.types.cameras import BaseCamera, FlirBlackfly, IntelRealsense
 from clearpath_config.sensors.types.imu import (
     BaseIMU,
     CHRoboticsUM6,
     Microstrain,
     RedshiftUM7
 )
-
-from typing import List
+from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
+from clearpath_config.sensors.types.lidars_3d import BaseLidar3D, VelodyneLidar
+from clearpath_config.sensors.types.sensor import BaseSensor
 
 
 class SensorDescription():

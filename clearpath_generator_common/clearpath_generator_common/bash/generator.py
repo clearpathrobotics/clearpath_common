@@ -34,7 +34,7 @@
 
 from clearpath_config.common.types.discovery import Discovery
 from clearpath_generator_common.bash.writer import BashWriter
-from clearpath_generator_common.common import BashFile, BaseGenerator
+from clearpath_generator_common.common import BaseGenerator, BashFile
 
 
 class BashGenerator(BaseGenerator):
