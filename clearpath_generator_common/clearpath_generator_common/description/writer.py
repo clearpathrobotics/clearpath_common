@@ -47,7 +47,7 @@ class XacroWriter():
 
     def write_include(self, file, package=None, path=None):
         # Append .urdf.xacro if missing
-        if '.urdf.xacro' not in file:
+        if '.' not in file:
             file = file + '.urdf.xacro'
         if path is None:
             path = ''

@@ -99,7 +99,17 @@ def generate_launch_description():
             executable='spawner',
             arguments=['--controller-manager-timeout', '60', 'platform_velocity_controller'],
             output='screen',
-        )
+        ),
+        # Node(
+        #     package="controller_manager",
+        #     executable="spawner",
+        #     arguments=['--controller-manager-timeout', '60', "joint_trajectory_controller"],
+        # ),
+        # Node(
+        #     package="controller_manager",
+        #     executable="spawner",
+        #     arguments=['--controller-manager-timeout', '60', "twist_controller", "--inactive"],
+        # )
     ])
 
     ld = LaunchDescription()
