@@ -1,0 +1,5 @@
+repositories:
+  clearpath_config:
+    type: git
+    url: https://github.com/clearpathrobotics/clearpath_config.git
+    version: main
