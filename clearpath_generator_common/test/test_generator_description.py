@@ -30,9 +30,9 @@ import shutil
 
 from ament_index_python.packages import get_package_share_directory
 
-import xacro
-
 from clearpath_generator_common.description.generator import DescriptionGenerator
+
+import xacro
 
 
 class TestRobotLaunchGenerator:

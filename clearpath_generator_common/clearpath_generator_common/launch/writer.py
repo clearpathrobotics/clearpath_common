@@ -61,7 +61,7 @@ class LaunchWriter():
         self.write('return ld')
 
     def write_string(self, string: str, indent_level=1):
-        self.write('\'{0}\''.format(string), indent_level)
+        self.write("'{0}'".format(string), indent_level)
 
     def write_boolean(self, boolean: bool, indent_level=1):
         self.write(boolean, indent_level)
@@ -102,18 +102,18 @@ class LaunchWriter():
             self.write(',', indent_level + 1)
         self.write('}', indent_level)
 
-    def write_list(self, list: list, indent_level=1):
+    def write_list(self, _list: list, indent_level=1):
         self.write('[', indent_level)
-        for i in list:
+        for i in _list:
             self.write_obj(i, indent_level + 1)
             self.write(',', indent_level + 1)
         self.write(']', indent_level)
 
-    def write_tuple(self, tuple: tuple, indent_level=1):
+    def write_tuple(self, _tuple: tuple, indent_level=1):
         self.write('(', indent_level)
-        self.write_obj(tuple[0], indent_level + 1)
+        self.write_obj(_tuple[0], indent_level + 1)
         self.write(',', indent_level + 1)
-        self.write_obj(tuple[1], indent_level + 1)
+        self.write_obj(_tuple[1], indent_level + 1)
         self.write(')', indent_level)
 
     def find_package(self, package: Package):
