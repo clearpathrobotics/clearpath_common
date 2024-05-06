@@ -36,9 +36,10 @@ import os
 class XacroWriter():
     tab = '  '
 
-    def __init__(self, path: str, serial_number: str):
+    def __init__(self, path: str, serial_number: str, ext='.urdf.xacro'):
         self.file_path = path
-        self.file_name = os.path.join(self.file_path, 'robot.urdf.xacro')
+        self.file_ext = ext
+        self.file_name = os.path.join(self.file_path, 'robot' + ext)
         self.file = open(self.file_name, 'w')
         self.initialize_file(serial_number)
 
@@ -48,7 +49,7 @@ class XacroWriter():
     def write_include(self, file, package=None, path=None):
         # Append .urdf.xacro if missing
         if '.' not in file:
-            file = file + '.urdf.xacro'
+            file = file + self.file_ext
         if path is None:
             path = ''
         file_path = os.path.join(path, file)
