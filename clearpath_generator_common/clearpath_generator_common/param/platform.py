@@ -29,14 +29,14 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.types.platform import Platform
+from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
 
 from clearpath_generator_common.common import ParamFile, Package
 from clearpath_generator_common.param.writer import ParamWriter
-
-import os
 
 
 class PlatformParam():
@@ -104,6 +104,26 @@ class PlatformParam():
             self.default_param_file.read()
 
             self.param_file.parameters = self.default_param_file.parameters
+
+            # Manipulator Control
+            if self.parameter == PlatformParam.CONTROL:
+                for manipulator in self.clearpath_config.manipulators.get_all_manipulators():
+                    # Arm Control Parameter File
+                    arm_param_file = ParamFile(
+                        name="control",
+                        package=Package("clearpath_manipulators_description"),
+                        path="config/%s/%s" % (
+                            manipulator.MANIPULATOR_TYPE,
+                            manipulator.MANIPULATOR_MODEL),
+                        parameters={}
+                    )
+                    arm_param_file.read()
+                    updated_parameters = replace_dict_items(
+                        arm_param_file.parameters,
+                        {r'${name}': manipulator.name}
+                    )
+                    self.param_file.parameters = merge_dict(
+                        self.param_file.parameters, updated_parameters)
 
             # Get extra ros parameters from config
             extras = self.clearpath_config.platform.extras.ros_parameters
