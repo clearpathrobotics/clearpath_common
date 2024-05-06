@@ -8,12 +8,28 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
+find_package(moveit_setup_framework REQUIRED)
+find_package(moveit_setup_srdf_plugins REQUIRED)
 
 install(PROGRAMS
   ${PROJECT_NAME}/description/generate_description
   ${PROJECT_NAME}/discovery_server/generate_discovery_server
   ${PROJECT_NAME}/bash/generate_bash
+  ${PROJECT_NAME}/semantic_description/generate_semantic_description
   DESTINATION lib/${PROJECT_NAME}
+)
+
+add_executable(moveit_collision_updater src/moveit_collision_updater.cpp)
+ament_target_dependencies(moveit_collision_updater
+  moveit_setup_srdf_plugins
+  moveit_setup_framework
+)
+install(
+  TARGETS moveit_collision_updater
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/clearpath_generator_common
+  INCLUDES DESTINATION lib/clearpath_generator_common
 )
 
 ament_python_install_package(${PROJECT_NAME})
