@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="$(find clearpath_manipulator_description)/urdf/kinova_gen3_6dof.urdf.xacro"/>
-  <xacro:kinova_gen3_6dof
-    name="kinova_0"
-    parent_link="arm_plate_mount">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </xacro:kinova_gen3_6dof>
-</robot>

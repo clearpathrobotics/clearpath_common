@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="kinova_gen3_lite" params="name">
+    <group name="${name}">
+        <joint name="${name}_joint_1"/>
+        <joint name="${name}_joint_2"/>
+        <joint name="${name}_joint_3"/>
+        <joint name="${name}_joint_4"/>
+        <joint name="${name}_joint_5"/>
+        <joint name="${name}_joint_6"/>
+    </group>
+    <group_state name="ready" group="${name}">
+        <joint name="${name}_joint_1" value="0.0"/>
+        <joint name="${name}_joint_2" value="0.0"/>
+        <joint name="${name}_joint_3" value="${math.pi * 1/2}"/>
+        <joint name="${name}_joint_4" value="${math.pi * 1/2}"/>
+        <joint name="${name}_joint_5" value="${math.pi * 1/2}"/>
+        <joint name="${name}_joint_6" value="${math.pi *-1/2}"/>
+    </group_state>
+    <group_state name="stow" group="${name}">
+        <joint name="${name}_joint_1" value="0.0"/>
+        <joint name="${name}_joint_2" value="${math.pi * 1/4}"/>
+        <joint name="${name}_joint_3" value="${math.pi * 5/6}"/>
+        <joint name="${name}_joint_4" value="${math.pi * 1/2}"/>
+        <joint name="${name}_joint_5" value="${math.pi * 1/4}"/>
+        <joint name="${name}_joint_6" value="${math.pi *-1/2}"/>
+    </group_state>
+    <group_state name="zero" group="${name}">
+        <joint name="${name}_joint_1" value="0"/>
+        <joint name="${name}_joint_2" value="0"/>
+        <joint name="${name}_joint_3" value="0"/>
+        <joint name="${name}_joint_4" value="0"/>
+        <joint name="${name}_joint_5" value="0"/>
+        <joint name="${name}_joint_6" value="0"/>
+    </group_state>
+  </xacro:macro>
+</robot>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="kinova_gen3_6dof" params="name">
+    <group name="${name}">
+        <joint name="${name}_joint_1"/>
+        <joint name="${name}_joint_2"/>
+        <joint name="${name}_joint_3"/>
+        <joint name="${name}_joint_4"/>
+        <joint name="${name}_joint_5"/>
+        <joint name="${name}_joint_6"/>
+    </group>
+    <group_state name="home" group="${name}">
+        <joint name="${name}_joint_1" value="0.0174"/>
+        <joint name="${name}_joint_2" value="-0.5725"/>
+        <joint name="${name}_joint_3" value="-0.9846"/>
+        <joint name="${name}_joint_4" value="0.1562"/>
+        <joint name="${name}_joint_5" value="-1.0719"/>
+        <joint name="${name}_joint_6" value="-1.7183"/>
+    </group_state>
+    <group_state name="zero" group="${name}">
+        <joint name="${name}_joint_1" value="0"/>
+        <joint name="${name}_joint_2" value="0"/>
+        <joint name="${name}_joint_3" value="0"/>
+        <joint name="${name}_joint_4" value="0"/>
+        <joint name="${name}_joint_5" value="0"/>
+        <joint name="${name}_joint_6" value="0"/>
+    </group_state>
+  </xacro:macro>
+</robot>
