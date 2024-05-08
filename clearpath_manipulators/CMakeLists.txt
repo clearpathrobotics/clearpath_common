@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(clearpath_moveit)
+project(clearpath_manipulators)
 
 find_package(ament_cmake REQUIRED)
 install(DIRECTORY config launch

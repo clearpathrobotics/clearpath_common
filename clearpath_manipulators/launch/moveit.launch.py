@@ -13,6 +13,7 @@ from clearpath_config.clearpath_config import ClearpathConfig
 def launch_setup(context, *args, **kwargs):
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
+    use_sim_time = LaunchConfiguration('use_sim_time')
     setup_path_context = setup_path.perform(context)
 
     # Namespace
@@ -38,13 +39,13 @@ def launch_setup(context, *args, **kwargs):
         Node(
             package='moveit_ros_move_group',
             executable='move_group',
-            name='move_group',
             output='log',
             namespace=namespace,
             parameters=[
                 os.path.join(setup_path_context, 'manipulators', 'config', 'moveit.yaml'),
                 robot_description,
                 robot_description_semantic,
+                {'use_sim_time': use_sim_time},
             ],
             remappings=[
                 ('/tf', 'tf'),
@@ -63,7 +64,7 @@ def generate_launch_description():
     )
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='true',
+        default_value='false',
         choices=['true', 'false'],
         description='use_sim_time'
     )
