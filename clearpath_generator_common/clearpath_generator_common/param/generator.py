@@ -83,10 +83,10 @@ class ParamGenerator(BaseGenerator):
             platform_param.generate_parameter_file()
 
     def generate_manipulators(self) -> None:
-        # MoveIt
-        moveit = ManipulatorParam(
-            ManipulatorParam.MOVEIT,
-            self.clearpath_config,
-            self.manipulators_params_path)
-        moveit.generate_parameters()
-        moveit.generate_parameter_file()
+        for param in ManipulatorParam.PARAMETERS:
+            manipulator_param = ManipulatorParam(
+                param,
+                self.clearpath_config,
+                self.manipulators_params_path)
+            manipulator_param.generate_parameters()
+            manipulator_param.generate_parameter_file()

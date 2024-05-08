@@ -32,17 +32,18 @@
 import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
-from clearpath_generator_common.common import MoveItParamFile, Package
+from clearpath_config.common.utils.dictionary import replace_dict_items, merge_dict
+from clearpath_generator_common.common import MoveItParamFile, Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
 
 
 class ManipulatorParam():
-
     MOVEIT = 'moveit'
+    CONTROL = 'control'
 
     class BaseParam():
-        CLEARPATH_MOVEIT = 'clearpath_moveit'
-        CLEARPATH_MANIPULATORS = 'clearpath_manipulators_description'
+        CLEARPATH_MANIPULATORS_DESCRIPTION = 'clearpath_manipulators_description'
+        CLEARPATH_MANIPULATORS = 'clearpath_manipulators'
 
         def __init__(self,
                      parameter: str,
@@ -55,8 +56,59 @@ class ManipulatorParam():
             self.param_file = None
 
             # Clearpath Manipulators Package
-            self.clearpath_moveit_package = Package(self.CLEARPATH_MOVEIT)
-            self.clearpath_manipulators = Package(self.CLEARPATH_MANIPULATORS)
+            self.clearpath_manipulators_description = Package(
+                self.CLEARPATH_MANIPULATORS_DESCRIPTION)
+            self.clearpath_manipulators = Package(
+                self.CLEARPATH_MANIPULATORS)
+
+    class Control(BaseParam):
+
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_name = 'control'
+            self.default_parameter_directory = 'config'
+            self.default_parameter_package = self.clearpath_manipulators
+
+        def generate_parameters(self, use_sim_time: bool = False) -> None:
+            default_param_file = ParamFile(
+                name=self.default_parameter_name,
+                package=self.default_parameter_package,
+                path=self.default_parameter_directory,
+            )
+            self.param_file = ParamFile(
+                name=self.default_parameter_name,
+                namespace=self.namespace + '/manipulators',
+                path=self.param_path
+            )
+
+            default_param_file.read()
+            self.param_file.parameters = default_param_file.parameters
+
+            for manipulator in self.clearpath_config.manipulators.get_all_manipulators():
+                # Arm Control Parameter File
+                arm_param_file = ParamFile(
+                    name='control',
+                    package=Package("clearpath_manipulators_description"),
+                    path='config/%s/%s' % (
+                        manipulator.MANIPULATOR_TYPE,
+                        manipulator.MANIPULATOR_MODEL),
+                    parameters={}
+                )
+                arm_param_file.read()
+                updated_parameters = replace_dict_items(
+                    arm_param_file.parameters,
+                    {r'${name}': manipulator.name}
+                )
+                self.param_file.parameters = merge_dict(
+                    self.param_file.parameters, updated_parameters)
+
+        def generate_parameter_file(self):
+            param_writer = ParamWriter(self.param_file)
+            param_writer.write_file()
+            print(f'Generated config: {self.param_file.full_path}')
 
     class MoveItParam(BaseParam):
         def __init__(self,
@@ -66,35 +118,34 @@ class ManipulatorParam():
             super().__init__(parameter, clearpath_config, param_path)
             # Default parameter directory
             self.default_parameter_directory = 'config/planning'
-            self.default_parameter_package = self.clearpath_moveit_package
+            self.default_parameter_package = self.clearpath_manipulators
 
         def generate_parameters(self, use_sim_time: bool = False) -> None:
-            parameter_file = MoveItParamFile(
+            self.param_file = MoveItParamFile(
                 name='moveit',
                 node='move_group',
                 namespace=self.namespace,
                 path=self.param_path,
             )
-            parameter_file += self.get_trajectory_exection_parameters()
-            parameter_file += self.get_planning_pipeline_parameters()
-            parameter_file += self.get_planning_scene_parameters()
-            parameter_file += self.get_kinematics_parameters()
-            parameter_file += self.get_moveit_controller_parameters()
-            parameter_file += self.get_joint_limits_parameters()
+            self.param_file += self.get_trajectory_exection_parameters()
+            self.param_file += self.get_planning_pipeline_parameters()
+            self.param_file += self.get_planning_scene_parameters()
+            self.param_file += self.get_kinematics_parameters()
+            self.param_file += self.get_moveit_controller_parameters(use_sim_time)
+            self.param_file += self.get_joint_limits_parameters()
+            self.param_file += self.get_cartesian_limits_parameters()
 
-            parameter_file.add_node_header()
+            self.param_file.add_node_header()
 
             # Get extra ros parameters from config
             extras = self.clearpath_config.platform.extras.ros_parameters
             for node in extras:
-                if node in parameter_file.parameters:
-                    parameter_file.update({node: extras.get(node)})
+                if node in self.param_file.parameters:
+                    self.param_file.update({node: extras.get(node)})
 
             if use_sim_time:
-                for node in parameter_file.parameters:
-                    parameter_file.update({node: {'use_sim_time': True}})
-
-            self.param_file = parameter_file
+                for node in self.param_file.parameters:
+                    self.param_file.update({node: {'use_sim_time': True}})
 
         def generate_parameter_file(self):
             param_writer = ParamWriter(self.param_file)
@@ -104,7 +155,7 @@ class ManipulatorParam():
         # Planning Pipeline
         def get_planning_pipeline_parameters(self):
             parameter_directory = 'config/planning'
-            parameter_package = self.clearpath_moveit_package
+            parameter_package = self.clearpath_manipulators
             parameter_name = 'pipeline'
 
             parameter_file = MoveItParamFile(
@@ -138,7 +189,7 @@ class ManipulatorParam():
         # Planning Scene
         def get_planning_scene_parameters(self):
             parameter_directory = 'config'
-            parameter_package = self.clearpath_moveit_package
+            parameter_package = self.clearpath_manipulators
             parameter_name = 'planning_scene'
 
             parameter_file = MoveItParamFile(
@@ -152,7 +203,7 @@ class ManipulatorParam():
         # Kinematics
         def get_kinematics_parameters(self):
             parameter_directory = 'config/kinematics'
-            parameter_package = self.clearpath_moveit_package
+            parameter_package = self.clearpath_manipulators
             parameter_file = MoveItParamFile(
                 name='kinematics',
                 path=parameter_directory,
@@ -169,12 +220,13 @@ class ManipulatorParam():
                     r'${name}': manipulator.name
                 })
                 parameter_file += kinematics_file
+            parameter_file.add_header('robot_description_kinematics')
             return parameter_file
 
         # Trajectory Execution
         def get_trajectory_exection_parameters(self):
             parameter_directory = 'config'
-            parameter_package = self.clearpath_moveit_package
+            parameter_package = self.clearpath_manipulators
             parameter_name = 'trajectory_execution'
 
             parameter_file = MoveItParamFile(
@@ -186,9 +238,9 @@ class ManipulatorParam():
             return parameter_file
 
         # MoveIt Controllers
-        def get_moveit_controller_parameters(self):
+        def get_moveit_controller_parameters(self, use_sim_time: bool = False) -> None:
             parameter_directory = 'config'
-            parameter_package = self.clearpath_manipulators
+            parameter_package = self.clearpath_manipulators_description
             parameter_name = 'moveit_controllers'
             parameter_file = MoveItParamFile(
                 name=parameter_name,
@@ -205,8 +257,12 @@ class ManipulatorParam():
                     ),
                     package=parameter_package
                 )
+                controller_name = manipulator.name
+                if not use_sim_time:
+                    controller_name = 'manipulators/' + controller_name
                 controller_file.read()
                 controller_file.replace({
+                    r'${controller_name}': controller_name,
                     r'${name}': manipulator.name
                 })
                 parameter_file += controller_file
@@ -215,7 +271,7 @@ class ManipulatorParam():
         # Joint Limits
         def get_joint_limits_parameters(self):
             parameter_directory = 'config'
-            parameter_package = self.clearpath_manipulators
+            parameter_package = self.clearpath_manipulators_description
             parameter_name = 'joint_limits'
             parameter_file = MoveItParamFile(
                 name=parameter_name,
@@ -237,15 +293,32 @@ class ManipulatorParam():
                     r'${name}': manipulator.name
                 })
                 parameter_file += controller_file
+            parameter_file.add_header('robot_description_planning')
             return parameter_file
 
-    PARAMETER = {
-        MOVEIT: MoveItParam
+        # Cartesian Limits
+        def get_cartesian_limits_parameters(self):
+            parameter_directory = 'config'
+            parameter_package = self.clearpath_manipulators
+            parameter_name = 'cartesian_limits'
+
+            parameter_file = MoveItParamFile(
+                name=parameter_name,
+                path=parameter_directory,
+                package=parameter_package,
+            )
+            parameter_file.read()
+            parameter_file.add_header('robot_description_planning')
+            return parameter_file
+
+    PARAMETERS = {
+        MOVEIT: MoveItParam,
+        CONTROL: Control
     }
 
     def __new__(cls,
                 parameter: str,
                 clearpath_config: ClearpathConfig,
                 param_path: str) -> BaseParam:
-        return ManipulatorParam.PARAMETER.setdefault(parameter, None)(
+        return ManipulatorParam.PARAMETERS.setdefault(parameter, None)(
             parameter, clearpath_config, param_path)
