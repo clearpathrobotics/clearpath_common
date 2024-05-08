@@ -290,6 +290,7 @@ class BaseGenerator():
         # Packages
         self.pkg_clearpath_platform = Package('clearpath_platform')
         self.pkg_clearpath_sensors = Package('clearpath_sensors')
+        self.pkg_clearpath_manipulators = Package('clearpath_manipulators')
         self.pkg_clearpath_platform_description = Package('clearpath_platform_description')
         self.pkg_clearpath_sensors_description = Package('clearpath_sensors_description')
         self.pkg_clearpath_manipulators_description = Package('clearpath_manipulators_description')
