@@ -106,7 +106,7 @@ class PlatformParam():
             self.param_file.parameters = self.default_param_file.parameters
 
             # Manipulator Control
-            if self.parameter == PlatformParam.CONTROL:
+            if self.parameter == PlatformParam.CONTROL and use_sim_time:
                 for manipulator in self.clearpath_config.manipulators.get_all_manipulators():
                     # Arm Control Parameter File
                     arm_param_file = ParamFile(
