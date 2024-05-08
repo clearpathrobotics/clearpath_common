@@ -4,9 +4,9 @@ moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControll
 
 moveit_simple_controller_manager:
   controller_names:
-    - ${name}_controller
+    - ${controller_name}_controller
 
-  ${name}_controller:
+  ${controller_name}_controller:
     type: GripperCommand
     joints:
       - ${name}_right_finger_bottom_joint
