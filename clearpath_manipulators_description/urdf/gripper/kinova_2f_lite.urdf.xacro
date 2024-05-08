@@ -2,12 +2,14 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false"/>
   <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_manipulation_controllers" default="false"/>
 
   <xacro:macro name="kinova_2f_lite" params="
     name
     parent_link
     *origin
     use_fake_hardware:=$(arg use_fake_hardware)
+    use_controllers:=$(arg use_manipulation_controllers)
     fake_sensor_commands:=false
     sim_ignition:=$(arg is_sim)
     sim_gazebo:=false
@@ -189,7 +191,7 @@
       <mimic joint="${name}_right_finger_bottom_joint" multiplier="-0.676" offset="0.149" />
     </joint>
 
-    <xacro:if value="${use_fake_hardware or sim_gazebo or sim_ignition or sim_isaac}">
+    <xacro:if value="${use_controllers and (use_fake_hardware or sim_gazebo or sim_ignition or sim_isaac)}">
       <ros2_control name="${name}_hardware" type="system">
           <hardware>
               <xacro:if value="${sim_isaac}">
