@@ -5,6 +5,7 @@
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="serial_port" default="/dev/clearpath/prolific" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a200/control.yaml"/>
+  <xacro:arg name="use_platform_controllers" default="true"/>
 
   <!-- Included URDF/XACRO Files -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/wheels/wheel.urdf.xacro" />
@@ -163,53 +164,55 @@
     <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
 
     <!-- ROS2 controls -->
-    <ros2_control name="a200_hardware" type="system">
-      <hardware>
-        <xacro:if value="$(arg is_sim)">
-          <plugin>ign_ros2_control/IgnitionSystem</plugin>
-        </xacro:if>
-        <xacro:unless value="$(arg is_sim)">
-          <plugin>clearpath_platform/A200Hardware</plugin>
-          <param name="wheel_diameter">0.3302</param>
-          <param name="max_accel">5.0</param>
-          <param name="max_speed">1.0</param>
-          <param name="polling_timeout">0.1</param>
-          <param name="serial_port">$(arg serial_port)</param>
-        </xacro:unless>
-      </hardware>
-      <joint name="front_left_wheel_joint">
-        <command_interface name="velocity">
-          <param name="min">-1</param>
-          <param name="max">1</param>
-        </command_interface>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-      <joint name="rear_left_wheel_joint">
-        <command_interface name="velocity">
-          <param name="min">-1</param>
-          <param name="max">1</param>
-        </command_interface>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-      <joint name="front_right_wheel_joint">
-        <command_interface name="velocity">
-          <param name="min">-1</param>
-          <param name="max">1</param>
-        </command_interface>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-      <joint name="rear_right_wheel_joint">
-        <command_interface name="velocity">
-          <param name="min">-1</param>
-          <param name="max">1</param>
-        </command_interface>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-    </ros2_control>
+    <xacro:if value="$(arg use_platform_controllers)">
+      <ros2_control name="a200_hardware" type="system">
+        <hardware>
+          <xacro:if value="$(arg is_sim)">
+            <plugin>ign_ros2_control/IgnitionSystem</plugin>
+          </xacro:if>
+          <xacro:unless value="$(arg is_sim)">
+            <plugin>clearpath_platform/A200Hardware</plugin>
+            <param name="wheel_diameter">0.3302</param>
+            <param name="max_accel">5.0</param>
+            <param name="max_speed">1.0</param>
+            <param name="polling_timeout">0.1</param>
+            <param name="serial_port">$(arg serial_port)</param>
+          </xacro:unless>
+        </hardware>
+        <joint name="front_left_wheel_joint">
+          <command_interface name="velocity">
+            <param name="min">-1</param>
+            <param name="max">1</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <joint name="rear_left_wheel_joint">
+          <command_interface name="velocity">
+            <param name="min">-1</param>
+            <param name="max">1</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <joint name="front_right_wheel_joint">
+          <command_interface name="velocity">
+            <param name="min">-1</param>
+            <param name="max">1</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <joint name="rear_right_wheel_joint">
+          <command_interface name="velocity">
+            <param name="min">-1</param>
+            <param name="max">1</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+      </ros2_control>
+    </xacro:if>
 
   </xacro:macro>
 
