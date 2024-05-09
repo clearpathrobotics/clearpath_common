@@ -30,9 +30,15 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 from clearpath_config.manipulators.types.arms import (
+    BaseArm,
     KinovaGen3Dof6,
     KinovaGen3Dof7,
     KinovaGen3Lite,
+)
+from clearpath_config.manipulators.types.grippers import (
+    Kinova2FLite,
+    Robotiq2F140,
+    Robotiq2F85
 )
 from clearpath_config.manipulators.types.manipulator import BaseManipulator
 
@@ -75,10 +81,26 @@ class ManipulatorDescription():
         def rpy(self) -> List[float]:
             return self.manipulator.rpy
 
+    class KinovaArmDescription(BaseDescription):
+        GRIPPER_JOINT = 'gripper_joint_name'
+        GRIPPER_COMM = 'use_internal_bus_gripper_comm'
+        GRIPPER_NAMES = {
+            Kinova2FLite.get_manipulator_model(): '_right_finger_bottom_joint',
+            Robotiq2F140.get_manipulator_model(): '_robotiq_85_left_knuckle_joint',
+            Robotiq2F85.get_manipulator_model(): '_robotiq_85_left_knuckle_joint',
+        }
+
+        def __init__(self, arm: BaseArm) -> None:
+            super().__init__(arm)
+            if arm.gripper:
+                self.parameters[self.GRIPPER_COMM] = True
+                self.parameters[self.GRIPPER_JOINT] = (
+                    arm.gripper.name + self.GRIPPER_NAMES[arm.gripper.get_manipulator_model()])
+
     MODEL = {
-        KinovaGen3Dof6.MANIPULATOR_MODEL: BaseDescription,
-        KinovaGen3Dof7.MANIPULATOR_MODEL: BaseDescription,
-        KinovaGen3Lite.MANIPULATOR_MODEL: BaseDescription,
+        KinovaGen3Dof6.MANIPULATOR_MODEL: KinovaArmDescription,
+        KinovaGen3Dof7.MANIPULATOR_MODEL: KinovaArmDescription,
+        KinovaGen3Lite.MANIPULATOR_MODEL: KinovaArmDescription,
     }
 
     def __new__(cls, manipulator: BaseManipulator) -> BaseManipulator:

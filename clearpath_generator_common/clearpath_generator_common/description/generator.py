@@ -204,25 +204,55 @@ class DescriptionGenerator(BaseGenerator):
     def generate_manipulators(self) -> None:
         self.xacro_writer.write_comment('Manipulators')
         self.xacro_writer.write_newline()
-        manipulators = self.clearpath_config.manipulators.get_all_manipulators()
-        for manipulator in manipulators:
-            manipulator_description = ManipulatorDescription(manipulator)
+        self.generate_arms()
+        self.generate_grippers()
+
+    def generate_arms(self) -> None:
+        arms = self.clearpath_config.manipulators.get_all_arms()
+        for arm in arms:
+            arm_description = ManipulatorDescription(arm)
 
             self.xacro_writer.write_comment(
-                '{0}'.format(manipulator_description.name)
+                '{0}'.format(arm_description.name)
             )
 
             self.xacro_writer.write_include(
-                package=manipulator_description.package,
-                file=manipulator_description.model,
-                path=manipulator_description.path
+                package=arm_description.package,
+                file=arm_description.model,
+                path=arm_description.path
             )
 
             self.xacro_writer.write_macro(
-                macro='{0}'.format(manipulator_description.model),
-                parameters=manipulator_description.parameters,
+                macro='{0}'.format(arm_description.model),
+                parameters=arm_description.parameters,
                 blocks=XacroWriter.add_origin(
-                    manipulator_description.xyz, manipulator_description.rpy)
+                    arm_description.xyz, arm_description.rpy)
+            )
+
+            self.xacro_writer.write_newline()
+
+    def generate_grippers(self) -> None:
+        arms = self.clearpath_config.manipulators.get_all_arms()
+        for arm in arms:
+            if not arm.gripper:
+                continue
+            gripper_description = ManipulatorDescription(arm.gripper)
+
+            self.xacro_writer.write_comment(
+                '{0}'.format(gripper_description.name)
+            )
+
+            self.xacro_writer.write_include(
+                package=gripper_description.package,
+                file=gripper_description.model,
+                path=gripper_description.path,
+            )
+
+            self.xacro_writer.write_macro(
+                macro='{0}'.format(gripper_description.model),
+                parameters=gripper_description.parameters,
+                blocks=XacroWriter.add_origin(
+                    gripper_description.xyz, gripper_description.rpy)
             )
 
             self.xacro_writer.write_newline()

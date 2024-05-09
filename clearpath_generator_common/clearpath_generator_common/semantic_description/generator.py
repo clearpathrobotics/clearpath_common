@@ -49,9 +49,11 @@ class SemanticDescriptionGenerator(BaseGenerator):
     def generate_grippers(self) -> None:
         self.xacro_writer.write_comment('Grippers')
         self.xacro_writer.write_newline()
-        grippers = self.clearpath_config.manipulators.get_all_grippers()
-        for gripper in grippers:
-            gripper_semantic_description = ManipulatorSemanticDescription(gripper)
+        arms = self.clearpath_config.manipulators.get_all_arms()
+        for arm in arms:
+            if not arm.gripper:
+                continue
+            gripper_semantic_description = ManipulatorSemanticDescription(arm.gripper)
 
             self.xacro_writer.write_comment(
                 '{0}'.format(gripper_semantic_description.name)

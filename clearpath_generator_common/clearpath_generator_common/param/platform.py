@@ -105,22 +105,45 @@ class PlatformParam():
 
             self.param_file.parameters = self.default_param_file.parameters
 
-            # Manipulator Control
+            # Arm Control
             if self.parameter == PlatformParam.CONTROL and use_sim_time:
-                for manipulator in self.clearpath_config.manipulators.get_all_manipulators():
+                for arm in self.clearpath_config.manipulators.get_all_arms():
                     # Arm Control Parameter File
                     arm_param_file = ParamFile(
                         name="control",
                         package=Package("clearpath_manipulators_description"),
                         path="config/%s/%s" % (
-                            manipulator.MANIPULATOR_TYPE,
-                            manipulator.MANIPULATOR_MODEL),
+                            arm.get_manipulator_type(),
+                            arm.get_manipulator_model()),
                         parameters={}
                     )
                     arm_param_file.read()
                     updated_parameters = replace_dict_items(
                         arm_param_file.parameters,
-                        {r'${name}': manipulator.name}
+                        {r'${name}': arm.name}
+                    )
+                    self.param_file.parameters = merge_dict(
+                        self.param_file.parameters, updated_parameters)
+
+            # Gripper Control
+            if self.parameter == PlatformParam.CONTROL and use_sim_time:
+                for arm in self.clearpath_config.manipulators.get_all_arms():
+                    if not arm.gripper:
+                        continue
+                    gripper = arm.gripper
+                    # Gripper Control Parameter File
+                    gripper_param_file = ParamFile(
+                        name="control",
+                        package=Package("clearpath_manipulators_description"),
+                        path="config/%s/%s" % (
+                            gripper.get_manipulator_type(),
+                            gripper.get_manipulator_model()),
+                        parameters={}
+                    )
+                    gripper_param_file.read()
+                    updated_parameters = replace_dict_items(
+                        gripper_param_file.parameters,
+                        {r'${name}': gripper.name}
                     )
                     self.param_file.parameters = merge_dict(
                         self.param_file.parameters, updated_parameters)

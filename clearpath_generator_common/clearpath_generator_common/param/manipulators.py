@@ -87,20 +87,42 @@ class ManipulatorParam():
             default_param_file.read()
             self.param_file.parameters = default_param_file.parameters
 
-            for manipulator in self.clearpath_config.manipulators.get_all_manipulators():
+            # Arms
+            for arm in self.clearpath_config.manipulators.get_all_arms():
                 # Arm Control Parameter File
                 arm_param_file = ParamFile(
                     name='control',
                     package=Package("clearpath_manipulators_description"),
                     path='config/%s/%s' % (
-                        manipulator.MANIPULATOR_TYPE,
-                        manipulator.MANIPULATOR_MODEL),
+                        arm.get_manipulator_type(),
+                        arm.get_manipulator_model()),
                     parameters={}
                 )
                 arm_param_file.read()
                 updated_parameters = replace_dict_items(
                     arm_param_file.parameters,
-                    {r'${name}': manipulator.name}
+                    {r'${name}': arm.name}
+                )
+                self.param_file.parameters = merge_dict(
+                    self.param_file.parameters, updated_parameters)
+            # Grippers
+            for arm in self.clearpath_config.manipulators.get_all_arms():
+                if not arm.gripper:
+                    continue
+                gripper = arm.gripper
+                # Gripper Control Parameter File
+                gripper_param_file = ParamFile(
+                    name='control',
+                    package=Package("clearpath_manipulators_description"),
+                    path='config/%s/%s' % (
+                        gripper.get_manipulator_type(),
+                        gripper.get_manipulator_model()),
+                    parameters={}
+                )
+                gripper_param_file.read()
+                updated_parameters = replace_dict_items(
+                    gripper_param_file.parameters,
+                    {r'${name}': gripper.name}
                 )
                 self.param_file.parameters = merge_dict(
                     self.param_file.parameters, updated_parameters)
@@ -209,15 +231,31 @@ class ManipulatorParam():
                 path=parameter_directory,
                 package=parameter_package
             )
-            for manipulator in self.clearpath_config.manipulators.get_all_manipulators():
+            # Arms
+            for arm in self.clearpath_config.manipulators.get_all_arms():
                 kinematics_file = MoveItParamFile(
-                    name=manipulator.get_manipulator_type(),
+                    name=arm.get_manipulator_type(),
                     path=parameter_directory,
                     package=parameter_package
                 )
                 kinematics_file.read()
                 kinematics_file.replace({
-                    r'${name}': manipulator.name
+                    r'${name}': arm.name
+                })
+                parameter_file += kinematics_file
+            # Grippers
+            for arm in self.clearpath_config.manipulators.get_all_arms():
+                if not arm.gripper:
+                    continue
+                gripper = arm.gripper
+                kinematics_file = MoveItParamFile(
+                    name=gripper.get_manipulator_type(),
+                    path=parameter_directory,
+                    package=parameter_package
+                )
+                kinematics_file.read()
+                kinematics_file.replace({
+                    r'${name}': gripper.name
                 })
                 parameter_file += kinematics_file
             parameter_file.add_header('robot_description_kinematics')
@@ -247,23 +285,47 @@ class ManipulatorParam():
                 path=parameter_directory,
                 package=parameter_package,
             )
-            for manipulator in self.clearpath_config.manipulators.get_all_manipulators():
+            # Arms
+            for arm in self.clearpath_config.manipulators.get_all_arms():
                 controller_file = MoveItParamFile(
                     name=parameter_name,
                     path=os.path.join(
                         parameter_directory,
-                        manipulator.get_manipulator_type(),
-                        manipulator.get_manipulator_model()
+                        arm.get_manipulator_type(),
+                        arm.get_manipulator_model()
                     ),
                     package=parameter_package
                 )
-                controller_name = manipulator.name
+                controller_name = arm.name
                 if not use_sim_time:
                     controller_name = 'manipulators/' + controller_name
                 controller_file.read()
                 controller_file.replace({
                     r'${controller_name}': controller_name,
-                    r'${name}': manipulator.name
+                    r'${name}': arm.name
+                })
+                parameter_file += controller_file
+            # Grippers
+            for arm in self.clearpath_config.manipulators.get_all_arms():
+                if not arm.gripper:
+                    continue
+                gripper = arm.gripper
+                controller_file = MoveItParamFile(
+                    name=parameter_name,
+                    path=os.path.join(
+                        parameter_directory,
+                        gripper.get_manipulator_type(),
+                        gripper.get_manipulator_model()
+                    ),
+                    package=parameter_package
+                )
+                controller_name = gripper.name
+                if not use_sim_time:
+                    controller_name = 'manipulators/' + controller_name
+                controller_file.read()
+                controller_file.replace({
+                    r'${controller_name}': controller_name,
+                    r'${name}': gripper.name
                 })
                 parameter_file += controller_file
             return parameter_file
@@ -278,19 +340,39 @@ class ManipulatorParam():
                 path=parameter_directory,
                 package=parameter_package,
             )
-            for manipulator in self.clearpath_config.manipulators.get_all_manipulators():
+            # Arms
+            for arm in self.clearpath_config.manipulators.get_all_arms():
                 controller_file = MoveItParamFile(
                     name=parameter_name,
                     path=os.path.join(
                         parameter_directory,
-                        manipulator.get_manipulator_type(),
-                        manipulator.get_manipulator_model()
+                        arm.get_manipulator_type(),
+                        arm.get_manipulator_model()
                     ),
                     package=parameter_package
                 )
                 controller_file.read()
                 controller_file.replace({
-                    r'${name}': manipulator.name
+                    r'${name}': arm.name
+                })
+                parameter_file += controller_file
+            # Grippers
+            for arm in self.clearpath_config.manipulators.get_all_arms():
+                if not arm.gripper:
+                    continue
+                gripper = arm.gripper
+                controller_file = MoveItParamFile(
+                    name=parameter_name,
+                    path=os.path.join(
+                        parameter_directory,
+                        gripper.get_manipulator_type(),
+                        gripper.get_manipulator_model()
+                    ),
+                    package=parameter_package
+                )
+                controller_file.read()
+                controller_file.replace({
+                    r'${name}': gripper.name
                 })
                 parameter_file += controller_file
             parameter_file.add_header('robot_description_planning')
