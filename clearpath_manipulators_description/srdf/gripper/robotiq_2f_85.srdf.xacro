@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="robotiq_2f_85" params="name">
+    <group name="${name}">
+        <joint name="${name}_robotiq_85_base_joint"/>
+        <joint name="${name}_robotiq_85_left_inner_knuckle_joint"/>
+        <joint name="${name}_robotiq_85_left_knuckle_joint"/>
+        <joint name="${name}_robotiq_85_left_finger_joint"/>
+        <joint name="${name}_robotiq_85_left_finger_tip_joint"/>
+        <joint name="${name}_robotiq_85_right_inner_knuckle_joint"/>
+        <joint name="${name}_robotiq_85_right_knuckle_joint"/>
+        <joint name="${name}_robotiq_85_right_finger_joint"/>
+        <joint name="${name}_robotiq_85_right_finger_tip_joint"/>
+    </group>
+    <group_state name="open" group="${name}">
+        <joint name="${name}_robotiq_85_left_knuckle_joint" value="0.0"/>
+    </group_state>
+    <group_state name="close" group="${name}">
+        <joint name="${name}_robotiq_85_left_knuckle_joint" value="0.8"/>
+    </group_state>
+
+    <disable_collisions link1="${name}_robotiq_85_left_inner_knuckle_link" link2="${name}_robotiq_85_left_finger_tip_link" reason="User"/>
+    <disable_collisions link1="${name}_robotiq_85_right_inner_knuckle_link" link2="${name}_robotiq_85_right_finger_tip_link" reason="User"/>
+
+  </xacro:macro>
+
+</robot>

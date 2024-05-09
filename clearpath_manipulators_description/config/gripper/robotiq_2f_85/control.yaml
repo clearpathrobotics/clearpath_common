@@ -1,0 +1,16 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ${name}_controller:
+      type: position_controllers/GripperActionController
+
+${name}_controller:
+  ros__parameters:
+    default: true
+    joint: ${name}_robotiq_85_left_knuckle_joint
+    use_effort_interface: true
+    use_speed_interface: true
