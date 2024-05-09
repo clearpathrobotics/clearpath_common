@@ -10,3 +10,9 @@ request_adapters: >-
     default_planner_request_adapters/FixStartStatePathConstraints
 ridge_factor: 0.01
 start_state_max_bounds_error: 0.1
+path_tolerance: 0.1
+resample_dt: 0.1
+min_angle_change: 0.001
+default_workspace_bounds: 10.0
+start_state_max_dt: 0.5
+max_sampling_attempts: 100
