@@ -4,7 +4,7 @@ import xacro
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
-from launch.substitutions import EnvironmentVariable, LaunchConfiguration
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 from clearpath_config.clearpath_config import ClearpathConfig
@@ -59,7 +59,7 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
-        default_value=[EnvironmentVariable('HOME'), '/clearpath/'],
+        default_value='/etc/clearpath/',
         description='Clearpath setup path'
     )
     arg_use_sim_time = DeclareLaunchArgument(

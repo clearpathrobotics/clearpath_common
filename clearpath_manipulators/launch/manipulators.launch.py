@@ -31,6 +31,7 @@ from launch.actions import (
     DeclareLaunchArgument,
     GroupAction,
     IncludeLaunchDescription,
+    TimerAction
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
@@ -72,7 +73,7 @@ def generate_launch_description():
     namespace = LaunchConfiguration('namespace')
 
     # Launch files
-    launch_file_platform_description = PathJoinSubstitution([
+    launch_file_manipulators_description = PathJoinSubstitution([
       pkg_clearpath_manipulators_description,
       'launch',
       'description.launch.py'])
@@ -82,11 +83,16 @@ def generate_launch_description():
       'launch',
       'control.launch.py'])
 
-    group_platform_action = GroupAction(
+    launch_file_moveit = PathJoinSubstitution([
+        pkg_clearpath_manipulators,
+        'launch',
+        'moveit.launch.py'])
+
+    group_manipulators_action = GroupAction(
         actions=[
             PushRosNamespace(PathJoinSubstitution([namespace, 'manipulators'])),
             IncludeLaunchDescription(
-              PythonLaunchDescriptionSource(launch_file_platform_description),
+              PythonLaunchDescriptionSource(launch_file_manipulators_description),
               launch_arguments=[
                   ('namespace', namespace),
                   ('setup_path', setup_path),
@@ -106,9 +112,24 @@ def generate_launch_description():
         ]
     )
 
+    # Launch MoveIt
+    moveit_node_action = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(launch_file_moveit),
+        launch_arguments=[
+            ('setup_path', setup_path),
+            ('use_sim_time', use_sim_time)
+        ]
+    )
+
+    moveit_delayed = TimerAction(
+        period=10.0,
+        actions=[moveit_node_action]
+    )
+
     ld = LaunchDescription()
     ld.add_action(arg_setup_path)
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_namespace)
-    ld.add_action(group_platform_action)
+    ld.add_action(group_manipulators_action)
+    ld.add_action(moveit_delayed)
     return ld
