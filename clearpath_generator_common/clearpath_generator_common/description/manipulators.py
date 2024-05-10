@@ -81,7 +81,18 @@ class ManipulatorDescription():
         def rpy(self) -> List[float]:
             return self.manipulator.rpy
 
-    class KinovaArmDescription(BaseDescription):
+    class ArmDescription(BaseDescription):
+        IP = 'ip'
+        PORT = 'port'
+
+        def __init__(self, arm: BaseArm) -> None:
+            super().__init__(arm)
+            self.parameters[self.IP] = arm.ip
+            self.parameters[self.PORT] = arm.port
+
+    class KinovaArmDescription(ArmDescription):
+        IP = 'robot_ip'
+        PORT = 'port'
         GRIPPER_JOINT = 'gripper_joint_name'
         GRIPPER_COMM = 'use_internal_bus_gripper_comm'
         GRIPPER_NAMES = {
