@@ -68,7 +68,7 @@ class DiscoveryServerGenerator(BaseGenerator):
             ls = middleware_config.get_local_server()
             if ls and ls.enabled:
                 bash_writer.write(
-                    f'fastdds discovery -i {ls.server_id} -l 127.0.0.1 -p {ls.port}'
+                    f'fastdds discovery -i {ls.server_id} -p {ls.port}'
                 )
             else:
                 bash_writer.add_echo(
