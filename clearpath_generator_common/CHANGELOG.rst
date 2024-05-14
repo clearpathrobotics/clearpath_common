@@ -2,6 +2,11 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Remove IP address from discovery server launch so it listens on all NICs
+* Contributors: Hilary Luo
+
 0.2.7 (2024-04-08)
 ------------------
 * ARM_MOUNT to ARM_PLATE
