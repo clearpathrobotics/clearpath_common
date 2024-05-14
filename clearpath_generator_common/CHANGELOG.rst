@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.8 (2024-05-14)
+------------------
 * Fix: Remove IP address from discovery server launch so it listens on all NICs
 * Contributors: Hilary Luo
 
