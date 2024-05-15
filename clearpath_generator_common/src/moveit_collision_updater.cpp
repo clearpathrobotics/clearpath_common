@@ -10,7 +10,7 @@
 
 namespace po = boost::program_options;
 
-int main(int argc, char* argv[])
+int main(int argc, char * argv[])
 {
   std::filesystem::path urdf_path;
   std::filesystem::path srdf_path;
@@ -25,28 +25,28 @@ int main(int argc, char* argv[])
 
   // clang-format off
   po::options_description desc("Allowed options");
-  desc.add_options()
-    ("help", "show help")
-    ("urdf", po::value(&urdf_path),
-      "path to URDF ( or xacro)")
-    ("srdf", po::value(&srdf_path),
-      "path to SRDF ( or xacro)")
-    ("output", po::value(&output_path),
-      "output path for SRDF")
-    ("xacro-args", po::value<std::vector<std::string> >()->composing(),
-      "additional arguments for xacro")
-    ("default", po::bool_switch(&include_default),
-      "disable default colliding pairs")
-    ("always", po::bool_switch(&include_always),
-      "disable always colliding pairs")
-    ("keep", po::bool_switch(&keep_old),
-      "keep disabled link from SRDF")
-    ("verbose", po::bool_switch(&verbose),
-      "verbose output")
-    ("trials", po::value(&never_trials),
-      "number of trials for searching never colliding pairs")
-    ("min-collision-fraction", po::value(&min_collision_fraction),
-      "fraction of small sample size to determine links that are always colliding");
+  desc.add_options()("help", "show help")(
+    "urdf", po::value(&urdf_path),
+    "path to URDF ( or xacro)")(
+    "srdf", po::value(&srdf_path),
+    "path to SRDF ( or xacro)")(
+    "output", po::value(&output_path),
+    "output path for SRDF")(
+    "xacro-args", po::value<std::vector<std::string>>()->composing(),
+    "additional arguments for xacro")(
+    "default", po::bool_switch(&include_default),
+    "disable default colliding pairs")(
+    "always", po::bool_switch(&include_always),
+    "disable always colliding pairs")(
+    "keep", po::bool_switch(&keep_old),
+    "keep disabled link from SRDF")(
+    "verbose", po::bool_switch(&verbose),
+    "verbose output")(
+    "trials", po::value(&never_trials),
+    "number of trials for searching never colliding pairs")(
+    "min-collision-fraction", po::value(&min_collision_fraction),
+    "fraction of small sample size to determine links that are always colliding");
+
 
   po::positional_options_description pos_desc;
   pos_desc.add("xacro-args", -1);
@@ -55,8 +55,7 @@ int main(int argc, char* argv[])
   po::store(po::command_line_parser(argc, argv).options(desc).positional(pos_desc).run(), vm);
   po::notify(vm);
 
-  if (vm.count("help"))
-  {
+  if (vm.count("help")) {
     std::cout << desc << '\n';
     return 1;
   }
@@ -76,21 +75,20 @@ int main(int argc, char* argv[])
   setup_step.startGenerationThread(never_trials, min_collision_fraction, verbose);
   int thread_progress;
   int last_progress = 0;
-  while ((thread_progress = setup_step.getThreadProgress()) < 100)
-  {
-    if (thread_progress - last_progress > 10)
-    {
+  while ((thread_progress = setup_step.getThreadProgress()) < 100) {
+    if (thread_progress - last_progress > 10) {
       last_progress = thread_progress;
     }
   }
   setup_step.joinGenerationThread();
 
   size_t skip_mask = 0;
-  if (!include_default)
+  if (!include_default) {
     skip_mask |= (1 << moveit_setup::srdf_setup::DEFAULT);
-  if (!include_always)
+  }
+  if (!include_always) {
     skip_mask |= (1 << moveit_setup::srdf_setup::ALWAYS);
-
+  }
   setup_step.linkPairsToSRDFSorted(skip_mask);
 
   srdf_config->write(output_path.empty() ? srdf_config->getPath() : output_path);
