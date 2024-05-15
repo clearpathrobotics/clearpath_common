@@ -1,4 +1,3 @@
-
 /**
 Software License Agreement (BSD)
 \file      moveit_collision_updater.cpp
@@ -113,7 +112,11 @@ int main(int argc, char * argv[])
   }
   setup_step.linkPairsToSRDFSorted(skip_mask);
 
-  srdf_config->write(output_path.empty() ? srdf_config->getPath() : output_path);
-
+  if (output_path.empty()) {
+    srdf_config->write(srdf_config->getPath());
+  }
+  else {
+    srdf_config->write(output_path);
+  }
   return 0;
 }
