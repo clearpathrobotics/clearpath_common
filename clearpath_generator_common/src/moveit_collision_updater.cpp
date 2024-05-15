@@ -114,8 +114,7 @@ int main(int argc, char * argv[])
 
   if (output_path.empty()) {
     srdf_config->write(srdf_config->getPath());
-  }
-  else {
+  } else {
     srdf_config->write(output_path);
   }
   return 0;
