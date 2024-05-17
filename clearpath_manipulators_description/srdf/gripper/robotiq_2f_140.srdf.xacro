@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="robotiq_2f_140" params="name">
+    <group name="${name}">
+        <joint name="${name}_finger_joint"/>
+        <joint name="${name}_left_inner_knuckle_joint"/>
+        <joint name="${name}_left_inner_finger_joint"/>
+        <joint name="${name}_right_outer_knuckle_joint"/>
+        <joint name="${name}_right_inner_knuckle_joint"/>
+        <joint name="${name}_right_inner_finger_joint"/>
+    </group>
+    <group_state name="open" group="${name}">
+        <joint name="${name}_finger_joint" value="0.0"/>
+    </group_state>
+    <group_state name="close" group="${name}">
+        <joint name="${name}_finger_joint" value="0.698"/>
+    </group_state>
+
+    <disable_collisions link1="${name}_left_inner_knuckle" link2="${name}_left_inner_finger" reason="User"/>
+    <disable_collisions link1="${name}_right_inner_knuckle" link2="${name}_right_inner_finger" reason="User"/>
+    <disable_collisions link1="${name}_left_outer_knuckle" link2="${name}_left_inner_knuckle" reason="User"/>
+    <disable_collisions link1="${name}_right_outer_knuckle" link2="${name}_right_inner_knuckle" reason="User"/>
+  </xacro:macro>
+</robot>
