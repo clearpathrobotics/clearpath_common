@@ -2,6 +2,9 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.8 (2024-05-14)
+------------------
+
 0.2.7 (2024-04-08)
 ------------------
 * All Warthog attachments default to 0

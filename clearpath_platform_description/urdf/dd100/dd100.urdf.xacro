@@ -9,7 +9,7 @@
   <!-- Included URDF/XACRO Files -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/wheels/wheel.urdf.xacro"/>
 
-  <xacro:property name="PI" value="3.1415926535897931" />
+  <xacro:property name="PI" value="${math.pi}" />
 
   <!-- DD100 Platform Macro -->
   <xacro:macro name="dd100" params="wheel:='default'">

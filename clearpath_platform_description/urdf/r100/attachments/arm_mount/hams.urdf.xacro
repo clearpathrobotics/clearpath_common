@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="hams" params="name parent_link:='default_mount' *origin">
+    <link name="${name}_base_link">
+      <visual>
+        <origin xyz="0 0 0.60635" rpy="0 0 0"/>
+        <material name="clearpath_black" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-table-top.stl" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.60635" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-table-top.stl" />
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="0 0 0.60635" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-table-legs.stl" />
+        </geometry>
+      <material name="clearpath_light_grey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.60635" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-table-legs.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${name}_default_mount"/>
+    <link name="${name}_arm_mount">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-arm-mount.stl" />
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-arm-mount.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${name}_base_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_base_link" />
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <joint name="${name}_default_mount_joint" type="fixed">
+      <parent link="${name}_base_link"/>
+      <child link="${name}_default_mount"/>
+      <origin xyz="0 0 0.60635" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="${name}_arm_mount_joint" type="fixed">
+      <parent link="${name}_default_mount" />
+      <child link="${name}_arm_mount" />
+      <origin xyz="-.27913 0 -0.29635" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+</robot>

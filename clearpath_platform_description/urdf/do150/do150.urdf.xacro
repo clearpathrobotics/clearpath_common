@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="namespace" default="" />
+  <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/do150/control.yaml"/>
+
+  <!-- Included URDF/Xacro Files -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/do100.urdf.xacro"/>
+
+
+  <!-- D0100 Platform Macro -->
+  <xacro:macro name="do150" params="wheel:='defaut'">
+    <xacro:do100 wheel="${wheel}"/>
+  </xacro:macro>
+
+  <!-- Joint State Publisher -->
+  <gazebo>
+    <plugin
+      filename="ignition-gazebo-joint-state-publisher-system"
+      name="ignition::gazebo::systems::JointStatePublisher"
+    />
+  </gazebo>
+</robot>
