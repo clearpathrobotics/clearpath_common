@@ -31,12 +31,11 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+import os
+import shutil
 
 from clearpath_generator_common.common import BaseGenerator
 from clearpath_generator_common.param.platform import PlatformParam
-
-import os
-import shutil
 
 
 class ParamGenerator(BaseGenerator):

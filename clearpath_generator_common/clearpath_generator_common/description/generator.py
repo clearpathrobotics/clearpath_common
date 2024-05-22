@@ -36,12 +36,12 @@ import os
 
 from clearpath_config.common.types.package_path import PackagePath
 from clearpath_generator_common.common import BaseGenerator
-from clearpath_generator_common.description.writer import XacroWriter
+from clearpath_generator_common.description.attachments import AttachmentsDescription
+from clearpath_generator_common.description.links import LinkDescription
 from clearpath_generator_common.description.mounts import MountDescription
 from clearpath_generator_common.description.platform import PlatformDescription
-from clearpath_generator_common.description.links import LinkDescription
-from clearpath_generator_common.description.attachments import AttachmentsDescription
 from clearpath_generator_common.description.sensors import SensorDescription
+from clearpath_generator_common.description.writer import XacroWriter
 
 
 class DescriptionGenerator(BaseGenerator):
