@@ -2,6 +2,11 @@
 Changelog for package clearpath_customization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Customization linting errors
+* Contributors: Luis Camero
+
 0.2.8 (2024-05-14)
 ------------------
 

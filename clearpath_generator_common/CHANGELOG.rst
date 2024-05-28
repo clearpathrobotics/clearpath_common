@@ -2,6 +2,16 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Modified common parameter generation to always flatten
+* Added Zed to description generator
+* Add sysctl config file that changes ipfrag settings to support receiving large messages
+* Linting
+* Generator linting erros
+* Added tests
+* Contributors: Hilary Luo, Luis Camero
+
 0.2.8 (2024-05-14)
 ------------------
 * Fix: Remove IP address from discovery server launch so it listens on all NICs
