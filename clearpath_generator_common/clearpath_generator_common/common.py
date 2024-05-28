@@ -194,8 +194,10 @@ class ParamFile():
         for node in parameters:
             if node in self.parameters:
                 flat_parameters = flatten_dict(parameters[node])
+                self_flat_parameters = flatten_dict(self.parameters[node])
                 for param in flat_parameters:
-                    self.parameters[node][param] = flat_parameters[param]
+                    self_flat_parameters[param] = flat_parameters[param]
+                self.parameters[node] = self_flat_parameters
 
 
 class BashFile():
