@@ -18,6 +18,7 @@ find_package(controller_manager_msgs REQUIRED)
 find_package(clearpath_platform_msgs REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(puma_motor_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 
 find_package(geometry_msgs REQUIRED)
@@ -145,17 +146,40 @@ ament_target_dependencies(
   rclcpp
 )
 
+# Puma Hardware
+add_library(
+  puma_hardware
+  SHARED
+  src/puma/hardware.cpp
+  src/puma/hardware_interface.cpp
+)
+
+target_include_directories(
+  puma_hardware
+  PRIVATE
+  include
+)
+
+ament_target_dependencies(
+  puma_hardware
+  puma_motor_msgs
+  clearpath_platform_msgs
+  hardware_interface
+  pluginlib
+  rclcpp
+)
 
 pluginlib_export_plugin_description_file(hardware_interface src/a200/hardware.xml)
 pluginlib_export_plugin_description_file(hardware_interface src/j100/hardware.xml)
 pluginlib_export_plugin_description_file(hardware_interface src/w200/hardware.xml)
-
+pluginlib_export_plugin_description_file(hardware_interface src/puma/hardware.xml)
 
 # INSTALL
 install(
   TARGETS a200_hardware
           j100_hardware
           w200_hardware
+          puma_hardware
           ${LIGHTING_EXECUTABLE}
           ${LIGHTING_LIB}
   LIBRARY DESTINATION lib
@@ -178,6 +202,7 @@ ament_export_libraries(
   a200_hardware
   j100_hardware
   w200_hardware
+  puma_hardware
   ${LIGHTING_LIB}
 )
 ament_export_dependencies(

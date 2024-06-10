@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<library path="puma_hardware">
+  <class name="clearpath_platform/PumaHardware"
+         type="clearpath_platform::PumaHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      The ros2_control PumaHardware using a system hardware interface-type.
+    </description>
+  </class>
+</library>
