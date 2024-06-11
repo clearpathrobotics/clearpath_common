@@ -209,8 +209,7 @@
           <plugin>ign_ros2_control/IgnitionSystem</plugin>
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
-          <plugin>clearpath_platform/DO100Hardware</plugin>
-          <plugin>fake_components/GenericSystem</plugin>
+          <plugin>clearpath_platform/PumaHardware</plugin>
         </xacro:unless>
       </hardware>
       <joint name="front_left_wheel_joint">
