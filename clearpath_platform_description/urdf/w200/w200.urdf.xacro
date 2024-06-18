@@ -177,6 +177,7 @@
         <update_rate>50</update_rate>
         <visualize>true</visualize>
         <ignition_frame_id>imu_0_link</ignition_frame_id>
+        <topic>$(arg namespace)/sensors/imu_0/data_raw</topic>
       </sensor>
     </gazebo>
 
