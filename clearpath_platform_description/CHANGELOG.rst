@@ -2,6 +2,12 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Topics of simulated onboard sensors
+* Missing important remapping to mirror hardware topics
+* Contributors: Luis Camero, Steve Macenski
+
 0.2.9 (2024-05-28)
 ------------------
 

@@ -2,6 +2,13 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Realsense adds optical links when in simulator
+* Updated topic names to match gazebo message types
+* Added topic to gazebo plugins
+* Contributors: Luis Camero
+
 0.2.9 (2024-05-28)
 ------------------
 * Added Zed URDF
