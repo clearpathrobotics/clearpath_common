@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="r100_wheel">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="r100_wheel">
 
-  <xacro:macro name="r100_wheel" params="parent prefix *joint_pose">
+  <xacro:macro name="r100_wheel" params="parent prefix side *joint_pose">
 
     <link name="${prefix}_wheel_link">
       <visual>
@@ -19,20 +19,26 @@
       </collision>
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="2.3"/>
+        <mass value="${wheel_mass}"/>
         <inertia
-          ixx="3.3212e-3" ixy="0" ixz="0"
-          iyy="6.6424e-3" iyz="0"
-          izz="3.3212e-3"/>
+          ixx="${wheel_mass/12 * (3 * wheel_radius * wheel_radius + wheel_width * wheel_width)}" ixy="0" ixz="0"
+          iyy="${(wheel_radius * wheel_radius * wheel_mass)/2}" iyz="0"
+          izz="${wheel_mass/12 * (3 * wheel_radius * wheel_radius + wheel_width * wheel_width)}"/>
       </inertial>
     </link>
 
     <gazebo reference="${prefix}_wheel_link">
-      <material>Gazebo/DarkGrey</material>
-      <selfCollide>false</selfCollide>
-      <mu1 value="0.5"/>
-      <mu2 value="0.5"/>
-      <!-- <fdir1 value="1 0 0"/> -->
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>0.0</mu2>
+              <fdir1 ignition:expressed_in="base_link">1 ${side} 0</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
     </gazebo>
 
     <joint name="${prefix}_wheel_joint" type="continuous">
