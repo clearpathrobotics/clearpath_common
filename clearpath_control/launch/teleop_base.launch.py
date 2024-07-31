@@ -90,14 +90,31 @@ def generate_launch_description():
         executable='twist_mux',
         output='screen',
         remappings={
-            ('cmd_vel_out', 'platform/cmd_vel_unstamped'),
+            ('cmd_vel_out', 'platform/cmd_vel'),
             ('/diagnostics', 'diagnostics'),
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static'),
         },
         parameters=[
             config_twist_mux,
-            {'use_sim_time': use_sim_time}]
+            {'use_sim_time': use_sim_time}],
+        arguments=[
+            '--ros-args',
+            '--log-level',
+            'INFO'
+        ]
+    )
+
+    node_twist_marker = Node(
+        package='twist_mux',
+        executable='twist_marker',
+        output='screen',
+        parameters=[
+            {
+                'frame_id': 'base_link',
+                'use_stamped': True,
+            }
+        ]
     )
 
     ld = LaunchDescription()
@@ -105,4 +122,5 @@ def generate_launch_description():
     ld.add_action(arg_use_sim_time)
     ld.add_action(node_interactive_marker_twist_server)
     ld.add_action(node_twist_mux)
+    ld.add_action(node_twist_marker)
     return ld
