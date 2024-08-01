@@ -21,8 +21,7 @@ platform_velocity_controller:
 
     kinematics.base_frame_offset: { x: 0.0, y: 0.0, theta: 0.0 }
     kinematics.wheels_radius: 0.0759
-    kinematics.sum_of_robot_center_projection_on_X_Y_axis: 0.555
-
+    kinematics.sum_of_robot_center_projection_on_X_Y_axis: 0.59
     wheel_separation_multiplier: 1.0
     wheel_radius_multiplier: 1.0
 
@@ -30,8 +29,8 @@ platform_velocity_controller:
     reference_timeout: 0.1
     use_stamped_vel: False
 
-    twist_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
-    pose_covariance_diagonal: [0.0, 7.0, 14.0, 21.0, 28.0, 35.0]
+    pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.03]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 1000000.0, 1000000.0, 0.03]
 
     cmd_vel_timeout: 0.5
 
