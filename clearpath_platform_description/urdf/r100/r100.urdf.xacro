@@ -296,14 +296,13 @@
     <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
 
     <!-- ROS2 controls -->
-    <ros2_control name="do100_hardware" type="system">
+    <ros2_control name="r100_hardware" type="system">
       <hardware>
         <xacro:if value="$(arg is_sim)">
           <plugin>ign_ros2_control/IgnitionSystem</plugin>
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
-          <plugin>clearpath_platform/R100Hardware</plugin>
-          <plugin>fake_components/GenericSystem</plugin>
+          <plugin>clearpath_platform/PumaHardware</plugin>
         </xacro:unless>
       </hardware>
       <joint name="front_left_wheel_joint">
