@@ -91,6 +91,7 @@ def generate_launch_description():
             executable='spawner',
             arguments=['--controller-manager-timeout', '60', 'joint_state_broadcaster'],
             output='screen',
+            additional_env={'ROS_SUPER_CLIENT': 'True'},
         ),
 
         # Velocity Controller
@@ -99,6 +100,7 @@ def generate_launch_description():
             executable='spawner',
             arguments=['--controller-manager-timeout', '60', 'platform_velocity_controller'],
             output='screen',
+            additional_env={'ROS_SUPER_CLIENT': 'True'},
         )
     ])
 
