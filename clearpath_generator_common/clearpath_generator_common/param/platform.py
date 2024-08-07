@@ -153,11 +153,15 @@ class PlatformParam():
                     }
                     self.param_file.update({self.EKF_NODE: imu0_parameters})
 
+                # Count the IMU index individually so we can continue counting for GPS
+                imu_idx = 0
+
                 # Add all additional IMU's
                 imus = self.clearpath_config.sensors.get_all_imu()
                 for imu in imus:
                     if imu.launch_enabled:
-                        imu_name = imu.name.replace('_', '')
+                        imu_idx += 1
+                        imu_name = f'imu{imu_idx}'
                         imu_parameters = {
                             imu_name: f'sensors/{imu.name}/data',
                             f'{imu_name}_config': self.imu_config,
@@ -166,6 +170,21 @@ class PlatformParam():
                             f'{imu_name}_remove_gravitational_acceleration': True
                         }
                         self.param_file.update({self.EKF_NODE: imu_parameters})
+
+                # Add all GPS sensors that have IMUs
+                gpss = self.clearpath_config.sensors.get_all_gps()
+                for gps in gpss:
+                    if gps.launch_enabled and gps.has_imu():
+                        imu_idx += 1
+                        gps_name = f'imu{imu_idx}'
+                        gps_parameters = {
+                            gps_name: f'sensors/{gps.name}/imu/data',
+                            f'{gps_name}_config': self.imu_config,
+                            f'{gps_name}_differential': False,
+                            f'{gps_name}_queue_size': 10,
+                            f'{gps_name}_remove_gravitational_acceleration': True
+                        }
+                        self.param_file.update({self.EKF_NODE: gps_parameters})
 
     class TeleopJoyParam(BaseParam):
         def __init__(self,
