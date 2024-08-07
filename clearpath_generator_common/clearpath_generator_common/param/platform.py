@@ -160,7 +160,7 @@ class PlatformParam():
                 imus = self.clearpath_config.sensors.get_all_imu()
                 for imu in imus:
                     if imu.launch_enabled:
-                        imu_idx +=1
+                        imu_idx += 1
                         imu_name = f'imu{imu_idx}'
                         imu_parameters = {
                             imu_name: f'sensors/{imu.name}/data',
@@ -170,12 +170,12 @@ class PlatformParam():
                             f'{imu_name}_remove_gravitational_acceleration': True
                         }
                         self.param_file.update({self.EKF_NODE: imu_parameters})
-                
+
                 # Add all GPS sensors that have IMUs
                 gpss = self.clearpath_config.sensors.get_all_gps()
                 for gps in gpss:
                     if gps.launch_enabled and gps.has_imu():
-                        imu_idx +=1
+                        imu_idx += 1
                         gps_name = f'imu{imu_idx}'
                         gps_parameters = {
                             gps_name: f'sensors/{gps.name}/imu/data',
