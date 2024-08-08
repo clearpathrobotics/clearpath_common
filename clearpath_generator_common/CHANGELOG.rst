@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.11 (2024-08-08)
+-------------------
 * Fixes styling issues
 * Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
 * Contributors: robbiefish
