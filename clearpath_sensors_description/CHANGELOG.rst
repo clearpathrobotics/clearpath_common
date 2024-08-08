@@ -2,6 +2,11 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+* Contributors: robbiefish
+
 0.2.10 (2024-07-25)
 -------------------
 * Realsense adds optical links when in simulator

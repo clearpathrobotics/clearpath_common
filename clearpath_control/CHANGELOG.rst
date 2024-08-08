@@ -2,6 +2,11 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Set spawner as super client
+* Contributors: Luis Camero
+
 0.2.10 (2024-07-25)
 -------------------
 
