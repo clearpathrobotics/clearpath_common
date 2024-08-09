@@ -249,50 +249,6 @@ class MoveItParamFile(ParamFile):
         return self
 
 
-class MoveItParamFile(ParamFile):
-    def __init__(self,
-                 name: str,
-                 node: str = 'node_name',
-                 namespace: str = '',
-                 path: str = 'config',
-                 package: Package = None,
-                 parameters: dict = {}
-                 ) -> None:
-        super().__init__(name, namespace, path, package, parameters)
-        self.node = node
-
-    def directory(self) -> str:
-        return os.path.dirname(self.full_path)
-
-    def to_ros_parameters(self) -> dict:
-        self.add_node_header()
-        return {self.namespace: {self.node: {'ros__parameters': self.parameters[self.node]}}}
-
-    def add_node_header(self) -> dict:
-        if self.node in self.parameters:
-            return
-        else:
-            self.parameters = {self.node: self.parameters}
-
-    def read(self) -> None:
-        self.parameters.update(read_yaml(self.full_path))
-
-    def update(self, parameters: dict) -> None:
-        self.parameters = unflatten_dict(merge_dict(
-            flatten_dict(parameters),
-            flatten_dict(self.parameters)))
-
-    def add_header(self, header: str) -> None:
-        self.parameters = {header: self.parameters}
-
-    def replace(self, items: dict) -> None:
-        self.parameters = replace_dict_items(self.parameters, items)
-
-    def __add__(self, other):
-        self.update(other.parameters)
-        return self
-
-
 class BashFile():
 
     def __init__(self,
