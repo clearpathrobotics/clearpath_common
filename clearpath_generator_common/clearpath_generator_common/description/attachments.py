@@ -29,14 +29,13 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+from typing import List
 
 from clearpath_config.platform.attachments.a200 import A200Attachment
 from clearpath_config.platform.attachments.config import BaseAttachment
 from clearpath_config.platform.attachments.j100 import J100Attachment
 from clearpath_config.platform.attachments.w200 import W200Attachment
 from clearpath_config.platform.types.bumper import Bumper
-
-from typing import List
 
 
 class AttachmentsDescription():

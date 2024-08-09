@@ -29,11 +29,11 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
-
-from clearpath_config.common.types.platform import Platform
-from clearpath_config.clearpath_config import ClearpathConfig
-from clearpath_config.platform.platform import DescriptionPackagePath
 import os
+
+from clearpath_config.clearpath_config import ClearpathConfig
+from clearpath_config.common.types.platform import Platform
+from clearpath_config.platform.platform import DescriptionPackagePath
 
 
 class PlatformDescription():
@@ -67,6 +67,7 @@ class PlatformDescription():
             )
 
     class GenericPlatform(BasePlatform):
+
         def __init__(self, config: ClearpathConfig) -> None:
             description = config.platform.description
             package = description[DescriptionPackagePath.PACKAGE]
@@ -75,7 +76,7 @@ class PlatformDescription():
             super().__init__(
                 package=package,
                 file=os.path.basename(path),
-                path=os.path.dirname(path)+"/",
+                path=os.path.dirname(path)+'/',
                 macro=macro,
                 parameters=None
             )

@@ -29,19 +29,23 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+from typing import List
 
-from clearpath_config.sensors.types.sensor import BaseSensor
-from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
-from clearpath_config.sensors.types.lidars_3d import BaseLidar3D, VelodyneLidar
-from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense, FlirBlackfly
+from clearpath_config.sensors.types.cameras import (
+    BaseCamera,
+    FlirBlackfly,
+    IntelRealsense,
+    StereolabsZed
+)
 from clearpath_config.sensors.types.imu import (
     BaseIMU,
     CHRoboticsUM6,
     Microstrain,
     RedshiftUM7
 )
-
-from typing import List
+from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
+from clearpath_config.sensors.types.lidars_3d import BaseLidar3D, VelodyneLidar
+from clearpath_config.sensors.types.sensor import BaseSensor
 
 
 class SensorDescription():
@@ -157,6 +161,16 @@ class SensorDescription():
                 self.IMAGE_WIDTH: sensor.color_width,
             })
 
+    class StereolabsZedDescription(CameraDescription):
+        MODEL = 'model'
+
+        def __init__(self, sensor: StereolabsZed) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.MODEL: sensor.device_type
+            })
+
     MODEL = {
         HokuyoUST.SENSOR_MODEL: Lidar2dDescription,
         SickLMS1XX.SENSOR_MODEL: Lidar2dDescription,
@@ -165,7 +179,8 @@ class SensorDescription():
         Microstrain.SENSOR_MODEL: ImuDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
-        RedshiftUM7.SENSOR_MODEL: ImuDescription
+        RedshiftUM7.SENSOR_MODEL: ImuDescription,
+        StereolabsZed.SENSOR_MODEL: StereolabsZedDescription,
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:

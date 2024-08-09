@@ -5,7 +5,7 @@
 
     <xacro:macro name="sensor_d435"
                  params="parent *origin name:=camera
-                         use_nominal_extrinsics:=false add_plug:=false use_mesh:=true">
+                         use_nominal_extrinsics:=$(arg is_sim) add_plug:=false use_mesh:=true">
       <xacro:property name="M_PI" value="3.1415926535897931" />
 
       <!-- The following values are approximate, and the camera node
@@ -165,12 +165,14 @@
             <near>0.3</near>
             <far>100</far>
           </clip>
+          <ignition_frame_id>${name}_link</ignition_frame_id>
           <optical_frame_id>${name}_color_optical_frame</optical_frame_id>
         </camera>
         <always_on>1</always_on>
         <update_rate>${update_rate}</update_rate>
         <visualize>true</visualize>
         <ignition_frame_id>${name}_link</ignition_frame_id>
+        <topic>$(arg namespace)/sensors/${name}</topic>
       </sensor>
     </gazebo>
 

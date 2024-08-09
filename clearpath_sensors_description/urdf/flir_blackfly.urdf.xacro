@@ -74,37 +74,38 @@
         <gazebo reference="${name}_color_optical_frame">
             <sensor type="camera" name="${name}">
                 <camera name="${name}">
-                <pose>0 0 0 0 -1.5707 1.5707</pose>
-                <horizontal_fov>${hfov}</horizontal_fov>
-                <image>
-                    <width>${width}</width>
-                    <height>${height}</height>
-                    <format>${format}</format>
-                </image>
-                <clip>
-                    <near>${near}</near>
-                    <far>${far}</far>
-                </clip>
-                <noise>
-                    <type>gaussian</type>
-                    <mean>0.0</mean>
-                    <stddev>0.007</stddev>
-                </noise>
+                    <pose>0 0 0 0 -1.5707 1.5707</pose>
+                    <horizontal_fov>${hfov}</horizontal_fov>
+                    <image>
+                        <width>${width}</width>
+                        <height>${height}</height>
+                        <format>${format}</format>
+                    </image>
+                    <clip>
+                        <near>${near}</near>
+                        <far>${far}</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                    <ignition_frame_id>${name}_color_optical_frame</ignition_frame_id>
                 </camera>
-
                 <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-                <alwaysOn>true</alwaysOn>
-                <updateRate>${update_rate}</updateRate>
-                <cameraName>${name}</cameraName>
-                <imageTopicName>image_raw</imageTopicName>
-                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-                <hackBaseline>0.07</hackBaseline>
-                <distortionK1>0.0</distortionK1>
-                <distortionK2>0.0</distortionK2>
-                <distortionK3>0.0</distortionK3>
-                <distortionT1>0.0</distortionT1>
-                <distortionT2>0.0</distortionT2>
+                    <alwaysOn>true</alwaysOn>
+                    <updateRate>${update_rate}</updateRate>
+                    <cameraName>${name}</cameraName>
+                    <imageTopicName>${name}/image</imageTopicName>
+                    <cameraInfoTopicName>${name}/camera_info</cameraInfoTopicName>
+                    <hackBaseline>0.07</hackBaseline>
+                    <distortionK1>0.0</distortionK1>
+                    <distortionK2>0.0</distortionK2>
+                    <distortionK3>0.0</distortionK3>
+                    <distortionT1>0.0</distortionT1>
+                    <distortionT2>0.0</distortionT2>
                 </plugin>
+                <topic>$(arg namespace)/sensors/${name}/image</topic>
             </sensor>
         </gazebo>
     </xacro:macro>

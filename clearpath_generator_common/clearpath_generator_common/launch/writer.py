@@ -25,9 +25,9 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import os
 
 from typing import List
-import os
 
 from clearpath_generator_common.common import LaunchFile, Package
 
@@ -61,7 +61,7 @@ class LaunchWriter():
         self.write('return ld')
 
     def write_string(self, string: str, indent_level=1):
-        self.write('\'{0}\''.format(string), indent_level)
+        self.write("'{0}'".format(string), indent_level)
 
     def write_boolean(self, boolean: bool, indent_level=1):
         self.write(boolean, indent_level)
@@ -90,9 +90,9 @@ class LaunchWriter():
 
     def write_key_value_pair(self, key: str, value, indent_level=1):
         if isinstance(value, str):
-            self.write('\'{0}\': \'{1}\''.format(key, value), indent_level)
+            self.write("'{0}': '{1}'".format(key, value), indent_level)
         else:
-            self.write('\'{0}\': {1}'.format(key, value), indent_level)
+            self.write("'{0}': {1}".format(key, value), indent_level)
 
     def write_dictionary(self, dictionary: dict, indent_level=1):
         self.write('{', indent_level)
@@ -102,18 +102,18 @@ class LaunchWriter():
             self.write(',', indent_level + 1)
         self.write('}', indent_level)
 
-    def write_list(self, list: list, indent_level=1):
+    def write_list(self, _list: list, indent_level=1):
         self.write('[', indent_level)
-        for i in list:
+        for i in _list:
             self.write_obj(i, indent_level + 1)
             self.write(',', indent_level + 1)
         self.write(']', indent_level)
 
-    def write_tuple(self, tuple: tuple, indent_level=1):
+    def write_tuple(self, _tuple: tuple, indent_level=1):
         self.write('(', indent_level)
-        self.write_obj(tuple[0], indent_level + 1)
+        self.write_obj(_tuple[0], indent_level + 1)
         self.write(',', indent_level + 1)
-        self.write_obj(tuple[1], indent_level + 1)
+        self.write_obj(_tuple[1], indent_level + 1)
         self.write(')', indent_level)
 
     def find_package(self, package: Package):
@@ -121,7 +121,7 @@ class LaunchWriter():
             self.included_packages.append(package)
 
     def path_join_substitution(package, folder, file):
-        return 'PathJoinSubstitution([{0}, \'{1}\', \'{2}\'])'.format(package, folder, file)
+        return "PathJoinSubstitution([{0}, '{1}', '{2}'])".format(package, folder, file)
 
     def add_launch_arg(self, launch_arg: LaunchFile.LaunchArg):
         if launch_arg not in self.declared_launch_args:
@@ -184,13 +184,13 @@ class LaunchWriter():
             for arg in self.declared_launch_args:
                 # Declare launch arg
                 self.write('{0} = DeclareLaunchArgument('.format(arg.declaration))
-                self.write('\'{0}\','.format(arg.name), indent_level=2)
-                self.write('default_value=\'{0}\','.format(arg.default_value), indent_level=2)
-                self.write('description=\'{0}\')'.format(arg.description), indent_level=2)
+                self.write("'{0}',".format(arg.name), indent_level=2)
+                self.write("default_value='{0}',".format(arg.default_value), indent_level=2)
+                self.write("description='{0}')".format(arg.description), indent_level=2)
                 self.write_newline()
 
                 # Launch configuration
-                self.write('{0} = LaunchConfiguration(\'{0}\')'.format(arg.name))
+                self.write("{0} = LaunchConfiguration('{0}')".format(arg.name))
                 self.write_newline()
 
         if len(self.included_launch_files) > 0:
@@ -204,12 +204,12 @@ class LaunchWriter():
             self.write_comment('Declare launch files')
             for launch_file in self.included_launch_files:
                 if launch_file.package is None:
-                    self.write('{0} = \'{1}\''.format(
+                    self.write("{0} = '{1}'".format(
                         launch_file.declaration,
                         os.path.join(launch_file.path, launch_file.file)))
                 else:
                     self.write('{0} = PathJoinSubstitution(['.format(launch_file.declaration))
-                    self.write('{0}, \'{1}\', \'{2}\'])'.format(
+                    self.write("{0}, '{1}', '{2}'])".format(
                         launch_file.package.declaration,
                         launch_file.path,
                         launch_file.file), indent_level=2)
@@ -234,11 +234,11 @@ class LaunchWriter():
             self.write_comment('Nodes')
             for node in self.nodes:
                 self.write('{0} = Node('.format(node.declaration))
-                self.write('name=\'{0}\','.format(node.name), indent_level=2)
-                self.write('executable=\'{0}\','.format(node.executable), indent_level=2)
-                self.write('package=\'{0}\','.format(node.package), indent_level=2)
-                self.write('namespace=\'{0}\','.format(node.namespace), indent_level=2)
-                self.write('output=\'screen\',', indent_level=2)
+                self.write("name='{0}',".format(node.name), indent_level=2)
+                self.write("executable='{0}',".format(node.executable), indent_level=2)
+                self.write("package='{0}',".format(node.package), indent_level=2)
+                self.write("namespace='{0}',".format(node.namespace), indent_level=2)
+                self.write("output='screen',", indent_level=2)
                 # Arguments
                 if len(node.arguments) > 0:
                     self.write('arguments=', indent_level=2)

@@ -29,14 +29,13 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+from typing import List
 
-from clearpath_config.mounts.types.mount import BaseMount
 from clearpath_config.mounts.types.fath_pivot import FathPivot
+from clearpath_config.mounts.types.mount import BaseMount
 from clearpath_config.mounts.types.pacs import PACS
 from clearpath_config.mounts.types.post import Post
 from clearpath_config.mounts.types.sick import SICKStand
-
-from typing import List
 
 
 class MountDescription():

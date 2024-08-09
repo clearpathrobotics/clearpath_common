@@ -25,15 +25,15 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-
-from typing import List
-
 import getopt
 import os
 import sys
 
+from typing import List
+
 from ament_index_python.packages import get_package_share_directory
 
+from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.utils.dictionary import (
     flatten_dict,
     merge_dict,
@@ -41,10 +41,10 @@ from clearpath_config.common.utils.dictionary import (
     unflatten_dict
 )
 from clearpath_config.common.utils.yaml import read_yaml
-from clearpath_config.clearpath_config import ClearpathConfig
 
 
 class Package():
+
     def __init__(self,
                  name: str
                  ) -> None:
@@ -55,15 +55,17 @@ class Package():
         return self.name
 
     def find_package_share(self) -> str:
-        return '{0} = FindPackageShare(\'{1}\')'.format(self.declaration, self.name)
+        return "{0} = FindPackageShare('{1}')".format(self.declaration, self.name)
 
 
 class LaunchFile():
     class LaunchComponent():
+
         def __init__(self, name: str) -> None:
             self.name = name
 
     class Process(LaunchComponent):
+
         def __init__(self,
                      name: str,
                      cmd: List[list] | List[str]) -> None:
@@ -72,6 +74,7 @@ class LaunchFile():
             self.cmd = cmd
 
     class LaunchArg(LaunchComponent):
+
         def __init__(self, name: str, default_value: str = '', description: str = '') -> None:
             super().__init__(name)
             self.default_value = default_value
@@ -79,10 +82,12 @@ class LaunchFile():
             self.declaration = 'launch_arg_' + self.name
 
     class Variable(LaunchComponent):
+
         def __init__(self, name: str) -> None:
             super().__init__(name)
 
     class Node(LaunchComponent):
+
         def __init__(self,
                      name: str,
                      package: Package,
@@ -148,6 +153,7 @@ class LaunchFile():
 
 
 class ParamFile():
+
     def __init__(self,
                  name: str,
                  namespace: str = '',
@@ -193,8 +199,54 @@ class ParamFile():
         for node in parameters:
             if node in self.parameters:
                 flat_parameters = flatten_dict(parameters[node])
+                self_flat_parameters = flatten_dict(self.parameters[node])
                 for param in flat_parameters:
-                    self.parameters[node][param] = flat_parameters[param]
+                    self_flat_parameters[param] = flat_parameters[param]
+                self.parameters[node] = self_flat_parameters
+
+
+class MoveItParamFile(ParamFile):
+    def __init__(self,
+                 name: str,
+                 node: str = 'node_name',
+                 namespace: str = '',
+                 path: str = 'config',
+                 package: Package = None,
+                 parameters: dict = {}
+                 ) -> None:
+        super().__init__(name, namespace, path, package, parameters)
+        self.node = node
+
+    def directory(self) -> str:
+        return os.path.dirname(self.full_path)
+
+    def to_ros_parameters(self) -> dict:
+        self.add_node_header()
+        return {self.namespace: {self.node: {'ros__parameters': self.parameters[self.node]}}}
+
+    def add_node_header(self) -> dict:
+        if self.node in self.parameters:
+            return
+        else:
+            self.parameters = {self.node: self.parameters}
+
+    def read(self) -> None:
+        self.parameters.update(read_yaml(self.full_path))
+
+    def update(self, parameters: dict) -> None:
+        self.parameters = unflatten_dict(merge_dict(
+            flatten_dict(parameters),
+            flatten_dict(self.parameters)))
+
+    def add_header(self, header: str) -> None:
+        self.parameters = {header: self.parameters}
+
+    def replace(self, items: dict) -> None:
+        self.parameters = replace_dict_items(self.parameters, items)
+
+    def __add__(self, other):
+        self.update(other.parameters)
+        return self
 
 
 class MoveItParamFile(ParamFile):
@@ -242,6 +294,7 @@ class MoveItParamFile(ParamFile):
 
 
 class BashFile():
+
     def __init__(self,
                  filename: str,
                  path: str,

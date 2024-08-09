@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find microstrain_inertial_description)/urdf/gq7.urdf.xacro" />
+
+  <xacro:macro name="microstrain_gq7" params="name parent_link *origin">
+    <xacro:gq7 name="${name}_link" parent="${parent_link}">
+      <xacro:insert_block name="origin" />
+    </xacro:gq7>
+
+    <gazebo reference="${name}_link">
+      <sensor name="${name}" type="navsat">
+        <always_on>1</always_on>
+        <update_rate>1</update_rate>
+        <ignition_frame_id>${name}_link</ignition_frame_id>
+        <topic>$(arg namespace)/sensors/${name}/navsat</topic>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>
