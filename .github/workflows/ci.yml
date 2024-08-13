@@ -7,16 +7,67 @@ on:
     - cron: "0 0 * * *" # every day at midnight
 
 jobs:
-  build_and_test:
-    name: humble
+  clearpath_common_osrf_industrial_ci:
+    name: Humble OSRF Industrial
     strategy:
       matrix:
         env:
-          - {ROS_DISTRO: humble, ROS_REPO: testing}
-          - {ROS_DISTRO: humble, ROS_REPO: main}
+          - {ROS_REPO: testing, ROS_DISTRO: humble}
+          - {ROS_REPO: main, ROS_DISTRO: humble}
       fail-fast: false
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: 'ros-industrial/industrial_ci@master'
         env: ${{matrix.env}}
+  clearpath_common_cpr_ci:
+    name: Humble Clearpath Release
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+      - name: clearpath-package-server
+        run: |
+          sudo apt install wget
+          wget https://packages.clearpathrobotics.com/public.key -O - | sudo apt-key add -
+          sudo sh -c 'echo "deb https://packages.clearpathrobotics.com/stable/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/clearpath-latest.list'
+          sudo apt-get update
+      - uses: ros-tooling/action-ros-ci@v0.3
+        id: action_ros_ci_step
+        with:
+          target-ros2-distro: humble
+          package-name: |
+            clearpath_common
+            clearpath_control
+            clearpath_customization
+            clearpath_description
+            clearpath_generator_common
+            clearpath_mounts_description
+            clearpath_platform
+            clearpath_platform_description
+            clearpath_sensors_description
+  clearpath_common_src_ci:
+    name: Humble Clearpath Source
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+      - uses: ros-tooling/action-ros-ci@v0.3
+        id: action_ros_ci_step
+        with:
+          target-ros2-distro: humble
+          package-name: |
+            clearpath_common
+            clearpath_control
+            clearpath_customization
+            clearpath_description
+            clearpath_generator_common
+            clearpath_mounts_description
+            clearpath_platform
+            clearpath_platform_description
+            clearpath_sensors_description
+          vcs-repo-file-url: dependencies.repos

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="sick_lms1xx" params="name parent_link *origin 
+  <xacro:macro name="sick_lms1xx" params="name parent_link *origin
                                           ang_res:=0.5 min_ang:=-2.35619 max_ang:=2.35619
                                           update_rate:=50 min_range:=0.05 max_range:=25.0">
     <link name="${name}_link">
@@ -37,6 +37,7 @@
         <update_rate>${update_rate}</update_rate>
         <visualize>true</visualize>
         <always_on>true</always_on>
+        <topic>$(arg namespace)/sensors/${name}/scan</topic>
         <ignition_frame_id>${name}_laser</ignition_frame_id>
         <lidar>
           <scan>

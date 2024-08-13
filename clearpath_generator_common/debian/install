@@ -1,0 +1,1 @@
+install_config/sysctl/70-clearpath-standard.conf /usr/lib/sysctl.d

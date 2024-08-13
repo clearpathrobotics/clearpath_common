@@ -2,6 +2,23 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.11 (2024-08-08)
+-------------------
+* Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+* Contributors: robbiefish
+
+0.2.10 (2024-07-25)
+-------------------
+* Realsense adds optical links when in simulator
+* Updated topic names to match gazebo message types
+* Added topic to gazebo plugins
+* Contributors: Luis Camero
+
+0.2.9 (2024-05-28)
+------------------
+* Added Zed URDF
+* Contributors: Luis Camero
+
 0.2.8 (2024-05-14)
 ------------------
 

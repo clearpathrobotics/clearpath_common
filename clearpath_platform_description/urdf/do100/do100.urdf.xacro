@@ -71,7 +71,7 @@
       <origin xyz="${-wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
     </xacro:do100_wheel>
 
-    <!-- <gazebo>
+    <gazebo>
       <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
         <wheel link_name="front_left_wheel_link">
           <slip_compliance_lateral>1.0</slip_compliance_lateral>
@@ -98,7 +98,7 @@
           <wheel_radius>${wheel_radius}</wheel_radius>
         </wheel>
       </plugin>
-    </gazebo> -->
+    </gazebo>
 
     <!-- Internal IMU -->
     <link name="imu_0_link">

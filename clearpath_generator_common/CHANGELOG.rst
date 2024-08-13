@@ -2,6 +2,25 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.11 (2024-08-08)
+-------------------
+* Fixes styling issues
+* Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+* Contributors: robbiefish
+
+0.2.10 (2024-07-25)
+-------------------
+
+0.2.9 (2024-05-28)
+------------------
+* Modified common parameter generation to always flatten
+* Added Zed to description generator
+* Add sysctl config file that changes ipfrag settings to support receiving large messages
+* Linting
+* Generator linting erros
+* Added tests
+* Contributors: Hilary Luo, Luis Camero
+
 0.2.8 (2024-05-14)
 ------------------
 * Fix: Remove IP address from discovery server launch so it listens on all NICs

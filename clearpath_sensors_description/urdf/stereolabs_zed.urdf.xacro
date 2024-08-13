@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro" />
+  <xacro:macro name="stereolabs_zed" params="
+    name
+    parent_link
+    *origin
+    model:=zed
+    custom_baseline:=0
+    enable_gnss:=false
+    gnss_x:=0
+    gnss_y:=0
+    gnss_z:=0
+    image_width:=1280
+    image_height:=720
+    update_rate:=30
+    ">
+    <!--models:
+      - zed
+      - zedm
+      - zed2
+      - zed2i
+      - zedx
+      - zedxm
+      - virtual
+    -->
+    <xacro:zed_camera name="${name}" model="${model}" custom_baseline="${custom_baseline}" enable_gnss="${enable_gnss}">
+      <origin xyz="${gnss_x} ${gnss_y} ${gnss_z}" rpy="0 0 0"/>
+    </xacro:zed_camera>
+    <joint name="${name}_camera_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="${name}_camera_link"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <gazebo reference="${name}_camera_link">
+      <sensor name="${name}" type="rgbd_camera">
+        <camera>
+          <horizontal_fov>1.25</horizontal_fov>
+          <image>
+            <width>${image_width}</width>
+            <height>${image_height}</height>
+          </image>
+          <clip>
+            <near>0.3</near>
+            <far>100</far>
+          </clip>
+          <ignition_frame_id>${name}_link</ignition_frame_id>
+          <optical_frame_id>${name}_left_camera_optical_frame</optical_frame_id>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>${update_rate}</update_rate>
+        <visualize>true</visualize>
+        <ignition_frame_id>${name}_link</ignition_frame_id>
+        <topic>$(arg namespace)/sensors/${name}</topic>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>
