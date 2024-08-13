@@ -33,6 +33,7 @@ import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.types.platform import Platform
+from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
 from clearpath_generator_common.common import Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
 
@@ -102,6 +103,49 @@ class PlatformParam():
             self.default_param_file.read()
 
             self.param_file.parameters = self.default_param_file.parameters
+
+            # Arm Control
+            if self.parameter == PlatformParam.CONTROL and use_sim_time:
+                for arm in self.clearpath_config.manipulators.get_all_arms():
+                    # Arm Control Parameter File
+                    arm_param_file = ParamFile(
+                        name="control",
+                        package=Package("clearpath_manipulators_description"),
+                        path="config/%s/%s" % (
+                            arm.get_manipulator_type(),
+                            arm.get_manipulator_model()),
+                        parameters={}
+                    )
+                    arm_param_file.read()
+                    updated_parameters = replace_dict_items(
+                        arm_param_file.parameters,
+                        {r'${name}': arm.name}
+                    )
+                    self.param_file.parameters = merge_dict(
+                        self.param_file.parameters, updated_parameters)
+
+            # Gripper Control
+            if self.parameter == PlatformParam.CONTROL and use_sim_time:
+                for arm in self.clearpath_config.manipulators.get_all_arms():
+                    if not arm.gripper:
+                        continue
+                    gripper = arm.gripper
+                    # Gripper Control Parameter File
+                    gripper_param_file = ParamFile(
+                        name="control",
+                        package=Package("clearpath_manipulators_description"),
+                        path="config/%s/%s" % (
+                            gripper.get_manipulator_type(),
+                            gripper.get_manipulator_model()),
+                        parameters={}
+                    )
+                    gripper_param_file.read()
+                    updated_parameters = replace_dict_items(
+                        gripper_param_file.parameters,
+                        {r'${name}': gripper.name}
+                    )
+                    self.param_file.parameters = merge_dict(
+                        self.param_file.parameters, updated_parameters)
 
             # Get extra ros parameters from config
             extras = self.clearpath_config.platform.extras.ros_parameters

@@ -66,3 +66,16 @@ platform_velocity_controller:
     angular.z.min_acceleration: -2.0
     angular.z.max_jerk: 0.0
     angular.z.min_jerk: 0.0
+
+puma_control:
+  ros__parameters:
+    canbus_dev: 'vcan0'
+    joint_names: ['front_left_wheel_joint', 'front_right_wheel_joint']
+    joint_can_ids: [2, 3]
+    joint_directions: [1, -1]
+    gear_ratio: 24.0
+    encoder_cpr: 10
+    gain:
+      p: 0.025
+      i: 0.005
+      d: 0.0

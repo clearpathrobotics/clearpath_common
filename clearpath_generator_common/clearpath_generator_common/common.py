@@ -34,7 +34,12 @@ from typing import List
 from ament_index_python.packages import get_package_share_directory
 
 from clearpath_config.clearpath_config import ClearpathConfig
-from clearpath_config.common.utils.dictionary import flatten_dict
+from clearpath_config.common.utils.dictionary import (
+    flatten_dict,
+    merge_dict,
+    replace_dict_items,
+    unflatten_dict
+)
 from clearpath_config.common.utils.yaml import read_yaml
 
 
@@ -200,6 +205,50 @@ class ParamFile():
                 self.parameters[node] = self_flat_parameters
 
 
+class MoveItParamFile(ParamFile):
+    def __init__(self,
+                 name: str,
+                 node: str = 'node_name',
+                 namespace: str = '',
+                 path: str = 'config',
+                 package: Package = None,
+                 parameters: dict = {}
+                 ) -> None:
+        super().__init__(name, namespace, path, package, parameters)
+        self.node = node
+
+    def directory(self) -> str:
+        return os.path.dirname(self.full_path)
+
+    def to_ros_parameters(self) -> dict:
+        self.add_node_header()
+        return {self.namespace: {self.node: {'ros__parameters': self.parameters[self.node]}}}
+
+    def add_node_header(self) -> dict:
+        if self.node in self.parameters:
+            return
+        else:
+            self.parameters = {self.node: self.parameters}
+
+    def read(self) -> None:
+        self.parameters.update(read_yaml(self.full_path))
+
+    def update(self, parameters: dict) -> None:
+        self.parameters = unflatten_dict(merge_dict(
+            flatten_dict(parameters),
+            flatten_dict(self.parameters)))
+
+    def add_header(self, header: str) -> None:
+        self.parameters = {header: self.parameters}
+
+    def replace(self, items: dict) -> None:
+        self.parameters = replace_dict_items(self.parameters, items)
+
+    def __add__(self, other):
+        self.update(other.parameters)
+        return self
+
+
 class BashFile():
 
     def __init__(self,
@@ -223,6 +272,7 @@ class BashFile():
 class BaseGenerator():
     SENSORS_PATH = 'sensors/'
     PLATFORM_PATH = 'platform/'
+    MANIPULATORS_PATH = 'manipulators/'
     LAUNCH_PATH = 'launch/'
     PARAM_PATH = 'config/'
 
@@ -241,12 +291,18 @@ class BaseGenerator():
             self.setup_path, self.PLATFORM_PATH, self.PARAM_PATH)
         self.platform_launch_path = os.path.join(
             self.setup_path, self.PLATFORM_PATH, self.LAUNCH_PATH)
+        self.manipulators_params_path = os.path.join(
+            self.setup_path, self.MANIPULATORS_PATH, self.PARAM_PATH)
+        self.manipulators_launch_path = os.path.join(
+            self.setup_path, self.MANIPULATORS_PATH, self.LAUNCH_PATH)
 
         # Packages
         self.pkg_clearpath_platform = Package('clearpath_platform')
         self.pkg_clearpath_sensors = Package('clearpath_sensors')
+        self.pkg_clearpath_manipulators = Package('clearpath_manipulators')
         self.pkg_clearpath_platform_description = Package('clearpath_platform_description')
         self.pkg_clearpath_sensors_description = Package('clearpath_sensors_description')
+        self.pkg_clearpath_manipulators_description = Package('clearpath_manipulators_description')
 
         # Read YAML
         self.config = read_yaml(self.config_path)

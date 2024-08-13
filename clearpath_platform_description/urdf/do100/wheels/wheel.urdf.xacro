@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="do100_wheel">
+
+  <xacro:macro name="do100_wheel" params="prefix side *joint_pose">
+
+    <link name="${prefix}_wheel_link">
+      <visual>
+        <origin xyz="0 ${side * 0.027} 0" rpy="0 0 ${PI/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/do100/mecanum_wheel.dae" scale="${side} 1 1" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${wheel_mass}"/>
+        <inertia
+          ixx="${wheel_mass/12 * (3 * wheel_radius * wheel_radius + wheel_width * wheel_width)}" ixy="0" ixz="0"
+          iyy="${(wheel_radius * wheel_radius * wheel_mass)/2}" iyz="0"
+          izz="${wheel_mass/12 * (3 * wheel_radius * wheel_radius + wheel_width * wheel_width)}"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="${prefix}_wheel_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>0.0</mu2>
+              <fdir1 ignition:expressed_in="base_link">1 ${side} 0</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="chassis_link"/>
+      <child link="${prefix}_wheel_link" />
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0" />
+    </joint>
+
+  </xacro:macro>
+
+</robot>

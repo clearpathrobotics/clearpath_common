@@ -54,9 +54,15 @@ class LaunchGenerator(BaseGenerator):
         except FileNotFoundError:
             pass
 
+        try:
+            shutil.rmtree(self.manipulators_launch_path)
+        except FileNotFoundError:
+            pass
+
         # Make new directories
         os.makedirs(os.path.dirname(self.sensors_launch_path), exist_ok=True)
         os.makedirs(os.path.dirname(self.platform_launch_path), exist_ok=True)
+        os.makedirs(os.path.dirname(self.manipulators_launch_path), exist_ok=True)
 
         self.platform_launch_file = LaunchFile(
             name='platform',
@@ -67,15 +73,31 @@ class LaunchGenerator(BaseGenerator):
               ('namespace', self.namespace),
             ])
 
+        self.manipulators_launch_file = LaunchFile(
+            name='manipulators',
+            package=self.pkg_clearpath_manipulators,
+            args=[
+                ('setup_path', self.setup_path),
+                ('use_sim_time', 'false'),
+                ('namespace', self.namespace)
+            ]
+        )
+
         self.sensors_service_launch_file = LaunchFile(
             name='sensors-service',
             path=self.sensors_launch_path)
 
         self.platform_service_launch_file = LaunchFile(
-            'platform-service',
+            name='platform-service',
             path=self.platform_launch_path)
 
+        self.manipulators_service_launch_file = LaunchFile(
+            name='manipulators-service',
+            path=self.manipulators_launch_path
+        )
+
     def generate(self) -> None:
+        self.generate_manipulators()
         self.generate_sensors()
         self.generate_platform()
 
@@ -84,4 +106,7 @@ class LaunchGenerator(BaseGenerator):
         raise NotImplementedError()
 
     def generate_platform(self) -> None:
+        raise NotImplementedError()
+
+    def generate_manipulators(self) -> None:
         raise NotImplementedError()

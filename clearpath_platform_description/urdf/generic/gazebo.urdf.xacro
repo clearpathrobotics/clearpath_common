@@ -12,6 +12,8 @@
           <remapping>/diagnostics:=diagnostics</remapping>
           <remapping>/dynamic_joint_states:=platform/dynamic_joint_states</remapping>
           <remapping>joint_states:=platform/joint_states</remapping>
+          <remapping>~/reference:=platform/cmd_vel</remapping>
+          <remapping>~/odometry:=platform/odom</remapping>
           <namespace>$(arg namespace)</namespace>
         </ros>
       </plugin>

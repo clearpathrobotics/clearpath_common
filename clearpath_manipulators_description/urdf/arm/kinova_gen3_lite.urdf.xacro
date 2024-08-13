@@ -1,0 +1,360 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="is_sim" default="false"/>
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_manipulation_controllers" default="false"/>
+
+  <xacro:macro name="kinova_gen3_lite" params="
+    name
+    parent_link
+    *origin
+    tf_prefix:=''
+    dof:=6
+    vision:=false
+    robot_ip:=192.168.1.10
+    username:=admin
+    password:=admin
+    port:=10000
+    port_realtime:=10001
+    session_inactivity_timeout_ms:=6000
+    connection_inactivity_timeout_ms:=2000
+    use_internal_bus_gripper_comm:=false
+    gripper_joint_name:=finger_joint
+    gripper_max_velocity:=100.0
+    gripper_max_force:=100.0
+    use_fake_hardware:=$(arg use_fake_hardware)
+    use_controllers:=$(arg use_manipulation_controllers)
+    fake_sensor_commands:=false
+    sim_gazebo:=false
+    sim_ignition:=$(arg is_sim)
+    sim_isaac:=false
+    use_external_cable:=false
+    initial_positions:=${dict(joint_1=0.0,joint_2=0.0,joint_3=0.0,joint_4=0.0,joint_5=0.0,joint_6=0.0)}" >
+
+    <!-- Base -->
+    <joint name="${name}_base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}"/>
+      <child link="${name}_base_link" />
+    </joint>
+    <link name="${name}_base_link">
+      <inertial>
+        <origin xyz="0.00244324 0.00015573 0.08616742" rpy="0 0 0" />
+        <mass value="1.14608471" />
+        <inertia ixx="0.00335854" ixy="3.9E-07" ixz="0.00010989" iyy="0.003311" iyz="1.91E-06" izz="0.00077158" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/base_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/base_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_base_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+
+    <!-- Shoulder: Joint 1 -->
+    <link name="${name}_shoulder_link">
+      <inertial>
+        <origin xyz="2.477E-05 0.02213531 0.09937686" rpy="0 0 0" />
+        <mass value="0.95974404" />
+        <inertia ixx="0.00165947" ixy="2E-08" ixz="3.6E-07" iyy="0.00140355" iyz="0.00034927" izz="0.00089493" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/shoulder_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/shoulder_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_shoulder_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+    <joint name="${name}_joint_1" type="revolute">
+      <origin xyz="0 0 0.12825" rpy="0 0 0" />
+      <parent link="${name}_base_link" />
+      <child link="${name}_shoulder_link" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.69" upper="2.69" effort="10" velocity="1.6" />
+    </joint>
+
+    <!-- Arm: Joint 2 -->
+    <link name="${name}_arm_link">
+      <inertial>
+        <origin xyz="0.02998299 0.21154808 0.0453031" rpy="0 0 0" />
+        <mass value="1.17756164" />
+        <inertia ixx="0.01149277" ixy="1E-06" ixz="1.6E-07" iyy="0.00102851" iyz="0.00140765" izz="0.01133492" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/arm_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/arm_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_arm_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+    <joint name="${name}_joint_2" type="revolute">
+      <origin xyz="0 -0.03 0.115" rpy="1.5708 0 0" />
+      <parent link="${name}_shoulder_link" />
+      <child link="${name}_arm_link" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.69" upper="2.69" effort="14" velocity="1.6" />
+    </joint>
+
+    <!-- Fore-arm: Joint 3 -->
+    <link name="${name}_forearm_link">
+      <inertial>
+        <origin xyz="0.0301559 0.09502206 0.0073555" rpy="0 0 0" />
+        <mass value="0.59767669" />
+        <inertia ixx="0.00163256" ixy="7.11E-06" ixz="1.54E-06" iyy="0.00029798" iyz="9.587E-05" izz="0.00169091" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/forearm_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/forearm_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_forearm_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+    <joint name="${name}_joint_3" type="revolute">
+      <origin xyz="0 0.28 0" rpy="-3.1416 0 0" />
+      <parent link="${name}_arm_link" />
+      <child link="${name}_forearm_link" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.69" upper="2.69" effort="10" velocity="1.6" />
+    </joint>
+
+    <!-- Lower Wrist: Joint 4 -->
+    <link name="${name}_lower_wrist_link">
+      <inertial>
+        <origin xyz="0.00575149 0.01000443 0.08719207" rpy="0 0 0" />
+        <mass value="0.52693412" />
+        <inertia ixx="0.00069098" ixy="2.4E-07" ixz="0.00016483" iyy="0.00078519" iyz="7.4E-07" izz="0.00034115" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/lower_wrist_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/lower_wrist_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_lower_wrist_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+    <joint name="${name}_joint_4" type="revolute">
+      <origin xyz="0 -0.14 0.02" rpy="1.5708 0 0" />
+      <parent link="${name}_forearm_link" />
+      <child link="${name}_lower_wrist_link" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.59" upper="2.59" effort="7" velocity="1.6" />
+    </joint>
+
+    <!-- Upper Wrist: Joint 5 -->
+    <link name="${name}_upper_wrist_link">
+      <inertial>
+        <origin xyz="0.08056517 0.00980409 0.01872799" rpy="0 0 0" />
+        <mass value="0.58097325" />
+        <inertia ixx="0.00021268" ixy="5.21E-06" ixz="2.91E-06" iyy="0.00106371" iyz="1.1E-07" izz="0.00108465" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/upper_wrist_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3_lite/${dof}dof/meshes/upper_wrist_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_upper_wrist_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+    <joint name="${name}_joint_5" type="revolute">
+      <origin xyz="0.0285 0 0.105" rpy="0 1.5708 0" />
+      <parent link="${name}_lower_wrist_link" />
+      <child link="${name}_upper_wrist_link" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.57" upper="2.57" effort="7" velocity="1.6" />
+    </joint>
+
+    <!-- End Effector: Joint 6 -->
+    <link name="${name}_end_effector_link"/>
+    <joint name="${name}_joint_6" type="revolute">
+      <origin xyz="-0.105 0 0.0285" rpy="0 -1.5708 0" />
+      <parent link="${name}_upper_wrist_link" />
+      <child link="${name}_end_effector_link" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.59" upper="2.59" effort="7" velocity="3.2" />
+    </joint>
+
+    <!-- ROS2 Controls -->
+    <xacro:if value="${use_controllers}">
+      <ros2_control name="${name}_hardware" type="system">
+        <hardware>
+          <xacro:if value="${sim_gazebo}">
+            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+          </xacro:if>
+          <xacro:if value="${sim_ignition}">
+            <plugin>ign_ros2_control/IgnitionSystem</plugin>
+          </xacro:if>
+          <xacro:if value="${sim_isaac}">
+            <plugin>topic_based_ros2_control/TopicBasedSystem</plugin>
+            <param name="joint_commands_topic">${isaac_joint_commands}</param>
+            <param name="joint_states_topic">${isaac_joint_states}</param>
+          </xacro:if>
+          <xacro:if value="${use_fake_hardware}">
+            <plugin>mock_components/GenericSystem</plugin>
+            <param name="fake_sensor_commands">${fake_sensor_commands}</param>
+            <param name="state_following_offset">0.0</param>
+          </xacro:if>
+          <xacro:unless value="${use_fake_hardware or sim_gazebo or sim_ignition or sim_isaac}">
+            <plugin>kortex_driver/KortexMultiInterfaceHardware</plugin>
+            <param name="robot_ip">${robot_ip}</param>
+            <param name="username">${username}</param>
+            <param name="password">${password}</param>
+            <param name="port">${port}</param>
+            <param name="port_realtime">${port_realtime}</param>
+            <param name="session_inactivity_timeout_ms">${session_inactivity_timeout_ms}</param>
+            <param name="connection_inactivity_timeout_ms">${connection_inactivity_timeout_ms}</param>
+            <param name="tf_prefix">"${tf_prefix}"</param>
+            <param name="use_internal_bus_gripper_comm">${use_internal_bus_gripper_comm}</param>
+            <param name="gripper_joint_name">${gripper_joint_name}</param>
+            <param name="gripper_max_velocity">${gripper_max_velocity}</param>
+            <param name="gripper_max_force">${gripper_max_force}</param>
+          </xacro:unless>
+        </hardware>
+        <joint name="${name}_joint_1">
+          <command_interface name="position">
+            <param name="min">-2.69</param>
+            <param name="max">2.69</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">${initial_positions['joint_1']}</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+        <joint name="${name}_joint_2">
+          <command_interface name="position">
+            <param name="min">-2.69</param>
+            <param name="max">2.36</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">${initial_positions['joint_2']}</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+        <joint name="${name}_joint_3">
+          <command_interface name="position">
+            <param name="min">-2.69</param>
+            <param name="max">2.69</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">${initial_positions['joint_3']}</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+        <joint name="${name}_joint_4">
+          <command_interface name="position">
+            <param name="min">-2.59</param>
+            <param name="max">2.59</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">${initial_positions['joint_4']}</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+        <joint name="${name}_joint_5">
+          <command_interface name="position">
+            <param name="min">-2.57</param>
+            <param name="max">2.57</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">${initial_positions['joint_5']}</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+        <joint name="${name}_joint_6">
+          <command_interface name="position">
+            <param name="min">-2.59</param>
+            <param name="max">2.59</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">${initial_positions['joint_6']}</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+        <xacro:unless value="${use_fake_hardware or sim_gazebo or sim_ignition or sim_isaac}">
+          <xacro:if value="${use_internal_bus_gripper_comm}">
+            <joint name="${gripper_joint_name}">
+              <command_interface name="position"/>
+              <state_interface name="position"/>
+              <state_interface name="velocity"/>
+            </joint>
+          </xacro:if>
+        </xacro:unless>
+      </ros2_control>
+    </xacro:if>
+  </xacro:macro>
+</robot>

@@ -35,6 +35,7 @@ import os
 import shutil
 
 from clearpath_generator_common.common import BaseGenerator
+from clearpath_generator_common.param.manipulators import ManipulatorParam
 from clearpath_generator_common.param.platform import PlatformParam
 
 
@@ -54,13 +55,20 @@ class ParamGenerator(BaseGenerator):
         except FileNotFoundError:
             pass
 
+        try:
+            shutil.rmtree(self.manipulators_params_path)
+        except FileNotFoundError:
+            pass
+
         # Make new directories
         os.makedirs(os.path.dirname(self.sensors_params_path), exist_ok=True)
         os.makedirs(os.path.dirname(self.platform_params_path), exist_ok=True)
+        os.makedirs(os.path.dirname(self.manipulators_params_path), exist_ok=True)
 
     def generate(self) -> None:
         self.generate_sensors()
         self.generate_platform()
+        self.generate_manipulators()
 
     def generate_sensors(self) -> None:
         raise NotImplementedError()
@@ -73,3 +81,12 @@ class ParamGenerator(BaseGenerator):
                 self.platform_params_path)
             platform_param.generate_parameters()
             platform_param.generate_parameter_file()
+
+    def generate_manipulators(self) -> None:
+        for param in ManipulatorParam.PARAMETERS:
+            manipulator_param = ManipulatorParam(
+                param,
+                self.clearpath_config,
+                self.manipulators_params_path)
+            manipulator_param.generate_parameters()
+            manipulator_param.generate_parameter_file()

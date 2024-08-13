@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>clearpath_manipulators_description</name>
+  <version>0.2.6</version>
+  <description>Clearpath manipulator URDF descriptions</description>
+
+  <author email="lcamero@clearpathrobotics.com">Luis Camero</author>
+  <author email="rkreinin@clearpathrobotics.com">Roni Kreinin</author>
+  <author email="tbaltovski@clearpathrobotics.com">Tony Baltovski</author>
+
+  <maintainer email="lcamero@clearpathrobotics.com">Luis Camero</maintainer>
+  <maintainer email="rkreinin@clearpathrobotics.com">Roni Kreinin</maintainer>
+  <maintainer email="tbaltovski@clearpathrobotics.com">Tony Baltovski</maintainer>
+
+  <license>BSD</license>
+
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>kortex_description</exec_depend>
+  <exec_depend>robotiq_description</exec_depend>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

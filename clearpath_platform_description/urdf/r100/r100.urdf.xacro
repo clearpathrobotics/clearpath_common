@@ -1,0 +1,331 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="namespace" default="" />
+  <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/do100/control.yaml"/>
+
+  <!-- Includes -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/wheels/wheel.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/rocker.urdf.xacro"/>
+
+  <!-- R100 Platform Macro -->
+  <xacro:macro name="r100" params="wheel:='defaut'">
+    <!-- Variables -->
+    <xacro:property name="wheel_radius" value="0.0759" />
+    <xacro:property name="wheel_width" value="0.0790" />
+    <xacro:property name="wheel_mass" value="2.5" />
+
+    <xacro:property name="chassis_length" value="0.960" />
+    <xacro:property name="chassis_width" value="0.793" />
+    <xacro:property name="chassis_height" value="0.216" />
+    <xacro:property name="deck_height" value="0.280" />
+    <xacro:property name="deck_thickness" value="0.005" />
+
+    <xacro:property name="riser_height" value="0.055" />
+
+    <xacro:property name="axle_offset" value="0.0500" />
+    <xacro:property name="rocker_offset" value="0.319" />
+    <xacro:property name="rocker_width" value="0.472" />
+
+    <xacro:property name="imu_offset_x" value="0.2085" />
+    <xacro:property name="imu_offset_y" value="-0.2902" />
+    <xacro:property name="imu_offset_z" value="0.1681" />
+
+    <xacro:property name="dummy_inertia" value="1e-09"/>
+
+    <!-- Chassis -->
+    <link name="base_link"></link>
+
+    <joint name="base_link_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="chassis_link" />
+    </joint>
+
+    <link name="chassis_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/body.stl"/>
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/body-collision.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.012 0.002 0.067" rpy="${math.pi/2} 0 ${math.pi/2}"/>
+        <mass value="165.304"/>
+        <inertia
+          ixx="4.4744" ixy="0.03098" ixz="0.003647"
+          iyy="7.1624" iyz="0.1228"
+          izz="4.6155"/>
+      </inertial>
+    </link>
+
+    <!-- Covers -->
+    <joint name="right_side_cover_link_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="right_side_cover_link" />
+    </joint>
+    <joint name="left_side_cover_link_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="left_side_cover_link" />
+    </joint>
+
+    <link name="left_side_cover_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/side-cover.stl"/>
+        </geometry>
+        <material name="clearpath_yellow" />
+      </visual>
+    </link>
+    <link name="right_side_cover_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/side-cover.stl"/>
+        </geometry>
+        <material name="clearpath_yellow" />
+      </visual>
+    </link>
+
+    <joint name="front_cover_link_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="front_cover_link" />
+    </joint>
+
+    <link name="front_cover_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/end-cover.stl" />
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+    </link>
+
+    <joint name="rear_cover_link_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="rear_cover_link" />
+    </joint>
+
+    <link name="rear_cover_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/end-cover.stl" />
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+    </link>
+
+    <!-- Ligths -->
+    <joint name="front_lights_link_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="front_lights_link" />
+    </joint>
+    <joint name="rear_lights_link_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="rear_lights_link" />
+    </joint>
+
+    <link name="front_lights_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/lights.stl" />
+        </geometry>
+        <material name="clearpath_white" />
+      </visual>
+    </link>
+    <link name="rear_lights_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/lights.stl" />
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+    </link>
+
+    <!-- Axle -->
+    <joint name="axle_joint" type="fixed">
+      <origin xyz="0 0 ${axle_offset}" rpy="0 0 0" />
+      <parent link="chassis_link"/>
+      <child link="axle_link" />
+    </joint>
+
+    <link name="axle_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 ${math.pi/2} 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/axle.stl" />
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+    </link>
+
+    <!-- Riser -->
+    <joint name="riser_link_joint" type="fixed">
+      <origin xyz="0 0 ${0.225 - deck_thickness}" rpy="0 0 0" />
+      <parent link="chassis_link" />
+      <child link="riser_link" />
+    </joint>
+    <link name="riser_link">
+      <visual>
+        <origin xyz="0 0 ${riser_height/2}" rpy="0 0 ${pi/4}" />
+        <geometry>
+          <box size="0.493 0.493 ${riser_height}" />
+        </geometry>
+        <material name="clearpath_light_grey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${riser_height/2}" rpy="0 0 ${pi/4}" />
+        <geometry>
+          <box size="0.493 0.493 ${riser_height}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Top Plate -->
+    <joint name="top_link_joint" type="fixed">
+      <origin xyz="0 0 ${riser_height-deck_height+deck_thickness}" rpy="0 0 0" />
+      <parent link="riser_link"/>
+      <child link="top_link" />
+    </joint>
+
+    <link name="top_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/top.stl" />
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/top.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Rocker -->
+    <xacro:r100_rocker prefix="front" joint_type="fixed" location="1" >
+      <limit lower="-0.08726" upper="0.08726" effort="0" velocity="0" />
+    </xacro:r100_rocker>
+
+    <xacro:r100_rocker prefix="rear" joint_type="fixed" location="-1" >
+      <limit effort="0" velocity="0" />
+    </xacro:r100_rocker>
+
+    <gazebo>
+      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+        <wheel link_name="front_left_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>200</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="front_right_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>200</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="rear_left_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>200</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+        <wheel link_name="rear_right_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>200</wheel_normal_force>
+          <wheel_radius>${wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
+
+    <!-- Internal IMU -->
+    <link name="imu_0_link">
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0" izz="${dummy_inertia}"/>
+      </inertial>
+    </link>
+    <joint name="imu_0_joint" type="fixed">
+      <parent link="chassis_link" />
+      <child link="imu_0_link" />
+      <origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="imu_0_link">
+      <sensor type="imu" name="imu_0">
+        <always_on>true</always_on>
+        <update_rate>50</update_rate>
+        <visualize>true</visualize>
+        <ignition_frame_id>imu_0_link</ignition_frame_id>
+      </sensor>
+    </gazebo>
+
+    <!-- Mounting Hardpoints -->
+    <link name="default_mount" />
+    <joint name="default_mount_joint" type="fixed">
+      <parent link="riser_link" />
+      <child link="default_mount" />
+      <origin xyz="0 0 ${riser_height + deck_thickness}" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Gazebo Controller -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
+
+    <!-- ROS2 controls -->
+    <ros2_control name="r100_hardware" type="system">
+      <hardware>
+        <xacro:if value="$(arg is_sim)">
+          <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        </xacro:if>
+        <xacro:unless value="$(arg is_sim)">
+          <plugin>clearpath_platform/PumaHardware</plugin>
+        </xacro:unless>
+      </hardware>
+      <joint name="front_left_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="front_right_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="rear_left_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="rear_right_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+
+  </xacro:macro>
+</robot>

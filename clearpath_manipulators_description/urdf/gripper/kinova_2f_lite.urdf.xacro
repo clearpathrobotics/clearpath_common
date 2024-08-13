@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="is_sim" default="false"/>
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_manipulation_controllers" default="false"/>
+
+  <xacro:macro name="kinova_2f_lite" params="
+    name
+    parent_link
+    *origin
+    use_fake_hardware:=$(arg use_fake_hardware)
+    use_controllers:=$(arg use_manipulation_controllers)
+    fake_sensor_commands:=false
+    sim_ignition:=$(arg is_sim)
+    sim_gazebo:=false
+    sim_isaac:=false
+    isaac_joint_commands:=/isaac_joint_commands
+    isaac_joint_states:=/isaac_joint_states">
+
+    <!-- Gripper Base -->
+    <joint name="${name}_gripper_base_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent_link}" />
+      <child link="${name}_gripper_base_link" />
+    </joint>
+
+    <link name="${name}_gripper_base_link">
+      <inertial>
+        <origin xyz="4.03E-06 1.08E-05 0.041397" rpy="0 0 0" />
+        <mass value="0.1395" />
+        <inertia ixx="0.00011614" ixy="1E-08" ixz="4E-08" iyy="0.00010327" iyz="0" izz="9.707E-05" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/gripper_base_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/gripper_base_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_gripper_base_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+
+    <!-- Right Finger Prox -->
+    <link name="${name}_right_finger_prox_link">
+    <inertial>
+      <origin xyz="0.020257 0.0063483 6.991E-05" rpy="0 0 0" />
+      <mass value="0.018385" />
+      <inertia ixx="2.29E-06" ixy="1.43E-06" ixz="0" iyy="4.56E-06" iyz="0" izz="4.77E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/right_finger_prox_link.STL" />
+      </geometry>
+      <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/right_finger_prox_link.STL" />
+      </geometry>
+    </collision>
+    </link>
+    <gazebo reference="${name}_right_finger_prox_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+    <!-- TODO(MarqRazz) look into why the joint and limits needed to be flipped and modified -->
+    <joint name="${name}_right_finger_bottom_joint" type="revolute">
+      <origin xyz="0 -0.030501 0.070003" rpy="1.571 0.611 1.571" />
+      <parent link="${name}_gripper_base_link" />
+      <child link="${name}_right_finger_prox_link" />
+      <axis xyz="0 0 -1" />
+      <limit lower="0.0" upper="0.85" effort="1000" velocity="0.6" />
+    </joint>
+
+    <!-- Right Finger Dist -->
+    <link name="${name}_right_finger_dist_link">
+      <inertial>
+        <origin xyz="0.018488 0.0011091 0" rpy="0 0 0" />
+        <mass value="0.010748" />
+        <inertia ixx="6.3E-07" ixy="3.2E-07" ixz="0" iyy="1.83E-06" iyz="0" izz="1.61E-06" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/right_finger_dist_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0 0.055 0.525 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/right_finger_dist_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_right_finger_dist_link">
+      <material>Kortex/Blue</material>
+    </gazebo>
+    <joint name="${name}_right_finger_tip_joint" type="revolute">
+      <origin xyz="-0.045636 0.020423 0" rpy="0 0 0" />
+      <parent link="${name}_right_finger_prox_link" />
+      <child link="${name}_right_finger_dist_link" />
+      <axis xyz="0 0 1" />
+      <limit lower="-0.50" upper="0.21" effort="1000" velocity="1000" /> <!--limit lower="-1.03" upper="0.21" effort="1000" velocity="1000" /-->
+      <mimic joint="${name}_right_finger_bottom_joint" multiplier="-0.676" offset="0.149" />
+    </joint>
+
+    <!-- Left Finger Prox -->
+    <link name="${name}_left_finger_prox_link">
+      <inertial>
+        <origin xyz="0.020257 0.0063483 6.99E-05" rpy="0 0 0" />
+        <mass value="0.018385" />
+        <inertia ixx="2.29E-06" ixy="1.43E-06" ixz="0" iyy="4.56E-06" iyz="0" izz="4.77E-06" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/left_finger_prox_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.803 0.824 0.820 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/left_finger_prox_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_left_finger_prox_link">
+      <material>Kortex/Gray</material>
+    </gazebo>
+    <joint name="${name}_left_finger_bottom_joint" type="revolute">
+      <origin xyz="0 0.0305 0.070003" rpy="-1.571 0.611 -1.571" />
+      <parent link="${name}_gripper_base_link" />
+      <child link="${name}_left_finger_prox_link" />
+      <axis xyz="0 0 1" />
+      <limit lower="0.0" upper="0.85" effort="1000" velocity="1000" />
+      <mimic joint="${name}_right_finger_bottom_joint" multiplier="1.0" offset="0.0" />
+    </joint>
+
+    <!-- Left Finger Dist -->
+    <link name="${name}_left_finger_dist_link">
+      <inertial>
+        <origin xyz="-0.018488 0.0011091 0" rpy="0 0 0" />
+        <mass value="0.010748" />
+        <inertia ixx="6.3E-07" ixy="3.2E-07" ixz="0" iyy="1.83E-06" iyz="0" izz="1.61E-06" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/left_finger_dist_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0 0.055 0.525 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/grippers/gen3_lite_2f/meshes/left_finger_dist_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${name}_left_finger_dist_link">
+      <material>Kortex/Blue</material>
+    </gazebo>
+    <joint name="${name}_left_finger_tip_joint" type="revolute">
+      <origin xyz="-0.045636 -0.020423 6.9901E-05" rpy="0 0 0" />
+      <parent link="${name}_left_finger_prox_link" />
+      <child link="${name}_left_finger_dist_link" />
+      <axis xyz="0 0 -1" />
+      <limit lower="-0.50" upper="0.21" effort="1000" velocity="1000" /> <!--limit lower="-1.03" upper="0.21" effort="1000" velocity="1000" /-->
+      <mimic joint="${name}_right_finger_bottom_joint" multiplier="-0.676" offset="0.149" />
+    </joint>
+
+    <xacro:if value="${use_controllers and (use_fake_hardware or sim_gazebo or sim_ignition or sim_isaac)}">
+      <ros2_control name="${name}_hardware" type="system">
+          <hardware>
+              <xacro:if value="${sim_isaac}">
+                  <plugin>topic_based_ros2_control/TopicBasedSystem</plugin>
+                  <param name="joint_commands_topic">${isaac_joint_commands}</param>
+                  <param name="joint_states_topic">${isaac_joint_states}</param>
+                  <param name="trigger_joint_command_threshold">0.02</param>
+              </xacro:if>
+            <xacro:if value="${sim_gazebo}">
+              <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </xacro:if>
+              <xacro:if value="${sim_ignition}">
+                  <plugin>ign_ros2_control/IgnitionSystem</plugin>
+              </xacro:if>
+              <xacro:if value="${use_fake_hardware}">
+                  <plugin>mock_components/GenericSystem</plugin>
+                  <param name="fake_sensor_commands">${fake_sensor_commands}</param>
+                  <param name="state_following_offset">0.0</param>
+              </xacro:if>
+          </hardware>
+
+          <joint name="${name}_right_finger_bottom_joint">
+              <command_interface name="position" />
+              <state_interface name="position">
+                  <param name="initial_value">0.0</param>
+              </state_interface>
+              <state_interface name="velocity"/>
+          </joint>
+          <xacro:if value="${use_fake_hardware or sim_isaac or sim_ignition}">
+              <joint name="${name}_right_finger_tip_joint">
+                  <param name="mimic">${name}_right_finger_bottom_joint</param>
+                  <param name="multiplier">-1</param>
+                  <xacro:unless value="${sim_ignition}">
+                      <command_interface name="position"/>
+                      <state_interface name="position"/>
+                      <state_interface name="velocity"/>
+                  </xacro:unless>
+              </joint>
+              <joint name="${name}_left_finger_bottom_joint">
+                  <param name="mimic">${name}_right_finger_bottom_joint</param>
+                  <param name="multiplier">1</param>
+                  <xacro:unless value="${sim_ignition}">
+                      <command_interface name="position"/>
+                      <state_interface name="position"/>
+                      <state_interface name="velocity"/>
+                  </xacro:unless>
+              </joint>
+              <joint name="${name}_left_finger_tip_joint">
+                  <param name="mimic">${name}_right_finger_bottom_joint</param>
+                  <param name="multiplier">-1</param>
+                  <xacro:unless value="${sim_ignition}">
+                      <command_interface name="position"/>
+                      <state_interface name="position"/>
+                      <state_interface name="velocity"/>
+                  </xacro:unless>
+              </joint>
+          </xacro:if>
+      </ros2_control>
+    </xacro:if>
+  </xacro:macro>
+</robot>

@@ -13,6 +13,9 @@ def generate_launch_description():
     robot_description_command = LaunchConfiguration('robot_description_command')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
+    use_fake_hardware = LaunchConfiguration('use_fake_hardware')
+    use_manipulation_controllers = LaunchConfiguration('use_manipulation_controllers')
+    use_platform_controllers = LaunchConfiguration('use_platform_controllers')
 
     # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
@@ -24,6 +27,24 @@ def generate_launch_description():
         'namespace',
         default_value='',
         description='Robot namespace'
+    )
+
+    arg_use_fake_hardware = DeclareLaunchArgument(
+        'use_fake_hardware',
+        default_value='false',
+        description='Use fake hardware if true'
+    )
+
+    arg_use_manipulation_controllers = DeclareLaunchArgument(
+        'use_manipulation_controllers',
+        default_value='false',
+        description='Use manipulation controllers if true'
+    )
+
+    arg_use_platform_controllers = DeclareLaunchArgument(
+        'use_platform_controllers',
+        default_value='true',
+        description='Use platform controllers if true'
     )
 
     # Paths
@@ -47,7 +68,16 @@ def generate_launch_description():
             config_control,
             ' ',
             'namespace:=',
-            namespace
+            namespace,
+            ' ',
+            'use_fake_hardware:=',
+            use_fake_hardware,
+            ' ',
+            'use_manipulation_controllers:=',
+            use_manipulation_controllers,
+            ' ',
+            'use_platform_controllers:=',
+            use_platform_controllers,
         ]
     )
 
@@ -84,6 +114,9 @@ def generate_launch_description():
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_setup_path)
     ld.add_action(arg_namespace)
+    ld.add_action(arg_use_fake_hardware)
+    ld.add_action(arg_use_manipulation_controllers)
+    ld.add_action(arg_use_platform_controllers)
     ld.add_action(arg_robot_description_command)
     # Nodes
     ld.add_action(group_action_state_publishers)
