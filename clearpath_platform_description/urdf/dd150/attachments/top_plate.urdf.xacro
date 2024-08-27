@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/attachments/top_plate.urdf.xacro"/>
+</robot>
