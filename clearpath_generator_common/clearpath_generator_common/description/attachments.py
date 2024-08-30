@@ -38,6 +38,7 @@ from clearpath_config.platform.attachments.dd150 import DD150Attachment
 from clearpath_config.platform.attachments.do100 import DO100Attachment
 from clearpath_config.platform.attachments.do150 import DO150Attachment
 from clearpath_config.platform.attachments.j100 import J100Attachment
+from clearpath_config.platform.attachments.r100 import R100Attachment
 from clearpath_config.platform.attachments.w200 import W200Attachment
 from clearpath_config.platform.types.bumper import Bumper
 
@@ -87,6 +88,25 @@ class AttachmentsDescription():
                 self.HEIGHT: attachment.height
             })
 
+    class RidgebackFAMSDescription(BaseDescription):
+        TABLE_HEIGHT = 'table_height'
+
+        def __init__(self, attachment: BaseAttachment) -> None:
+            super().__init__(attachment)
+            self.parameters.update({
+                self.TABLE_HEIGHT: attachment.table_height
+            })
+
+    class RidgebackHAMSDescription(BaseDescription):
+        TABLE_HEIGHT = 'table_height'
+        MOUNT_HEIGHT = 'mount_height'
+
+        def __init__(self, attachment: BaseAttachment) -> None:
+            super().__init__(attachment)
+            self.parameters.update({
+                self.TABLE_HEIGHT: attachment.table_height,
+                self.MOUNT_HEIGHT: attachment.mount_height
+            })
 
     MODEL = {
         # A200
@@ -105,6 +125,9 @@ class AttachmentsDescription():
         DD150Attachment.TOP_PLATE: DingoTopPlateDescription,
         DO100Attachment.TOP_PLATE: DingoTopPlateDescription,
         DO150Attachment.TOP_PLATE: DingoTopPlateDescription,
+        # R100
+        R100Attachment.FAMS: RidgebackFAMSDescription,
+        R100Attachment.HAMS: RidgebackHAMSDescription,
     }
 
     def __new__(cls, attachment: BaseAttachment) -> BaseDescription:
