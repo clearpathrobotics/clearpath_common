@@ -108,6 +108,17 @@ class AttachmentsDescription():
                 self.MOUNT_HEIGHT: attachment.mount_height
             })
 
+    class RidgebackTowerDescription(BaseDescription):
+        LEFT_HEIGHT = 'left_height'
+        RIGHT_HEIGHT = 'right_height'
+
+        def __init__(self, attachment: BaseAttachment) -> None:
+            super().__init__(attachment)
+            self.parameters.update({
+                self.LEFT_HEIGHT: attachment.left_height,
+                self.RIGHT_HEIGHT: attachment.right_height
+            })
+
     MODEL = {
         # A200
         A200Attachment.BUMPER: BumperDescription,
@@ -128,6 +139,7 @@ class AttachmentsDescription():
         # R100
         R100Attachment.FAMS: RidgebackFAMSDescription,
         R100Attachment.HAMS: RidgebackHAMSDescription,
+        R100Attachment.TOWER: RidgebackTowerDescription,
     }
 
     def __new__(cls, attachment: BaseAttachment) -> BaseDescription:

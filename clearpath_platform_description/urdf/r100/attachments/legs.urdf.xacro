@@ -9,7 +9,7 @@
     <visual>
       <origin xyz="${pos_x} ${pos_y} 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/table-leg.stl"
+        <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/leg.stl"
           scale="1.0 1.0 ${table_height/leg_size_z}"/>
       </geometry>
       <material name="clearpath_light_grey"/>
@@ -23,7 +23,7 @@
     <visual>
       <origin xyz="${pos_x} ${-pos_y} 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/table-leg.stl"
+        <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/leg.stl"
           scale="1.0 1.0 ${table_height/leg_size_z}"/>
       </geometry>
       <material name="clearpath_light_grey"/>

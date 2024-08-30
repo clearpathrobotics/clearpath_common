@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="tower" params="name parent_link:='default_mount' model:='default' left_height:=0.0 right_height:=0.0 *origin">
+    <!-- Variables -->
+    <xacro:property name="mid_xyz" value="0 0 0.335"/>
+    <xacro:property name="top_xyz" value="0 0 0.9962"/>
+    <xacro:property name="shoulder_offset_y" value="0.213"/>
+    <xacro:property name="shoulder_offset_z" value="0.6445"/>
+
+    <!-- Tower Body Link -->
+    <link name="${name}_base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/tower_body.stl"/>
+        </geometry>
+        <material name="clearpath_dark_grey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/tower_body_collision.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Tower Body Joint -->
+    <joint name="${name}_base_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_base_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+
+    <!-- Tower Mid Link -->
+    <link name="${name}_mid_link"/>
+    <joint name="${name}_mid_joint" type="fixed">
+      <parent link="${name}_base_link"/>
+      <child link="${name}_mid_link"/>
+      <origin xyz="${mid_xyz}" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Tower Top Link -->
+    <link name="${name}_top_link"/>
+    <joint name="${name}_top_joint" type="fixed">
+      <parent link="${name}_base_link"/>
+      <child link="${name}_top_link"/>
+      <origin xyz="${top_xyz}" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Left Shoulder Mounting Link -->
+    <link name="${name}_left_shoulder_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 -${math.pi/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/tower_shoulder.stl"/>
+        </geometry>
+        <material name="clearpath_dark_grey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 -${math.pi/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/tower_shoulder_collision.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Right Shoulder Mounting Link -->
+    <link name="${name}_right_shoulder_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/tower_shoulder.stl"/>
+        </geometry>
+        <material name="clearpath_dark_grey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi/2}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/tower_shoulder_collision.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Shoulder Joints -->
+    <joint name="${name}_left_shoulder_joint" type="fixed">
+      <parent link="${name}_base_link" />
+      <child link="${name}_left_shoulder_link" />
+      <origin xyz="0 ${shoulder_offset_y} ${shoulder_offset_z + left_height}" rpy="0 0 0" />
+    </joint>
+    <joint name="${name}_right_shoulder_joint" type="fixed">
+      <parent link="${name}_base_link" />
+      <child link="${name}_right_shoulder_link" />
+      <origin xyz="0 ${-shoulder_offset_y} ${shoulder_offset_z + right_height}" rpy="0 0 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>

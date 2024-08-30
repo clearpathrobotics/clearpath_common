@@ -35,14 +35,14 @@
       <visual>
         <origin xyz="${top_mesh_x} ${top_mesh_y} ${table_height + top_mesh_z}"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-table-top.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams_top.stl" />
         </geometry>
         <material name="clearpath_black"/>
       </visual>
       <collision>
         <origin xyz="${top_mesh_x} ${top_mesh_y} ${table_height + top_mesh_z}"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-table-top.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams_top.stl" />
         </geometry>
         <material name="clearpath_black"/>
       </collision>
@@ -62,14 +62,14 @@
     <link name="${name}_arm_mount">
       <visual>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-arm-mount.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams_mount.stl" />
         </geometry>
         <material name="clearpath_black" />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams-arm-mount.stl" />
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams_mount.stl" />
         </geometry>
       </collision>
     </link>
