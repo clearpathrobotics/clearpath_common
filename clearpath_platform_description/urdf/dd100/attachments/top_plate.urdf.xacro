@@ -75,7 +75,19 @@
         <parent link="${parent_link}"/>
         <xacro:insert_block name="origin"/>
       </joint>
-    </xacro:if>
+
+      <!-- Generate PACS mounts -->
+      <xacro:full_mounts
+        name="${name}"
+        parent_link="${name}_link"
+        column="a"
+        row="1"
+        columns="5"
+        rows="6"
+        x="0.20"
+        y="0.16"
+        z="${height + plate_z_size}" />
+      </xacro:if>
 
   </xacro:macro>
 </robot>
