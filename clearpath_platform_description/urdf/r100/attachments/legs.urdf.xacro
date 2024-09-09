@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="r100_legs" params="pos_x pos_y">
+    <!-- Variables -->
+    <xacro:property name="leg_size_x" value="0.040"/>
+    <xacro:property name="leg_size_y" value="0.040"/>
+    <xacro:property name="leg_size_z" value="0.300"/>
+
+    <visual>
+      <origin xyz="${pos_x} ${pos_y} 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/leg.stl"
+          scale="1.0 1.0 ${table_height/leg_size_z}"/>
+      </geometry>
+      <material name="clearpath_light_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="${pos_x} ${pos_y} ${table_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${leg_size_x} ${leg_size_y} ${table_height}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="${pos_x} ${-pos_y} 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/leg.stl"
+          scale="1.0 1.0 ${table_height/leg_size_z}"/>
+      </geometry>
+      <material name="clearpath_light_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="${pos_x} ${-pos_y} ${table_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${leg_size_x} ${leg_size_y} ${table_height}"/>
+      </geometry>
+    </collision>
+  </xacro:macro>
+</robot>

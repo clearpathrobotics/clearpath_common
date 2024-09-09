@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/attachments/legs.urdf.xacro"/>
+
+  <xacro:macro name="hams" params="name parent_link:='default_mount' model:='default' table_height:=0.600 mount_height:=0.300 *origin">
+    <!-- Variables -->
+    <xacro:property name="top_mesh_x" value="0.000"/>
+    <xacro:property name="top_mesh_y" value="0.000"/>
+    <xacro:property name="top_mesh_z" value="0.00635"/>
+
+    <xacro:property name="arm_mesh_x" value="0.000"/>
+    <xacro:property name="arm_mesh_y" value="0.000"/>
+    <xacro:property name="arm_mesh_z" value="0.0127"/>
+
+    <xacro:property name="arm_pos_x" value="-0.27913"/>
+    <xacro:property name="arm_pos_y" value="0.000"/>
+
+    <xacro:property name="leg_pos1_x" value="0.387"/>
+    <xacro:property name="leg_pos1_y" value="0.310"/>
+
+    <xacro:property name="leg_pos2_x" value="0.000"/>
+    <xacro:property name="leg_pos2_y" value="0.370"/>
+
+    <xacro:property name="leg_pos3_x" value="-0.275"/>
+    <xacro:property name="leg_pos3_y" value="0.370"/>
+
+    <xacro:property name="leg_pos4_x" value="-0.1315"/>
+    <xacro:property name="leg_pos4_y" value="0.1475"/>
+
+    <xacro:property name="leg_pos5_x" value="-0.4265"/>
+    <xacro:property name="leg_pos5_y" value="0.1475"/>
+
+    <link name="${name}_base_link">
+      <!-- Table Top -->
+      <visual>
+        <origin xyz="${top_mesh_x} ${top_mesh_y} ${table_height + top_mesh_z}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams_top.stl" />
+        </geometry>
+        <material name="clearpath_black"/>
+      </visual>
+      <collision>
+        <origin xyz="${top_mesh_x} ${top_mesh_y} ${table_height + top_mesh_z}"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams_top.stl" />
+        </geometry>
+        <material name="clearpath_black"/>
+      </collision>
+      <!-- Leg Pair 1 -->
+      <xacro:r100_legs pos_x="${leg_pos1_x}" pos_y="${leg_pos1_y}"/>
+      <!-- Leg Pair 2 -->
+      <xacro:r100_legs pos_x="${leg_pos2_x}" pos_y="${leg_pos2_y}"/>
+      <!-- Leg Pair 3 -->
+      <xacro:r100_legs pos_x="${leg_pos3_x}" pos_y="${leg_pos3_y}"/>
+      <!-- Leg Pair 4 -->
+      <xacro:r100_legs pos_x="${leg_pos4_x}" pos_y="${leg_pos4_y}"/>
+      <!-- Leg Pair 5 -->
+      <xacro:r100_legs pos_x="${leg_pos5_x}" pos_y="${leg_pos5_y}"/>
+    </link>
+
+    <link name="${name}_default_mount"/>
+    <link name="${name}_arm_mount">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams_mount.stl" />
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/attachments/hams_mount.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${name}_base_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_base_link" />
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <joint name="${name}_default_mount_joint" type="fixed">
+      <parent link="${name}_base_link"/>
+      <child link="${name}_default_mount"/>
+      <origin xyz="0 0 ${table_height + top_mesh_z}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="${name}_arm_mount_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_arm_mount" />
+      <origin xyz="${arm_pos_x} ${arm_pos_y} ${mount_height}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+</robot>

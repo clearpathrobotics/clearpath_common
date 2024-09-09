@@ -33,7 +33,12 @@ from typing import List
 
 from clearpath_config.platform.attachments.a200 import A200Attachment
 from clearpath_config.platform.attachments.config import BaseAttachment
+from clearpath_config.platform.attachments.dd100 import DD100Attachment
+from clearpath_config.platform.attachments.dd150 import DD150Attachment
+from clearpath_config.platform.attachments.do100 import DO100Attachment
+from clearpath_config.platform.attachments.do150 import DO150Attachment
 from clearpath_config.platform.attachments.j100 import J100Attachment
+from clearpath_config.platform.attachments.r100 import R100Attachment
 from clearpath_config.platform.attachments.w200 import W200Attachment
 from clearpath_config.platform.types.bumper import Bumper
 
@@ -74,6 +79,46 @@ class AttachmentsDescription():
                 self.EXTENSION: attachment.extension
             })
 
+    class DingoTopPlateDescription(BaseDescription):
+        HEIGHT = 'height'
+
+        def __init__(self, attachment: BaseAttachment) -> None:
+            super().__init__(attachment)
+            self.parameters.update({
+                self.HEIGHT: attachment.height
+            })
+
+    class RidgebackFAMSDescription(BaseDescription):
+        TABLE_HEIGHT = 'table_height'
+
+        def __init__(self, attachment: BaseAttachment) -> None:
+            super().__init__(attachment)
+            self.parameters.update({
+                self.TABLE_HEIGHT: attachment.table_height
+            })
+
+    class RidgebackHAMSDescription(BaseDescription):
+        TABLE_HEIGHT = 'table_height'
+        MOUNT_HEIGHT = 'mount_height'
+
+        def __init__(self, attachment: BaseAttachment) -> None:
+            super().__init__(attachment)
+            self.parameters.update({
+                self.TABLE_HEIGHT: attachment.table_height,
+                self.MOUNT_HEIGHT: attachment.mount_height
+            })
+
+    class RidgebackTowerDescription(BaseDescription):
+        LEFT_HEIGHT = 'left_height'
+        RIGHT_HEIGHT = 'right_height'
+
+        def __init__(self, attachment: BaseAttachment) -> None:
+            super().__init__(attachment)
+            self.parameters.update({
+                self.LEFT_HEIGHT: attachment.left_height,
+                self.RIGHT_HEIGHT: attachment.right_height
+            })
+
     MODEL = {
         # A200
         A200Attachment.BUMPER: BumperDescription,
@@ -86,6 +131,15 @@ class AttachmentsDescription():
         W200Attachment.GENERATOR: BaseDescription,
         W200Attachment.BULKHEAD: BaseDescription,
         W200Attachment.ARM_PLATE: BaseDescription,
+        # DD100
+        DD100Attachment.TOP_PLATE: DingoTopPlateDescription,
+        DD150Attachment.TOP_PLATE: DingoTopPlateDescription,
+        DO100Attachment.TOP_PLATE: DingoTopPlateDescription,
+        DO150Attachment.TOP_PLATE: DingoTopPlateDescription,
+        # R100
+        R100Attachment.FAMS: RidgebackFAMSDescription,
+        R100Attachment.HAMS: RidgebackHAMSDescription,
+        R100Attachment.TOWER: RidgebackTowerDescription,
     }
 
     def __new__(cls, attachment: BaseAttachment) -> BaseDescription:

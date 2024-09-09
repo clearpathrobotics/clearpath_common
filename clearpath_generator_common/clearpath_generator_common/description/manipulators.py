@@ -97,7 +97,7 @@ class ManipulatorDescription():
         GRIPPER_COMM = 'use_internal_bus_gripper_comm'
         GRIPPER_NAMES = {
             Kinova2FLite.get_manipulator_model(): '_right_finger_bottom_joint',
-            Robotiq2F140.get_manipulator_model(): '_robotiq_85_left_knuckle_joint',
+            Robotiq2F140.get_manipulator_model(): '_finger_joint',
             Robotiq2F85.get_manipulator_model(): '_robotiq_85_left_knuckle_joint',
         }
 

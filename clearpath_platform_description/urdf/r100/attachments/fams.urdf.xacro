@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/attachments/legs.urdf.xacro"/>
+
+  <xacro:macro name="fams" params="name parent_link:='default_mount' model:='default' table_height:=0.600 *origin">
+    <!-- Variables -->
+    <xacro:property name="top_mesh_x" value="0.000"/>
+    <xacro:property name="top_mesh_y" value="0.000"/>
+    <xacro:property name="top_mesh_z" value="-0.273650"/>
+    <xacro:property name="top_size_z" value="0.006350"/>
+
+    <xacro:property name="leg_pos1_x" value="0.400"/>
+    <xacro:property name="leg_pos1_y" value="0.155"/>
+
+    <xacro:property name="leg_pos2_x" value="0.280"/>
+    <xacro:property name="leg_pos2_y" value="0.365"/>
+
+    <xacro:property name="leg_pos3_x" value="0.000"/>
+    <xacro:property name="leg_pos3_y" value="0.365"/>
+
+    <xacro:property name="leg_pos4_x" value="-0.380"/>
+    <xacro:property name="leg_pos4_y" value="0.300"/>
+
+    <link name="${name}_base_link">
+      <!-- Table Top -->
+      <visual>
+        <origin xyz="${top_mesh_x} ${top_mesh_y} ${top_mesh_z + table_height}" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/top.stl"/>
+        </geometry>
+        <material name="clearpath_black"/>
+      </visual>
+      <collision>
+        <origin xyz="${top_mesh_x} ${top_mesh_y} ${top_mesh_z + table_height}" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/top.stl"/>
+        </geometry>
+      </collision>
+      <!-- Leg Pair 1 -->
+      <xacro:r100_legs pos_x="${leg_pos1_x}" pos_y="${leg_pos1_y}"/>
+      <!-- Leg Pair 2 -->
+      <xacro:r100_legs pos_x="${leg_pos2_x}" pos_y="${leg_pos2_y}"/>
+      <!-- Leg Pair 3 -->
+      <xacro:r100_legs pos_x="${leg_pos3_x}" pos_y="${leg_pos3_y}"/>
+      <!-- Leg Pair 4 -->
+      <xacro:r100_legs pos_x="${leg_pos4_x}" pos_y="${leg_pos4_y}"/>
+    </link>
+
+    <link name="${name}_default_mount"/>
+
+    <joint name="${name}_base_joint" type="fixed">
+      <child link="${name}_base_link"/>
+      <parent link="${parent_link}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${name}_arm_mount"/>
+
+    <joint name="${name}_default_joint" type="fixed">
+      <origin xyz="0 0 ${table_height + top_size_z}" rpy="0 0 0"/>
+      <parent link="${parent_link}"/>
+      <child link="${name}_default_mount"/>
+    </joint>
+
+    <joint name="${name}_arm_mount_joint" type="fixed">
+      <parent link="${name}_default_mount"/>
+      <child link="${name}_arm_mount"/>
+      <origin xyz="0.33 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+</robot>
