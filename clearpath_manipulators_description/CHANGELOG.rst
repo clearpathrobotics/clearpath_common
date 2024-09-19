@@ -1,9 +1,21 @@
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package clearpath_common
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changelog for package clearpath_manipulators_description
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Forthcoming
 -----------
+* Add meshes and URDF for robotiq 2f 140
+* Fixed all license headers
+* Added dependencies to manipulators description
+* Added Robotiq grippers for Kinova
+* Added all joints to the Kinova gripper SRDF
+* Removed unecessary parameter
+* Gripper joint set through arm URD
+* Added another variable to add namespace for MoveItt
+* Added argument to toggle manipulator controllers
+* Manipulator description to match platform description launch
+* Added all descriptions for kinova manipulators
+* Contributors: Luis Camero
 
 0.2.11 (2024-08-08)
 -------------------
@@ -79,7 +91,3 @@ Forthcoming
 
 0.0.1 (2023-06-21)
 ------------------
-* Updated dependencies
-* Bishop sensors/mounts
-* [clearpath_common] Added metapackage.
-* Contributors: Roni Kreinin, Tony Baltovski

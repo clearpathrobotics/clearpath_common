@@ -2,6 +2,35 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add meshes and URDF for robotiq 2f 140
+* Standard mesh names and height parameter for tower shoulder
+* R100 attachment rework
+* Add Dingo plate to generator
+* Added tests
+* Added action to build from release and source
+* Generator linting erros
+* Customization linting errors
+* Fix: Remove IP address from discovery server launch so it listens on all NICs
+* Add sysctl config file that changes ipfrag settings to support receiving large messages
+* Added Zed URDF
+* Added Zed to description generator
+* Modified common parameter generation to always flatten
+* Missing important remapping to mirror hardware topics
+* Added topic to gazebo plugins
+* Updated topic names to match gazebo message types
+* Topics of simulated onboard sensors
+* Realsense adds optical links when in simulator
+* Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+* Fixes styling issues
+* Set spawner as super client
+* Removed duplicate class
+* Use ROS1 covariance values
+* Updated renamed macanum drive controller
+* Enable gazebo friction plugin on DingoO
+* Contributors: Hilary Luo, Luis Camero, Tony Baltovski, luis-camero
+
 0.2.11 (2024-08-08)
 -------------------
 * Fixes styling issues

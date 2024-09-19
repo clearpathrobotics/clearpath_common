@@ -2,6 +2,46 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add dependency clearpath_mecanum_drive_controller
+* Added tests
+* Added action to build from release and source
+* Generator linting erros
+* Customization linting errors
+* Linting
+* Fix: Remove IP address from discovery server launch so it listens on all NICs
+* Add sysctl config file that changes ipfrag settings to support receiving large messages
+* Added Zed URDF
+* Added Zed to description generator
+* Modified common parameter generation to always flatten
+* Missing important remapping to mirror hardware topics
+* Added topic to gazebo plugins
+* Updated topic names to match gazebo message types
+* Topics of simulated onboard sensors
+* Realsense adds optical links when in simulator
+* Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+* Fixes styling issues
+* Set spawner as super client
+* Removed duplicate class
+* Use ROS1 covariance values
+* Updated renamed macanum drive controller
+* Enable gazebo friction plugin on DingoO
+* Add Y to controllers
+* Updated wheel separation
+* Keep both joint definitions
+* Control updates
+* Changed default canbus device to vcan0
+* Added Puma control configuration
+* Control adds manipulators if simulation
+* Modifications to allow arms to function
+* Added do150 control
+* Dingo O mecanum wheels
+* Fixed rocker and small covariance
+* Fixed wheel radius parameter
+* Initial add do100
+* Contributors: Tony Baltovski, luis-camero, Steve Macenski, Hilary Luo, robbiefish
+
 0.2.11 (2024-08-08)
 -------------------
 * Set spawner as super client

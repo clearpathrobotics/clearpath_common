@@ -1,9 +1,16 @@
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package clearpath_common
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changelog for package clearpath_manipulators
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Forthcoming
 -----------
+* Fixed all license headers
+* Added MoveIt to manipulation service launch
+* Removed old ompl
+* Added '_' to omp to make it always first alphabetically
+* Added all chomp parameters explicitly to config
+* Renamed manipulators package
+* Contributors: Luis Camero
 
 0.2.11 (2024-08-08)
 -------------------
@@ -79,7 +86,3 @@ Forthcoming
 
 0.0.1 (2023-06-21)
 ------------------
-* Updated dependencies
-* Bishop sensors/mounts
-* [clearpath_common] Added metapackage.
-* Contributors: Roni Kreinin, Tony Baltovski
