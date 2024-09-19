@@ -4,6 +4,85 @@ Changelog for package clearpath_platform_description
 
 Forthcoming
 -----------
+* Changes.
+* Add PACS mounting locations to Dingo top plate
+* Standard mesh names and height parameter for tower shoulder
+* R100 attachment rework
+* Add dingo top plate URDF
+* 0.3.0 Release Candidate with Main Changes (`#81 <https://github.com/clearpathrobotics/clearpath_common/issues/81>`_)
+  * Added tests
+  * Added action to build from release and source
+  * Generator linting erros
+  * Customization linting errors
+  * Linting
+  * Fix: Remove IP address from discovery server launch so it listens on all NICs
+  * Changes.
+  * 0.2.8
+  * Add sysctl config file that changes ipfrag settings to support receiving large messages
+  * Added Zed URDF
+  * Added Zed to description generator
+  * Modified common parameter generation to always flatten
+  * Changes.
+  * 0.2.9
+  * Missing important remapping to mirror hardware topics
+  * Added topic to gazebo plugins
+  * Updated topic names to match gazebo message types
+  * Topics of simulated onboard sensors
+  * Realsense adds optical links when in simulator
+  * Changes.
+  * 0.2.10
+  * Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+  * Fixes styling issues
+  * Set spawner as super client
+  * Changes.
+  * 0.2.11
+  * Removed duplicate class
+  * Use ROS1 covariance values
+  * Updated renamed macanum drive controller
+  * Enable gazebo friction plugin on DingoO
+  ---------
+  Co-authored-by: Hilary Luo <hluo@clearpathrobotics.com>
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+  Co-authored-by: Steve Macenski <stevenmacenski@gmail.com>
+  Co-authored-by: robbiefish <rob.fisher@hbkworld.com>
+* Set PumaHardware in R100
+* URDF Mecanum Updates
+* Switched to puma_hardware
+* DingoD 1.5 Puma Hardware
+* 0.2.8
+* Changes.
+* 0.2.7
+* Changes.
+* All Warthog attachments default to 0
+* Aligned attachment links
+* Added argument to prevent platform hardware from loading
+* Define inertial box xacro in the arm plate urdf to be used by other platforms
+* Added argument to toggle manipulator controllers
+* 0.2.6
+* Changes.
+* 0.2.5
+* Changes.
+* switch finding meshes to use the package:// command
+* 0.2.4
+* Changes.
+* 0.2.3
+* Changes.
+* 0.2.2
+* Changes.xx
+* 0.2.1
+* Changes.
+* PACS top plate was not centred with generated frames
+* Added Ridgeback attachments
+* Added do150 as copy of do100
+* R100 mecanum
+* Only load mecanum wheels in simulation
+* Removed wheel slip plugin
+* Dingo O mecanum wheels
+* Fixed rocker and small covariance
+* Initial Ridgeback
+* Initial add do100
+* Contributors: Hilary Luo, Luis Camero, Tony Baltovski, luis-camero
+
 * Add PACS mounting locations to Dingo top plate
 * Standard mesh names and height parameter for tower shoulder
 * R100 attachment rework

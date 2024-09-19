@@ -4,6 +4,56 @@ Changelog for package clearpath_customization
 
 Forthcoming
 -----------
+* Changes.
+* 0.3.0 Release Candidate with Main Changes (`#81 <https://github.com/clearpathrobotics/clearpath_common/issues/81>`_)
+  * Added tests
+  * Added action to build from release and source
+  * Generator linting erros
+  * Customization linting errors
+  * Linting
+  * Fix: Remove IP address from discovery server launch so it listens on all NICs
+  * Changes.
+  * 0.2.8
+  * Add sysctl config file that changes ipfrag settings to support receiving large messages
+  * Added Zed URDF
+  * Added Zed to description generator
+  * Modified common parameter generation to always flatten
+  * Changes.
+  * 0.2.9
+  * Missing important remapping to mirror hardware topics
+  * Added topic to gazebo plugins
+  * Updated topic names to match gazebo message types
+  * Topics of simulated onboard sensors
+  * Realsense adds optical links when in simulator
+  * Changes.
+  * 0.2.10
+  * Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+  * Fixes styling issues
+  * Set spawner as super client
+  * Changes.
+  * 0.2.11
+  * Removed duplicate class
+  * Use ROS1 covariance values
+  * Updated renamed macanum drive controller
+  * Enable gazebo friction plugin on DingoO
+  ---------
+  Co-authored-by: Hilary Luo <hluo@clearpathrobotics.com>
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+  Co-authored-by: Steve Macenski <stevenmacenski@gmail.com>
+  Co-authored-by: robbiefish <rob.fisher@hbkworld.com>
+* 0.2.8
+* Changes.
+* 0.2.7
+* Changes.
+* Removed author tag
+* Fixed mismatched tag
+* Updated package.xml to match
+* Extra namespace to device launch
+* Fixed URDF issues
+* Fixed package and executable name
+* Added customization package
+* Contributors: Luis Camero, Tony Baltovski, luis-camero
+
 * Added tests
 * Added action to build from release and source
 * Generator linting erros

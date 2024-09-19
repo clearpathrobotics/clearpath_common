@@ -4,6 +4,76 @@ Changelog for package clearpath_control
 
 Forthcoming
 -----------
+* Changes.
+* Add dependency clearpath_mecanum_drive_controller
+* 0.3.0 Release Candidate with Main Changes (`#81 <https://github.com/clearpathrobotics/clearpath_common/issues/81>`_)
+  * Added tests
+  * Added action to build from release and source
+  * Generator linting erros
+  * Customization linting errors
+  * Linting
+  * Fix: Remove IP address from discovery server launch so it listens on all NICs
+  * Changes.
+  * 0.2.8
+  * Add sysctl config file that changes ipfrag settings to support receiving large messages
+  * Added Zed URDF
+  * Added Zed to description generator
+  * Modified common parameter generation to always flatten
+  * Changes.
+  * 0.2.9
+  * Missing important remapping to mirror hardware topics
+  * Added topic to gazebo plugins
+  * Updated topic names to match gazebo message types
+  * Topics of simulated onboard sensors
+  * Realsense adds optical links when in simulator
+  * Changes.
+  * 0.2.10
+  * Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+  * Fixes styling issues
+  * Set spawner as super client
+  * Changes.
+  * 0.2.11
+  * Removed duplicate class
+  * Use ROS1 covariance values
+  * Updated renamed macanum drive controller
+  * Enable gazebo friction plugin on DingoO
+  ---------
+  Co-authored-by: Hilary Luo <hluo@clearpathrobotics.com>
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+  Co-authored-by: Steve Macenski <stevenmacenski@gmail.com>
+  Co-authored-by: robbiefish <rob.fisher@hbkworld.com>
+* Add Y to controllers
+* Updated wheel separation
+* Keep both joint definitions
+* Control updates
+* Changed default canbus device to vcan0
+* Added Puma control configuration
+* 0.2.8
+* Changes.
+* 0.2.7
+* Changes.
+* Control adds manipulators if simulation
+* Modifications to allow arms to function
+* 0.2.6
+* Changes.
+* Disable tf_frame_prefix_enable
+* 0.2.5
+* Changes.
+* 0.2.4
+* Changes.
+* 0.2.3
+* Changes.
+* 0.2.2
+* Changes.xx
+* 0.2.1
+* Changes.
+* Added do150 control
+* Dingo O mecanum wheels
+* Fixed rocker and small covariance
+* Fixed wheel radius parameter
+* Initial add do100
+* Contributors: Luis Camero, Tony Baltovski, luis-camero
+
 * Add dependency clearpath_mecanum_drive_controller
 * Added tests
 * Added action to build from release and source

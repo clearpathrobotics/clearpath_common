@@ -4,6 +4,21 @@ Changelog for package clearpath_manipulators_description
 
 Forthcoming
 -----------
+* Fixed package version on new packages to match old packages.
+* Changes.
+* Add meshes and URDF for robotiq 2f 140
+* Fixed all license headers
+* Added dependencies to manipulators description
+* Added Robotiq grippers for Kinova
+* Added all joints to the Kinova gripper SRDF
+* Removed unecessary parameter
+* Gripper joint set through arm URD
+* Added another variable to add namespace for MoveItt
+* Added argument to toggle manipulator controllers
+* Manipulator description to match platform description launch
+* Added all descriptions for kinova manipulators
+* Contributors: Luis Camero, Tony Baltovski
+
 * Add meshes and URDF for robotiq 2f 140
 * Fixed all license headers
 * Added dependencies to manipulators description

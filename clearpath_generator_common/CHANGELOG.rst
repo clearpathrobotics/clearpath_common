@@ -4,6 +4,88 @@ Changelog for package clearpath_generator_common
 
 Forthcoming
 -----------
+* Changes.
+* Add meshes and URDF for robotiq 2f 140
+* Standard mesh names and height parameter for tower shoulder
+* R100 attachment rework
+* Add Dingo plate to generator
+* 0.3.0 Release Candidate with Main Changes (`#81 <https://github.com/clearpathrobotics/clearpath_common/issues/81>`_)
+  * Added tests
+  * Added action to build from release and source
+  * Generator linting erros
+  * Customization linting errors
+  * Linting
+  * Fix: Remove IP address from discovery server launch so it listens on all NICs
+  * Changes.
+  * 0.2.8
+  * Add sysctl config file that changes ipfrag settings to support receiving large messages
+  * Added Zed URDF
+  * Added Zed to description generator
+  * Modified common parameter generation to always flatten
+  * Changes.
+  * 0.2.9
+  * Missing important remapping to mirror hardware topics
+  * Added topic to gazebo plugins
+  * Updated topic names to match gazebo message types
+  * Topics of simulated onboard sensors
+  * Realsense adds optical links when in simulator
+  * Changes.
+  * 0.2.10
+  * Modifies platform param to add GQ7 IMU data to ekf_localization and adds GQ7 URDF
+  * Fixes styling issues
+  * Set spawner as super client
+  * Changes.
+  * 0.2.11
+  * Removed duplicate class
+  * Use ROS1 covariance values
+  * Updated renamed macanum drive controller
+  * Enable gazebo friction plugin on DingoO
+  ---------
+  Co-authored-by: Hilary Luo <hluo@clearpathrobotics.com>
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+  Co-authored-by: Steve Macenski <stevenmacenski@gmail.com>
+  Co-authored-by: robbiefish <rob.fisher@hbkworld.com>
+* 0.2.8
+* Changes.
+* Fix: Remove IP address from discovery server launch so it listens on all NICs
+* 0.2.7
+* Changes.
+* ARM_MOUNT to ARM_PLATE
+* Linting issues
+* Use if statement
+* Fixed all license headers
+* Fixed linting issues of collision updater node
+* Pass parameters to Kinova URDF
+* Updated generators to deal with grippers as part of arms
+* Create control file for manipulator controller manager
+* Only add manipulator controllers if simulation
+* Added virtual method for manipulator launch generation
+* Added semantic description generator
+* Added manipulators to parameter generator
+* Add manipulators to description generator
+* Modifications to allow arms to function
+* Added simple package writer to copy package from template
+* Check terminal to set ROS_SUPER_CLIENT
+* Generate script to start the discovery server
+* Updated setup.bash generation for discovery server
+* 0.2.6
+* Changes.
+* 0.2.5
+* Changes.
+* switch finding meshes to use the package:// command
+* 0.2.4
+* Changes.
+* [clearpath_generator_common] Added package description.
+* 0.2.3
+* Changes.
+* Handle file paths with no directory (files in root directory of the package)
+* 0.2.2
+* Changes.xx
+* Enable extras urdf and meshes to be linked by package (`#53 <https://github.com/clearpathrobotics/clearpath_common/issues/53>`_)
+* 0.2.1
+* Changes.
+* Contributors: Hilary Luo, Luis Camero, Tony Baltovski, luis-camero
+
 * Add meshes and URDF for robotiq 2f 140
 * Standard mesh names and height parameter for tower shoulder
 * R100 attachment rework

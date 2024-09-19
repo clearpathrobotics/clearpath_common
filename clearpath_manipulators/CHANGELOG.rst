@@ -4,6 +4,16 @@ Changelog for package clearpath_manipulators
 
 Forthcoming
 -----------
+* Fixed package version on new packages to match old packages.
+* Changes.
+* Fixed all license headers
+* Added MoveIt to manipulation service launch
+* Removed old ompl
+* Added '_' to omp to make it always first alphabetically
+* Added all chomp parameters explicitly to config
+* Renamed manipulators package
+* Contributors: Luis Camero, Tony Baltovski
+
 * Fixed all license headers
 * Added MoveIt to manipulation service launch
 * Removed old ompl
