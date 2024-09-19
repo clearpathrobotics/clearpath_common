@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2024-09-19)
+------------------
 * Changes.
 * Add meshes and URDF for robotiq 2f 140
 * Standard mesh names and height parameter for tower shoulder

@@ -2,8 +2,8 @@
 Changelog for package clearpath_mounts_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2024-09-19)
+------------------
 * Changes.
 * 0.3.0 Release Candidate with Main Changes (`#81 <https://github.com/clearpathrobotics/clearpath_common/issues/81>`_)
   * Added tests

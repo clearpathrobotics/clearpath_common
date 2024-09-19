@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2024-09-19)
+------------------
 * Changes.
 * Add PACS mounting locations to Dingo top plate
 * Standard mesh names and height parameter for tower shoulder
