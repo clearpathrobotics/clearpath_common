@@ -37,6 +37,7 @@ from clearpath_generator_common.semantic_description.manipulators import (
 
 
 class SemanticDescriptionGenerator(BaseGenerator):
+
     def __init__(self, setup_path: str = '/etc/clearpath/') -> None:
         super().__init__(setup_path)
         self.xacro_writer = XacroWriter(self.setup_path, self.serial_number, '.srdf.xacro')

@@ -32,7 +32,7 @@
 import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
-from clearpath_config.common.utils.dictionary import replace_dict_items, merge_dict
+from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
 from clearpath_generator_common.common import MoveItParamFile, Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
 
@@ -92,7 +92,7 @@ class ManipulatorParam():
                 # Arm Control Parameter File
                 arm_param_file = ParamFile(
                     name='control',
-                    package=Package("clearpath_manipulators_description"),
+                    package=Package('clearpath_manipulators_description'),
                     path='config/%s/%s' % (
                         arm.get_manipulator_type(),
                         arm.get_manipulator_model()),
@@ -113,7 +113,7 @@ class ManipulatorParam():
                 # Gripper Control Parameter File
                 gripper_param_file = ParamFile(
                     name='control',
-                    package=Package("clearpath_manipulators_description"),
+                    package=Package('clearpath_manipulators_description'),
                     path='config/%s/%s' % (
                         gripper.get_manipulator_type(),
                         gripper.get_manipulator_model()),
