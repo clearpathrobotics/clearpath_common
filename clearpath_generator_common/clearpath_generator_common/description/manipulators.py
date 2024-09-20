@@ -29,6 +29,8 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+from typing import List
+
 from clearpath_config.manipulators.types.arms import (
     BaseArm,
     KinovaGen3Dof6,
@@ -41,8 +43,6 @@ from clearpath_config.manipulators.types.grippers import (
     Robotiq2F85
 )
 from clearpath_config.manipulators.types.manipulator import BaseManipulator
-
-from typing import List
 
 
 class ManipulatorDescription():

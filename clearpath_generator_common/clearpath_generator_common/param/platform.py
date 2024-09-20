@@ -109,9 +109,9 @@ class PlatformParam():
                 for arm in self.clearpath_config.manipulators.get_all_arms():
                     # Arm Control Parameter File
                     arm_param_file = ParamFile(
-                        name="control",
-                        package=Package("clearpath_manipulators_description"),
-                        path="config/%s/%s" % (
+                        name='control',
+                        package=Package('clearpath_manipulators_description'),
+                        path='config/%s/%s' % (
                             arm.get_manipulator_type(),
                             arm.get_manipulator_model()),
                         parameters={}
@@ -132,9 +132,9 @@ class PlatformParam():
                     gripper = arm.gripper
                     # Gripper Control Parameter File
                     gripper_param_file = ParamFile(
-                        name="control",
-                        package=Package("clearpath_manipulators_description"),
-                        path="config/%s/%s" % (
+                        name='control',
+                        package=Package('clearpath_manipulators_description'),
+                        path='config/%s/%s' % (
                             gripper.get_manipulator_type(),
                             gripper.get_manipulator_model()),
                         parameters={}
