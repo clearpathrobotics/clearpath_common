@@ -20,6 +20,7 @@
   <exec_depend>clearpath_mounts_description</exec_depend>
   <exec_depend>clearpath_platform_description</exec_depend>
   <exec_depend>clearpath_sensors_description</exec_depend>
+  <exec_depend>clearpath_manipulators_description</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
