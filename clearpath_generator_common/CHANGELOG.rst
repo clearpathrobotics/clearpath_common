@@ -2,6 +2,12 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add manipulator dependencies
+* Fixed linting issues for manipulator generation
+* Contributors: Luis Camero
+
 0.3.0 (2024-09-19)
 ------------------
 * Changes.
