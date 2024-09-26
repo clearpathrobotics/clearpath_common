@@ -31,6 +31,7 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+import os
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
@@ -49,6 +50,7 @@ from launch_ros.actions import PushRosNamespace
 
 def generate_launch_description():
 
+    home_path = os.path.expanduser('~')
     # Packages
     pkg_clearpath_manipulators_description = FindPackageShare('clearpath_manipulators_description')
     pkg_clearpath_manipulators = FindPackageShare('clearpath_manipulators')
@@ -56,13 +58,14 @@ def generate_launch_description():
     # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
-        default_value='/etc/clearpath/'
+        default_value=PathJoinSubstitution([
+        home_path, 'clearpath'])
     )
 
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         choices=['true', 'false'],
-        default_value='false',
+        default_value='true',
         description='Use simulation time'
     )
 
@@ -95,7 +98,7 @@ def generate_launch_description():
 
     group_manipulators_action = GroupAction(
         actions=[
-            PushRosNamespace(PathJoinSubstitution([namespace, 'manipulators'])),
+            PushRosNamespace(PathJoinSubstitution([namespace, 'a200_0000'])),
             IncludeLaunchDescription(
               PythonLaunchDescriptionSource(launch_file_manipulators_description),
               launch_arguments=[
@@ -106,14 +109,14 @@ def generate_launch_description():
             ),
 
             # Launch clearpath_control/control.launch.py which is just robot_localization.
-            IncludeLaunchDescription(
-              PythonLaunchDescriptionSource(launch_file_control),
-              launch_arguments=[
-                  ('namespace', namespace),
-                  ('setup_path', setup_path),
-                  ('use_sim_time', use_sim_time),
-              ]
-            ),
+#            IncludeLaunchDescription(
+#              PythonLaunchDescriptionSource(launch_file_control),
+#              launch_arguments=[
+#                  ('namespace', namespace),
+#                  ('setup_path', setup_path),
+#                  ('use_sim_time', use_sim_time),
+#              ]
+#            ),
         ]
     )
 

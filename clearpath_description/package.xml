@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>clearpath_description</name>
-  <version>0.3.1</version>
+  <version>0.2.11</version>
   <description>Clearpath URDF descriptions metapackage</description>
 
   <author email="lcamero@clearpathrobotics.com">Luis Camero</author>
@@ -20,7 +20,6 @@
   <exec_depend>clearpath_mounts_description</exec_depend>
   <exec_depend>clearpath_platform_description</exec_depend>
   <exec_depend>clearpath_sensors_description</exec_depend>
-  <exec_depend>clearpath_manipulators_description</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

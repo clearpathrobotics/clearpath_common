@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/attachments/arm_mount/fams.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/attachments/arm_mount/hams.urdf.xacro"/>
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/attachments/arm_mount/tower.urdf.xacro"/>
+  <xacro:macro name="arm_mount" params="name model:='fams' parent_link:='default_mount' *origin">
+    <!-- fams -->
+    <xacro:if value="${model == 'fams'}">
+      <xacro:fams name="${name}" parent_link="${parent_link}">
+        <xacro:insert_block name="origin"/>
+      </xacro:fams>
+    </xacro:if>
+    <!-- hams -->
+    <xacro:if value="${model == 'hams'}">
+      <xacro:hams name="${name}" parent_link="${parent_link}">
+        <xacro:insert_block name="origin"/>
+      </xacro:hams>
+    </xacro:if>
+    <!-- tower -->
+    <xacro:if value="${model == 'tower'}">
+      <xacro:tower name="${name}" parent_link="${parent_link}">
+        <xacro:insert_block name="origin"/>
+      </xacro:tower>
+    </xacro:if>
+  </xacro:macro>
+</robot>

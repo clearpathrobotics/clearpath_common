@@ -97,7 +97,7 @@ class LaunchGenerator(BaseGenerator):
         )
 
     def generate(self) -> None:
-        self.generate_manipulators()
+        #self.generate_manipulators()
         self.generate_sensors()
         self.generate_platform()
 

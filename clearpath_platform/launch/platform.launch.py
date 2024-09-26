@@ -26,6 +26,7 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import os
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
@@ -46,17 +47,19 @@ def generate_launch_description():
     # Packages
     pkg_clearpath_control = FindPackageShare('clearpath_control')
     pkg_clearpath_platform_description = FindPackageShare('clearpath_platform_description')
+    home_path = os.path.expanduser('~')
 
     # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
-        default_value='/etc/clearpath/'
+        default_value=PathJoinSubstitution([
+        home_path, 'clearpath'])
     )
 
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         choices=['true', 'false'],
-        default_value='false',
+        default_value='true',
         description='Use simulation time'
     )
 
@@ -138,12 +141,13 @@ def generate_launch_description():
 
             # Launch clearpath_control/teleop_joy.launch.py which is tele-operation using a
             # physical joystick.
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(launch_file_teleop_joy),
-                launch_arguments=[
-                    ('setup_path', setup_path),
-                    ('use_sim_time', use_sim_time)]
-            ),
+            
+#            IncludeLaunchDescription(
+#                PythonLaunchDescriptionSource(launch_file_teleop_joy),
+#                launch_arguments=[
+#                    ('setup_path', setup_path),
+#                   ('use_sim_time', use_sim_time)]
+#            ),
         ]
     )
 

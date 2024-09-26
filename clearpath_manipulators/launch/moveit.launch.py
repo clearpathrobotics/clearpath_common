@@ -35,11 +35,12 @@ import os
 import xacro
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
-from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, OpaqueFunction, TimerAction
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
 from clearpath_config.clearpath_config import ClearpathConfig
+
 
 
 def launch_setup(context, *args, **kwargs):
@@ -47,6 +48,7 @@ def launch_setup(context, *args, **kwargs):
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
     setup_path_context = setup_path.perform(context)
+    rviz_config_file = '/home/aalmrad/demos/clearpath_kinova/clearpath_ws/src/clearpath_common/clearpath_moveit_config/config/moveit.rviz'
 
     # Namespace
     namespace = ClearpathConfig(
@@ -66,9 +68,9 @@ def launch_setup(context, *args, **kwargs):
             os.path.join(setup_path_context, 'robot.srdf')
         ).toxml()
     }
-
-    return [
-        Node(
+    
+    #Moveit node
+    moveit_node = Node(
             package='moveit_ros_move_group',
             executable='move_group',
             output='log',
@@ -85,18 +87,41 @@ def launch_setup(context, *args, **kwargs):
                 ('joint_states', 'platform/joint_states'),
             ]
         )
-    ]
+    
+    # RViz Node (with delay)
+    rviz_node = TimerAction(
+        period=5.0,  # Delay of 5 seconds (adjust as needed)
+        actions=[
+            Node(
+                package='rviz2',
+                executable='rviz2',
+                output='log',
+                namespace=namespace,
+                arguments=['-d', rviz_config_file],
+                remappings=[
+                ('/tf', 'tf'),
+                ('/tf_static', 'tf_static'),
+                ('joint_states', 'platform/joint_states'),
+            ]
+            )
+        ]
+    )
+
+    return [moveit_node, rviz_node]
 
 
 def generate_launch_description():
+
+    home_path = os.path.expanduser('~')
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
-        default_value='/etc/clearpath/',
+        default_value=PathJoinSubstitution([
+        home_path, 'clearpath']),
         description='Clearpath setup path'
     )
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='false',
+        default_value='true',
         choices=['true', 'false'],
         description='use_sim_time'
     )

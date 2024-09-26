@@ -29,6 +29,7 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import (Command, FindExecutable,
@@ -43,11 +44,13 @@ def generate_launch_description():
     robot_description_command = LaunchConfiguration('robot_description_command')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
+    home_path = os.path.expanduser('~')
 
     # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
-        default_value='/etc/clearpath/'
+        default_value=PathJoinSubstitution([
+        home_path, 'clearpath'])
     )
 
     arg_namespace = DeclareLaunchArgument(
@@ -69,7 +72,7 @@ def generate_launch_description():
             robot_urdf,
             ' ',
             'is_sim:=',
-            use_sim_time,
+            'true',
             ' ',
             'namespace:=',
             namespace,
@@ -88,7 +91,7 @@ def generate_launch_description():
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         choices=['true', 'false'],
-        default_value='false',
+        default_value='true',
         description='Use simulation time'
     )
 

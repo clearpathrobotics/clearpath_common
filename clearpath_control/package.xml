@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>clearpath_control</name>
-  <version>0.3.1</version>
+  <version>0.2.11</version>
   <description>Controllers for Clearpath Robotics platforms</description>
 
   <license>BSD</license>
@@ -18,7 +18,6 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>clearpath_mecanum_drive_controller</exec_depend>
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>diff_drive_controller</exec_depend>
   <exec_depend>imu_filter_madgwick</exec_depend>

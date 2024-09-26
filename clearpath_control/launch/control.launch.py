@@ -31,6 +31,7 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction
 from launch.conditions import IfCondition, UnlessCondition
@@ -112,16 +113,18 @@ def launch_setup(context, *args, **kwargs):
 
 
 def generate_launch_description():
+    home_path = os.path.expanduser('~')
     # Launch Configurations
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
-        default_value='/etc/clearpath/'
+        default_value=PathJoinSubstitution([
+        home_path, 'clearpath'])
     )
 
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         choices=['true', 'false'],
-        default_value='false',
+        default_value='true',
         description='Use simulation time'
     )
 

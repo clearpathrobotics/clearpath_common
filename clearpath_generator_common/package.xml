@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>clearpath_generator_common</name>
-  <version>0.3.1</version>
+  <version>0.2.11</version>
   <description>Clearpath Common Generator</description>
   <maintainer email="lcamero@clearpathrobotics.com">Luis Camero</maintainer>
   <maintainer email="rkreinin@clearpathrobotics.com">Roni Kreinin</maintainer>
@@ -18,7 +18,6 @@
   <exec_depend>clearpath_control</exec_depend>
   <exec_depend>clearpath_description</exec_depend>
   <exec_depend>clearpath_platform</exec_depend>
-  <exec_depend>clearpath_manipulators</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

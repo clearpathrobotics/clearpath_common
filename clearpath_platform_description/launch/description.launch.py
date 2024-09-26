@@ -1,4 +1,4 @@
-
+import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import (Command, FindExecutable,
@@ -16,12 +16,15 @@ def generate_launch_description():
     use_fake_hardware = LaunchConfiguration('use_fake_hardware')
     use_manipulation_controllers = LaunchConfiguration('use_manipulation_controllers')
     use_platform_controllers = LaunchConfiguration('use_platform_controllers')
+    home_path = os.path.expanduser('~')
 
     # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
-        default_value='/etc/clearpath/'
+        default_value=PathJoinSubstitution([
+        home_path, 'clearpath'])
     )
+    
 
     arg_namespace = DeclareLaunchArgument(
         'namespace',
@@ -37,7 +40,7 @@ def generate_launch_description():
 
     arg_use_manipulation_controllers = DeclareLaunchArgument(
         'use_manipulation_controllers',
-        default_value='false',
+        default_value='true',
         description='Use manipulation controllers if true'
     )
 
@@ -62,7 +65,7 @@ def generate_launch_description():
             robot_urdf,
             ' ',
             'is_sim:=',
-            use_sim_time,
+            'true',
             ' ',
             'gazebo_controllers:=',
             config_control,
@@ -74,7 +77,7 @@ def generate_launch_description():
             use_fake_hardware,
             ' ',
             'use_manipulation_controllers:=',
-            use_manipulation_controllers,
+            'true',
             ' ',
             'use_platform_controllers:=',
             use_platform_controllers,
@@ -84,7 +87,7 @@ def generate_launch_description():
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         choices=['true', 'false'],
-        default_value='false',
+        default_value='true',
         description='Use simulation time'
     )
 

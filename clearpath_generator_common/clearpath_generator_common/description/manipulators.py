@@ -29,8 +29,6 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
-from typing import List
-
 from clearpath_config.manipulators.types.arms import (
     BaseArm,
     KinovaGen3Dof6,
@@ -43,6 +41,8 @@ from clearpath_config.manipulators.types.grippers import (
     Robotiq2F85
 )
 from clearpath_config.manipulators.types.manipulator import BaseManipulator
+
+from typing import List
 
 
 class ManipulatorDescription():
@@ -97,7 +97,7 @@ class ManipulatorDescription():
         GRIPPER_COMM = 'use_internal_bus_gripper_comm'
         GRIPPER_NAMES = {
             Kinova2FLite.get_manipulator_model(): '_right_finger_bottom_joint',
-            Robotiq2F140.get_manipulator_model(): '_finger_joint',
+            Robotiq2F140.get_manipulator_model(): '_robotiq_85_left_knuckle_joint',
             Robotiq2F85.get_manipulator_model(): '_robotiq_85_left_knuckle_joint',
         }
 
