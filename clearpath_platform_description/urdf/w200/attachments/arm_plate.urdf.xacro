@@ -1,14 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-<<<<<<< HEAD
   <xacro:macro name="box_inertia" params="m x y z">
     <inertia ixx="${m*(y*y+z*z)/12}" ixy="0" ixz="0"
              iyy="${m*(x*x+z*z)/12}" iyz="0"
              izz="${m*(x*x+z*z)/12}" />
   </xacro:macro>
 
-=======
->>>>>>> 0.3.0-RC
   <xacro:macro name="arm_plate" params="name:=arm_plate model:=default parent_link:=default_mount *origin">
     <link name="${name}_link">
       <visual>
