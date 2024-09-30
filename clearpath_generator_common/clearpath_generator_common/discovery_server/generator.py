@@ -51,7 +51,7 @@ class DiscoveryServerGenerator(BaseGenerator):
         bash_writer = BashWriter(discovery_server_start)
 
         # Source ROS
-        ros_setup_bash = BashFile(filename='setup.bash', path=self.ROS_DISTRO_PATH)
+        ros_setup_bash = BashFile(filename='setup.bash', path=ROS_DISTRO_PATH)
         bash_writer.add_source(ros_setup_bash)
 
         # If Fast DDS Discovery Server is selected then check if a local server should be run
