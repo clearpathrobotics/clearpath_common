@@ -21,12 +21,12 @@
   <depend>controller_interface</depend>
   <depend>controller_manager</depend>
   <depend>controller_manager_msgs</depend>
+  <depend>clearpath_motor_msgs</depend>
   <depend>clearpath_platform_msgs</depend>
   <depend>hardware_interface</depend>
   <depend>geometry_msgs</depend>
   <depend>nav_msgs</depend>
   <depend>pluginlib</depend>
-  <depend>puma_motor_msgs</depend>
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
