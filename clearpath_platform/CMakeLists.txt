@@ -18,7 +18,7 @@ find_package(controller_manager_msgs REQUIRED)
 find_package(clearpath_platform_msgs REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
-find_package(puma_motor_msgs REQUIRED)
+find_package(clearpath_motor_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 
 find_package(geometry_msgs REQUIRED)
@@ -162,7 +162,7 @@ target_include_directories(
 
 ament_target_dependencies(
   puma_hardware
-  puma_motor_msgs
+  clearpath_motor_msgs
   clearpath_platform_msgs
   hardware_interface
   pluginlib
