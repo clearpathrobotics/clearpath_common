@@ -8,6 +8,9 @@
 #include <rclcpp/qos.hpp>
 #include <cmath> // For std::abs
 #include <mutex>
+#include <iostream>
+#include <iterator>
+#include <array>
 
 class GazeboToRealRobotBridge : public rclcpp::Node
 {
@@ -83,7 +86,15 @@ private:
                 traj_point.positions.push_back(msg->position[index]);
             }
         }
+
         if(!init_reached){
+
+            std::cout << "Joints positional commands" << std::endl;
+            std::copy(traj_point.positions.begin(), traj_point.positions.end(), std::ostream_iterator<float>(std::cout, " "));
+            std::cout << "" << std::endl;
+            std::cout << "Real-life joints positons" << std::endl;
+            std::for_each(std::begin(real_arm_joint_positions_), std::end(real_arm_joint_positions_), [](double val) { std::cout << val << " "; });
+            std::cout << "" << std::endl;
             // Calculate the time from start based on the difference between real and simulated joint positions
             double max_position_difference = 0.0;
 
@@ -93,9 +104,11 @@ private:
                 double position_difference = std::abs(traj_point.positions[i] - real_arm_joint_positions_[i]);
                 if (position_difference > max_position_difference) {
                     max_position_difference = position_difference;  // Track the maximum difference
-                    std::cout << "Max position difference: " << max_position_difference << std::endl;
                 }
             }
+
+            std::cout << "Max position difference: " << max_position_difference << std::endl;
+
             if (max_position_difference <= tol){
                 std::cout << "Robot sync with the simulation initial position reached!" << std::endl;
                 init_reached = true;
@@ -160,7 +173,7 @@ private:
     // Mutex to protect access to real_arm_joint_positions_
     std::mutex joint_positions_mutex;
     bool init_reached = false;
-    double tol = 0.01;
+    double tol = 0.04;
 };
 
 int main(int argc, char **argv)
