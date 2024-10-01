@@ -8,26 +8,26 @@ on:
 
 jobs:
   clearpath_common_osrf_industrial_ci:
-    name: Humble OSRF Industrial
+    name: Jazzy OSRF Industrial
     strategy:
       matrix:
         env:
-          - {ROS_REPO: testing, ROS_DISTRO: humble}
-          - {ROS_REPO: main, ROS_DISTRO: humble}
+          - {ROS_REPO: testing, ROS_DISTRO: jazzy}
+          - {ROS_REPO: main, ROS_DISTRO: jazzy}
       fail-fast: false
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
       - uses: 'ros-industrial/industrial_ci@master'
         env: ${{matrix.env}}
   clearpath_common_cpr_ci:
-    name: Humble Clearpath Release
-    runs-on: ubuntu-22.04
+    name: Jazzy Clearpath Release
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
       - uses: ros-tooling/setup-ros@v0.7
         with:
-          required-ros-distributions: humble
+          required-ros-distributions: jazzy
       - name: clearpath-package-server
         run: |
           sudo apt install wget
@@ -37,7 +37,7 @@ jobs:
       - uses: ros-tooling/action-ros-ci@v0.3
         id: action_ros_ci_step
         with:
-          target-ros2-distro: humble
+          target-ros2-distro: jazzy
           package-name: |
             clearpath_common
             clearpath_control
@@ -49,17 +49,17 @@ jobs:
             clearpath_platform_description
             clearpath_sensors_description
   clearpath_common_src_ci:
-    name: Humble Clearpath Source
-    runs-on: ubuntu-22.04
+    name: Jazzy Clearpath Source
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
       - uses: ros-tooling/setup-ros@v0.7
         with:
-          required-ros-distributions: humble
+          required-ros-distributions: jazzy
       - uses: ros-tooling/action-ros-ci@v0.3
         id: action_ros_ci_step
         with:
-          target-ros2-distro: humble
+          target-ros2-distro: jazzy
           package-name: |
             clearpath_common
             clearpath_control
