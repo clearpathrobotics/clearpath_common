@@ -90,7 +90,7 @@ def generate_launch_description():
         executable='twist_mux',
         output='screen',
         remappings={
-            ('cmd_vel_out', 'platform/cmd_vel_unstamped'),
+            ('cmd_vel_out', 'platform/cmd_vel'),
             ('/diagnostics', 'diagnostics'),
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static'),
