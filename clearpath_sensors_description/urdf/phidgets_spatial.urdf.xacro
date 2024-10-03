@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="phidgets_spatial" params="name parent_link update_rate:=100 *origin">
+    <!-- Variables -->
+    <xacro:property name="size_x" value="0.029931"/>
+    <xacro:property name="size_y" value="0.041275"/>
+    <xacro:property name="size_z" value="0.016818"/>
+
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 ${size_z/2}"/>
+        <geometry>
+          <box size="${size_x} ${size_y} ${size_z}"/>
+        </geometry>
+        <material name="clearpath_dark_grey" />
+      </visual>
+    </link>
+
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
+    </joint>
+
+    <gazebo reference="${name}_link">
+      <sensor type="imu" name="${name}">
+        <always_on>true</always_on>
+        <update_rate>${update_rate}</update_rate>
+        <visualize>true</visualize>
+        <ignition_frame_id>${name}_link</ignition_frame_id>
+        <topic>$(arg namespace)/sensors/${name}/data</topic>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>
