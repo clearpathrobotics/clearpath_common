@@ -2,8 +2,8 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.3 (2024-10-04)
+------------------
 * Add OAKD
 * Added phidget spatial URDF
 * Contributors: Luis Camero
