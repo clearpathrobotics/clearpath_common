@@ -1,7 +1,23 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+<xacro:macro name="inertial_dummy">
+  <xacro:property name="mass" value="0.01"/>
+  <xacro:property name="x" value="0.01"/>
+  <xacro:property name="y" value="0.01"/>
+  <xacro:property name="z" value="0.01"/>
+  <inertial>
+    <mass value="${mass}" />
+    <origin xyz="0 0 0" />
+    <inertia ixx="${(1/12) * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+      iyy="${(1/12) * mass * (x*x + z*z)}" iyz="0.0"
+      izz="${(1/12) * mass * (x*x + y*y)}" />
+  </inertial>
+
+
+</xacro:macro>
 
 <xacro:macro name="luxonis_oakd" params="name parent_link *origin model:=pro">
+  <xacro:property name="cm2m" value="0.01"/>
   <xacro:property name="mass"       value="0.061"/>
   <xacro:property name="baseline" value="0.075" />
   <xacro:property name="M_PI"     value="3.1415926535897931" />
@@ -26,7 +42,7 @@
   <link name="${base_frame}">
     <visual>
       <geometry>
-        <mesh filename="package://clearpath_sensors_description/meshes/${name}_${model}.dae" scale="1 1 1" />
+        <mesh filename="package://clearpath_sensors_description/meshes/oakd_${model}.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
@@ -136,7 +152,7 @@
       <update_rate>30</update_rate>
       <visualize>true</visualize>
     </sensor>
-    <xacro:material_darkgray/>
+    <material name="clearpath_dark_grey"/>
   </gazebo>
 
   <gazebo reference="${name}_joint">
