@@ -2,6 +2,9 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.3.3 (2024-10-04)
 ------------------
 
