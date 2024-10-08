@@ -2,8 +2,8 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.4 (2024-10-08)
+------------------
 * Fixed OakD URDF.
 * Contributors: Luis Camero
 
