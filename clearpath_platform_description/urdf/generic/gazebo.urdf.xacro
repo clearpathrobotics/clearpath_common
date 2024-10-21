@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:if value="$(arg is_sim)">
     <gazebo>
-      <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::IgnitionROS2ControlPlugin">
         <parameters>$(arg gazebo_controllers)</parameters>
         <ros>
           <remapping>~/odom:=platform/odom</remapping>
