@@ -59,7 +59,7 @@ Lighting::Lighting()
   {
     throw std::out_of_range("Invalid Platform " + platform);
   }
-  
+
   RCLCPP_INFO(this->get_logger(), "Lighting Platform %s", platform.c_str());
 
   lights_msg_ = Lights();
@@ -80,33 +80,33 @@ Lighting::Lighting()
       Sequence::fillLightingState(COLOR_BLUE, platform_),
       Sequence::fillLightingState(COLOR_YELLOW, platform_),
       MS_TO_STEPS(12000))},
-    
+
     {State::ShoreAndCharged, PulseSequence(
       Sequence::fillLightingState(COLOR_BLUE, platform_),
       Sequence::fillLightingState(COLOR_GREEN, platform_),
       MS_TO_STEPS(12000))},
-    
+
     {State::ShorePower, SolidSequence(
       Sequence::fillLightingState(COLOR_BLUE, platform_))},
-    
+
     {State::Charging, PulseSequence(
       Sequence::fillLightingState(COLOR_GREEN, platform_),
       Sequence::fillLightingState(COLOR_YELLOW, platform_),
       MS_TO_STEPS(6000))},
-    
+
     {State::Charged, SolidSequence(
       Sequence::fillLightingState(COLOR_GREEN, platform_))},
-    
+
     {State::Stopped, BlinkSequence(
       Sequence::fillLightingState(COLOR_RED, platform_),
       Sequence::fillLightingState(COLOR_BLACK, platform_),
       MS_TO_STEPS(1000), 0.5)},
-    
+
     {State::NeedsReset, BlinkSequence(
       Sequence::fillLightingState(COLOR_ORANGE, platform_),
       Sequence::fillLightingState(COLOR_RED, platform_),
       MS_TO_STEPS(2000), 0.5)},
-    
+
     {State::LowBattery, PulseSequence(
       Sequence::fillLightingState(COLOR_ORANGE, platform_),
       Sequence::fillLightingState(COLOR_BLACK, platform_),
@@ -164,7 +164,7 @@ void Lighting::spinOnce()
     current_sequence_.reset();
     old_state_ = state_;
   }
-  
+
   // Get current lighting state from sequence
   lights_msg_ = current_sequence_.getLightsMsg();
 
@@ -207,7 +207,7 @@ void Lighting::initializeSubscribers()
     "platform/mcu/status/power",
     rclcpp::SensorDataQoS(),
     std::bind(&Lighting::powerCallback, this, std::placeholders::_1));
-  
+
   // MCU stop status
   stop_status_sub_ = this->create_subscription<clearpath_platform_msgs::msg::StopStatus>(
     "platform/mcu/status/stop",
@@ -219,16 +219,16 @@ void Lighting::initializeSubscribers()
     "platform/bms/state",
     rclcpp::SensorDataQoS(),
     std::bind(&Lighting::batteryStateCallback, this, std::placeholders::_1));
-  
+
   // Stop engaged
   stop_engaged_sub_ = this->create_subscription<std_msgs::msg::Bool>(
     "platform/emergency_stop",
     rclcpp::SensorDataQoS(),
     std::bind(&Lighting::stopEngagedCallback, this, std::placeholders::_1));
-  
+
   // Command vel
-  cmd_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
-    "platform/cmd_vel_unstamped",
+  cmd_vel_sub_ = this->create_subscription<geometry_msgs::msg::TwistStamped>(
+    "platform/cmd_vel",
     rclcpp::SensorDataQoS(),
     std::bind(&Lighting::cmdVelCallback, this, std::placeholders::_1));
 }
@@ -271,7 +271,7 @@ void Lighting::startUserTimeoutTimer()
         user_timeout_timer_->cancel();
       }
     );
-  }  
+  }
 }
 
 /**
@@ -335,7 +335,7 @@ void Lighting::stopEngagedCallback(const std_msgs::msg::Bool::SharedPtr msg)
 /**
  * @brief Command velocity callback
  */
-void Lighting::cmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr msg)
+void Lighting::cmdVelCallback(const geometry_msgs::msg::TwistStamped::SharedPtr msg)
 {
   cmd_vel_msg_ = *msg;
 }
@@ -417,15 +417,15 @@ void Lighting::updateState()
   {
     setState(State::NeedsReset);
   }
-  
+
   if (stop_engaged_msg_.data) // E-Stop
   {
     setState(State::Stopped);
   }
 
-  if (cmd_vel_msg_.linear.x != 0.0 ||
-      cmd_vel_msg_.linear.y != 0.0 ||
-      cmd_vel_msg_.angular.z != 0.0) // Robot is driving
+  if (cmd_vel_msg_.twist.linear.x != 0.0 ||
+      cmd_vel_msg_.twist.linear.y != 0.0 ||
+      cmd_vel_msg_.twist.angular.z != 0.0) // Robot is driving
   {
     setState(State::Driving);
   }

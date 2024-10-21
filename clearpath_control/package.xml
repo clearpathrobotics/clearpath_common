@@ -18,7 +18,7 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>clearpath_mecanum_drive_controller</exec_depend>
+  <!--<exec_depend>clearpath_mecanum_drive_controller</exec_depend>-->
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>diff_drive_controller</exec_depend>
   <exec_depend>imu_filter_madgwick</exec_depend>
@@ -28,7 +28,7 @@
   <exec_depend>joy_linux</exec_depend>
   <exec_depend>robot_localization</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
-  <exec_depend>teleop_twist_joy</exec_depend>
+  <exec_depend version_gte="2.6.1">teleop_twist_joy</exec_depend>
   <exec_depend>twist_mux</exec_depend>
 
   <export>

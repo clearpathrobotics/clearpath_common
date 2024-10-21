@@ -188,7 +188,7 @@
     <ros2_control name="do100_hardware" type="system">
       <hardware>
         <xacro:if value="$(arg is_sim)">
-          <plugin>ign_ros2_control/IgnitionSystem</plugin>
+          <plugin>gz_ros2_control/IgnitionSystem</plugin>
         </xacro:if>
         <xacro:unless value="$(arg is_sim)">
           <plugin>clearpath_platform/PumaHardware</plugin>

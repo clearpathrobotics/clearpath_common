@@ -36,11 +36,10 @@ from clearpath_config.common.types.discovery import Discovery
 from clearpath_config.common.types.rmw_implementation import RMWImplementation
 from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BaseGenerator, BashFile
+from clearpath_generator_common.ros import ROS_DISTRO_PATH
 
 
 class DiscoveryServerGenerator(BaseGenerator):
-
-    ROS_DISTRO_PATH = '/opt/ros/humble/'
 
     def generate(self) -> None:
         # Generate the file that launches the FastDDS discovery server
@@ -51,9 +50,9 @@ class DiscoveryServerGenerator(BaseGenerator):
         discovery_server_start = BashFile(filename='discovery-server-start', path=self.setup_path)
         bash_writer = BashWriter(discovery_server_start)
 
-        # Source Humble
-        humble_setup_bash = BashFile(filename='setup.bash', path=self.ROS_DISTRO_PATH)
-        bash_writer.add_source(humble_setup_bash)
+        # Source ROS
+        ros_setup_bash = BashFile(filename='setup.bash', path=ROS_DISTRO_PATH)
+        bash_writer.add_source(ros_setup_bash)
 
         # If Fast DDS Discovery Server is selected then check if a local server should be run
         middleware_config = self.clearpath_config.system.middleware

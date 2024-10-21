@@ -35,11 +35,10 @@
 from clearpath_config.common.types.discovery import Discovery
 from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BaseGenerator, BashFile
+from clearpath_generator_common.ros import ROS_DISTRO_PATH
 
 
 class BashGenerator(BaseGenerator):
-
-    ROS_DISTRO_PATH = '/opt/ros/humble/'
 
     def generate(self) -> None:
         # Generate setup.bash
@@ -51,9 +50,9 @@ class BashGenerator(BaseGenerator):
 
         workspaces = self.clearpath_config.system.workspaces
 
-        # Source Humble
-        humble_setup_bash = BashFile(filename='setup.bash', path=self.ROS_DISTRO_PATH)
-        bash_writer.add_source(humble_setup_bash)
+        # Source core ROS
+        ros_setup_bash = BashFile(filename='setup.bash', path=ROS_DISTRO_PATH)
+        bash_writer.add_source(ros_setup_bash)
 
         # Additional workspaces
         for workspace in workspaces:

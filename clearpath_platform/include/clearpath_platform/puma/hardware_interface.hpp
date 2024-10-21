@@ -36,8 +36,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/joint_state.hpp"
 
-#include "puma_motor_msgs/msg/feedback.hpp"
-#include "puma_motor_msgs/msg/multi_feedback.hpp"
+#include "clearpath_motor_msgs/msg/puma_feedback.hpp"
+#include "clearpath_motor_msgs/msg/puma_multi_feedback.hpp"
 
 namespace clearpath_platform
 {
@@ -51,14 +51,14 @@ class PumaHardwareInterface
   void drive_command(const sensor_msgs::msg::JointState msg);
 
   bool has_new_feedback();
-  void feedback_callback(const puma_motor_msgs::msg::MultiFeedback::SharedPtr msg);
-  puma_motor_msgs::msg::MultiFeedback get_feedback();
+  void feedback_callback(const clearpath_motor_msgs::msg::PumaMultiFeedback::SharedPtr msg);
+  clearpath_motor_msgs::msg::PumaMultiFeedback get_feedback();
 
   private:
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr pub_cmd_;
-  rclcpp::Subscription<puma_motor_msgs::msg::MultiFeedback>::SharedPtr sub_feedback_;
+  rclcpp::Subscription<clearpath_motor_msgs::msg::PumaMultiFeedback>::SharedPtr sub_feedback_;
 
-  puma_motor_msgs::msg::MultiFeedback feedback_;
+  clearpath_motor_msgs::msg::PumaMultiFeedback feedback_;
   std::atomic_bool has_feedback_;
 };
 

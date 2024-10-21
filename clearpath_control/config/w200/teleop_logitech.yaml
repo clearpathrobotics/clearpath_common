@@ -43,6 +43,7 @@
 
 joy_teleop/teleop_twist_joy_node:
   ros__parameters:
+    publish_stamped_twist: True
     use_sim_time: False
     axis_linear:
       x: 1

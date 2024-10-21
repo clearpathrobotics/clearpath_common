@@ -37,7 +37,7 @@ using clearpath_platform::PumaHardwareInterface;
 PumaHardwareInterface::PumaHardwareInterface(std::string node_name)
 : Node(node_name)
 {
-  sub_feedback_ = create_subscription<puma_motor_msgs::msg::MultiFeedback>(
+  sub_feedback_ = create_subscription<clearpath_motor_msgs::msg::PumaMultiFeedback>(
     "platform/puma/feedback",
     rclcpp::SensorDataQoS(),
     std::bind(&PumaHardwareInterface::feedback_callback, this, std::placeholders::_1));
@@ -52,7 +52,7 @@ PumaHardwareInterface::PumaHardwareInterface(std::string node_name)
  *
  * @param msg
 */
-void PumaHardwareInterface::feedback_callback(const puma_motor_msgs::msg::MultiFeedback::SharedPtr msg)
+void PumaHardwareInterface::feedback_callback(const clearpath_motor_msgs::msg::PumaMultiFeedback::SharedPtr msg)
 {
   feedback_ = *msg;
   has_feedback_ = true;
@@ -83,9 +83,9 @@ bool PumaHardwareInterface::has_new_feedback()
 /**
  * @brief Get feedback
  *
- * @return puma_motor_msgs::msg::MultiFeedback
+ * @return clearpath_motor_msgs::msg::PumaMultiFeedback
 */
-puma_motor_msgs::msg::MultiFeedback PumaHardwareInterface::get_feedback()
+clearpath_motor_msgs::msg::PumaMultiFeedback PumaHardwareInterface::get_feedback()
 {
   has_feedback_ = false;
   return feedback_;
