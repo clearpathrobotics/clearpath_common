@@ -12,7 +12,7 @@
       </inertial>
       <visual>
         <geometry>
-          <mesh filename="package://axis_description/meshes/axis_dome.stl" scale="1 1 1" />
+          <mesh filename="package://clearpth_sensors_description/meshes/axis_dome.stl" scale="1 1 1" />
         </geometry>
         <material name="axis_white">
           <color rgba="0.8 0.8 0.8 1.0" />
