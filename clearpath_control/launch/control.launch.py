@@ -100,7 +100,7 @@ def launch_setup(context, *args, **kwargs):
                     'platform' in controller):
                 continue
             controllers.append(Node(
-                name='test',
+                name=controller,
                 package='controller_manager',
                 executable='spawner',
                 arguments=['--controller-manager-timeout', '60', controller],
