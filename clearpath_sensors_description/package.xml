@@ -17,6 +17,7 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <exec_depend>axis_description</exec_depend>
   <exec_depend>microstrain_inertial_description</exec_depend>
   <exec_depend>realsense2_description</exec_depend>
   <exec_depend>velodyne_description</exec_depend>

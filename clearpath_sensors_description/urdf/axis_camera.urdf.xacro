@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find axis_description)/urdf/axis_dome_fixed.urdf.xacro"/>
+    <xacro:include filename="$(find axis_description)/urdf/axis_dome_ptz.urdf.xacro"/>
+    <xacro:include filename="$(find axis_description)/urdf/axis_q62.urdf.xacro"/>
+    <xacro:macro name="axis_camera" params="
+        name
+        parent_link
+        *origin
+        model:=dome_ptz
+        topic
+    ">
+        <xacro:if value="${model == 'dome_fixed'}">
+            <xacro:axis_dome_fixed prefix="${name}" parent="${parent_link}" topic="${topic}">
+                <xacro:insert_block name="origin" />
+            </xacro:axis_dome_fixed>
+        </xacro:if>
+        <xacro:if value="${model == 'dome_ptz'}">
+            <xacro:axis_dome_ptz prefix="${name}" parent="${parent_link}" topic="${topic}">
+                <xacro:insert_block name="origin" />
+            </xacro:axis_dome_ptz>
+        </xacro:if>
+        <xacro:if value="${model == 'q62'}">
+            <xacro:axis_q62 prefix="${name}" parent="${parent_link}" topic="${topic}">
+                <xacro:insert_block name="origin" />
+            </xacro:axis_q62>
+        </xacro:if>
+    </xacro:macro>
+</robot>
