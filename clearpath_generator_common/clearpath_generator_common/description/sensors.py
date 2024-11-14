@@ -151,15 +151,13 @@ class SensorDescription():
             })
 
     class AxisCameraDescription(CameraDescription):
-        IMAGE_WIDTH = 'image_width'
-        IMAGE_HEIGHT = 'image_height'
+        MODEL = 'model'
 
         def __init__(self, sensor: AxisCamera) -> None:
             super().__init__(sensor)
 
             self.parameters.update({
-                self.IMAGE_HEIGHT: sensor.frame_height,
-                self.IMAGE_WIDTH: sensor.frame_width
+                self.MODEL: sensor.device_type
             })
 
     class IntelRealsenseDescription(CameraDescription):
