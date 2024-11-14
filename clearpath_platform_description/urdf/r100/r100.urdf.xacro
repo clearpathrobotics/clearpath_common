@@ -3,7 +3,7 @@
 
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
-  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/do100/control.yaml"/>
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/r100/control.yaml"/>
 
   <!-- Includes -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/wheels/wheel.urdf.xacro"/>
