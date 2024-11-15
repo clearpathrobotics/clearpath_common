@@ -152,12 +152,14 @@ class SensorDescription():
 
     class AxisCameraDescription(CameraDescription):
         MODEL = 'model'
+        UPDATE_RATE = 'update_rate'
 
         def __init__(self, sensor: AxisCamera) -> None:
             super().__init__(sensor)
 
             self.parameters.update({
-                self.MODEL: sensor.device_type
+                self.MODEL: sensor.device_type,
+                self.UPDATE_RATE: sensor.fps,
             })
 
     class IntelRealsenseDescription(CameraDescription):
