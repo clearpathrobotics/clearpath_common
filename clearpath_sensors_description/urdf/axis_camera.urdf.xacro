@@ -9,7 +9,7 @@
         *origin
         model:=dome_ptz
         update_rate:=15
-        topic
+        topic:=image_raw
     ">
         <xacro:if value="${model == 'dome_fixed'}">
             <xacro:axis_dome_fixed
