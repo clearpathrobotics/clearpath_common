@@ -8,7 +8,6 @@
         parent_link
         *origin
         model:=dome_ptz
-        update_rate:=15
         topic:=image_raw
     ">
         <xacro:if value="${model == 'dome_fixed'}">
@@ -16,7 +15,6 @@
                 prefix="${name}"
                 parent="${parent_link}"
                 topic="${topic}"
-                update_rate="${update_rate}"
             >
                 <xacro:insert_block name="origin" />
             </xacro:axis_dome_fixed>
@@ -26,7 +24,6 @@
                 prefix="${name}"
                 parent="${parent_link}"
                 topic="${topic}"
-                update_rate="${update_rate}"
             >
                 <xacro:insert_block name="origin" />
             </xacro:axis_dome_ptz>
@@ -36,7 +33,6 @@
                 prefix="${name}"
                 parent="${parent_link}"
                 topic="${topic}"
-                update_rate="${update_rate}"
             >
                 <xacro:insert_block name="origin" />
             </xacro:axis_q62>
