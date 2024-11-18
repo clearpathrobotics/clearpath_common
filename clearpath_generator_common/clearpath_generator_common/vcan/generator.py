@@ -59,8 +59,16 @@ class VirtualCANGenerator(BaseGenerator):
 
         # Check platform
         if self.clearpath_config.get_platform_model() in PLATFORMS:
+            port = 11412
+            serial = '/dev/ttycan0'
+            can = 'vcan0'
+            baud = 's8'
             bash_writer.write(
-                '/bin/sh -e /usr/sbin/clearpath-vcan-bridge -p 11412 -d /dev/ttycan0 -v vcan0 -b s8'
+                f'/bin/sh -e /usr/sbin/clearpath-vcan-bridge '
+                f'-p {port} '
+                f'-d {serial} '
+                f'-v {can} '
+                f'-b {baud}'
             )
         else:
             bash_writer.add_echo(
