@@ -97,14 +97,18 @@
           <box size="0.03 0.09 0.01" />
         </geometry>
         <origin xyz="-0.01 0 0.05" rpy="0 0 0" />
-        <material name="black" />
+        <material name="axis_black">
+          <color rgba="0 0 0 1" />
+        </material>
       </visual>
       <visual>
         <geometry>
           <box size="0.03 0.09 0.01" />
         </geometry>
         <origin xyz="-0.01 0.20 0.05" rpy="0 0 0" />
-        <material name="black" />
+        <material name="axis_black">
+          <color rgba="0 0 0 1" />
+        </material>
       </visual>
     </link>
     <joint name="${prefix}_camera_joint" type="fixed">
