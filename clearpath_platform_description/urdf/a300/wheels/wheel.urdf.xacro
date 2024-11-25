@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="a300_wheel">
+
+  <xacro:macro name="a300_wheel" params="wheel_prefix flip *joint_pose">
+    <link name="${wheel_prefix}_wheel">
+      <inertial>
+        <mass value="${wheel_mass}" />
+        <origin xyz="0 0 0" />
+        <inertia
+          ixx="${ wheel_mass/12 * (3*wheel_radius**2 + wheel_length**2) }" ixy="0" ixz="0"
+          iyy="${ wheel_mass/2 * wheel_radius**2 }" iyz="0"
+          izz="${ wheel_mass/12 * (3*wheel_radius**2 + wheel_length**2) }" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${flip*math.pi}"/>
+        <material name="clearpath_dark_grey"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/${wheel_mesh}" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${math.pi/2} 0 0" />
+        <geometry>
+          <cylinder length="${wheel_length}" radius="${wheel_radius}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${wheel_prefix}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${wheel_prefix}_wheel"/>
+      <xacro:insert_block name="joint_pose"/>
+      <axis xyz="0 1 0" rpy="0 0 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>

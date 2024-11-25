@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="bumper" params="name model:='default' parent_link:='front_bumper_mount' extension:=0 *origin">
+
+    <!-- Spawn bumper link -->
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="-0.368500 0 -0.018050"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/bumper.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="-0.368500 0 -0.018050"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/bumper_collision.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Attach bumper -->
+    <joint name="${name}_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
+    </joint>
+  </xacro:macro>
+
+</robot>
