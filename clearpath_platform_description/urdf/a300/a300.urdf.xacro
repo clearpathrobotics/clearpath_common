@@ -2,8 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
-  <xacro:arg name="serial_port" default="/dev/clearpath/prolific" />
-  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a200/control.yaml"/>
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a300/control.yaml"/>
   <xacro:arg name="use_platform_controllers" default="true"/>
 
   <!-- Included URDF/XACRO Files -->
