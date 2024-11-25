@@ -56,18 +56,21 @@ class TestRobotLaunchGenerator:
                 rlg.generate()
             except UnsupportedAccessoryException as e:
                 print(f'Unsupported accessory: {e}. Skipping')
+                continue
             except UnsupportedPlatformException as e:
                 print(f'Unsupported platform: {e}. Skipping')
+                continue
             except Exception as e:
                 errors.append("Sample '%s' failed to load: '%s'" % (
                     sample,
                     e.args[0],
                 ))
+                continue
             # Try to Load Xacro
             try:
                 xacro.process_file(os.path.join(os.path.dirname(dst), 'robot.urdf.xacro')).toxml()
             except xacro.XacroException as e:
-                if 'stereolabs' in src and 'package not found' in e.args[0]:
+                if 'stereolabs' in sample and 'not found' in e.args[0]:
                     continue
                 errors.append("Sample '%s' xacro failed to load: '%s'" % (
                     sample,
