@@ -76,7 +76,7 @@
             <plugin>ign_ros2_control/IgnitionSystem</plugin>
           </xacro:if>
           <xacro:unless value="$(arg is_sim)">
-            <plugin>clearpath_hardware_interface/LynxHardware</plugin>
+            <plugin>clearpath_hardware_interfaces/LynxHardware</plugin>
           </xacro:unless>
         </hardware>
         <joint name="front_left_wheel_joint">
