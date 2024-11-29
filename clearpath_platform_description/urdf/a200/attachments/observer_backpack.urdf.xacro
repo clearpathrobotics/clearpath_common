@@ -134,5 +134,12 @@
       <child link="${name}_right_antenna_mount" />
       <origin xyz="-0.25 -0.350 0.695" rpy="0 0 0" />
     </joint>
+
+    <link name="${name}_imu_mount" />
+    <joint name="${name}_imu_mount_joint" type="fixed">
+      <parent link="${name}_shell_link" />
+      <child link="${name}_imu_mount" />
+      <origin xyz="0.00498 0.0 -0.097312" rpy="0.0 0.0 1.5708" />
+    </joint>
   </xacro:macro>
 </robot>
