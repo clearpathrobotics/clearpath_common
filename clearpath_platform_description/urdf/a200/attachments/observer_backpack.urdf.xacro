@@ -86,11 +86,25 @@
       <origin xyz="0 0 0.355" rpy="0 0 0" />
     </joint>
 
-    <link name="${name}_lidar_mount" />
-    <joint name="${name}_lidar_mount_joint" type="fixed">
+    <link name="${name}_center_lidar_mount" />
+    <joint name="${name}_center_lidar_mount_joint" type="fixed">
       <parent link="${name}_shell_link" />
-      <child link="${name}_lidar_mount" />
+      <child link="${name}_center_lidar_mount" />
       <origin xyz="0 0 0.257" rpy="0 0 0" />
+    </joint>
+
+    <link name="${name}_front_lidar_mount" />
+    <joint name="${name}_front_lidar_mount_joint" type="fixed">
+      <parent link="${name}_shell_link" />
+      <child link="${name}_front_lidar_mount" />
+      <origin xyz="0.45 0 0.06" rpy="3.14159 0 0" />
+    </joint>
+
+    <link name="${name}_rear_lidar_mount" />
+    <joint name="${name}_rear_lidar_mount_joint" type="fixed">
+      <parent link="${name}_shell_link" />
+      <child link="${name}_rear_lidar_mount" />
+      <origin xyz="-0.45 0 0.06" rpy="3.14159 0 3.14159" />
     </joint>
 
     <link name="${name}_left_antenna_mount" />
