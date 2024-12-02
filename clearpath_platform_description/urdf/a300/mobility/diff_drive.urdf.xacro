@@ -12,13 +12,13 @@
     <xacro:property name="wheel_height" value="0.034"/>
 
     <!-- Wheel Properties -->
-    <xacro:if value="${wheel == 'default' or wheel == 'smooth'}">
+    <xacro:if value="${wheel == 'smooth'}">
       <xacro:property name="wheel_length" value="0.1143"/>
       <xacro:property name="wheel_radius" value="0.163312"/>
       <xacro:property name="wheel_mesh" value="wheel_smooth.dae"/>
     </xacro:if>
 
-    <xacro:if value="${wheel == 'tread'}">
+    <xacro:if value="${wheel == 'default' or heel == 'tread'}">
       <xacro:property name="wheel_length" value="0.1143" />
       <xacro:property name="wheel_radius" value="0.1651" />
       <xacro:property name="wheel_mesh" value="wheel_tread.dae"/>
@@ -54,13 +54,13 @@
 
     <!-- Wheels -->
     <xacro:if value="${wheel == 'default' or wheel == 'smooth' or wheel == 'tread'}">
-      <xacro:a300_wheel wheel_prefix="front_left" flip="False">
+      <xacro:a300_wheel wheel_prefix="front_left" flip="True">
         <origin xyz="${wheel_base/2} ${wheel_track/2} ${wheel_height}" rpy="0 0 0"/>
       </xacro:a300_wheel>
       <xacro:a300_wheel wheel_prefix="front_right" flip="True">
         <origin xyz="${wheel_base/2} ${-wheel_track/2} ${wheel_height}" rpy="0 0 0"/>
       </xacro:a300_wheel>
-      <xacro:a300_wheel wheel_prefix="rear_left" flip="False">
+      <xacro:a300_wheel wheel_prefix="rear_left" flip="True">
         <origin xyz="${-wheel_base/2} ${wheel_track/2} ${wheel_height}" rpy="0 0 0"/>
       </xacro:a300_wheel>
       <xacro:a300_wheel wheel_prefix="rear_right" flip="True">
