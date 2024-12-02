@@ -18,7 +18,7 @@
       <xacro:property name="wheel_mesh" value="wheel_smooth.dae"/>
     </xacro:if>
 
-    <xacro:if value="${wheel == 'default' or heel == 'tread'}">
+    <xacro:if value="${wheel == 'default' or wheel == 'tread'}">
       <xacro:property name="wheel_length" value="0.1143" />
       <xacro:property name="wheel_radius" value="0.1651" />
       <xacro:property name="wheel_mesh" value="wheel_tread.dae"/>
