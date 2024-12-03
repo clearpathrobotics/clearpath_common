@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis/axis_dome_fixed.urdf.xacro"/>
-    <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis/axis_dome_ptz.urdf.xacro"/>
-    <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis/axis_q62.urdf.xacro"/>
+    <xacro:include filename="$(find axis_description)/urdf/axis_dome_fixed.urdf.xacro"/>
+    <xacro:include filename="$(find axis_description)/urdf/axis_dome_ptz.urdf.xacro"/>
+    <xacro:include filename="$(find axis_description)/urdf/axis_q62.urdf.xacro"/>
     <xacro:macro name="axis_camera" params="
         name
         parent_link
