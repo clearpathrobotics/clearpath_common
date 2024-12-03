@@ -366,7 +366,7 @@
             <plugin>gazebo_ros2_control/GazeboSystem</plugin>
           </xacro:if>
           <xacro:if value="${sim_ignition}">
-            <plugin>gz_ros2_control/IgnitionSystem</plugin>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
           </xacro:if>
           <xacro:if value="${sim_isaac}">
             <plugin>topic_based_ros2_control/TopicBasedSystem</plugin>
