@@ -96,27 +96,23 @@
     </joint>
 
     <!--
-      Simulation support: camera plugin & transmissions to allow control over the joints
+      Simulation support: sensor and joint controller plugins
+      Velocity control is limited to the real-world camera's limits
     -->
-    <transmission name="${prefix}_pan_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${prefix}_pan_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="${prefix}_pan_actuator">
-          <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-    <transmission name="${prefix}_tilt_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${prefix}_tilt_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="${prefix}_tilt_actuator">
-          <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
+    <gazebo>
+      <plugin filename="libgz-sim-joint-controller-system.so" name="gz::sim::systems::JointController">
+        <joint_name>${prefix}_pan_joint</joint_name>
+        <cmd_min>-2.61</cmd_min>
+        <cmd_max>2.61</cmd_max>
+        <topic>$(arg namespace)/sensors/${prefix}/cmd_pan_vel</topic>
+      </plugin>
+      <plugin filename="libgz-sim-joint-controller-system.so" name="gz::sim::systems::JointController">
+        <joint_name>${prefix}_tilt_joint</joint_name>
+        <cmd_min>2.61</cmd_min>
+        <cmd_max>2.61</cmd_max>
+        <topic>$(arg namespace)/sensors/${prefix}/cmd_tilt_vel</topic>
+      </plugin>
+    </gazebo>
     <gazebo reference="${prefix}_link">
       <material>Gazebo/Black</material>
 

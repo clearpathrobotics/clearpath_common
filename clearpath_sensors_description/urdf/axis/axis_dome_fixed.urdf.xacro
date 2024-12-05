@@ -55,7 +55,7 @@
     </joint>
 
     <!--
-      Simulation support: camera plugin & transmissions to allow control over the joints
+      Simulation support: sensor plugin
     -->
     <gazebo reference="${prefix}_link">
       <plugin filename="libgz-sim-sensors-system.so" name="gz::sim::systems::Sensors">

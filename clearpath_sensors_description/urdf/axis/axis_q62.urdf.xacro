@@ -42,13 +42,8 @@
         <origin xyz="0 0 0.11" rpy="0 0 0" />
       </collision>
     </link>
-    <!-- <joint name="${prefix}_pan_joint" type="continuous">
+    <joint name="${prefix}_pan_joint" type="continuous">
       <axis xyz="0 0 -1" />
-      <parent link="${prefix}_base_link" />
-      <child link="${prefix}_body_link" />
-      <origin xyz="0 0 0" rpy="0 0 0" />
-    </joint> -->
-    <joint name="${prefix}_pan_joint" type="fixed">
       <parent link="${prefix}_base_link" />
       <child link="${prefix}_body_link" />
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -82,14 +77,9 @@
         <origin xyz="0 0 0" rpy="1.5707963267948966 0 0" />
       </collision>
     </link>
-    <!-- <joint name="${prefix}_tilt_joint" type="revolute">
+    <joint name="${prefix}_tilt_joint" type="revolute">
       <limit lower="-1.5707" upper="1.5707" effort="1" velocity="3.14159" />
       <axis xyz="0 -1 0" />
-      <parent link="${prefix}_body_link" />
-      <child link="${prefix}_head_link" />
-      <origin xyz="0 0 0.215" rpy="0 0 0" />
-    </joint> -->
-    <joint name="${prefix}_tilt_joint" type="fixed">
       <parent link="${prefix}_body_link" />
       <child link="${prefix}_head_link" />
       <origin xyz="0 0 0.215" rpy="0 0 0" />
@@ -132,32 +122,23 @@
     </joint>
 
     <!--
-      Simulation support: camera plugin & transmissions to allow control over the joints
+      Simulation support: sensor and joint controller plugins
+      Velocity control is limited to the real-world camera's limits
     -->
-    <ros2_control name="${prefix}_hardware" type="system">
-      <hardware>
-        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-      </hardware>
-    </ros2_control>
-    <transmission name="${prefix}_pan_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${prefix}_pan_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="${prefix}_pan_actuator">
-          <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-    <transmission name="${prefix}_tilt_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${prefix}_tilt_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="${prefix}_tilt_actuator">
-          <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
+    <gazebo>
+      <plugin filename="libgz-sim-joint-controller-system.so" name="gz::sim::systems::JointController">
+        <joint_name>${prefix}_pan_joint</joint_name>
+        <cmd_min>-2.61</cmd_min>
+        <cmd_max>2.61</cmd_max>
+        <topic>$(arg namespace)/sensors/${prefix}/cmd_pan_vel</topic>
+      </plugin>
+      <plugin filename="libgz-sim-joint-controller-system.so" name="gz::sim::systems::JointController">
+        <joint_name>${prefix}_tilt_joint</joint_name>
+        <cmd_min>2.61</cmd_min>
+        <cmd_max>2.61</cmd_max>
+        <topic>$(arg namespace)/sensors/${prefix}/cmd_tilt_vel</topic>
+      </plugin>
+    </gazebo>
     <gazebo reference="${prefix}_link">
       <plugin filename="libgz-sim-sensors-system.so" name="gz::sim::systems::Sensors">
         <render_engine>ogre2</render_engine>
