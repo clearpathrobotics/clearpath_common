@@ -27,8 +27,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-## The ROS distrbution this package has been bloomed for
+# The ROS distrbution this package has been bloomed for
 ROS_DISTRO = 'jazzy'
 
-## Standard installation path for ROS distributions
+# Standard installation path for ROS distributions
 ROS_DISTRO_PATH = f'/opt/ros/{ROS_DISTRO}/'
