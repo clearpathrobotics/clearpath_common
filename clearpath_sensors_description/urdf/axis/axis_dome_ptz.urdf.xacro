@@ -112,6 +112,14 @@
         <cmd_max>2.61</cmd_max>
         <topic>$(arg namespace)/sensors/${prefix}/cmd_tilt_vel</topic>
       </plugin>
+      <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+        <joint_name>${prefix}_pan_joint</joint_name>
+        <topic>$(arg namespace)/sensors/${prefix}/pan_joint_state</topic>
+      </plugin>
+      <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+        <joint_name>${prefix}_tilt_joint</joint_name>
+        <topic>$(arg namespace)/sensors/${prefix}/tilt_joint_state</topic>
+      </plugin>
     </gazebo>
     <gazebo reference="${prefix}_link">
       <material>Gazebo/Black</material>
