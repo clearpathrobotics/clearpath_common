@@ -126,7 +126,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/r100/end-cover.stl" />
         </geometry>
-        <material name="clearpath_black" />
+        <material name="clearpath_red" />
       </visual>
     </link>
 
