@@ -36,6 +36,7 @@ from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BaseGenerator, BashFile
 
 PLATFORMS = [
+    Platform.A300,
     Platform.DD100,
     Platform.DD150,
     Platform.DO100,
@@ -69,6 +70,19 @@ class VirtualCANGenerator(BaseGenerator):
                 f'-d {serial} '
                 f'-v {can} '
                 f'-b {baud}'
+            )
+            # Add second vcan for A300
+            if self.clearpath_config.get_platform_model() == Platform.A300:
+                port = 11413
+                serial = '/dev/ttycan1'
+                can = 'vcan1'
+                baud = 's5'
+                bash_writer.write(
+                    f'/bin/sh -e /usr/sbin/clearpath-vcan-bridge '
+                    f'-p {port} '
+                    f'-d {serial} '
+                    f'-v {can} '
+                    f'-b {baud}'
             )
         else:
             bash_writer.add_echo(
