@@ -57,8 +57,6 @@ class PlatformParam():
 
     class BaseParam():
         CLEARPATH_CONTROL = 'clearpath_control'
-        CLEARPATH_HARDWARE_INTERFACES = 'clearpath_hardware_interfaces'
-        CLEARPATH_SENSORS = 'clearpath_sensors'
 
         def __init__(self,
                      parameter: str,
@@ -71,10 +69,6 @@ class PlatformParam():
             self.param_path = param_path
 
             # Clearpath Platform Package
-            self.clearpath_sensors_package = Package(
-                self. CLEARPATH_SENSORS)
-            self.clearpath_hardware_interfaces_package = Package(
-                self.CLEARPATH_HARDWARE_INTERFACES)
             self.clearpath_control_package = Package(self.CLEARPATH_CONTROL)
 
             # Default parameter file
@@ -172,7 +166,7 @@ class PlatformParam():
                      clearpath_config: ClearpathConfig,
                      param_path: str) -> None:
             super().__init__(parameter, clearpath_config, param_path)
-            self.default_parameter_file_package = self.clearpath_sensors_package
+            self.default_parameter_file_package = self.clearpath_control_package
             self.default_parameter_file_path = 'config'
 
     class LocalizationParam(BaseParam):
