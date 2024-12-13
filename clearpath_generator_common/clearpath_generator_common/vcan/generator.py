@@ -83,7 +83,7 @@ class VirtualCANGenerator(BaseGenerator):
                     f'-d {serial} '
                     f'-v {can} '
                     f'-b {baud}'
-            )
+                )
         else:
             bash_writer.add_echo(
                 'No vcan bridge required.' +
