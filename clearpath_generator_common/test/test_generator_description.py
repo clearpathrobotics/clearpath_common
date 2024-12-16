@@ -56,8 +56,10 @@ class TestRobotLaunchGenerator:
                 rlg.generate()
             except UnsupportedAccessoryException as e:
                 print(f'Unsupported accessory: {e}. Skipping')
+                continue
             except UnsupportedPlatformException as e:
                 print(f'Unsupported platform: {e}. Skipping')
+                continue
             except Exception as e:
                 errors.append("Sample '%s' failed to load: '%s'" % (
                     sample,
