@@ -46,7 +46,9 @@ class qualityCutoffNode(Node):
     def __init__(self):
         super().__init__('bt_cutoff_node')
 
-        self.declare_parameter('quality_cutoff', -80)
+        # link quality is a 0-255 value, as reported by hcitool lq
+        # by default use a quality of 20 or less to indicate a poor connection
+        self.declare_parameter('quality_cutoff', 20)
         self.quality_cutoff = self.get_parameter('quality_cutoff').value
 
         # Create our publishers
