@@ -72,3 +72,6 @@ joy_node:
     deadzone: 0.1
     autorepeat_rate: 20.0
     dev: /dev/input/ps4
+rssi_cutoff_node:
+  ros__parameters:
+    rssi_cutoff: -60
