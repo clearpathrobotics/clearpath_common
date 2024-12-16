@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
-  <xacro:macro name="axis_dome_ptz" params="prefix parent topic stand_height:=0.062 *origin">
+  <xacro:macro name="axis_dome_ptz" params="prefix parent stand_height:=0.062 *origin">
     <link name="${prefix}_base_link">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
