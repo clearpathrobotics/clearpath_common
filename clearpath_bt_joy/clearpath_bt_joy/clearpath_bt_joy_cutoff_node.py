@@ -34,7 +34,7 @@ from rcl_interfaces.srv import GetParameters
 from std_msgs.msg import Bool, Int32
 
 
-class qualityCutoffNode(Node):
+class QualityCutoffNode(Node):
     """
     Cuts off joy input if the controller link quality is too low.
 
@@ -146,7 +146,7 @@ class qualityCutoffNode(Node):
 
 def main():
     rclpy.init()
-    node = qualityCutoffNode()
+    node = QualityCutoffNode()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
