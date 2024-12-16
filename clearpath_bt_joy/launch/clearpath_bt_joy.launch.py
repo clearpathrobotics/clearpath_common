@@ -62,14 +62,14 @@ def generate_launch_description():
     node_bt_cutoff = Node(
         package='clearpath_bt_joy',
         executable='clearpath_bt_joy_cutoff_node',
-        name='rssi_cutoff_node',
+        name='bt_cutoff_node',
         parameters=[
             config_teleop_joy,
             {'use_sim_time': use_sim_time},
         ],
         remappings=[
-            ('rssi_ok', 'joy_teleop/rssi_ok'),
-            ('rssi', 'joy_teleop/rssi'),
+            ('quality_ok', 'joy_teleop/quality_ok'),
+            ('quality', 'joy_teleop/quality'),
         ],
     )
 
@@ -123,9 +123,9 @@ def generate_launch_description():
             {'topics.joy.topic': 'joy_teleop/_/cmd_vel_src'},
             {'topics.joy.timeout': 0.5},
             {'topics.joy.priority': 10},
-            {'locks.rssi.topic': 'joy_teleop/rssi_ok'},
-            {'locks.rssi.timeout': 0.0},
-            {'locks.rssi.priority': 255},
+            {'locks.bt_quality.topic': 'joy_teleop/quality_ok'},
+            {'locks.bt_quality.timeout': 0.0},
+            {'locks.bt_quality.priority': 255},
         ]
     )
 

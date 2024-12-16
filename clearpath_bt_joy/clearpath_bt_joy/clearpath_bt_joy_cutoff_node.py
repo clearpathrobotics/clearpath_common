@@ -34,24 +34,24 @@ from rcl_interfaces.srv import GetParameters
 from std_msgs.msg import Bool, Int32
 
 
-class RssiCutoffNode(Node):
+class qualityCutoffNode(Node):
     """
-    Cuts off joy input if the controller RSSI is too low.
+    Cuts off joy input if the controller link quality is too low.
 
-    Monitors the RSSI of a joy device and publishes 2 topics:
-        - rssi (std_msgs/Int32) -- the raw RSSI reading for the device
-        - rssi_ok  (std_msgs/Bool) -- is the RSSI strong enough to accept the joy inputs?
+    Monitors the quality of a joy device and publishes 2 topics:
+        - quality (std_msgs/Int32) -- the raw link quality for the connection
+        - quality_ok  (std_msgs/Bool) -- is the quality good enough to accept the joy inputs?
     """
 
     def __init__(self):
-        super().__init__('rssi_cutoff_node')
+        super().__init__('bt_cutoff_node')
 
-        self.declare_parameter('rssi_cutoff', -80)
-        self.rssi_cutoff = self.get_parameter('rssi_cutoff').value
+        self.declare_parameter('quality_cutoff', -80)
+        self.quality_cutoff = self.get_parameter('quality_cutoff').value
 
         # Create our publishers
-        self.rssi_ok_pub = self.create_publisher(Bool, 'rssi_ok', 10)
-        self.rssi_pub = self.create_publisher(Int32, 'rssi', 10)
+        self.quality_ok_pub = self.create_publisher(Bool, 'quality_ok', 10)
+        self.quality_pub = self.create_publisher(Int32, 'quality', 10)
 
         # Get the 'dev' parameter from the joy_node to determine what device we're using
         cli = self.create_client(GetParameters, 'joy_node/get_parameters')
@@ -69,7 +69,7 @@ class RssiCutoffNode(Node):
         self.mac_addr = self.get_mac()
 
         if self.mac_addr is not None:
-            self.rssi_timer = self.create_timer(0.1, self.check_rssi)
+            self.quality_timer = self.create_timer(0.1, self.check_quality)
         else:
             self.get_logger().warn(f'Unable to determine MAC address for {self.joy_device}')
 
@@ -112,11 +112,11 @@ class RssiCutoffNode(Node):
             self.get_logger().warning('Failed to read MAC address: no output')
             return None
 
-    def check_rssi(self):
+    def check_quality(self):
         hcitool_proc = subprocess.Popen(
             [
                 'hcitool',
-                'rssi',
+                'lq',
                 self.mac_addr
             ],
             stdout=subprocess.PIPE,
@@ -127,24 +127,24 @@ class RssiCutoffNode(Node):
             stdout = result[0].decode().strip()
             stderr = result[1].decode().strip()
 
-            rssi_ok = Bool()
-            rssi_level = Int32()
+            quality_ok = Bool()
+            quality_level = Int32()
             if 'not connected' in stderr.lower():
-                rssi_ok.data = False
-                rssi_level.data = -1_000_000  # arbitrarily huge to indicate no connection
+                quality_ok.data = False
+                quality_level.data = 0
             else:
-                rssi_level.data = int(stdout.split(':')[-1].strip())
-                rssi_ok.data = rssi_level.data >= self.rssi_cutoff
+                quality_level.data = int(stdout.split(':')[-1].strip())
+                quality_ok.data = quality_level.data >= self.quality_cutoff
 
-            self.rssi_ok_pub.publish(rssi_ok)
-            self.rssi_pub.publish(rssi_level)
+            self.quality_ok_pub.publish(quality_ok)
+            self.quality_pub.publish(quality_level)
         except Exception as err:
-            self.get_logger().warning(f'Failed to read RSSI: {err}')
+            self.get_logger().warning(f'Failed to read quality: {err}')
 
 
 def main():
     rclpy.init()
-    node = RssiCutoffNode()
+    node = qualityCutoffNode()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()

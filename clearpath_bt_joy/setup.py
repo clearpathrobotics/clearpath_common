@@ -54,7 +54,7 @@ setup(
     zip_safe=True,
     maintainer='Chris Iverach-Brereton',
     maintainer_email='civerachb@clearpathrobotics.com',
-    description='Clearpath joy controller RSSI monitor',
+    description='Clearpath joy controller link quality monitor',
     license='BSD-3',
     tests_require=['pytest'],
     entry_points={
