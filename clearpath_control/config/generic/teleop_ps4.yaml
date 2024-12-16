@@ -72,3 +72,6 @@ joy_node:
     deadzone: 0.1
     autorepeat_rate: 20.0
     dev: /dev/input/ps4
+bt_cutoff_node:
+  ros__parameters:
+    quality_cutoff: 20
