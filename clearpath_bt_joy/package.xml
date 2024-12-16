@@ -3,7 +3,7 @@
 <package format="3">
   <name>clearpath_bt_joy</name>
   <version>0.3.4</version>
-  <description>Clearpath Bluetooth Joy controller driver</description>
+  <description>Clearpath bluetooth joy controller signal quality monitoring node</description>
   <maintainer email="civerachb@clearpathrobotics.com">Chris Iverach-Brereton</maintainer>
   <license>BSD-3</license>
 
@@ -12,6 +12,7 @@
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
 
+  <exec_depend>bluez</exec_depend>
   <exec_depend>joy_linux</exec_depend>
   <exec_depend>twist_mux</exec_depend>
 
