@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-
 # Software License Agreement (BSD)
 #
-# @author    Roni Kreinin <rkreinin@clearpathrobotics.com>
-# @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
+# @author    Chris Iverach-Brereton <civerachb@clearpathrobotics.com>
+# @copyright (c) 2024, Clearpath Robotics, Inc., All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -28,10 +26,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Redistribution and use in source and binary forms, with or without
-# modification, is not permitted without the express permission
-# of Clearpath Robotics.
-
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -43,7 +37,6 @@ def generate_launch_description():
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
         default_value='/etc/clearpath/'
@@ -66,6 +59,20 @@ def generate_launch_description():
         '/teleop_joy.yaml'
     ]
 
+    node_bt_cutoff = Node(
+        package='clearpath_bt_joy',
+        executable='clearpath_bt_joy_cutoff_node',
+        name='bt_cutoff_node',
+        parameters=[
+            config_teleop_joy,
+            {'use_sim_time': use_sim_time},
+        ],
+        remappings=[
+            ('quality_ok', 'joy_teleop/quality_ok'),
+            ('quality', 'joy_teleop/quality'),
+        ],
+    )
+
     node_joy = Node(
         package='joy_linux',
         executable='joy_linux_node',
@@ -73,14 +80,15 @@ def generate_launch_description():
         name='joy_node',
         parameters=[
             config_teleop_joy,
-            {'use_sim_time': use_sim_time}],
+            {'use_sim_time': use_sim_time},
+        ],
         remappings=[
             ('/diagnostics', 'diagnostics'),
             ('/tf', 'tf'),
             ('/tf_static', 'tf_static'),
             ('joy', 'joy_teleop/joy'),
             ('joy/set_feedback', 'joy_teleop/joy/set_feedback'),
-        ]
+        ],
     )
 
     node_teleop_twist_joy = Node(
@@ -90,16 +98,44 @@ def generate_launch_description():
         name='teleop_twist_joy_node',
         parameters=[
             config_teleop_joy,
-            {'use_sim_time': use_sim_time}],
+            {'use_sim_time': use_sim_time},
+            {'publish_stamped_twist': True},
+        ],
         remappings=[
             ('joy', 'joy_teleop/joy'),
-            ('cmd_vel', 'joy_teleop/cmd_vel'),
+            ('cmd_vel', 'joy_teleop/_/cmd_vel_src'),
         ]
     )
 
+    node_twist_mux = Node(
+        package='twist_mux',
+        executable='twist_mux',
+        output='screen',
+        remappings={
+            ('cmd_vel_out', 'joy_teleop/cmd_vel'),
+            ('/diagnostics', 'diagnostics'),
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static'),
+        },
+        parameters=[
+            {'use_sim_time': use_sim_time},
+            {'use_stamped': True},
+            {'topics.joy.topic': 'joy_teleop/_/cmd_vel_src'},
+            {'topics.joy.timeout': 0.5},
+            {'topics.joy.priority': 10},
+            {'locks.bt_quality.topic': 'joy_teleop/quality_ok'},
+            {'locks.bt_quality.timeout': 0.0},
+            {'locks.bt_quality.priority': 255},
+        ]
+    )
+
+
+    # Create launch description and add actions
     ld = LaunchDescription()
     ld.add_action(arg_setup_path)
     ld.add_action(arg_use_sim_time)
+    ld.add_action(node_bt_cutoff)
     ld.add_action(node_joy)
     ld.add_action(node_teleop_twist_joy)
+    ld.add_action(node_twist_mux)
     return ld
