@@ -68,9 +68,10 @@ class LaunchGenerator(BaseGenerator):
             name='platform',
             package=self.pkg_clearpath_common,
             args=[
-              ('setup_path', self.setup_path),
-              ('use_sim_time', 'false'),
-              ('namespace', self.namespace),
+                ('setup_path', self.setup_path),
+                ('use_sim_time', 'false'),
+                ('namespace', self.namespace),
+                ('enable_ekf', str(self.clearpath_config.platform.enable_ekf).lower()),
             ])
 
         self.manipulators_launch_file = LaunchFile(
