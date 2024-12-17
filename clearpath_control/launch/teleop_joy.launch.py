@@ -68,7 +68,7 @@ def generate_launch_description():
             {'use_sim_time': use_sim_time},
         ],
         remappings=[
-            ('quality_ok', 'joy_teleop/quality_ok'),
+            ('bt_quality_stop', 'joy_teleop/bt_quality_stop'),
             ('quality', 'joy_teleop/quality'),
         ],
     )
@@ -111,6 +111,7 @@ def generate_launch_description():
         package='twist_mux',
         executable='twist_mux',
         output='screen',
+        name='teleop_cutoff_mux',
         remappings={
             ('cmd_vel_out', 'joy_teleop/cmd_vel'),
             ('/diagnostics', 'diagnostics'),
@@ -123,7 +124,7 @@ def generate_launch_description():
             {'topics.joy.topic': 'joy_teleop/_/cmd_vel_src'},
             {'topics.joy.timeout': 0.5},
             {'topics.joy.priority': 10},
-            {'locks.bt_quality.topic': 'joy_teleop/quality_ok'},
+            {'locks.bt_quality.topic': 'joy_teleop/bt_quality_stop'},
             {'locks.bt_quality.timeout': 0.0},
             {'locks.bt_quality.priority': 255},
         ]

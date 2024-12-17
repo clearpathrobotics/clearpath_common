@@ -52,7 +52,7 @@ class QualityCutoffNode(Node):
         self.quality_cutoff = self.get_parameter('quality_cutoff').value
 
         # Create our publishers
-        self.quality_ok_pub = self.create_publisher(Bool, 'quality_ok', 10)
+        self.stop_pub = self.create_publisher(Bool, 'bt_quality_stop', 10)
         self.quality_pub = self.create_publisher(Int32, 'quality', 10)
 
         # Get the 'dev' parameter from the joy_node to determine what device we're using
@@ -129,16 +129,16 @@ class QualityCutoffNode(Node):
             stdout = result[0].decode().strip()
             stderr = result[1].decode().strip()
 
-            quality_ok = Bool()
+            engage_stop = Bool()
             quality_level = Int32()
             if 'not connected' in stderr.lower():
-                quality_ok.data = False
+                engage_stop.data = True
                 quality_level.data = 0
             else:
                 quality_level.data = int(stdout.split(':')[-1].strip())
-                quality_ok.data = quality_level.data >= self.quality_cutoff
+                engage_stop.data = quality_level.data <= self.quality_cutoff
 
-            self.quality_ok_pub.publish(quality_ok)
+            self.stop_pub.publish(engage_stop)
             self.quality_pub.publish(quality_level)
         except Exception as err:
             self.get_logger().warning(f'Failed to read quality: {err}')
