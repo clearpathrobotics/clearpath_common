@@ -18,6 +18,7 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <exec_depend>clearpath_bt_joy</exec_depend>
   <!--<exec_depend>clearpath_mecanum_drive_controller</exec_depend>-->
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>diff_drive_controller</exec_depend>
