@@ -16,6 +16,11 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", KERNELS=="*:054C:09CC.*", MODE="0666"
 KERNEL=="js*", SUBSYSTEM=="input", ATTRS{name}=="Wireless Controller", MODE="0666", SYMLINK+="input/ps4"
 
 
+# Sony PlayStation DualShock 5
+# Bluetooth
+KERNEL=="js*", SUBSYSTEM=="input", KERNELS=="*:054C:0CE6.*", MODE="0666", SYMLINK+="input/ps5"
+
+
 # Logitech game controllers
 KERNEL=="js*", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c21f", SYMLINK+="input/f710"
 KERNEL=="js*", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c219", SYMLINK+="input/f710"
@@ -23,4 +28,4 @@ KERNEL=="js*", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c21d", SYMLINK+="inpu
 
 
 # Xbox One controller
-KERNEL=="usb*", ATTRS{idVendor}=="1d6b", ATTRS{idProduct}=="0002", MODE="0666", SYMLINK="input/xbox"
+KERNEL=="js*", ATTRS{idVendor}=="1d6b", ATTRS{idProduct}=="0002", ATTRS{name}=="*Xbox*", MODE="0666", SYMLINK="input/xbox"
