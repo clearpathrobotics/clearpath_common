@@ -66,10 +66,18 @@ def generate_launch_description():
         description='Robot namespace'
     )
 
+    arg_enable_ekf = DeclareLaunchArgument(
+        'enable_ekf',
+        default_value='true',
+        choices=['true', 'false'],
+        description='Enable localization via EKF node'
+    )
+
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
+    enable_ekf = LaunchConfiguration('enable_ekf')
 
     # Launch files
     launch_file_platform_description = PathJoinSubstitution([
@@ -104,9 +112,9 @@ def generate_launch_description():
             IncludeLaunchDescription(
               PythonLaunchDescriptionSource(launch_file_platform_description),
               launch_arguments=[
-                  ('setup_path', setup_path),
-                  ('use_sim_time', use_sim_time),
-                  ('namespace', namespace),
+                ('setup_path', setup_path),
+                ('use_sim_time', use_sim_time),
+                ('namespace', namespace),
               ]
             ),
 
@@ -114,8 +122,8 @@ def generate_launch_description():
             IncludeLaunchDescription(
               PythonLaunchDescriptionSource(launch_file_control),
               launch_arguments=[
-                  ('setup_path', setup_path),
-                  ('use_sim_time', use_sim_time),
+                ('setup_path', setup_path),
+                ('use_sim_time', use_sim_time),
               ]
             ),
 
@@ -123,8 +131,10 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(launch_file_localization),
                 launch_arguments=[
-                    ('setup_path', setup_path),
-                    ('use_sim_time', use_sim_time)]
+                  ('setup_path', setup_path),
+                  ('use_sim_time', use_sim_time),
+                  ('enable_ekf', enable_ekf)
+                ]
             ),
 
             # Launch clearpath_control/teleop_base.launch.py which is various ways to tele-op
@@ -132,8 +142,9 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(launch_file_teleop_base),
                 launch_arguments=[
-                    ('setup_path', setup_path),
-                    ('use_sim_time', use_sim_time)]
+                  ('setup_path', setup_path),
+                  ('use_sim_time', use_sim_time),
+                ]
             ),
 
             # Launch clearpath_control/teleop_joy.launch.py which is tele-operation using a
@@ -141,8 +152,9 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(launch_file_teleop_joy),
                 launch_arguments=[
-                    ('setup_path', setup_path),
-                    ('use_sim_time', use_sim_time)]
+                  ('setup_path', setup_path),
+                  ('use_sim_time', use_sim_time),
+                ]
             ),
         ]
     )
@@ -151,5 +163,6 @@ def generate_launch_description():
     ld.add_action(arg_setup_path)
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_namespace)
+    ld.add_action(arg_enable_ekf)
     ld.add_action(group_platform_action)
     return ld
