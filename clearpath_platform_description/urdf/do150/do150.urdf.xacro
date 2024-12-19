@@ -4,6 +4,7 @@
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/do150/control.yaml"/>
+  <xacro:arg name="use_platform_controllers" default="true"/>
 
   <!-- Included URDF/Xacro Files -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/do100.urdf.xacro"/>
