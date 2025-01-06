@@ -103,7 +103,7 @@ def generate_launch_description():
         ],
         remappings=[
             ('joy', 'joy_teleop/joy'),
-            ('cmd_vel', 'joy_teleop/_/cmd_vel_src'),
+            ('cmd_vel', 'joy_teleop/_cmd_vel'),
         ]
     )
 
@@ -121,7 +121,7 @@ def generate_launch_description():
         parameters=[
             {'use_sim_time': use_sim_time},
             {'use_stamped': True},
-            {'topics.joy.topic': 'joy_teleop/_/cmd_vel_src'},
+            {'topics.joy.topic': 'joy_teleop/_cmd_vel'},
             {'topics.joy.timeout': 0.5},
             {'topics.joy.priority': 10},
             {'locks.bt_quality.topic': 'joy_teleop/bt_quality_stop'},
