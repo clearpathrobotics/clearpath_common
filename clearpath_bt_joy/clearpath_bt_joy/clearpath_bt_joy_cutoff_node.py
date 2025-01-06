@@ -40,7 +40,7 @@ class QualityCutoffNode(Node):
 
     Monitors the quality of a joy device and publishes 2 topics:
         - quality (std_msgs/Int32) -- the raw link quality for the connection
-        - quality_ok  (std_msgs/Bool) -- is the quality good enough to accept the joy inputs?
+        - bt_quality_stop  (std_msgs/Bool) -- has the quality dropped too low to be consiered safe?
     """
 
     def __init__(self):
