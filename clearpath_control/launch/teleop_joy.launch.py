@@ -125,7 +125,7 @@ def generate_launch_description():
             {'topics.joy.timeout': 0.5},
             {'topics.joy.priority': 10},
             {'locks.bt_quality.topic': 'joy_teleop/bt_quality_stop'},
-            {'locks.bt_quality.timeout': 0.0},
+            {'locks.bt_quality.timeout': 1.0},
             {'locks.bt_quality.priority': 255},
         ]
     )
