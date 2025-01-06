@@ -71,6 +71,7 @@ def generate_launch_description():
             ('bt_quality_stop', 'joy_teleop/bt_quality_stop'),
             ('quality', 'joy_teleop/quality'),
         ],
+        respawn=True,
     )
 
     node_joy = Node(
@@ -89,6 +90,7 @@ def generate_launch_description():
             ('joy', 'joy_teleop/joy'),
             ('joy/set_feedback', 'joy_teleop/joy/set_feedback'),
         ],
+        respawn=True,
     )
 
     node_teleop_twist_joy = Node(
