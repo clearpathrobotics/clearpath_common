@@ -56,16 +56,18 @@ class QualityCutoffNode(Node):
         self.quality_pub = self.create_publisher(Int32, 'quality', 10)
 
         # Get the 'dev' parameter from the joy_node to determine what device we're using
+        self.get_logger().info('Waiting for joy_node parameter service...')
         cli = self.create_client(GetParameters, 'joy_node/get_parameters')
         cli.wait_for_service()
         req = GetParameters.Request()
         req.names = ['dev']
+        self.get_logger().info('Getting joy_device parameter...')
         future = cli.call_async(req)
         rclpy.spin_until_future_complete(self, future)
         if future.result() is not None:
             self.joy_device = future.result().values[0].string_value
         else:
-            self.get_logger().warn('Unable to determine joy device')
+            self.get_logger().warning('Unable to determine joy device')
             self.joy_device = None
 
         self.mac_addr = self.get_mac()
@@ -73,17 +75,20 @@ class QualityCutoffNode(Node):
         if self.mac_addr is not None:
             self.quality_timer = self.create_timer(0.1, self.check_quality)
         else:
-            self.get_logger().warn(f'Unable to determine MAC address for {self.joy_device}')
+            self.get_logger().info(f'Assuming {self.joy_device} is wired; quality check will be bypassed')  # noqa: E501
+            self.quality_timer = self.create_timer(0.1, self.fake_quality)
 
     def get_mac(self):
         if self.joy_device is None:
             return None
 
         # wait until the joy device appears on the local file system
+        self.get_logger().info(f'Waiting for {self.joy_device} to appear on the local filesystem...')  # noqa: E501
         rate = self.create_rate(1)
         while not os.path.exists(self.joy_device):
             rate.sleep()
 
+        self.get_logger().info('Getting MAC address from udev...')
         udev_proc = subprocess.Popen(
             [
                 'udevadm',
@@ -106,7 +111,13 @@ class QualityCutoffNode(Node):
         result = grep_proc.communicate()
         if result[0] is not None:
             try:
-                return result[0].decode().strip().split('==')[1].replace('"', '')
+                mac = result[0].decode().strip().split('==')[1].replace('"', '')
+                if mac:
+                    self.get_logger().info(f'MAC address of {self.joy_device} is {mac}')
+                    return mac
+                else:
+                    self.get_logger().warning(f'{self.joy_device} has no MAC. Is it a wired controller?') # noqa: E501
+                    return None
             except Exception as err:
                 self.get_logger().warning(f'Failed to read MAC address: {err}')
                 return None
@@ -115,6 +126,7 @@ class QualityCutoffNode(Node):
             return None
 
     def check_quality(self):
+        """Check the quality of the link and publish it"""
         hcitool_proc = subprocess.Popen(
             [
                 'hcitool',
@@ -143,6 +155,15 @@ class QualityCutoffNode(Node):
         except Exception as err:
             self.get_logger().warning(f'Failed to read quality: {err}')
 
+    def fake_quality(self):
+        """Callback for the quality check for wired controllers to avoid locking out the mux."""
+        engage_stop = Bool()
+        engage_stop.data = False
+        quality_level = Int32()
+        quality_level.data = 255
+
+        self.stop_pub.publish(engage_stop)
+        self.quality_pub.publish(quality_level)
 
 def main():
     rclpy.init()
