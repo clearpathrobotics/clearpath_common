@@ -56,6 +56,6 @@ platform_velocity_controller:
     angular.z.max_velocity: 1.0
     angular.z.min_velocity: -1.0
     angular.z.max_acceleration: 1.0
-    angular.z.min_acceleration: -1.0
+    angular.z.max_deceleration: -1.0
     angular.z.max_jerk: .NAN
     angular.z.min_jerk: .NAN
