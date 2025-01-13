@@ -58,8 +58,18 @@ class ZenohRouterGenerator(BaseGenerator):
         middleware_config = self.clearpath_config.system.middleware
         if middleware_config.rmw_implementation == RMWImplementation.ZENOH_DDS:
 
+            if middleware_config.zenoh_router_config_uri:
+                # use the user-specified router config file
+                bash_writer.write(
+                    f'export ZENOH_ROUTER_CONFIG_URI={middleware_config.zenoh_router_config_uri}'  # noqa: E501
+                )
+            else:
+                # use the default router config file
+                bash_writer.write(
+                    'export ZENOH_ROUTER_CONFIG_URI="$(ros2 pkg prefix rmw_zenoh_cpp)/share/rmw_zenoh_cpp/config/DEFAULT_RMW_ZENOH_ROUTER_CONFIG.json5"'  # noqa: E501
+                )
             bash_writer.write(
-                f'ros2 run rmw_zenoh_cpp rmw_zenohd\n'
+                'ros2 run rmw_zenoh_cpp rmw_zenohd\n'
             )
         else:
             bash_writer.add_echo(
