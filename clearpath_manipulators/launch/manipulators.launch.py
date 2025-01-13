@@ -76,7 +76,7 @@ def generate_launch_description():
     arg_launch_moveit = DeclareLaunchArgument(
         'launch_moveit',
         choices=['true', 'false'],
-        default_value='true',
+        default_value='false',
         description='Launch MoveIt'
     )
 
