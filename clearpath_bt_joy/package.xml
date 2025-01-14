@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>clearpath_bt_joy</name>
+  <version>0.3.4</version>
+  <description>Clearpath bluetooth joy controller signal quality monitoring node</description>
+  <maintainer email="civerachb@clearpathrobotics.com">Chris Iverach-Brereton</maintainer>
+  <license>BSD-3</license>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <exec_depend>bluez</exec_depend>
+  <exec_depend>joy_linux</exec_depend>
+  <exec_depend>twist_mux</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

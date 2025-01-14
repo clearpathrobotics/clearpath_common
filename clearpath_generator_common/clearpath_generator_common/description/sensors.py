@@ -32,6 +32,7 @@
 from typing import List
 
 from clearpath_config.sensors.types.cameras import (
+    AxisCamera,
     BaseCamera,
     FlirBlackfly,
     IntelRealsense,
@@ -149,6 +150,18 @@ class SensorDescription():
                 self.UPDATE_RATE: sensor.fps
             })
 
+    class AxisCameraDescription(CameraDescription):
+        MODEL = 'model'
+        UPDATE_RATE = 'update_rate'
+
+        def __init__(self, sensor: AxisCamera) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.MODEL: sensor.device_type,
+                self.UPDATE_RATE: 15,
+            })
+
     class IntelRealsenseDescription(CameraDescription):
         IMAGE_WIDTH = 'image_width'
         IMAGE_HEIGHT = 'image_height'
@@ -176,6 +189,7 @@ class SensorDescription():
         SickLMS1XX.SENSOR_MODEL: Lidar2dDescription,
         IntelRealsense.SENSOR_MODEL: IntelRealsenseDescription,
         FlirBlackfly.SENSOR_MODEL: CameraDescription,
+        AxisCamera.SENSOR_MODEL: AxisCameraDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,

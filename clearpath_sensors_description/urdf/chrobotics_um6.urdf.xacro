@@ -29,7 +29,7 @@
         <always_on>true</always_on>
         <update_rate>${update_rate}</update_rate>
         <visualize>true</visualize>
-        <ignition_frame_id>${name}_link</ignition_frame_id>
+        <gz_frame_id>${name}_link</gz_frame_id>
         <topic>$(arg namespace)/sensors/${name}/data</topic>
       </sensor>
     </gazebo>

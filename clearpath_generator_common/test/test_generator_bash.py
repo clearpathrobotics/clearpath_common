@@ -54,9 +54,9 @@ class TestRobotLaunchGenerator:
                 rlg = BashGenerator(os.path.dirname(dst))
                 rlg.generate()
             except UnsupportedAccessoryException as e:
-                print(f'Unsupported accessory: {e}')
+                print(f'Unsupported accessory: {e}. Skipping')
             except UnsupportedPlatformException as e:
-                print(f'Unsupported platform: {e}')
+                print(f'Unsupported platform: {e}. Skipping')
             except Exception as e:
                 errors.append("Sample '%s' failed to load: '%s'" % (
                     sample,

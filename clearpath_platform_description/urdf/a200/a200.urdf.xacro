@@ -105,7 +105,7 @@
     </xacro:a200_wheel>
 
     <gazebo>
-      <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
+      <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
         <wheel link_name="front_left_wheel">
           <slip_compliance_lateral>1.0</slip_compliance_lateral>
           <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
@@ -168,10 +168,10 @@
       <ros2_control name="a200_hardware" type="system">
         <hardware>
           <xacro:if value="$(arg is_sim)">
-            <plugin>gz_ros2_control/IgnitionSystem</plugin>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
           </xacro:if>
           <xacro:unless value="$(arg is_sim)">
-            <plugin>clearpath_platform/A200Hardware</plugin>
+            <plugin>clearpath_hardware_interfaces/A200Hardware</plugin>
             <param name="wheel_diameter">0.3302</param>
             <param name="max_accel">5.0</param>
             <param name="max_speed">1.0</param>

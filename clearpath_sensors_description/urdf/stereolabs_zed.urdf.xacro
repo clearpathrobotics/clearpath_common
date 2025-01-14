@@ -45,13 +45,13 @@
             <near>0.3</near>
             <far>100</far>
           </clip>
-          <ignition_frame_id>${name}_link</ignition_frame_id>
+          <gz_frame_id>${name}_link</gz_frame_id>
           <optical_frame_id>${name}_left_camera_optical_frame</optical_frame_id>
         </camera>
         <always_on>1</always_on>
         <update_rate>${update_rate}</update_rate>
         <visualize>true</visualize>
-        <ignition_frame_id>${name}_link</ignition_frame_id>
+        <gz_frame_id>${name}_link</gz_frame_id>
         <topic>$(arg namespace)/sensors/${name}</topic>
       </sensor>
     </gazebo>

@@ -36,6 +36,7 @@ from clearpath_config.manipulators.types.arms import (
     KinovaGen3Dof6,
     KinovaGen3Dof7,
     KinovaGen3Lite,
+    UniversalRobots
 )
 from clearpath_config.manipulators.types.grippers import (
     Kinova2FLite,
@@ -82,8 +83,8 @@ class ManipulatorDescription():
             return self.manipulator.rpy
 
     class ArmDescription(BaseDescription):
-        IP = 'ip'
-        PORT = 'port'
+        IP = BaseArm.IP_ADDRESS
+        PORT = BaseArm.IP_PORT
 
         def __init__(self, arm: BaseArm) -> None:
             super().__init__(arm)
@@ -108,10 +109,21 @@ class ManipulatorDescription():
                 self.parameters[self.GRIPPER_JOINT] = (
                     arm.gripper.name + self.GRIPPER_NAMES[arm.gripper.get_manipulator_model()])
 
+    class UniversalRobotsDescription(ArmDescription):
+        UR_TYPE = 'ur_type'
+        IP = UniversalRobots.IP_ADDRESS
+        PORT = UniversalRobots.IP_PORT
+
+        def __init__(self, arm: BaseArm) -> None:
+            super().__init__(arm)
+            self.parameters.pop(self.PORT)
+            self.parameters.update(arm.get_urdf_parameters())
+
     MODEL = {
         KinovaGen3Dof6.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Dof7.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Lite.MANIPULATOR_MODEL: KinovaArmDescription,
+        UniversalRobots.MANIPULATOR_MODEL: UniversalRobotsDescription,
     }
 
     def __new__(cls, manipulator: BaseManipulator) -> BaseManipulator:

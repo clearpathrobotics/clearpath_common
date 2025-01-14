@@ -1,0 +1,149 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="axis_dome_ptz" params="prefix parent stand_height:=0.062 *origin">
+    <link name="${prefix}_base_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://axis_description/meshes/axis_dome.stl" scale="1 1 1" />
+        </geometry>
+        <material name="axis_white">
+          <color rgba="0.8 0.8 0.8 1.0" />
+        </material>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <!-- Cylinder for the main body of the camera -->
+        <geometry>
+          <cylinder radius="0.09" length="0.09" />
+        </geometry>
+        <origin xyz="0 0 ${stand_height + 0.09/2}" rpy="0 0 0" />
+      </collision>
+      <collision>
+        <!-- Sphere collider for the dome itself -->
+        <geometry>
+          <sphere radius="0.067" />
+        </geometry>
+        <origin xyz="0 0 ${stand_height + 0.09}" />
+      </collision>
+      <collision>
+        <!-- Box collider for the metal stand the camera sits on -->
+        <geometry>
+          <box size="0.04 0.08 ${stand_height}" />
+        </geometry>
+        <origin xyz="0 0 ${stand_height/2}" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${prefix}_base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}_base_link" />
+    </joint>
+
+    <link name="${prefix}_body_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+    </link>
+    <joint name="${prefix}_pan_joint" type="continuous">
+      <axis xyz="0 0 -1" />
+      <parent link="${prefix}_base_link" />
+      <child link="${prefix}_body_link" />
+      <origin xyz="0 0 ${stand_height}" rpy="0 0 0" />
+    </joint>
+    <gazebo reference="${prefix}_body_link">
+      <material>Gazebo/LightGrey</material>
+    </gazebo>
+
+    <link name="${prefix}_head_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+    </link>
+    <joint name="${prefix}_tilt_joint" type="revolute">
+      <limit lower="0" upper="1.5707" effort="1" velocity="3.14159" />
+      <axis xyz="0 -1 0" />
+      <parent link="${prefix}_body_link" />
+      <child link="${prefix}_head_link" />
+      <origin xyz="0 0 0.09" rpy="0 0 0" />
+    </joint>
+
+    <!--
+      Add the gazebo reference frame
+    -->
+    <link name="${prefix}_link" />
+    <joint name="${prefix}_camera_joint" type="fixed">
+      <parent link="${prefix}_head_link" />
+      <child link="${prefix}_link" />
+      <origin xyz="0.067 0 0" rpy="0 0 0" />
+    </joint>
+
+    <!--
+      Simulation support: sensor and joint controller plugins
+      Velocity control is limited to the real-world camera's limits
+    -->
+    <gazebo>
+      <plugin filename="libgz-sim-joint-controller-system.so" name="gz::sim::systems::JointController">
+        <joint_name>${prefix}_pan_joint</joint_name>
+        <cmd_min>-2.61</cmd_min>
+        <cmd_max>2.61</cmd_max>
+        <topic>$(arg namespace)/sensors/${prefix}/cmd_pan_vel</topic>
+      </plugin>
+      <plugin filename="libgz-sim-joint-controller-system.so" name="gz::sim::systems::JointController">
+        <joint_name>${prefix}_tilt_joint</joint_name>
+        <cmd_min>2.61</cmd_min>
+        <cmd_max>2.61</cmd_max>
+        <topic>$(arg namespace)/sensors/${prefix}/cmd_tilt_vel</topic>
+      </plugin>
+      <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+        <joint_name>${prefix}_pan_joint</joint_name>
+        <topic>$(arg namespace)/sensors/${prefix}/pan_joint_state</topic>
+      </plugin>
+      <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+        <joint_name>${prefix}_tilt_joint</joint_name>
+        <topic>$(arg namespace)/sensors/${prefix}/tilt_joint_state</topic>
+      </plugin>
+    </gazebo>
+    <gazebo reference="${prefix}_link">
+      <material>Gazebo/Black</material>
+
+      <sensor name="${prefix}_camera" type="camera">
+        <update_rate>15</update_rate>
+        <visualize>true</visualize>
+        <always_on>true</always_on>
+        <gz_frame_id>${prefix}_link</gz_frame_id>
+        <topic>$(arg namespace)/sensors/${prefix}/image</topic>
+        <camera>
+          <horizontal_fov>1.5184351666666667</horizontal_fov>
+          <vertical_fov>1.0122901111111111</vertical_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+        </camera>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>

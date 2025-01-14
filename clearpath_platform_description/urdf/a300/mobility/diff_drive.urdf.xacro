@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/wheels/wheel.urdf.xacro" />
+
+  <xacro:macro name="mobility_diff_drive" params="wheel:='default'">
+
+    <!-- Wheel Mounting Positions-->
+    <xacro:property name="wheel_mass" value="2.5"/>
+    <xacro:property name="wheel_base" value="0.512"/>
+    <xacro:property name="wheel_track" value="0.562"/>
+    <xacro:property name="wheel_height" value="0.034"/>
+
+    <!-- Wheel Properties -->
+    <xacro:if value="${wheel == 'smooth'}">
+      <xacro:property name="wheel_length" value="0.1143"/>
+      <xacro:property name="wheel_radius" value="0.163312"/>
+      <xacro:property name="wheel_mesh" value="wheel_smooth.dae"/>
+    </xacro:if>
+
+    <xacro:if value="${wheel == 'default' or wheel == 'tread'}">
+      <xacro:property name="wheel_length" value="0.1143" />
+      <xacro:property name="wheel_radius" value="0.1651" />
+      <xacro:property name="wheel_mesh" value="wheel_tread.dae"/>
+    </xacro:if>
+
+    <!-- Base Footprint: on the ground below the robot -->
+    <link name="base_footprint"/>
+
+    <joint name="base_footprint_joint" type="fixed">
+      <origin xyz="0 0 ${wheel_height - wheel_radius}" rpy="0 0 0" />
+      <parent link="base_link" />
+      <child link="base_footprint" />
+    </joint>
+
+    <!-- Mobility Kit -->
+    <link name="mobility_kit">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/diff_drive.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/diff_drive_collision.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="mobility_kit_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="mobility_kit"/>
+    </joint>
+
+    <!-- Wheels -->
+    <xacro:if value="${wheel == 'default' or wheel == 'smooth' or wheel == 'tread'}">
+      <xacro:a300_wheel wheel_prefix="front_left" flip="True">
+        <origin xyz="${wheel_base/2} ${wheel_track/2} ${wheel_height}" rpy="0 0 0"/>
+      </xacro:a300_wheel>
+      <xacro:a300_wheel wheel_prefix="front_right" flip="True">
+        <origin xyz="${wheel_base/2} ${-wheel_track/2} ${wheel_height}" rpy="0 0 0"/>
+      </xacro:a300_wheel>
+      <xacro:a300_wheel wheel_prefix="rear_left" flip="True">
+        <origin xyz="${-wheel_base/2} ${wheel_track/2} ${wheel_height}" rpy="0 0 0"/>
+      </xacro:a300_wheel>
+      <xacro:a300_wheel wheel_prefix="rear_right" flip="True">
+        <origin xyz="${-wheel_base/2} ${-wheel_track/2} ${wheel_height}" rpy="0 0 0"/>
+      </xacro:a300_wheel>
+    </xacro:if>
+
+    <!-- ROS2 controls -->
+    <xacro:if value="$(arg use_platform_controllers)">
+      <ros2_control name="a300_hardware" type="system">
+        <hardware>
+          <xacro:if value="$(arg is_sim)">
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+          </xacro:if>
+          <xacro:unless value="$(arg is_sim)">
+            <plugin>clearpath_hardware_interfaces/LynxHardware</plugin>
+          </xacro:unless>
+        </hardware>
+        <joint name="front_left_wheel_joint">
+          <command_interface name="velocity"/>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <joint name="rear_left_wheel_joint">
+          <command_interface name="velocity"/>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <joint name="front_right_wheel_joint">
+          <command_interface name="velocity"/>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <joint name="rear_right_wheel_joint">
+          <command_interface name="velocity"/>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+      </ros2_control>
+    </xacro:if>
+
+  </xacro:macro>
+
+</robot>

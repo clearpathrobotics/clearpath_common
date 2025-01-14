@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="namespace" default="" />
+  <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a300/control.yaml"/>
+  <xacro:arg name="use_platform_controllers" default="true"/>
+
+  <!-- Included URDF/XACRO Files -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/mobility/diff_drive.urdf.xacro" />
+
+  <!-- Global Variables -->
+  <xacro:property name="M_PI" value="${math.pi}"/>
+
+  <xacro:macro name="a300" params="wheel:='default'">
+    <!-- Base Size -->
+    <xacro:property name="base_mass" value="70"/>
+    <xacro:property name="base_x_size" value="0.860"/>
+    <xacro:property name="base_y_size" value="0.378"/>
+    <xacro:property name="base_z_size" value="0.229559"/>
+    <xacro:property name="base_z_narrow" value="0.0568"/>
+
+    <!-- Bumper Mounting Positions -->
+    <xacro:property name="bumper_x" value="0.368500"/>
+    <xacro:property name="bumper_y" value="0.0"/>
+    <xacro:property name="bumper_z" value="0.018050 "/>
+
+    <!-- Top Plate Mounting Positions -->
+    <xacro:property name="top_x" value="0.0"/>
+    <xacro:property name="top_y" value="0.0"/>
+    <xacro:property name="top_z" value="${base_z_size}"/>
+
+    <!-- Base Link: center of the bottom of the robot -->
+    <link name="base_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/chassis.dae" />
+        </geometry>
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/livery.dae" />
+        </geometry>
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/status_lights.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <material name="clearpath_yellow"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/chassis_collision.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${base_mass}"/>
+        <origin xyz="0 0 ${base_z_size/2}" rpy="0 0 0"/>
+        <inertia
+          ixx="${ base_mass/12 * (base_y_size**2 + base_z_size**2) }" ixy="0" ixz="0"
+          iyy="${ base_mass/12 * (base_x_size**2 + base_z_size**2) }" iyz="0"
+          izz="${ base_mass/12 * (base_x_size**2 + base_y_size**2) }"
+        />
+      </inertial>
+    </link>
+
+    <!-- Bumper Mounts -->
+    <link name="front_bumper_mount"/>
+    <link name="rear_bumper_mount"/>
+
+    <joint name="front_bumper_mount_joint" type="fixed">
+      <child link="front_bumper_mount"/>
+      <parent link="base_link"/>
+      <origin xyz="${bumper_x} ${bumper_y} ${bumper_z}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="rear_bumper_mount_joint" type="fixed">
+      <child link="rear_bumper_mount"/>
+      <parent link="base_link"/>
+      <origin xyz="${-bumper_x} ${bumper_y} ${bumper_z}" rpy="0 0 ${math.pi}"/>
+    </joint>
+
+    <!-- Default Top Mount -->
+    <link name="default_mount"/>
+
+    <joint name="default_mount_joint" type="fixed">
+      <child link="default_mount"/>
+      <parent link="base_link"/>
+      <origin xyz="${top_x} ${top_y} ${top_z}"/>
+    </joint>
+
+    <!-- Gazebo Controller -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
+
+    <!-- Mobility Kit -->
+    <xacro:mobility_diff_drive wheel='${wheel}'/>
+
+  </xacro:macro>
+</robot>

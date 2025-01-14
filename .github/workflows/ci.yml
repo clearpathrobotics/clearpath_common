@@ -45,7 +45,6 @@ jobs:
             clearpath_description
             clearpath_generator_common
             clearpath_mounts_description
-            clearpath_platform
             clearpath_platform_description
             clearpath_sensors_description
   clearpath_common_src_ci:
@@ -67,7 +66,6 @@ jobs:
             clearpath_description
             clearpath_generator_common
             clearpath_mounts_description
-            clearpath_platform
             clearpath_platform_description
             clearpath_sensors_description
           vcs-repo-file-url: dependencies.repos

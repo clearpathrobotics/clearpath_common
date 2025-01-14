@@ -44,10 +44,10 @@
 #    AXIS        Value
 # Left Horiz.      0
 # Left Vert.       1
-# Right Horiz.     2
-# Right Vert.      5
-#    L2            3
-#    R2            4
+# Right Horiz.     3
+# Right Vert.      4
+#    L2            2
+#    R2            5
 # D-pad Horiz.     9
 # D-pad Vert.      10
 # Accel x          7
@@ -78,3 +78,6 @@ joy_teleop/joy_node:
     deadzone: 0.1
     autorepeat_rate: 20.0
     dev: /dev/input/ps4
+bt_cutoff_node:
+  ros__parameters:
+    quality_cutoff: 20

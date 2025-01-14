@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="is_sim" default="false"/>
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_manipulation_controllers" default="false"/>
+
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+
+  <xacro:macro name="universal_robots" params="
+    name
+    parent_link
+    *origin
+    ur_type:=ur5e
+    initial_positions:=''
+    initial_positions_file:=''
+    joint_limits_parameters_file:=''
+    kinematics_parameters_file:=''
+    physical_parameters_file:=''
+    visual_parameters_file:=''
+    safety_limits:=''
+    safety_pos_margin:=''
+    safety_k_position:=''
+    generate_ros2_control_tag:=''
+    headless_mode:=''
+    robot_ip:=''
+    script_filename:=''
+    output_recipe_filename:=''
+    input_recipe_filename:=''
+    reverse_ip:=''
+    script_command_port:=''
+    reverse_port:=''
+    script_sender_port:=''
+    trajectory_port:=''
+    transmission_hw_interface:=''
+    non_blocking_read:=''
+    keep_alive_count:=''
+    use_tool_communication:=''
+    tool_voltage:=''
+    tool_parity:=''
+    tool_baud_rate:=''
+    tool_stop_bits:=''
+    tool_rx_idle_chars:=''
+    tool_tx_idle_chars:=''
+    tool_device_name:=''
+    tool_tcp_port:=''
+    use_fake_hardware:=''
+    fake_sensor_commands:=''
+    sim_gazebo:=''
+    sim_ignition:=''
+    ">
+
+    <!-- Default Description Parameters -->
+    <xacro:property name="_tf_prefix" value="${name}_" lazy_eval="false"/>
+    <xacro:property name="_initial_positions" value="${dict(shoulder_pan_joint=0.0,shoulder_lift_joint=-1.57,elbow_joint=0.0,wrist_1_joint=-1.57,wrist_2_joint=0.0,wrist_3_joint=0.0)}" lazy_eval="false"/>
+    <xacro:property name="_joint_limits_parameters_file" value="$(find ur_description)/config/${ur_type}/joint_limits.yaml" lazy_eval="false"/>
+    <xacro:property name="_kinematics_parameters_file" value="$(find ur_description)/config/${ur_type}/default_kinematics.yaml" lazy_eval="false"/>
+    <xacro:property name="_physical_parameters_file" value="$(find ur_description)/config/${ur_type}/physical_parameters.yaml" lazy_eval="false"/>
+    <xacro:property name="_visual_parameters_file" value="$(find ur_description)/config/${ur_type}/visual_parameters.yaml" lazy_eval="false"/>
+    <xacro:property name="_safety_limits" value="false" lazy_eval="false"/>
+    <xacro:property name="_safety_pos_margin" value="0.15" lazy_eval="false"/>
+    <xacro:property name="_safety_k_position" value="20" lazy_eval="false"/>
+
+    <!-- Default ros2_control Parameters -->
+    <xacro:property name="_generate_ros2_control_tag" value="$(arg use_manipulation_controllers)" lazy_eval="false"/>
+    <xacro:property name="_headless_mode" value="false" lazy_eval="false"/>
+    <xacro:property name="_robot_ip" value="192.168.131.40" lazy_eval="false"/>
+    <xacro:property name="_script_filename" value="$(find ur_client_library)/resources/external_control.urscript" lazy_eval="false"/>
+    <xacro:property name="_output_recipe_filename" value="$(find ur_robot_driver)/resources/rtde_output_recipe.txt" lazy_eval="false"/>
+    <xacro:property name="_input_recipe_filename" value="$(find ur_robot_driver)/resources/rtde_input_recipe.txt" lazy_eval="false"/>
+    <xacro:property name="_reverse_ip" value="0.0.0.0" lazy_eval="false"/>
+    <xacro:property name="_script_command_port" value="50004" lazy_eval="false"/>
+    <xacro:property name="_reverse_port" value="50001" lazy_eval="false"/>
+    <xacro:property name="_script_sender_port" value="50002" lazy_eval="false"/>
+    <xacro:property name="_trajectory_port" value="50003" lazy_eval="false"/>
+    <xacro:property name="_transmission_hw_interface" value="hardware_interface/PositionJointInterface" lazy_eval="false"/>
+    <xacro:property name="_non_blocking_read" value="true" lazy_eval="false"/>
+    <xacro:property name="_keep_alive_count" value="2.0" lazy_eval="false"/>
+
+    <!-- Default Tool Communication Parameters -->
+    <xacro:property name="_use_tool_communication" value="false" lazy_eval="false"/>
+    <xacro:property name="_tool_voltage" value="0" lazy_eval="false"/>
+    <xacro:property name="_tool_parity" value="0" lazy_eval="false"/>
+    <xacro:property name="_tool_baud_rate" value="115200" lazy_eval="false"/>
+    <xacro:property name="_tool_stop_bits" value="1" lazy_eval="false"/>
+    <xacro:property name="_tool_rx_idle_chars" value="1.5" lazy_eval="false"/>
+    <xacro:property name="_tool_tx_idle_chars" value="3.5" lazy_eval="false"/>
+    <xacro:property name="_tool_device_name" value="/tmp/ttyUR" lazy_eval="false"/>
+    <xacro:property name="_tool_tcp_port" value="54321" lazy_eval="false"/>
+
+    <!-- Default Simulation Parameters -->
+    <xacro:property name="_use_fake_hardware" value="false" />
+    <xacro:property name="_fake_sensor_commands" value="false" />
+    <xacro:property name="_sim_gazebo" value="false" />
+    <xacro:property name="_sim_ignition" value="$(arg is_sim)" />
+
+    <!-- Parameter Overwrites -->
+    <xacro:if value="${initial_positions != ''}"> <xacro:property name="_initial_positions" value="${initial_positions}" lazy_eval="false"/> </xacro:if>
+    <!-- if initial positions file is passed, overwrite initial positions parameter -->
+    <xacro:if value="${initial_positions_file != ''}"> <xacro:property name="_initial_positions" value="${xacro.load_yaml(initial_positions_file)}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${joint_limits_parameters_file != ''}"> <xacro:property name="_joint_limits_parameters_file" value="${joint_limits_parameters_file}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${kinematics_parameters_file != ''}"> <xacro:property name="_kinematics_parameters_file" value="${kinematics_parameters_file}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${physical_parameters_file != ''}"> <xacro:property name="_physical_parameters_file" value="${physical_parameters_file}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${visual_parameters_file != ''}"> <xacro:property name="$_visual_parameters_file" value="${visual_parameters_file}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${safety_limits != ''}"> <xacro:property name="_safety_limits" value="${safety_limits}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${safety_pos_margin != ''}"> <xacro:property name="_safety_pos_margin" value="${safety_pos_margin}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${safety_k_position != ''}"> <xacro:property name="_safety_k_position" value="${safety_k_position}" lazy_eval="false"/> </xacro:if>
+
+    <xacro:if value="${generate_ros2_control_tag != ''}"> <xacro:property name="_generate_ros2_control_tag" value="${generate_ros2_control_tag}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${headless_mode != ''}"> <xacro:property name="_headless_mode" value="${headless_mode}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${robot_ip != ''}"> <xacro:property name="_robot_ip" value="${robot_ip}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${script_filename != ''}"> <xacro:property name="_script_filename" value="${script_filename}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${output_recipe_filename != ''}"> <xacro:property name="_output_recipe_filename" value="${output_recipe_filename}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${input_recipe_filename != ''}"> <xacro:property name="_input_recipe_filename" value="${input_recipe_filename}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${reverse_ip != ''}"> <xacro:property name="_reverse_ip" value="${reverse_ip}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${script_command_port != ''}"> <xacro:property name="_script_command_port" value="${script_command_port}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${reverse_port != ''}"> <xacro:property name="_reverse_port" value="${reverse_port}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${script_sender_port != ''}"> <xacro:property name="_script_sender_port" value="${script_sender_port}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${trajectory_port != ''}"> <xacro:property name="_trajectory_port" value="${trajectory_port}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${transmission_hw_interface != ''}"> <xacro:property name="_transmission_hw_interface" value="${transmission_hw_interface}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${non_blocking_read != ''}"> <xacro:property name="_non_blocking_read" value="${non_blocking_read}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${keep_alive_count != ''}"> <xacro:property name="_keep_alive_count" value="${keep_alive_count}" lazy_eval="false"/> </xacro:if>
+
+    <xacro:if value="${use_tool_communication != ''}"> <xacro:property name="_use_tool_communication" value="${use_tool_communication}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tool_voltage != ''}"> <xacro:property name="_tool_voltage" value="${tool_voltage}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tool_parity != ''}"> <xacro:property name="_tool_parity" value="${tool_parity}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tool_baud_rate != ''}"> <xacro:property name="_tool_baud_rate" value="${tool_baud_rate}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tool_stop_bits != ''}"> <xacro:property name="_tool_stop_bits" value="${tool_stop_bits}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tool_rx_idle_chars != ''}"> <xacro:property name="_tool_rx_idle_chars" value="${tool_rx_idle_chars}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tool_tx_idle_chars != ''}"> <xacro:property name="_tool_tx_idle_chars" value="${tool_tx_idle_chars}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tool_device_name != ''}"> <xacro:property name="_tool_device_name" value="${tool_device_name}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tool_tcp_port != ''}"> <xacro:property name="_tool_tcp_port" value="${tool_tcp_port}" lazy_eval="false"/> </xacro:if>
+
+    <xacro:if value="${use_fake_hardware != ''}"> <xacro:property name="_use_fake_hardware" value="${use_fake_hardware}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${fake_sensor_commands != ''}"> <xacro:property name="_fake_sensor_commands" value="${fake_sensor_commands}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${sim_gazebo != ''}"> <xacro:property name="_sim_gazebo" value="${sim_gazebo}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${sim_ignition != ''}"> <xacro:property name="_sim_ignition" value="${sim_ignition}" lazy_eval="false"/> </xacro:if>
+
+    <!-- Universal_Robots_ROS2_Description -->
+    <xacro:ur_robot
+      name="${name}"
+      parent="${parent_link}"
+      tf_prefix="${_tf_prefix}"
+      initial_positions="${_initial_positions}"
+      joint_limits_parameters_file="${_joint_limits_parameters_file}"
+      kinematics_parameters_file="${_kinematics_parameters_file}"
+      physical_parameters_file="${_physical_parameters_file}"
+      visual_parameters_file="${_visual_parameters_file}"
+      safety_limits="${_safety_limits}"
+      safety_pos_margin="${_safety_pos_margin}"
+      safety_k_position="${_safety_k_position}"
+      generate_ros2_control_tag="${_generate_ros2_control_tag}"
+      headless_mode="${_headless_mode}"
+      robot_ip="${_robot_ip}"
+      script_filename="${_script_filename}"
+      output_recipe_filename="${_output_recipe_filename}"
+      input_recipe_filename="${_input_recipe_filename}"
+      reverse_ip="${_reverse_ip}"
+      script_command_port="${_script_command_port}"
+      reverse_port="${_reverse_port}"
+      script_sender_port="${_script_sender_port}"
+      trajectory_port="${_trajectory_port}"
+      transmission_hw_interface="${_transmission_hw_interface}"
+      non_blocking_read="{_non_blocking_read}"
+      use_tool_communication="${_use_tool_communication}"
+      tool_voltage="${_tool_voltage}"
+      tool_parity="${_tool_parity}"
+      tool_baud_rate="${_tool_baud_rate}"
+      tool_stop_bits="${_tool_stop_bits}"
+      tool_rx_idle_chars="${_tool_rx_idle_chars}"
+      tool_tx_idle_chars="${_tool_tx_idle_chars}"
+      tool_device_name="${_tool_device_name}"
+      tool_tcp_port="${_tool_tcp_port}"
+      use_fake_hardware="${_use_fake_hardware}"
+      fake_sensor_commands="${_fake_sensor_commands}"
+      sim_gazebo="${_sim_gazebo}"
+      sim_ignition="${_sim_ignition}"
+      >
+      <xacro:insert_block name="origin"/>
+    </xacro:ur_robot>
+  </xacro:macro>
+</robot>

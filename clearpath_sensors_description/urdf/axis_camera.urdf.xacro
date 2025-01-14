@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="axis_camera" params="
+        name
+        parent_link
+        *origin
+        model:=dome_ptz
+        topic:=image
+        update_rate:=15
+    ">
+        <xacro:if value="${model == 'dome_fixed'}">
+            <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis/axis_dome_fixed.urdf.xacro"/>
+            <xacro:axis_dome_fixed
+                prefix="${name}"
+                parent="${parent_link}"
+            >
+                <xacro:insert_block name="origin" />
+            </xacro:axis_dome_fixed>
+        </xacro:if>
+        <xacro:if value="${model == 'dome_ptz'}">
+            <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis/axis_dome_ptz.urdf.xacro"/>
+            <xacro:axis_dome_ptz
+                prefix="${name}"
+                parent="${parent_link}"
+            >
+                <xacro:insert_block name="origin" />
+            </xacro:axis_dome_ptz>
+        </xacro:if>
+        <xacro:if value="${model == 'q62'}">
+            <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis/axis_q62.urdf.xacro"/>
+            <xacro:axis_q62
+                prefix="${name}"
+                parent="${parent_link}"
+            >
+                <xacro:insert_block name="origin" />
+            </xacro:axis_q62>
+        </xacro:if>
+    </xacro:macro>
+</robot>

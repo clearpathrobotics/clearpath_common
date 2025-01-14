@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="amp_frame" params="name model:='default' parent_link:='default_mount' extension:=0 *origin">
+
+    <!--
+        The final design of the AMP frame is still under development.
+        This should be considered a placeholder until the final design is done.
+        All dimensions, materials, etc... are subject to change
+    -->
+
+    <link name="${name}_left_support_link">
+        <visual>
+            <geometry>
+                <box size="0.04 0.02 0.4" />
+            </geometry>
+            <origin xyz="0.2 0.15 0.2" rpy="0 0 0" />
+            <material name="black">
+                <color rgba="0 0 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.04 0.02 0.4" />
+            </geometry>
+            <origin xyz="0.2 0.15 0.2" rpy="0 0 0" />
+        </collision>
+    </link>
+    <joint name="${name}_left_support_joint" type="fixed">
+        <parent link="${parent_link}" />
+        <child link="${name}_left_support_link" />
+        <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${name}_right_support_link">
+        <visual>
+            <geometry>
+                <box size="0.04 0.02 0.4" />
+            </geometry>
+            <origin xyz="0.2 -0.15 0.2" rpy="0 0 0" />
+            <material name="black">
+                <color rgba="0 0 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.04 0.02 0.4" />
+            </geometry>
+            <origin xyz="0.2 -0.15 0.2" rpy="0 0 0" />
+        </collision>
+    </link>
+    <joint name="${name}_right_support_joint" type="fixed">
+        <parent link="${parent_link}" />
+        <child link="${name}_right_support_link" />
+        <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${name}_upper_link">
+        <visual>
+            <geometry>
+                <box size="0.04 0.5 0.02" />
+            </geometry>
+            <origin xyz="0.2 0 0.4" rpy="0 0 0" />
+            <material name="black">
+                <color rgba="0 0 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.04 0.5 0.02" />
+            </geometry>
+            <origin xyz="0.2 0 0.4" rpy="0 0 0" />
+        </collision>
+    </link>
+    <joint name="${name}_upper_joint" type="fixed">
+        <parent link="${parent_link}" />
+        <child link="${name}_upper_link" />
+        <xacro:insert_block name="origin"/>
+    </joint>
+
+    <!--
+        Mounting links for sensors
+    -->
+    <link name="${name}_left_gps_mount" />
+    <joint name="${name}_left_gps_link" type="fixed">
+        <parent link="${name}_upper_link" />
+        <child link="${name}_left_gps_mount" />
+        <origin xyz="0.2 0.24 0.41" />
+    </joint>
+
+    <link name="${name}_right_gps_mount" />
+    <joint name="${name}_right_gps_link" type="fixed">
+        <parent link="${name}_upper_link" />
+        <child link="${name}_right_gps_mount" />
+        <origin xyz="0.2 -0.24 0.41" />
+    </joint>
+  </xacro:macro>
+
+</robot>

@@ -16,6 +16,8 @@ install(PROGRAMS
   ${PROJECT_NAME}/discovery_server/generate_discovery_server
   ${PROJECT_NAME}/bash/generate_bash
   ${PROJECT_NAME}/semantic_description/generate_semantic_description
+  ${PROJECT_NAME}/vcan/generate_vcan
+  ${PROJECT_NAME}/zenoh_router/generate_zenoh_router
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -50,6 +52,7 @@ if(BUILD_TESTING)
     test/test_generator_bash.py
     test/test_generator_description.py
     test/test_generator_discovery_server.py
+    test/test_generator_vcan.py
   )
   foreach(_test_path ${_pytest_tests})
     get_filename_component(_test_name ${_test_path} NAME_WE)

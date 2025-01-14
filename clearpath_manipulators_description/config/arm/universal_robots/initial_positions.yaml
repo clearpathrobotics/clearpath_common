@@ -1,0 +1,9 @@
+# Default initial positions for robot's ros2_control fake system
+
+initial_positions:
+  ${name}_shoulder_pan_joint: 0.0
+  ${name}_shoulder_lift_joint: -1.57
+  ${name}_elbow_joint: 0.0
+  ${name}_wrist_1_joint: -1.57
+  ${name}_wrist_2_joint: 0.0
+  ${name}_wrist_3_joint: 0.0

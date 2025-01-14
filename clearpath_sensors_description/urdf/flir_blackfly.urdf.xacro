@@ -90,7 +90,7 @@
                         <mean>0.0</mean>
                         <stddev>0.007</stddev>
                     </noise>
-                    <ignition_frame_id>${name}_color_optical_frame</ignition_frame_id>
+                    <gz_frame_id>${name}_color_optical_frame</gz_frame_id>
                 </camera>
                 <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                     <alwaysOn>true</alwaysOn>

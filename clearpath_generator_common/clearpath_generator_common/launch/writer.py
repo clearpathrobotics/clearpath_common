@@ -198,7 +198,11 @@ class LaunchWriter():
             self.write_comment('Include Packages')
             for launch_file in self.included_launch_files:
                 if launch_file.package:
-                    self.write(launch_file.package.find_package_share())
+                    # Add package to included_packages if it has not already been added
+                    self.find_package(launch_file.package)
+            # Include each package
+            for package in self.included_packages:
+                self.write(package.find_package_share())
             self.write_newline()
             # Declare launch files
             self.write_comment('Declare launch files')

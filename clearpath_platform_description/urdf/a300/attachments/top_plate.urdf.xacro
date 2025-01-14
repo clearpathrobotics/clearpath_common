@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="top_plate" params="name model:=default parent_link:=default_mount *origin">
+
+
+      <xacro:if value="${model == 'default' or model == 'pacs'}">
+        <!-- Variables -->
+        <xacro:property name="size_x" value="0.74"/>
+        <xacro:property name="size_y" value="0.42"/>
+        <xacro:property name="size_z" value="0.0127"/>
+        <xacro:property name="offset_z" value="0.229559"/>
+        <!-- Top Plate -->
+        <link name="${name}_link">
+          <visual>
+            <origin xyz="0.0 0.0 ${-offset_z}"/>
+            <geometry>
+              <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/top_plate.dae" />
+            </geometry>
+          </visual>
+          <collision>
+            <origin xyz="0.0 0.0 ${size_z/2}"/>
+            <geometry>
+              <box size="${size_x} ${size_y} ${size_z}"/>
+            </geometry>
+          </collision>
+        </link>
+
+        <joint name="${name}_joint" type="fixed">
+          <parent link="${parent_link}"/>
+          <child link="${name}_link"/>
+          <xacro:insert_block name="origin"/>
+        </joint>
+
+        <!-- Default mounting locations -->
+        <xacro:if value="${model == 'default'}">
+          <!-- Top plate default link -->
+          <link name="${name}_default_mount"/>
+          <joint name="${name}_default_joint" type="fixed">
+            <parent link="${name}_link"/>
+            <child link="${name}_default_mount"/>
+            <origin xyz="0.0 0.0 ${size_z}"/>
+          </joint>
+
+          <!-- Top plate front link -->
+          <link name="${name}_front_mount"/>
+          <joint name="${name}_front_joint" type="fixed">
+            <parent link="${name}_default_mount"/>
+            <child link="${name}_front_mount"/>
+            <origin xyz="${size_x/2} 0 0"/>
+          </joint>
+
+          <!-- Top plate rear link -->
+          <link name="${name}_rear_mount"/>
+          <joint name="${name}_rear_joint" type="fixed">
+            <parent link="${name}_default_mount"/>
+            <child link="${name}_rear_mount"/>
+            <origin xyz="${-size_x/2} 0 0"/>
+          </joint>
+        </xacro:if>
+
+        <!-- PACS mounting locations -->
+        <xacro:if value="${model == 'pacs'}">
+          <xacro:full_mounts
+            name="${name}"
+            parent_link="${name}_link"
+            column="a"
+            row="1"
+            columns="5"
+            rows="9"
+            x="${size_x/2 - 0.04 - 0.01}"
+            y="${size_y/2 - 0.04 - 0.01}"
+            z="${size_z}"/>
+        </xacro:if>
+
+      </xacro:if>
+
+    </xacro:macro>
+
+</robot>

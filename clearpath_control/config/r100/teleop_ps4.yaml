@@ -44,10 +44,10 @@
 #    AXIS        Value
 # Left Horiz.      0
 # Left Vert.       1
-# Right Horiz.     2
-# Right Vert.      5
-#    L2            3
-#    R2            4
+# Right Horiz.     3
+# Right Vert.      4
+#    L2            2
+#    R2            5
 # D-pad Horiz.     9
 # D-pad Vert.      10
 # Accel x          7
@@ -64,7 +64,7 @@ teleop_twist_joy_node:
     scale_linear.y: 0.4
     scale_linear_turbo.x: 0.4
     scale_linear_turbo.y: 0.4
-    axis_angular.yaw: 3
+    axis_angular.yaw: 4
     scale_angular.yaw: 0.5
     scale_angular_turbo.yaw: 0.5
     enable_button: 4
@@ -75,3 +75,6 @@ joy_node:
     deadzone: 0.1
     autorepeat_rate: 20.0
     dev: /dev/input/ps4
+bt_cutoff_node:
+  ros__parameters:
+    quality_cutoff: 20

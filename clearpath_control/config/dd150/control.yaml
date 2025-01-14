@@ -33,7 +33,7 @@ platform_velocity_controller:
 
     cmd_vel_timeout: 0.5
     #publish_limited_velocity: true
-    use_stamped_vel: false
+    use_stamped_vel: true
     #velocity_rolling_window_size: 10
 
     # Preserve turning radius when limiting speed/acceleration/jerk

@@ -38,7 +38,7 @@
         <visualize>true</visualize>
         <always_on>true</always_on>
         <topic>$(arg namespace)/sensors/${name}/scan</topic>
-        <ignition_frame_id>${name}_laser</ignition_frame_id>
+        <gz_frame_id>${name}_laser</gz_frame_id>
         <lidar>
           <scan>
             <horizontal>
