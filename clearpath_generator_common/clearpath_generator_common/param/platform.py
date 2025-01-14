@@ -145,6 +145,26 @@ class PlatformParam():
                     self.param_file.parameters = merge_dict(
                         self.param_file.parameters, updated_parameters)
 
+            # Lift Control
+            if self.parameter == PlatformParam.CONTROL and use_sim_time:
+                for lift in self.clearpath_config.manipulators.get_all_lifts():
+                    # Arm Control Parameter File
+                    lift_param_file = ParamFile(
+                        name='control',
+                        package=Package('clearpath_manipulators_description'),
+                        path='config/%s/%s' % (
+                            lift.get_manipulator_type(),
+                            lift.get_manipulator_model()),
+                        parameters={}
+                    )
+                    lift_param_file.read()
+                    updated_parameters = replace_dict_items(
+                        lift_param_file.parameters,
+                        {r'${name}': lift.name}
+                    )
+                    self.param_file.parameters = merge_dict(
+                        self.param_file.parameters, updated_parameters)
+
             # Get extra ros parameters from config
             extras = self.clearpath_config.platform.extras.ros_parameters
             for node in extras:

@@ -1,0 +1,12 @@
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - ${controller_name}_position_controller
+
+  ${controller_name}_position_controller:
+    type: JointGroupPositionController
+    action_ns: position_controllers
+    default: true
+    joints:
+      - ${name}_lower_joint

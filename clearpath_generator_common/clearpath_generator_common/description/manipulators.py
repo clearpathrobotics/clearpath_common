@@ -43,6 +43,10 @@ from clearpath_config.manipulators.types.grippers import (
     Robotiq2F140,
     Robotiq2F85
 )
+from clearpath_config.manipulators.types.lifts import (
+    BaseLift,
+    Ewellix
+)
 from clearpath_config.manipulators.types.manipulator import BaseManipulator
 
 
@@ -119,11 +123,23 @@ class ManipulatorDescription():
             self.parameters.pop(self.PORT)
             self.parameters.update(arm.get_urdf_parameters())
 
+    class LiftDescription(BaseDescription):
+
+        def __init__(self, lift: BaseLift) -> None:
+            super().__init__(lift)
+
+    class EwellixDescription(LiftDescription):
+
+        def __init__(self, lift: BaseLift) -> None:
+            super().__init__(lift)
+            self.parameters.update(lift.get_urdf_parameters())
+
     MODEL = {
         KinovaGen3Dof6.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Dof7.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Lite.MANIPULATOR_MODEL: KinovaArmDescription,
         UniversalRobots.MANIPULATOR_MODEL: UniversalRobotsDescription,
+        Ewellix.MANIPULATOR_MODEL: EwellixDescription,
     }
 
     def __new__(cls, manipulator: BaseManipulator) -> BaseManipulator:

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="ewellix" params="name">
+    <group name="${name}">
+        <joint name="${name}_upper_joint"/>
+        <joint name="${name}_lower_joint"/>
+    </group>
+    <group_state name="extended" group="${name}">
+        <joint name="${name}_upper_joint" value="0.25"/>
+        <joint name="${name}_lower_joint" value="0.25"/>
+    </group_state>
+    <group_state name="zero" group="${name}">
+        <joint name="${name}_upper_joint" value="0"/>
+        <joint name="${name}_lower_joint" value="0"/>
+    </group_state>
+
+    <disable_collisions link1="${name}_upper_link" link2="${name}_base_link" reason="User"/>
+    <disable_collisions link1="${name}_upper_link" link2="${name}_plate_link" reason="User"/>
+    <disable_collisions link1="${name}_upper_link" link2="${name}_lower_link" reason="User"/>
+    <disable_collisions link1="${name}_lower_link" link2="${name}_base_link" reason="User"/>
+    <disable_collisions link1="${name}_lower_link" link2="${name}_plate_link" reason="User"/>
+  </xacro:macro>
+</robot>

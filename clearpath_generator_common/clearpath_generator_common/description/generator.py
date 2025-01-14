@@ -205,6 +205,7 @@ class DescriptionGenerator(BaseGenerator):
         self.xacro_writer.write_comment('Manipulators')
         self.xacro_writer.write_newline()
         self.generate_arms()
+        self.generate_lifts()
         self.generate_grippers()
 
     def generate_arms(self) -> None:
@@ -253,6 +254,30 @@ class DescriptionGenerator(BaseGenerator):
                 parameters=gripper_description.parameters,
                 blocks=XacroWriter.add_origin(
                     gripper_description.xyz, gripper_description.rpy)
+            )
+
+            self.xacro_writer.write_newline()
+
+    def generate_lifts(self) -> None:
+        lifts = self.clearpath_config.manipulators.get_all_lifts()
+        for lift in lifts:
+            lift_description = ManipulatorDescription(lift)
+
+            self.xacro_writer.write_comment(
+                '{0}'.format(lift_description.name)
+            )
+
+            self.xacro_writer.write_include(
+                package=lift_description.package,
+                file=lift_description.model,
+                path=lift_description.path
+            )
+
+            self.xacro_writer.write_macro(
+                macro='{0}'.format(lift_description.model),
+                parameters=lift_description.parameters,
+                blocks=XacroWriter.add_origin(
+                    lift_description.xyz, lift_description.rpy)
             )
 
             self.xacro_writer.write_newline()

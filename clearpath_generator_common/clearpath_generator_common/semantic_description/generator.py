@@ -51,6 +51,10 @@ class SemanticDescriptionGenerator(BaseGenerator):
         self.generate_grippers()
         self.xacro_writer.write_newline()
 
+        # Lifts
+        self.generate_lifts()
+        self.xacro_writer.write_newline()
+
         self.xacro_writer.close_file()
         print(f'Generated {self.xacro_writer.file_path}robot.srdf.xacro')
 
@@ -105,4 +109,25 @@ class SemanticDescriptionGenerator(BaseGenerator):
             self.xacro_writer.write_newline()
 
     def generate_lifts(self) -> None:
-        pass
+        self.xacro_writer.write_comment('Lifts')
+        self.xacro_writer.write_newline()
+        lifts = self.clearpath_config.manipulators.get_all_lifts()
+        for lift in lifts:
+            lift_semantic_description = ManipulatorSemanticDescription(lift)
+
+            self.xacro_writer.write_comment(
+                '{0}'.format(lift_semantic_description.name)
+            )
+
+            self.xacro_writer.write_include(
+                package=lift_semantic_description.package,
+                file=lift_semantic_description.model,
+                path=lift_semantic_description.path,
+            )
+
+            self.xacro_writer.write_macro(
+                macro='{0}'.format(lift_semantic_description.model),
+                parameters=lift_semantic_description.parameters,
+            )
+
+            self.xacro_writer.write_newline()
