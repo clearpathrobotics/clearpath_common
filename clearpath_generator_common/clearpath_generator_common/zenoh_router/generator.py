@@ -58,10 +58,10 @@ class ZenohRouterGenerator(BaseGenerator):
         middleware_config = self.clearpath_config.system.middleware
         if middleware_config.rmw_implementation == RMWImplementation.ZENOH_DDS:
 
-            if middleware_config.zenoh_router_config_uri:
+            if middleware_config.profile:
                 # use the user-specified router config file
                 bash_writer.write(
-                    f'export ZENOH_ROUTER_CONFIG_URI={middleware_config.zenoh_router_config_uri}'  # noqa: E501
+                    f'export ZENOH_ROUTER_CONFIG_URI={middleware_config.profile}'
                 )
             else:
                 # use the default router config file
