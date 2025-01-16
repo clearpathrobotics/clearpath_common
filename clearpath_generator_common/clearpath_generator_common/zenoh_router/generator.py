@@ -32,7 +32,6 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
-from clearpath_config.common.types.discovery import Discovery
 from clearpath_config.common.types.rmw_implementation import RMWImplementation
 from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BaseGenerator, BashFile
