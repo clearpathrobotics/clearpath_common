@@ -27,6 +27,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import os
 import subprocess
+import time
 
 import rclpy
 from rclpy.node import Node
@@ -75,6 +76,7 @@ class QualityCutoffNode(Node):
 
         # run the timer at 5Hz
         # originally this was 10Hz, but that resulted in missed deadlines
+        self.get_logger().info('Starting quality-publish timer')
         if self.mac_addr is not None:
             self.quality_timer = self.create_timer(0.2, self.check_quality)
         else:
@@ -87,9 +89,13 @@ class QualityCutoffNode(Node):
 
         # wait until the joy device appears on the local file system
         self.get_logger().info(f'Waiting for {self.joy_device} to appear on the local filesystem...')  # noqa: E501
-        rate = self.create_rate(1)
+        count = 0
         while not os.path.exists(self.joy_device):
-            rate.sleep()
+            time.sleep(1)
+            count += 1
+            if count == 10:
+                count = 0
+                self.get_logger().warning(f'Still waiting for {self.joy_device} to appear on the local filesystem...')  # noqa: E501
 
         self.get_logger().info('Getting MAC address from udev...')
         udev_proc = subprocess.Popen(
@@ -130,16 +136,16 @@ class QualityCutoffNode(Node):
 
     def check_quality(self):
         """Check the quality of the link and publish it"""
-        hcitool_proc = subprocess.Popen(
-            [
-                'hcitool',
-                'lq',
-                self.mac_addr
-            ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
         try:
+            hcitool_proc = subprocess.Popen(
+                [
+                    'hcitool',
+                    'lq',
+                    self.mac_addr
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
             result = hcitool_proc.communicate()
             stdout = result[0].decode().strip()
             stderr = result[1].decode().strip()
@@ -147,6 +153,7 @@ class QualityCutoffNode(Node):
             engage_stop = Bool()
             quality_level = Int32()
             if 'not connected' in stderr.lower():
+                self.get_logger().warning('Controller not connected')
                 engage_stop.data = True
                 quality_level.data = 0
             else:
