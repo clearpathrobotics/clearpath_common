@@ -1,7 +1,13 @@
 planning_plugins:
-  - chomp_interface/CHOMPPlanner
-enable_failure_recovery: true
+  - ompl_interface/OMPLPlanner
+path_tolerance: 0.1
+resample_dt: 0.1
+min_angle_change: 0.001
+default_workspace_bounds: 10.0
+start_state_max_bounds_error: 0.1
+start_state_max_dt: 0.5
 jiggle_fraction: 0.05
+max_sampling_attempts: 100
 request_adapters:
   - default_planning_request_adapters/ResolveConstraintFrames
   - default_planning_request_adapters/ValidateWorkspaceBounds
@@ -11,11 +17,3 @@ response_adapters:
   - default_planning_response_adapters/AddTimeOptimalParameterization
   - default_planning_response_adapters/ValidateSolution
   - default_planning_response_adapters/DisplayMotionPath
-ridge_factor: 0.01
-start_state_max_bounds_error: 0.1
-path_tolerance: 0.1
-resample_dt: 0.1
-min_angle_change: 0.001
-default_workspace_bounds: 10.0
-start_state_max_dt: 0.5
-max_sampling_attempts: 100
