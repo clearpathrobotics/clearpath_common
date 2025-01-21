@@ -77,4 +77,4 @@ joy_node:
     dev: /dev/input/ps4
 bt_cutoff_node:
   ros__parameters:
-    quality_cutoff: 20
+    quality_cutoff: 2
