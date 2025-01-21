@@ -158,7 +158,7 @@ class QualityCutoffNode(Node):
                 quality_level.data = 0
             else:
                 quality_level.data = int(stdout.split(':')[-1].strip())
-                engage_stop.data = quality_level.data <= self.quality_cutoff
+                engage_stop.data = quality_level.data < self.quality_cutoff
 
             self.stop_pub.publish(engage_stop)
             self.quality_pub.publish(quality_level)
