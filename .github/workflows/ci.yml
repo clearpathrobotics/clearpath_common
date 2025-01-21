@@ -89,6 +89,9 @@ jobs:
           branch: ${{ steps.extract_branch.outputs.branch }}
           input: dependencies.repos
           output: updated_dependencies.repos
+      - name: Updated dependencies
+        run: |
+          cat updated_dependencies.repos
       - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: humble
@@ -123,6 +126,9 @@ jobs:
           branch: ${{ github.event.pull_request.base.ref }}
           input: dependencies.repos
           output: updated_dependencies.repos
+      - name: Updated dependencies
+        run: |
+          cat updated_dependencies.repos
       - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: humble
