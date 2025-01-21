@@ -2,6 +2,14 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Bypass bluetooth link quality check (`#151 <https://github.com/clearpathrobotics/clearpath_common/issues/151>`_)
+  * Comment-out the bluetooth cutoff node, the mux, and the remap from the joy_teleop to bypass the link quality check
+  * Add missing newlines to joy teleop config files
+  * Change the link quality check to be exclusive instead of inclusive
+* Contributors: Chris Iverach-Brereton
+
 2.0.2 (2025-01-20)
 ------------------
 
