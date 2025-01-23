@@ -23,7 +23,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 #include <moveit_setup_framework/data/package_settings_config.hpp>
 #include <moveit_setup_framework/data/srdf_config.hpp>
 #include <moveit_setup_framework/data/urdf_config.hpp>
-#include <moveit/rdf_loader/rdf_loader.h>
+#include <moveit/rdf_loader/rdf_loader.hpp>
 #include <boost/program_options.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/logger.hpp>
