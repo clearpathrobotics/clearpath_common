@@ -31,6 +31,8 @@
 # of Clearpath Robotics.
 import os
 
+from apt import Cache
+
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
@@ -42,6 +44,7 @@ from clearpath_config.sensors.types.lidars_3d import BaseLidar3D
 from clearpath_config.sensors.types.sensor import BaseSensor
 from clearpath_generator_common.common import Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
+from clearpath_generator_common.ros import ROS_DISTRO
 
 
 class PlatformParam():
@@ -224,6 +227,27 @@ class PlatformParam():
             self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {
                 'serial_number': self.clearpath_config.get_serial_number(),
                 'platform_model': self.clearpath_config.get_platform_model()}})
+
+            if use_sim_time:
+                latest_apt_firmware_version = 'simulated'
+                installed_apt_firmware_version = 'simulated'
+            else:
+                # Check latest firmware version available and save it in the config
+                cache = Cache()
+                latest_apt_firmware_version = 'not_found'
+                installed_apt_firmware_version = 'none'
+                try:
+                    pkg = cache[f'ros-{ROS_DISTRO}-clearpath-firmware']
+                    latest_apt_firmware_version = pkg.versions[0].version.split('-')[0]
+                    if (pkg.is_installed):
+                        installed_apt_firmware_version = pkg.installed.version.split('-')[0]
+                except KeyError:
+                    print(f'\033[93mWarning: ros-{ROS_DISTRO}-clearpath-firmware package not found\033[0m')
+
+            self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {
+                'ros_distro': ROS_DISTRO,
+                'latest_apt_firmware_version': latest_apt_firmware_version,
+                'installed_apt_firmware_version': installed_apt_firmware_version}})
 
             # List all topics to be monitored from each launched sensor
             for sensor in self.clearpath_config.sensors.get_all_sensors():
