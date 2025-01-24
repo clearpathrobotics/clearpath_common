@@ -69,3 +69,81 @@ jobs:
             clearpath_platform_description
             clearpath_sensors_description
           vcs-repo-file-url: dependencies.repos
+  clearpath_common_src_head_ci:
+    name: Humble Clearpath Source with Head Branch
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: clearpathrobotics/repos-dep-update-action
+          ref: 0.0.1
+          path: repos-dep-update-action
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - name: Use repos update action
+        uses: ./repos-dep-update-action/
+        with:
+          branch: ${{ steps.extract_branch.outputs.branch }}
+          input: dependencies.repos
+          output: updated_dependencies.repos
+      - name: Updated dependencies
+        run: |
+          cat updated_dependencies.repos
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+      - uses: ros-tooling/action-ros-ci@v0.3
+        id: action_ros_ci_step
+        with:
+          target-ros2-distro: humble
+          package-name: |
+            clearpath_common
+            clearpath_control
+            clearpath_customization
+            clearpath_description
+            clearpath_generator_common
+            clearpath_mounts_description
+            clearpath_platform_description
+            clearpath_sensors_description
+          vcs-repo-file-url: updated_dependencies.repos
+  clearpath_common_src_base_ci:
+    if: github.event_name == 'pull_request'
+    name: Humble Clearpath Source with Base Branch
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: clearpathrobotics/repos-dep-update-action
+          ref: 0.0.1
+          path: repos-dep-update-action
+      - name: Use repos update action
+        uses: ./repos-dep-update-action/
+        with:
+          branch: ${{ github.event.pull_request.base.ref }}
+          input: dependencies.repos
+          output: updated_dependencies.repos
+      - name: Updated dependencies
+        run: |
+          cat updated_dependencies.repos
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+      - uses: ros-tooling/action-ros-ci@v0.3
+        id: action_ros_ci_step
+        with:
+          target-ros2-distro: humble
+          package-name: |
+            clearpath_common
+            clearpath_control
+            clearpath_customization
+            clearpath_description
+            clearpath_generator_common
+            clearpath_mounts_description
+            clearpath_platform_description
+            clearpath_sensors_description
+          vcs-repo-file-url: updated_dependencies.repos
+
