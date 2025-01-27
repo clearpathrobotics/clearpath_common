@@ -34,6 +34,7 @@
 from clearpath_config.common.types.platform import Platform
 from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BaseGenerator, BashFile
+from clearpath_generator_common.ros import ROS_DISTRO_PATH
 
 PLATFORMS = [
     Platform.A300,
@@ -47,8 +48,6 @@ PLATFORMS = [
 
 class VirtualCANGenerator(BaseGenerator):
 
-    ROS_DISTRO_PATH = '/opt/ros/humble/'
-
     def generate(self) -> None:
         # Generate vcan start up script
         self.generate_vcan_start()
@@ -60,6 +59,11 @@ class VirtualCANGenerator(BaseGenerator):
 
         # Check platform
         if self.clearpath_config.get_platform_model() in PLATFORMS:
+
+            # Source ROS
+            ros_setup_bash = BashFile(filename='setup.bash', path=ROS_DISTRO_PATH)
+            bash_writer.add_source(ros_setup_bash)
+
             port = 11412
             serial = '/dev/ttycan0'
             can = 'vcan0'
@@ -71,6 +75,8 @@ class VirtualCANGenerator(BaseGenerator):
                 f'-v {can} '
                 f'-b {baud}'
             )
+            bash_writer.write(f'ros2 lifecycle set /{self.namespace}/vcan0_socket_can_sender configure')
+            bash_writer.write(f'ros2 lifecycle set /{self.namespace}/vcan0_socket_can_receiver configure')
             # Add second vcan for A300
             if self.clearpath_config.get_platform_model() == Platform.A300:
                 port = 11413
@@ -84,6 +90,8 @@ class VirtualCANGenerator(BaseGenerator):
                     f'-v {can} '
                     f'-b {baud}'
                 )
+                bash_writer.write(f'ros2 lifecycle set /{self.namespace}/vcan1_socket_can_sender configure')
+                bash_writer.write(f'ros2 lifecycle set /{self.namespace}/vcan1_socket_can_receiver configure')
         else:
             bash_writer.add_echo(
                 'No vcan bridge required.' +
