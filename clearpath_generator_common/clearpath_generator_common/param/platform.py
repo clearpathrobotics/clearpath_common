@@ -57,6 +57,8 @@ class PlatformParam():
     TELEOP_JOY = 'teleop_joy'
     TWIST_MUX = 'twist_mux'
 
+    NOT_APPLICABLE = 'not_applicable'
+
     PARAMETERS = [
       CONTROL,
       DIAGNOSTIC_AGGREGATOR,
@@ -224,13 +226,17 @@ class PlatformParam():
             self.param_file.parameters = self.default_param_file.parameters
 
             # Update parameters based on the robot.yaml
+            platform_model = self.clearpath_config.get_platform_model()
             self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {
                 'serial_number': self.clearpath_config.get_serial_number(),
-                'platform_model': self.clearpath_config.get_platform_model()}})
+                'platform_model': platform_model}})
 
             if use_sim_time:
                 latest_apt_firmware_version = 'simulated'
                 installed_apt_firmware_version = 'simulated'
+            elif platform_model == Platform.A200:
+                latest_apt_firmware_version = PlatformParam.NOT_APPLICABLE
+                installed_apt_firmware_version = PlatformParam.NOT_APPLICABLE
             else:
                 # Check latest firmware version available and save it in the config
                 cache = Cache()
