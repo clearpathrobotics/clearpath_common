@@ -242,7 +242,8 @@ class PlatformParam():
                     if (pkg.is_installed):
                         installed_apt_firmware_version = pkg.installed.version.split('-')[0]
                 except KeyError:
-                    print(f'\033[93mWarning: ros-{ROS_DISTRO}-clearpath-firmware package not found\033[0m')
+                    print(f'\033[93mWarning: ros-{ROS_DISTRO}-clearpath-firmware'
+                          ' package not found\033[0m')
 
             self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {
                 'ros_distro': ROS_DISTRO,
