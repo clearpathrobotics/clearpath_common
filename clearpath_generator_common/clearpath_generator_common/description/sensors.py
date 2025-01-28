@@ -101,7 +101,7 @@ class SensorDescription():
                 self.MAXIMUM_ANGLE: sensor.max_angle,
                 self.MINIMUM_RANGE: 0.05,
                 self.MAXIMUM_RANGE: 25.0,
-                self.UPDATE_RATE: 50
+                self.UPDATE_RATE: 40  # TODO: link to clearpath_config property
             })
 
     class Lidar3dDescription(BaseDescription):
@@ -127,7 +127,7 @@ class SensorDescription():
                 self.MAXIMUM_ANGLE_V: 0.261799,
                 self.MINIMUM_RANGE: 0.9,
                 self.MAXIMUM_RANGE: 130.0,
-                self.UPDATE_RATE: 50
+                self.UPDATE_RATE: 20  # TODO: link to clearpath_config property
             })
 
     class ImuDescription(BaseDescription):
@@ -137,7 +137,7 @@ class SensorDescription():
             super().__init__(sensor)
 
             self.parameters.update({
-                self.UPDATE_RATE: 100
+                self.UPDATE_RATE: sensor.update_rate
             })
 
     class CameraDescription(BaseDescription):
@@ -152,14 +152,12 @@ class SensorDescription():
 
     class AxisCameraDescription(CameraDescription):
         MODEL = 'model'
-        UPDATE_RATE = 'update_rate'
 
         def __init__(self, sensor: AxisCamera) -> None:
             super().__init__(sensor)
 
             self.parameters.update({
                 self.MODEL: sensor.device_type,
-                self.UPDATE_RATE: 15,
             })
 
     class IntelRealsenseDescription(CameraDescription):
