@@ -67,6 +67,7 @@ class TestRobotLaunchGenerator:
                     sample,
                     e.args[0],
                 ))
+                continue
             # Try to Load Xacro
             try:
                 xacro.process_file(os.path.join(os.path.dirname(dst), 'robot.urdf.xacro')).toxml()
