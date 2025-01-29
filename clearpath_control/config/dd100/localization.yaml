@@ -6,6 +6,7 @@ ekf_node:
     publish_tf: true
     two_d_mode: true
     use_sim_time: false
+    print_diagnostics: true
 
     frequency: 50.0
 
