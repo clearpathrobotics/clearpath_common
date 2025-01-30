@@ -302,6 +302,7 @@ class PlatformParam():
                         self.add_topic(sensor, sensor.TOPICS.POINTS)
 
                     case PhidgetsSpatial():
+                        self.add_topic(sensor, sensor.TOPICS.DATA),
                         self.add_topic(sensor, sensor.TOPICS.RAW_DATA),
                         self.add_topic(sensor, sensor.TOPICS.MAG),
 
