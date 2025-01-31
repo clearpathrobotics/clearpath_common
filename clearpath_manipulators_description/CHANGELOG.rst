@@ -2,6 +2,15 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Ewellix Lift (`#136 <https://github.com/clearpathrobotics/clearpath_common/issues/136>`_) (`#153 <https://github.com/clearpathrobotics/clearpath_common/issues/153>`_)
+  Ewellix Lift
+  - Add lift description
+  - Add lifts to generators
+* Updated URDF
+* Contributors: Luis Camero, luis-camero
+
 2.0.3 (2025-01-21)
 ------------------
 

@@ -14,7 +14,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <exec_depend>moveit_planners_chomp</exec_depend>
-  <exec_depend version_gte="1.0.0">clearpath_manipulators_description</exec_depend>
+  <exec_depend version_gte="2.1.0">clearpath_manipulators_description</exec_depend>
   <exec_depend>gripper_controllers</exec_depend>
   <exec_depend>moveit_configs_utils</exec_depend>
   <exec_depend>moveit_kinematics</exec_depend>

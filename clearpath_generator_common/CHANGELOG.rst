@@ -2,6 +2,26 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Jazzy Phidgets IMU Filter (`#159 <https://github.com/clearpathrobotics/clearpath_common/issues/159>`_)
+  * Add imu data topic to Phidget diagnostics
+  * Check for IMU index
+* Feature/ekf diagnostics (`#158 <https://github.com/clearpathrobotics/clearpath_common/issues/158>`_)
+  * Enable ekf node diagnostics
+  * Fix CI
+* Ewellix Lift (`#136 <https://github.com/clearpathrobotics/clearpath_common/issues/136>`_) (`#153 <https://github.com/clearpathrobotics/clearpath_common/issues/153>`_)
+  Ewellix Lift
+  - Add lift description
+  - Add lifts to generators
+* Feature/diagnostics (`#156 <https://github.com/clearpathrobotics/clearpath_common/issues/156>`_)
+  * Generate params for new diagnostics package
+  * Link sim rates to config objects or match number with todo note
+  * Added firmware version check
+  * Disable MCU diagnostics for A200
+* Replace .h with .hpp per compilation warning (`#154 <https://github.com/clearpathrobotics/clearpath_common/issues/154>`_)
+* Contributors: Chris Iverach-Brereton, Hilary Luo, luis-camero
+
 2.0.3 (2025-01-21)
 ------------------
 

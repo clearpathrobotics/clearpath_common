@@ -2,6 +2,15 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Reduced angular velocity limits from joysticks (`#160 <https://github.com/clearpathrobotics/clearpath_common/issues/160>`_)
+* Feature/ekf diagnostics (`#158 <https://github.com/clearpathrobotics/clearpath_common/issues/158>`_)
+  * Enable ekf node diagnostics
+  * Fix CI
+* Diff drive parameter updates for improved odometry (`#155 <https://github.com/clearpathrobotics/clearpath_common/issues/155>`_)
+* Contributors: Hilary Luo, Roni Kreinin
+
 2.0.3 (2025-01-21)
 ------------------
 * Bypass bluetooth link quality check (`#151 <https://github.com/clearpathrobotics/clearpath_common/issues/151>`_)
