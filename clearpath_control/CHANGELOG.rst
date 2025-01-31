@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.1.0 (2025-01-31)
+------------------
 * Reduced angular velocity limits from joysticks (`#160 <https://github.com/clearpathrobotics/clearpath_common/issues/160>`_)
 * Feature/ekf diagnostics (`#158 <https://github.com/clearpathrobotics/clearpath_common/issues/158>`_)
   * Enable ekf node diagnostics

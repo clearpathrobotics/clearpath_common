@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.1.0 (2025-01-31)
+------------------
 * Jazzy Phidgets IMU Filter (`#159 <https://github.com/clearpathrobotics/clearpath_common/issues/159>`_)
   * Add imu data topic to Phidget diagnostics
   * Check for IMU index
