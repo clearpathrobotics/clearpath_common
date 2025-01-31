@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="ouster_cylinder_inertia" params="mass radius height">
+    <inertia
+      ixx="${mass/12 * (3 * radius**2 + height**2)}" ixy="0" ixz="0"
+      iyy="${mass/12 * (3 * radius**2 + height**2)}" iyz="0"
+      izz="${mass/2 * radius**2}"
+    />
+  </xacro:macro>
+
+  <xacro:macro name="ouster_box_inertia" params="mass x y z">
+    <inertia
+      ixx="${mass/12 * (y**2 + z**2)}" ixy="0" ixz="0"
+      iyy="${mass/12 * (x**2 + z**2)}" iyz="0"
+      izz="${mass/12 * (x**2 + y**2)}"
+    />
+  </xacro:macro>
+
+  <xacro:macro name="ouster_os1" params="
+    name
+    parent_link
+    cap:=halo
+    *origin
+    samples_h:=1024 min_ang_h:=${-pi} max_ang_h:=${pi}
+    samples_v:=64   min_ang_v:=${-21.2 * pi/180} max_ang_v:=${21.2 * pi/180}
+    update_rate:=10 min_range:=0.5 max_range:=170.0
+    ">
+    <xacro:property name="sensor_offset" value="0 0 0.038195"/>
+
+    <xacro:property name="lidar_mass" value="0.410"/>
+    <xacro:property name="lidar_height" value="0.05835"/>
+    <xacro:property name="lidar_diameter" value="0.087"/>
+
+    <xacro:property name="base_mass" value="0."/>
+    <xacro:property name="base_height" value="0.0225"/>
+    <xacro:property name="base_length" value="0.110"/>
+
+    <xacro:property name="fins_mass" value="0.079"/>
+    <xacro:property name="fins_height" value="0.022"/>
+    <xacro:property name="fins_diameter" value="0.080825"/>
+
+    <xacro:property name="halo_mass" value="0.092"/>
+    <xacro:property name="halo_height" value="0.022"/>
+    <xacro:property name="halo_diameter" value="0.08679"/>
+
+
+    <!-- Base Link -->
+    <link name="${name}_base_link">
+      <inertial>
+        <mass value="${base_mass}"/>
+        <origin xyz="0 0 ${base_height/2}"/>
+        <xacro:ouster_box_inertia
+          mass="${base_mass}"
+          x="${base_length}"
+          y="${base_length}"
+          z="${base_height}"
+        />
+      </inertial>
+      <visual>
+        <material name="ouster_grey">
+          <color rgba="0.8 0.8 0.8 1.0"/>
+        </material>
+        <origin xyz="0 0 ${base_height}"/>
+        <geometry>
+          <mesh filename="package://clearpath_sensors_description/meshes/ouster/os1_base.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${base_height/2}"/>
+        <geometry>
+          <box size="${base_length} ${base_length} ${base_height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Lidar Link -->
+    <link name="${name}_link">
+      <inertial>
+        <mass value="${lidar_mass}"/>
+        <origin xyz="0 0 ${lidar_height/2}"/>
+        <xacro:ouster_cylinder_inertia
+          mass="${lidar_mass}"
+          height="${lidar_height}"
+          radius="${lidar_diameter/2}"
+        />
+      </inertial>
+      <visual>
+        <material name="ouster_grey">
+          <color rgba="0.8 0.8 0.8 1.0"/>
+        </material>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_sensors_description/meshes/ouster/os1_lidar.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <material>
+          <color rgba="0.8 0.8 0.8 1.0"/>
+        </material>
+        <origin xyz="0 0 ${lidar_height/2}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${lidar_diameter/2}" length="${lidar_height}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Radial Fins Thermal Cap -->
+    <xacro:if value="${cap == 'fins'}">
+      <link name="${name}_cap_link">
+        <inertial>
+          <mass value="${fins_mass}"/>
+          <origin xyz="0 0 ${fins_height/2}"/>
+          <xacro:ouster_cylinder_inertia
+            mass="${fins_mass}"
+            height="${fins_height}"
+            radius="${fins_diameter/2}"
+          />
+        </inertial>
+        <visual>
+          <material name="ouster_grey">
+            <color rgba="0.8 0.8 0.8 1.0"/>
+          </material>
+          <origin xyz="0 0 ${-lidar_height}"/>
+          <geometry>
+            <mesh filename="package://clearpath_sensors_description/meshes/ouster/os1_fins.dae"/>
+          </geometry>
+        </visual>
+        <collision>
+          <material>
+            <color rgba="0.8 0.8 0.8 1.0"/>
+          </material>
+          <origin xyz="0 0 ${fins_height/2}" rpy="0 0 0"/>
+          <geometry>
+            <cylinder radius="${fins_diameter/2}" length="${fins_height}"/>
+          </geometry>
+        </collision>
+      </link>
+    </xacro:if>
+
+    <!-- Halo Thermal Cap -->
+    <xacro:if value="${cap == 'halo'}">
+      <link name="${name}_cap_link">
+        <inertial>
+          <mass value="${halo_mass}"/>
+          <origin xyz="0 0 ${halo_height/2}"/>
+          <xacro:ouster_cylinder_inertia
+            mass="${halo_mass}"
+            height="${halo_height}"
+            radius="${halo_diameter/2}"
+          />
+        </inertial>
+        <visual>
+          <material name="ouster_grey">
+            <color rgba="0.8 0.8 0.8 1.0"/>
+          </material>
+          <origin xyz="0 0 ${-lidar_height}"/>
+          <geometry>
+            <mesh filename="package://clearpath_sensors_description/meshes/ouster/os1_halo.dae"/>
+          </geometry>
+        </visual>
+        <collision>
+          <material>
+            <color rgba="0.8 0.8 0.8 1.0"/>
+          </material>
+          <origin xyz="0 0 ${halo_height/2}" rpy="0 0 0"/>
+          <geometry>
+            <cylinder radius="${halo_diameter/2}" length="${halo_height}"/>
+          </geometry>
+        </collision>
+      </link>
+    </xacro:if>
+
+    <!-- Base Joint -->
+    <joint name="${name}_base_joint" type="fixed">
+      <child link="${name}_base_link"/>
+      <parent link="${parent_link}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+    <!-- Lidar Joint -->
+    <joint name="${name}_joint" type="fixed">
+      <child link="${name}_link"/>
+      <parent link="${name}_base_link"/>
+      <origin xyz="0 0 ${base_height}"/>
+    </joint>
+    <xacro:if value="${cap == 'fins' or cap == 'halo'}">
+      <!-- Thermal Cap Joint -->
+      <joint name="{name}_cap_joint" type="fixed">
+        <child link="${name}_cap_link"/>
+        <parent link="${name}_link"/>
+        <origin xyz="0 0 ${lidar_height}"/>
+      </joint>
+    </xacro:if>
+    <!-- Sensor Joint -->
+    <link name="${name}_sensor_link"/>
+    <joint name="${name}_sensor_joint" type="fixed">
+      <child link="${name}_sensor_link"/>
+      <parent link="${name}_link"/>
+      <origin xyz="${sensor_offset}"/>
+    </joint>
+
+    <!-- Gazebo -->
+    <gazebo reference="${name}_sensor_link">
+      <sensor name="${name}" type="gpu_lidar">
+        <update_rate>${update_rate}</update_rate>
+        <visualize>true</visualize>
+        <always_on>true</always_on>
+        <ignition_frame_id>${name}_sensor_link</ignition_frame_id>
+        <topic>$(arg namespace)/sensors/${name}/scan</topic>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>${samples_h}</samples>
+              <resolution>1</resolution>
+              <min_angle>${min_ang_h}</min_angle>
+              <max_angle>${max_ang_h}</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>${samples_v}</samples>
+              <resolution>1</resolution>
+              <min_angle>${min_ang_v}</min_angle>
+              <max_angle>${max_ang_v}</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>0.01</resolution>
+          </range>
+        </lidar>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+</robot>
