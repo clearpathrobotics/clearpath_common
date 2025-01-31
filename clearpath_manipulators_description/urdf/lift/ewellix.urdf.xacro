@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="is_sim" default="false"/>
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_manipulation_controllers" default="false"/>
+
+  <xacro:include filename="$(find ewellix_description)/urdf/ewellix_macro.xacro"/>
+
+  <xacro:macro name="ewellix" params="
+    name
+    parent_link
+    *origin
+    ewellix_type:=tlt_x25
+    add_plate:=True
+    parameters_file:=''
+    initial_positions:=''
+    initial_positions_file:=''
+    generate_ros2_control_tag:=''
+    use_fake_hardware:=''
+    sim_ignition:=''
+    port=''
+    baud=''
+    timeout=''
+    conversion=''
+    rated_effort=''
+    tolerance=''
+    ">
+
+    <!-- Default Description Parameters -->
+    <xacro:property name="_tf_prefix" value="${name}_" lazy_eval="false"/>
+    <xacro:property name="_initial_positions" value="${dict(lower=0.0,upper=0.0)}" lazy_eval="false"/>
+    <xacro:property name="_parameters_file" value="$(find ewellix_description)/config/${ewellix_type}.yaml" lazy_eval="false"/>
+
+    <!-- Default ros2_control Parameters -->
+    <xacro:property name="_generate_ros2_control_tag" value="$(arg use_manipulation_controllers)" lazy_eval="false"/>
+
+    <!-- Default Simulation Parameters -->
+    <xacro:property name="_use_fake_hardware" value="false" />
+    <xacro:property name="_sim_ignition" value="$(arg is_sim)" />
+
+    <!-- Default Hardware Parameters -->
+    <xacro:property name="_port" value="/dev/ttyUSB0"/>
+    <xacro:property name="_baud" value="38400"/>
+    <xacro:property name="_timeout" value="1000"/>
+    <xacro:property name="_conversion" value="3200"/>
+    <xacro:property name="_rated_effort" value="2000"/>
+    <xacro:property name="_tolerance" value="0.005"/>
+
+    <!-- Parameter Overwrites -->
+    <xacro:if value="${initial_positions != ''}"> <xacro:property name="_initial_positions" value="${initial_positions}" lazy_eval="false"/> </xacro:if>
+    <!-- if initial positions file is passed, overwrite initial positions parameter -->
+    <xacro:if value="${initial_positions_file != ''}"> <xacro:property name="_initial_positions" value="${xacro.load_yaml(initial_positions_file)}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${parameters_file != ''}"> <xacro:property name="$_parameters_file" value="${parameters_file}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${generate_ros2_control_tag != ''}"> <xacro:property name="_generate_ros2_control_tag" value="${generate_ros2_control_tag}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${use_fake_hardware != ''}"> <xacro:property name="_use_fake_hardware" value="${use_fake_hardware}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${sim_ignition != ''}"> <xacro:property name="_sim_ignition" value="${sim_ignition}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${port != ''}"> <xacro:property name="_port" value="${port}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${baud != ''}"> <xacro:property name="_baud" value="${baud}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${timeout != ''}"> <xacro:property name="_timeout" value="${timeout}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${conversion != ''}"> <xacro:property name="_conversion" value="${conversion}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${rated_effort != ''}"> <xacro:property name="_rated_effort" value="${rated_effort}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${tolerance != ''}"> <xacro:property name="_tolerance" value="${tolerance}" lazy_eval="false"/> </xacro:if>
+
+    <!-- Ewellix Description -->
+    <xacro:ewellix_lift
+      parent="${parent_link}"
+      tf_prefix="${_tf_prefix}"
+      add_plate="${add_plate}"
+      initial_positions="${_initial_positions}"
+      parameters_file="${_parameters_file}"
+      generate_ros2_control_tag="${_generate_ros2_control_tag}"
+      use_fake_hardware="${_use_fake_hardware}"
+      sim_ignition="${_sim_ignition}"
+      port="${_port}"
+      baud="${_baud}"
+      timeout="${_timeout}"
+      conversion="${_conversion}"
+      rated_effort="${_rated_effort}"
+      tolerance="${_tolerance}"
+      >
+      <xacro:insert_block name="origin"/>
+    </xacro:ewellix_lift>
+  </xacro:macro>
+</robot>

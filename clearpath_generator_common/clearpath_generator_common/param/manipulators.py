@@ -127,6 +127,25 @@ class ManipulatorParam():
                 self.param_file.parameters = merge_dict(
                     self.param_file.parameters, updated_parameters)
 
+            # Lifts
+            for lift in self.clearpath_config.manipulators.get_all_lifts():
+                # Lift Control Parameter File
+                lift_param_file = ParamFile(
+                    name='control',
+                    package=Package('clearpath_manipulators_description'),
+                    path='config/%s/%s' % (
+                        lift.get_manipulator_type(),
+                        lift.get_manipulator_model()),
+                    parameters={}
+                )
+                lift_param_file.read()
+                updated_parameters = replace_dict_items(
+                    lift_param_file.parameters,
+                    {r'${name}': lift.name}
+                )
+                self.param_file.parameters = merge_dict(
+                    self.param_file.parameters, updated_parameters)
+
         def generate_parameter_file(self):
             param_writer = ParamWriter(self.param_file)
             param_writer.write_file()
@@ -258,6 +277,18 @@ class ManipulatorParam():
                     r'${name}': gripper.name
                 })
                 parameter_file += kinematics_file
+            # Lifts
+            for lift in self.clearpath_config.manipulators.get_all_lifts():
+                kinematics_file = MoveItParamFile(
+                    name=lift.get_manipulator_type(),
+                    path=parameter_directory,
+                    package=parameter_package
+                )
+                kinematics_file.read()
+                kinematics_file.replace({
+                    r'${name}': lift.name
+                })
+                parameter_file += kinematics_file
             parameter_file.add_header('robot_description_kinematics')
             return parameter_file
 
@@ -328,6 +359,26 @@ class ManipulatorParam():
                     r'${name}': gripper.name
                 })
                 parameter_file += controller_file
+            # Lifts
+            for lift in self.clearpath_config.manipulators.get_all_lifts():
+                controller_file = MoveItParamFile(
+                    name=parameter_name,
+                    path=os.path.join(
+                        parameter_directory,
+                        lift.get_manipulator_type(),
+                        lift.get_manipulator_model()
+                    ),
+                    package=parameter_package
+                )
+                controller_name = lift.name
+                if not use_sim_time:
+                    controller_name = 'manipulators/' + controller_name
+                controller_file.read()
+                controller_file.replace({
+                    r'${controller_name}': controller_name,
+                    r'${name}': lift.name
+                })
+                parameter_file += controller_file
             return parameter_file
 
         # Joint Limits
@@ -373,6 +424,22 @@ class ManipulatorParam():
                 controller_file.read()
                 controller_file.replace({
                     r'${name}': gripper.name
+                })
+                parameter_file += controller_file
+            # Lifts
+            for lift in self.clearpath_config.manipulators.get_all_lifts():
+                controller_file = MoveItParamFile(
+                    name=parameter_name,
+                    path=os.path.join(
+                        parameter_directory,
+                        lift.get_manipulator_type(),
+                        lift.get_manipulator_model()
+                    ),
+                    package=parameter_package
+                )
+                controller_file.read()
+                controller_file.replace({
+                    r'${name}': lift.name
                 })
                 parameter_file += controller_file
             parameter_file.add_header('robot_description_planning')
