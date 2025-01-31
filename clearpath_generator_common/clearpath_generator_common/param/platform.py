@@ -302,6 +302,7 @@ class PlatformParam():
                         self.add_topic(sensor, sensor.TOPICS.POINTS)
 
                     case PhidgetsSpatial():
+                        self.add_topic(sensor, sensor.TOPICS.DATA),
                         self.add_topic(sensor, sensor.TOPICS.RAW_DATA),
                         self.add_topic(sensor, sensor.TOPICS.MAG),
 
@@ -341,7 +342,10 @@ class PlatformParam():
             if extras:
                 self.param_file.update({self.EKF_NODE: extras})
             else:
-                if self.platform != Platform.A200:
+                # Count the IMU index individually so we can continue counting for GPS
+                imu_idx = 0
+
+                if Platform.INDEX[self.platform].imu > 0:
                     imu0_parameters = {
                         'imu0': 'sensors/imu_0/data',
                         'imu0_config': self.imu_config,
@@ -351,15 +355,12 @@ class PlatformParam():
                         'imu0_remove_gravitational_acceleration': True
                     }
                     self.param_file.update({self.EKF_NODE: imu0_parameters})
-
-                # Count the IMU index individually so we can continue counting for GPS
-                imu_idx = 0
+                    imu_idx += 1
 
                 # Add all additional IMU's
                 imus = self.clearpath_config.sensors.get_all_imu()
                 for imu in imus:
                     if imu.launch_enabled:
-                        imu_idx += 1
                         imu_name = f'imu{imu_idx}'
                         imu_parameters = {
                             imu_name: f'sensors/{imu.name}/data',
@@ -369,6 +370,7 @@ class PlatformParam():
                             f'{imu_name}_remove_gravitational_acceleration': True
                         }
                         self.param_file.update({self.EKF_NODE: imu_parameters})
+                        imu_idx += 1
 
                 # Add all GPS sensors that have IMUs
                 gpss = self.clearpath_config.sensors.get_all_gps()
