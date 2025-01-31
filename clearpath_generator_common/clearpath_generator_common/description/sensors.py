@@ -47,6 +47,7 @@ from clearpath_config.sensors.types.imu import (
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
 from clearpath_config.sensors.types.lidars_3d import (
     BaseLidar3D,
+    OusterOS1,
     SeyondLidar,
     VelodyneLidar,
 )
@@ -134,6 +135,18 @@ class SensorDescription():
                 self.UPDATE_RATE: 20  # TODO: link to clearpath_config property
             })
 
+    class OusterOS1Description(Lidar3dDescription):
+        SAMPLES_HORIZONTAL = 'samples_h'
+        SAMPLES_VERTICAL = 'samples_v'
+
+        def __init__(self, sensor: BaseLidar3D) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.SAMPLES_HORIZONTAL: 1024,
+                self.SAMPLES_VERTICAL: 64
+            })
+
     class ImuDescription(BaseDescription):
         UPDATE_RATE = 'update_rate'
 
@@ -193,6 +206,7 @@ class SensorDescription():
         FlirBlackfly.SENSOR_MODEL: CameraDescription,
         AxisCamera.SENSOR_MODEL: AxisCameraDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
+        OusterOS1.SENSOR_MODEL: Lidar3dDescription,
         SeyondLidar.SENSOR_MODEL: Lidar3dDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
