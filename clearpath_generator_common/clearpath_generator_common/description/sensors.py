@@ -142,6 +142,8 @@ class SensorDescription():
         def __init__(self, sensor: BaseLidar3D) -> None:
             super().__init__(sensor)
 
+            del self.parameters[self.ANGULAR_RESOLUTION_H]
+            del self.parameters[self.ANGULAR_RESOLUTION_V]
             self.parameters.update({
                 self.SAMPLES_HORIZONTAL: 1024,
                 self.SAMPLES_VERTICAL: 64
