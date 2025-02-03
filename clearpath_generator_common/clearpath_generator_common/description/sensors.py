@@ -137,6 +137,8 @@ class SensorDescription():
         def __init__(self, sensor: BaseLidar3D) -> None:
             super().__init__(sensor)
 
+            del self.parameters[self.ANGULAR_RESOLUTION_H]
+            del self.parameters[self.ANGULAR_RESOLUTION_V]
             self.parameters.update({
                 self.SAMPLES_HORIZONTAL: 1024,
                 self.SAMPLES_VERTICAL: 64
@@ -201,7 +203,7 @@ class SensorDescription():
         FlirBlackfly.SENSOR_MODEL: CameraDescription,
         AxisCamera.SENSOR_MODEL: AxisCameraDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
-        OusterOS1.SENSOR_MODEL: Lidar3dDescription,
+        OusterOS1.SENSOR_MODEL: OusterOS1Description,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
         RedshiftUM7.SENSOR_MODEL: ImuDescription,
