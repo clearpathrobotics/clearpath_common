@@ -37,6 +37,7 @@ from clearpath_config.common.types.file import File
 from clearpath_config.links.links import Link
 from clearpath_config.links.types.box import Box
 from clearpath_config.links.types.cylinder import Cylinder
+from clearpath_config.links.types.frame import Frame
 from clearpath_config.links.types.link import BaseLink
 from clearpath_config.links.types.mesh import Mesh
 from clearpath_config.links.types.sphere import Sphere
@@ -131,9 +132,18 @@ class LinkDescription():
 
             self.parameters.update({self.VISUAL: mesh_filename})
 
+    class FrameDescription(BaseDescription):
+
+        def __init__(self, link: Frame):
+            super().__init__(link)
+            self.parameters.pop(self.MATERIAL_NAME, None)
+            self.parameters.pop(self.MATERIAL_COLOR, None)
+            self.parameters.pop(self.MATERIAL_TEXTURE, None)
+
     MODEL = {
         Link.BOX: BoxDescription,
         Link.CYLINDER: CylinderDescription,
+        Link.FRAME: FrameDescription,
         Link.MESH: MeshDescription,
         Link.SPHERE: SphereDescription,
     }
