@@ -42,14 +42,14 @@ class ManipulatorPoseMacro():
         self.pose = pose
 
     def macro(self) -> str:
-        return f"{self.manipulator.MANIPULATOR_MODEL}_group_state"
+        return f'{self.manipulator.MANIPULATOR_MODEL}_group_state'
 
     def parameters(self) -> dict:
         str_joints = [f'{joint:.4f}' for joint in self.pose.joints]
         return {
             'name': self.manipulator.name,
             'group_state': self.pose.name,
-            'joint_positions': f"${{[{', '.join(str_joints)}]}}"
+            'joint_positions': f'${{[{", ".join(str_joints)}]}}'
         }
 
     def blocks(self) -> str:
