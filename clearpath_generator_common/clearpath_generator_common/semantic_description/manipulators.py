@@ -49,7 +49,7 @@ class ManipulatorPoseMacro():
         return {
             'name': self.manipulator.name,
             'group_state': self.pose.name,
-            'joint_positions': f"{{[{', '.join(str_joints)}]}}"
+            'joint_positions': f"${{[{', '.join(str_joints)}]}}"
         }
 
     def blocks(self) -> str:
