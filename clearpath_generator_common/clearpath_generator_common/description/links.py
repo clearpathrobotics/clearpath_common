@@ -37,6 +37,7 @@ from clearpath_config.common.types.file import File
 from clearpath_config.links.links import Link
 from clearpath_config.links.types.box import Box
 from clearpath_config.links.types.cylinder import Cylinder
+from clearpath_config.links.types.frame import Frame
 from clearpath_config.links.types.link import BaseLink
 from clearpath_config.links.types.mesh import Mesh
 from clearpath_config.links.types.sphere import Sphere
@@ -48,6 +49,9 @@ class LinkDescription():
 
         NAME = 'name'
         PARENT_LINK = 'parent_link'
+        MATERIAL_NAME = 'material_name'
+        MATERIAL_COLOR = 'material_color'
+        MATERIAL_TEXTURE = 'material_texture'
 
         def __init__(self, link: BaseLink) -> None:
             self.link = link
@@ -59,6 +63,23 @@ class LinkDescription():
                 self.NAME: self.link.name,
                 self.PARENT_LINK: self.link.parent
             }
+
+            if link.material.name:
+                self.parameters.update({self.MATERIAL_NAME: link.material.name})
+            if link.material.color:
+                self.parameters.update({
+                    self.MATERIAL_COLOR: ' '.join(str(i) for i in link.material.color)})
+                if not link.material.name:
+                    self.parameters.update({self.MATERIAL_NAME: f'{link.name}_material'})
+            if link.material.texture:
+                if link.material.texture.package:
+                    texture_file = os.path.join(
+                        'package://' + link.material.texture.package,
+                        File.clean(link.material.texture.path, make_abs=False))
+                else:
+                    texture_file = (
+                        'file://' + File.clean(link.material.texture.path, make_abs=False))
+                self.parameters.update({self.MATERIAL_TEXTURE: texture_file})
 
         @property
         def xyz(self) -> List[float]:
@@ -102,19 +123,27 @@ class LinkDescription():
 
         def __init__(self, link: Mesh) -> None:
             super().__init__(link)
+
             if (link.visual.package):
-                self.parameters.update({
-                    self.VISUAL: os.path.join('package://' + link.visual.package,
-                                              File.clean(link.visual.path, make_abs=False))
-                })
+                mesh_filename = os.path.join('package://' + link.visual.package,
+                                             File.clean(link.visual.path, make_abs=False))
             else:
-                self.parameters.update({
-                    self.VISUAL: 'file://' + File.clean(link.visual.path, make_abs=False)
-                })
+                mesh_filename = 'file://' + File.clean(link.visual.path, make_abs=False)
+
+            self.parameters.update({self.VISUAL: mesh_filename})
+
+    class FrameDescription(BaseDescription):
+
+        def __init__(self, link: Frame):
+            super().__init__(link)
+            self.parameters.pop(self.MATERIAL_NAME, None)
+            self.parameters.pop(self.MATERIAL_COLOR, None)
+            self.parameters.pop(self.MATERIAL_TEXTURE, None)
 
     MODEL = {
         Link.BOX: BoxDescription,
         Link.CYLINDER: CylinderDescription,
+        Link.FRAME: FrameDescription,
         Link.MESH: MeshDescription,
         Link.SPHERE: SphereDescription,
     }

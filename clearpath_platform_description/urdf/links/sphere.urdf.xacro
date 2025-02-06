@@ -1,18 +1,28 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="sphere" params="name parent_link radius *origin">
+  <xacro:macro name="sphere" params="
+    name
+    parent_link
+    radius
+    material_name
+    material_color:=''
+    material_texture:=''
+    *origin">
     <link name="${name}_link">
       <visual>
         <geometry>
           <sphere radius="${radius}"/>
         </geometry>
-        <material name="clearpath_dark_grey"/>
+        <xacro:clearpath_material
+          name="${material_name}"
+          color_rgba="${material_color}"
+          texture_file="${material_texture}"
+        />
       </visual>
       <collision>
         <geometry>
           <sphere radius="${radius}"/>
         </geometry>
-        <material name="clearpath_dark_grey"/>
       </collision>
     </link>
 
