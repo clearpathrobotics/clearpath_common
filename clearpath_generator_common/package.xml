@@ -14,6 +14,8 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <depend>moveit_setup_srdf_plugins</depend>
+
   <exec_depend version_gte="1.0.0">clearpath_config</exec_depend>
   <exec_depend version_gte="1.0.0">clearpath_control</exec_depend>
   <exec_depend version_gte="1.0.0">clearpath_description</exec_depend>
@@ -23,7 +25,6 @@
   <test_depend>ament_lint_common</test_depend>
   <test_depend>ament_cmake_pytest</test_depend>
 
-  <build_depend>moveit_setup_srdf_plugins</build_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
