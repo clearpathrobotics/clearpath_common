@@ -38,6 +38,7 @@ from launch.actions import (
     IncludeLaunchDescription,
     TimerAction
 )
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     LaunchConfiguration,
@@ -72,10 +73,18 @@ def generate_launch_description():
         description='Robot namespace'
     )
 
+    arg_launch_moveit = DeclareLaunchArgument(
+        'launch_moveit',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Launch MoveIt'
+    )
+
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
+    launch_moveit = LaunchConfiguration('launch_moveit')
 
     # Launch files
     launch_file_manipulators_description = PathJoinSubstitution([
@@ -123,7 +132,8 @@ def generate_launch_description():
         launch_arguments=[
             ('setup_path', setup_path),
             ('use_sim_time', use_sim_time)
-        ]
+        ],
+        condition=IfCondition(launch_moveit)
     )
 
     moveit_delayed = TimerAction(
@@ -135,6 +145,7 @@ def generate_launch_description():
     ld.add_action(arg_setup_path)
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_namespace)
+    ld.add_action(arg_launch_moveit)
     ld.add_action(group_manipulators_action)
     ld.add_action(moveit_delayed)
     return ld

@@ -80,7 +80,8 @@ class LaunchGenerator(BaseGenerator):
             args=[
                 ('setup_path', self.setup_path),
                 ('use_sim_time', 'false'),
-                ('namespace', self.namespace)
+                ('namespace', self.namespace),
+                ('launch_moveit', str(self.clearpath_config.manipulators.moveit.enable).lower()),
             ]
         )
 
