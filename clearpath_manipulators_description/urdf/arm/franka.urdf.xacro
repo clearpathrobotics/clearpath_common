@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="is_sim" default="false"/>
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_manipulation_controllers" default="false"/>
+
+  <xacro:macro name="franka" params="
+    name
+    parent_link
+    *origin
+    arm_id:=fr3
+    joint_limits:=''
+    joint_limits_parameters_file:=''
+    inertials:=''
+    inertials_parameters_file:=''
+    kinematics:=''
+    kinematics_parameters_file:=''
+    dynamics:=''
+    dynamics_parameters_file:=''
+    gazebo:=''
+    hand:=''
+    ee_id:=''
+    with_sc:=''
+    ros2_control:=''
+    robot_ip:=''
+    use_fake_hardware:=''
+    fake_sensor_commands:=''
+    gazebo_effort:=''
+    no_prefix:=''
+    arm_prefix:=''
+    connected_to:=''
+  ">
+
+    <xacro:property name="_arm_id" value="${arm_id}" lazy_eval="false"/>
+    <xacro:property name="_joint_limits" value="" lazy_eval="false"/>
+    <xacro:property name="_inertials" value="" lazy_eval="false"/>
+    <xacro:property name="_kinematics" value="" lazy_eval="false"/>
+    <xacro:property name="_dynamics" value="" lazy_eval="false"/>
+
+    <!-- End Effector -->
+    <xacro:property name="_hand" value="true" lazy_eval="false"/>
+    <xacro:property name="_ee_id" value="franka_hand" lazy_eval="false"/>
+
+    <!-- Simulation -->
+    <xacro:property name="_gazebo" value="$(arg is_sim)" lazy_eval="false"/>
+    <xacro:property name="_with_sc" value="false" lazy_eval="false"/>
+    <xacro:property name="_ros2_control" value="$(arg use_manipulation_controllers)" lazy_eval="false"/>
+    <xacro:property name="_robot_ip" value="192.168.131.40" lazy_eval="false"/>
+    <xacro:property name="_use_fake_hardware" value="false" lazy_eval="false"/>
+    <xacro:property name="_fake_sensor_commands" value="false" lazy_eval="false"/>
+    <xacro:property name="_gazebo_effort" value="false" lazy_eval="false"/>
+    <xacro:property name="_no_prefix" value="false" lazy_eval="false"/>
+    <xacro:property name="_arm_prefix" value="${name}" lazy_eval="false"/>
+    <xacro:property name="_connected_to" value="${name}_${arm_id}_base_link" lazy_eval="false"/>
+    <xacro:property name="_multi_arm" value="false" lazy_eval="false"/>
+
+    <link name="${name}_${arm_id}_base_link"/>
+    <joint name="${name}_${arm_id}_base_joint" type="fixed">
+      <child link="${name}_${arm_id}_base_link"/>
+      <parent link="${parent_link}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro"/>
+
+    <xacro:franka_robot
+      arm_id="fr3"
+      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3/joint_limits.yaml')}"
+      inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3/inertials.yaml')}"
+      kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3/kinematics.yaml')}"
+      dynamics="${xacro.load_yaml('$(find franka_description)/robots/fr3/dynamics.yaml')}"
+      gazebo="${_gazebo}"
+      hand="${_hand}"
+      ee_id="none"
+      with_sc="${_with_sc}"
+      ros2_control="${_ros2_control}"
+      robot_ip="${_robot_ip}"
+      use_fake_hardware="${_use_fake_hardware}"
+      fake_sensor_commands="${_fake_sensor_commands}"
+      gazebo_effort="${_gazebo_effort}"
+      no_prefix="${_no_prefix}"
+      arm_prefix= "${_arm_prefix}"
+      connected_to= "${_connected_to}"
+      multi_arm="${_multi_arm}">
+    </xacro:franka_robot>
+
+  </xacro:macro>
+
+</robot>

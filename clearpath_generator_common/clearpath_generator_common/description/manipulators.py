@@ -33,6 +33,7 @@ from typing import List
 
 from clearpath_config.manipulators.types.arms import (
     BaseArm,
+    Franka,
     KinovaGen3Dof6,
     KinovaGen3Dof7,
     KinovaGen3Lite,
@@ -123,6 +124,15 @@ class ManipulatorDescription():
             self.parameters.pop(self.PORT)
             self.parameters.update(arm.get_urdf_parameters())
 
+    class FrankaDescription(ArmDescription):
+        IP = Franka.IP_ADDRESS
+        PORT = Franka.IP_PORT
+
+        def __init__(self, arm: BaseArm):
+            super().__init__(arm)
+            self.parameters.pop(self.PORT)
+            self.parameters.update(arm.get_urdf_parameters())
+
     class LiftDescription(BaseDescription):
 
         def __init__(self, lift: BaseLift) -> None:
@@ -135,6 +145,7 @@ class ManipulatorDescription():
             self.parameters.update(lift.get_urdf_parameters())
 
     MODEL = {
+        Franka.MANIPULATOR_MODEL: FrankaDescription,
         KinovaGen3Dof6.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Dof7.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Lite.MANIPULATOR_MODEL: KinovaArmDescription,
