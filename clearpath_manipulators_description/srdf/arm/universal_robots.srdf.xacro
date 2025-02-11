@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="universal_robots_group_state" params="name group_state joint_positions">
+    <group_state name="${group_state}" group="${name}">
+      <joint name="${name}_shoulder_pan_joint"  value="${joint_positions[0]}"/>
+      <joint name="${name}_shoulder_lift_joint" value="${joint_positions[1]}"/>
+      <joint name="${name}_elbow_joint"         value="${joint_positions[2]}"/>
+      <joint name="${name}_wrist_1_joint"       value="${joint_positions[3]}"/>
+      <joint name="${name}_wrist_2_joint"       value="${joint_positions[4]}"/>
+      <joint name="${name}_wrist_3_joint"       value="${joint_positions[5]}"/>
+    </group_state>
+  </xacro:macro>
+
   <xacro:macro name="universal_robots" params="name">
     <group name="${name}">
         <joint name="${name}_shoulder_pan_joint"/>
@@ -9,29 +21,18 @@
         <joint name="${name}_wrist_2_joint"/>
         <joint name="${name}_wrist_3_joint"/>
     </group>
-    <group_state name="home" group="${name}">
-        <joint name="${name}_shoulder_pan_joint" value="0.0"/>
-        <joint name="${name}_shoulder_lift_joint" value="-1.5707"/>
-        <joint name="${name}_elbow_joint" value="1.5707"/>
-        <joint name="${name}_wrist_1_joint" value="-1.5707"/>
-        <joint name="${name}_wrist_2_joint" value="-1.5707"/>
-        <joint name="${name}_wrist_3_joint" value="0.0"/>
-      </group_state>
-    <group_state name="stow" group="${name}">
-      <joint name="${name}_shoulder_pan_joint" value="0.0"/>
-      <joint name="${name}_shoulder_lift_joint" value="-2.356"/>
-      <joint name="${name}_elbow_joint" value="2.356"/>
-      <joint name="${name}_wrist_1_joint" value="-1.5707"/>
-      <joint name="${name}_wrist_2_joint" value="-1.5707"/>
-      <joint name="${name}_wrist_3_joint" value="0.0"/>
-    </group_state>
-    <group_state name="zero" group="${name}">
-        <joint name="${name}_shoulder_pan_joint" value="0"/>
-        <joint name="${name}_shoulder_lift_joint" value="0"/>
-        <joint name="${name}_elbow_joint" value="0"/>
-        <joint name="${name}_wrist_1_joint" value="0"/>
-        <joint name="${name}_wrist_2_joint" value="0"/>
-        <joint name="${name}_wrist_3_joint" value="0"/>
-    </group_state>
+
+    <xacro:universal_robots_group_state
+      name="${name}"
+      group_state="home"
+      joint_positions="${[0.0, -1.5707, 1.5707, -1.5707, -1.5707, 0.0]}"
+    />
+
+    <xacro:universal_robots_group_state
+      name="${name}"
+      group_state="zero"
+      joint_positions="${[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}"
+    />
+
   </xacro:macro>
 </robot>
