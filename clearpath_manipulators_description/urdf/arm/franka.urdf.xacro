@@ -51,12 +51,11 @@
     <xacro:property name="_gazebo_effort" value="false" lazy_eval="false"/>
     <xacro:property name="_no_prefix" value="false" lazy_eval="false"/>
     <xacro:property name="_arm_prefix" value="${name}" lazy_eval="false"/>
-    <xacro:property name="_connected_to" value="${name}_${arm_id}_base_link" lazy_eval="false"/>
+    <xacro:property name="_connected_to" value="" lazy_eval="false"/>
     <xacro:property name="_multi_arm" value="false" lazy_eval="false"/>
 
-    <link name="${name}_${arm_id}_base_link"/>
-    <joint name="${name}_${arm_id}_base_joint" type="fixed">
-      <child link="${name}_${arm_id}_base_link"/>
+    <joint name="${name}_${arm_id}_joint0" type="fixed">
+      <child link="${name}_${arm_id}_link0"/>
       <parent link="${parent_link}"/>
       <xacro:insert_block name="origin"/>
     </joint>
@@ -64,11 +63,11 @@
     <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro"/>
 
     <xacro:franka_robot
-      arm_id="fr3"
-      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3/joint_limits.yaml')}"
-      inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3/inertials.yaml')}"
-      kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3/kinematics.yaml')}"
-      dynamics="${xacro.load_yaml('$(find franka_description)/robots/fr3/dynamics.yaml')}"
+      arm_id="${_arm_id}"
+      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/' + arm_id + '/joint_limits.yaml')}"
+      inertials="${xacro.load_yaml('$(find franka_description)/robots/' + arm_id + '/inertials.yaml')}"
+      kinematics="${xacro.load_yaml('$(find franka_description)/robots/' + arm_id + '/kinematics.yaml')}"
+      dynamics="${xacro.load_yaml('$(find franka_description)/robots/' + arm_id + '/dynamics.yaml')}"
       gazebo="${_gazebo}"
       hand="${_hand}"
       ee_id="none"
