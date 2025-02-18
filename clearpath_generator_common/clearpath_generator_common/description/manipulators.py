@@ -131,6 +131,7 @@ class ManipulatorDescription():
         def __init__(self, arm: BaseArm):
             super().__init__(arm)
             self.parameters.pop(self.PORT)
+            self.parameters[arm.ARM_ID] = arm.arm_id
             self.parameters.update(arm.get_urdf_parameters())
 
     class LiftDescription(BaseDescription):

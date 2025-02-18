@@ -32,6 +32,7 @@
 import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
+from clearpath_config.manipulators.types.arms import Franka
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
 from clearpath_generator_common.common import MoveItParamFile, Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
@@ -99,10 +100,17 @@ class ManipulatorParam():
                     parameters={}
                 )
                 arm_param_file.read()
-                updated_parameters = replace_dict_items(
-                    arm_param_file.parameters,
-                    {r'${name}': arm.name}
-                )
+                # Franka Exception. Add Arm ID.
+                if Franka.MANIPULATOR_MODEL == arm.MANIPULATOR_MODEL:
+                    updated_parameters = replace_dict_items(
+                        arm_param_file.parameters,
+                        {r'${name}': f'{arm.name}_{arm.arm_id}'}
+                    )
+                else:
+                    updated_parameters = replace_dict_items(
+                        arm_param_file.parameters,
+                        {r'${name}': arm.name}
+                    )
                 self.param_file.parameters = merge_dict(
                     self.param_file.parameters, updated_parameters)
             # Grippers
