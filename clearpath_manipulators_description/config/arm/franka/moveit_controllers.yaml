@@ -11,10 +11,10 @@ moveit_simple_controller_manager:
     action_ns: follow_joint_trajectory
     default: true
     joints:
-      - ${name}_fr3_joint1
-      - ${name}_fr3_joint2
-      - ${name}_fr3_joint3
-      - ${name}_fr3_joint4
-      - ${name}_fr3_joint5
-      - ${name}_fr3_joint6
-      - ${name}_fr3_joint7
+      - ${name}_joint1
+      - ${name}_joint2
+      - ${name}_joint3
+      - ${name}_joint4
+      - ${name}_joint5
+      - ${name}_joint6
+      - ${name}_joint7

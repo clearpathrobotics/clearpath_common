@@ -40,6 +40,7 @@ from clearpath_config.manipulators.types.arms import (
     UniversalRobots
 )
 from clearpath_config.manipulators.types.grippers import (
+    FrankaGripper,
     Kinova2FLite,
     Robotiq2F140,
     Robotiq2F85
@@ -134,6 +135,12 @@ class ManipulatorDescription():
             self.parameters[arm.ARM_ID] = arm.arm_id
             self.parameters.update(arm.get_urdf_parameters())
 
+    class FrankaGripperDescription(BaseDescription):
+
+        def __init__(self, gripper: FrankaGripper):
+            super().__init__(gripper)
+            self.parameters[Franka.ARM_ID] = gripper.arm_id
+
     class LiftDescription(BaseDescription):
 
         def __init__(self, lift: BaseLift) -> None:
@@ -147,6 +154,7 @@ class ManipulatorDescription():
 
     MODEL = {
         Franka.MANIPULATOR_MODEL: FrankaDescription,
+        FrankaGripper.MANIPULATOR_MODEL: FrankaGripperDescription,
         KinovaGen3Dof6.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Dof7.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Lite.MANIPULATOR_MODEL: KinovaArmDescription,

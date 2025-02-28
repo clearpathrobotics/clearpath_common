@@ -29,9 +29,11 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+from clearpath_config.manipulators.types.arms import Franka
+from clearpath_config.manipulators.types.grippers import FrankaGripper
 from clearpath_config.manipulators.types.manipulator import (
-  BaseManipulator,
-  ManipulatorPose
+    BaseManipulator,
+    ManipulatorPose
 )
 
 
@@ -80,7 +82,15 @@ class ManipulatorSemanticDescription():
         def model(self) -> str:
             return self.manipulator.MANIPULATOR_MODEL
 
+    class FrankaSemanticDescription(BaseSemanticDescription):
+
+        def __init__(self, manipulator):
+            super().__init__(manipulator)
+            self.parameters[self.NAME] = f'{manipulator.name}_{manipulator.arm_id}'
+
     MODEL = {
+        Franka.MANIPULATOR_MODEL: FrankaSemanticDescription,
+        FrankaGripper.MANIPULATOR_MODEL: FrankaSemanticDescription
     }
 
     def __new__(cls, manipulator: BaseManipulator) -> BaseManipulator:
