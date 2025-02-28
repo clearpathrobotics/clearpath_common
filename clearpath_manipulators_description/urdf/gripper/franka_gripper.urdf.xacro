@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="is_sim" default="false"/>
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_manipulation_controllers" default="false"/>
+
+  <xacro:macro name="franka_gripper" params="
+    name
+    parent_link
+    *origin
+    arm_id:=''
+  ">
+
+    <xacro:include filename="$(find franka_description)/end_effectors/common/utils.xacro" />
+    <xacro:include filename="$(find franka_description)/end_effectors/common/franka_hand.xacro"/>
+
+    <xacro:property name="_connected_to" value="${parent_link}" lazy_eval="false"/>
+    <xacro:property name="_arm_id" value="fr3" lazy_eval="false"/>
+    <xacro:unless value="${arm_id == ''}"><xacro:property name="_arm_id" value="${arm_id}" lazy_eval="false"/></xacro:unless>
+
+    <xacro:property name="_ee_id" value="franka_hand" lazy_eval="false"/>
+    <xacro:property name="_ee_color" value="white" lazy_eval="false"/>
+    <xacro:property name="_ee_inertials" value="${xacro.load_yaml('$(find franka_description)/end_effectors/' + _ee_id + '/inertials.yaml')}" lazy_eval="false"/>
+    <xacro:property name="_xyz_ee" value="0 0 0" lazy_eval="false"/>
+    <xacro:property name="_rpy_ee" value="0 0 ${-math.pi/4}" lazy_eval="false"/>
+    <xacro:property name="_tcp_xyz" value="0 0 0.1034" lazy_eval="false"/>
+    <xacro:property name="_tcp_rpy" value="0 0 0" lazy_eval="false"/>
+    <xacro:property name="_safety_distance" value="0.03" lazy_eval="false"/>
+    <xacro:property name="_gazebo" value="$(arg is_sim)" lazy_eval="false"/>
+    <xacro:property name="_description_pkg" value="franka_description" lazy_eval="false"/>
+
+    <xacro:franka_hand
+      connected_to="${_connected_to}"
+      arm_id="${_arm_id}"
+      arm_prefix="${name}_"
+      ee_id="${_ee_id}_${_ee_color}"
+      ee_inertials="${_ee_inertials}"
+      rpy_ee="${_rpy_ee}"
+      xyz_ee="${_xyz_ee}"
+      tcp_xyz="${_tcp_xyz}"
+      tcp_rpy="${_tcp_rpy}"
+      safety_distance="${_safety_distance}"
+      gazebo="${_gazebo}"
+      description_pkg="${_description_pkg}"
+      with_sc="false"
+      >
+    </xacro:franka_hand>
+
+    <xacro:if value="${_gazebo}">
+      <ros2_control name="${name}_FrankaGripperHardwareInterface" type="system">
+        <hardware>
+          <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        </hardware>
+        <joint name="${name}_${_arm_id}_finger_joint1">
+          <command_interface name="position"/>
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="effort"/>
+        </joint>
+      </ros2_control>
+    </xacro:if>
+  </xacro:macro>
+</robot>
