@@ -46,7 +46,7 @@
         <joint name="${name}_sensor_joint" type="fixed">
             <parent link="${name}_base_link" />
             <child link="${name}_laser" />
-            <origin xyz="0.04 0 0.042" rpy="0 0 0" />
+            <origin xyz="0 0 0.042" rpy="0 0 0" />
         </joint>
 
         <xacro:property name="samples_h" value="${round((max_ang_h - min_ang_h) * 180 / (ang_res_h * pi))}"/>
