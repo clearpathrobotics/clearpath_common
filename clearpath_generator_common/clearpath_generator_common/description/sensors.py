@@ -45,7 +45,11 @@ from clearpath_config.sensors.types.imu import (
     RedshiftUM7
 )
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
-from clearpath_config.sensors.types.lidars_3d import BaseLidar3D, VelodyneLidar
+from clearpath_config.sensors.types.lidars_3d import (
+    BaseLidar3D,
+    SeyondLidar,
+    VelodyneLidar,
+)
 from clearpath_config.sensors.types.sensor import BaseSensor
 
 
@@ -189,6 +193,7 @@ class SensorDescription():
         FlirBlackfly.SENSOR_MODEL: CameraDescription,
         AxisCamera.SENSOR_MODEL: AxisCameraDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
+        SeyondLidar.SENSOR_MODEL: Lidar3dDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
         RedshiftUM7.SENSOR_MODEL: ImuDescription,

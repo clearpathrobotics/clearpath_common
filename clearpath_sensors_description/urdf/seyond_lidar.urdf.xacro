@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="seyond_lidar" params="name parent_link *origin
+                                             ang_res_h:=0.002617993877991494 min_ang_h:=-1.0471975511965976 max_ang_h:=1.0471975511965976
+                                             ang_res_v:=0.006283185307179586 min_ang_v:=-0.6108652381980153 max_ang_v:=0.6108652381980153
+                                             update_rate:=20 min_range:=0.1 max_range:=150.0">
+
+        <link name="${name}_base_link">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="1" />
+                <inertia
+                ixx="1.0" ixy="0.0" ixz="0.0"
+                iyy="1.0" iyz="0.0"
+                izz="1.0" />
+            </inertial>
+            <visual>
+                <origin rpy="-1.5707963267948966 0 1.5707963267948966" xyz="0.042 -0.051 0.086"/>
+                <geometry>
+                    <mesh filename="package://clearpath_sensors_description/meshes/seyond_robin_w.stl"/>
+                </geometry>
+                <material name="seyond_dark_grey">
+                    <color rgba="0.3 0.3 0.3 1.0" />
+                </material>
+            </visual>
+            <collision>
+                <origin rpy="-1.5707963267948966 0 1.5707963267948966" xyz="0.042 -0.051 0.086"/>
+                <geometry>
+                    <mesh filename="package://clearpath_sensors_description/meshes/seyond_robin_w.stl"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="${name}_base_joint" type="fixed">
+            <parent link="${parent_link}" />
+            <child link="${name}_base_link" />
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <link name="${name}_laser">
+            <inertial>
+                <mass value="0.01"/>
+                <origin xyz="0 0 0"/>
+                <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+            </inertial>
+        </link>
+        <joint name="${name}_sensor_joint" type="fixed">
+            <parent link="${name}_base_link" />
+            <child link="${name}_laser" />
+            <origin xyz="0 0 0.042" rpy="0 0 0" />
+        </joint>
+
+        <xacro:property name="samples_h" value="${round((max_ang_h - min_ang_h) * 180 / (ang_res_h * pi))}"/>
+        <xacro:property name="samples_v" value="${round((max_ang_v - min_ang_v) * 180 / (ang_res_v * pi))}"/>
+        <gazebo reference="${name}_laser">
+            <sensor name="${name}" type="gpu_lidar">
+                <update_rate>${update_rate}</update_rate>
+                <visualize>true</visualize>
+                <always_on>true</always_on>
+                <gz_frame_id>${name}_laser</gz_frame_id>
+                <topic>$(arg namespace)/sensors/${name}/scan</topic>
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>${samples_h}</samples>
+                            <resolution>1</resolution>
+                            <min_angle>${min_ang_h}</min_angle>
+                            <max_angle>${max_ang_h}</max_angle>
+                        </horizontal>
+                        <vertical>
+                            <samples>${samples_v}</samples>
+                            <resolution>1</resolution>
+                            <min_angle>${min_ang_v}</min_angle>
+                            <max_angle>${max_ang_v}</max_angle>
+                        </vertical>
+                    </scan>
+                    <range>
+                        <min>${min_range}</min>
+                        <max>${max_range}</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                </lidar>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+</robot>
