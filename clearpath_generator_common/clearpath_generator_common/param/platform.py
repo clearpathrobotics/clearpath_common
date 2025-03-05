@@ -287,18 +287,6 @@ class PlatformParam():
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
 
-            # Read the default parameter file
-            self.default_param_file = ParamFile(
-                name=self.default_parameter,
-                package=self.default_parameter_file_package,
-                path=self.default_parameter_file_path,
-                parameters={}
-            )
-            self.default_param_file.read()
-
-            # Initialize parameters with the default parameters
-            self.param_file.parameters = self.default_param_file.parameters
-
             # Update parameters based on the robot.yaml
             platform_model = self.clearpath_config.get_platform_model()
             self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {
