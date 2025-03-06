@@ -208,6 +208,8 @@ class PlatformParam():
     class DiagnosticsAggregatorParam(BaseParam):
         """Parameter file that decides the aggregation of the diagnostics data for display."""
 
+        DIAGNOSTIC_AGGREGATOR_NODE = 'diagnostic_aggregator'
+
         def __init__(self,
                      parameter: str,
                      clearpath_config: ClearpathConfig,
@@ -215,6 +217,58 @@ class PlatformParam():
             super().__init__(parameter, clearpath_config, param_path)
             self.default_parameter_file_package = Package(self.CLEARPATH_DIAGNOSTICS)
             self.default_parameter_file_path = 'config'
+
+        def generate_parameters(self, use_sim_time: bool = False) -> None:
+            super().generate_parameters(use_sim_time)
+
+            sensor_analyzers = {}
+
+            # List all topics to be monitored from each launched sensor
+            for sensor in self.clearpath_config.sensors.get_all_sensors():
+
+                if not sensor.launch_enabled:
+                    continue
+
+                match sensor:
+                    case BaseCamera():
+                        sensor_analyzers['cameras'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'Cameras',
+                            'contains': ['camera']
+                        }
+                    case BaseLidar2D():
+                        sensor_analyzers['lidar2d'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'Lidar2D',
+                            'contains': ['lidar2d']
+                        }
+                    case BaseLidar3D():
+                        sensor_analyzers['lidar3d'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'Lidar3D',
+                            'contains': ['lidar3d']
+                        }
+                    case BaseIMU():
+                        sensor_analyzers['imu'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'IMU',
+                            'contains': ['imu']
+                        }
+                    case BaseGPS():
+                        sensor_analyzers['gps'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'GPS',
+                            'contains': ['gps']
+                        }
+
+            # Update aggregator sensor sections based on the robot.yaml
+            if sensor_analyzers:
+                self.param_file.update(
+                    {self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'sensors': {
+                            'type': 'diagnostic_aggregator/AnalyzerGroup',
+                            'path': 'Sensors',
+                            'analyzers': sensor_analyzers}}})
 
     class DiagnosticsUpdaterParam(BaseParam):
         """Parameter file for Clearpath Diagnostics indicating which topics to monitor."""
@@ -232,18 +286,6 @@ class PlatformParam():
 
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
-
-            # Read the default parameter file
-            self.default_param_file = ParamFile(
-                name=self.default_parameter,
-                package=self.default_parameter_file_package,
-                path=self.default_parameter_file_path,
-                parameters={}
-            )
-            self.default_param_file.read()
-
-            # Initialize parameters with the default parameters
-            self.param_file.parameters = self.default_param_file.parameters
 
             # Update parameters based on the robot.yaml
             platform_model = self.clearpath_config.get_platform_model()
