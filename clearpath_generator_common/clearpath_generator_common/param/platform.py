@@ -43,6 +43,8 @@ from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D
 from clearpath_config.sensors.types.lidars_3d import BaseLidar3D
 from clearpath_config.sensors.types.sensor import BaseSensor
+from clearpath_config.manipulators.types.arms import Franka
+from clearpath_config.manipulators.types.grippers import FrankaGripper
 from clearpath_generator_common.common import Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
 from clearpath_generator_common.ros import ROS_DISTRO
@@ -134,9 +136,20 @@ class PlatformParam():
                         parameters={}
                     )
                     arm_param_file.read()
+                    # Franka Exception. Add Arm ID.
+                    if arm.MANIPULATOR_MODEL == Franka.MANIPULATOR_MODEL:
+                        updated_parameters = replace_dict_items(
+                            arm_param_file.parameters,
+                            {r'${name}': f'{arm.name}_{arm.arm_id}'}
+                        )
+                    else:
+                        updated_parameters = replace_dict_items(
+                            arm_param_file.parameters,
+                            {r'${name}': arm.name}
+                        )
                     updated_parameters = replace_dict_items(
-                        arm_param_file.parameters,
-                        {r'${name}': arm.name}
+                        updated_parameters,
+                        {r'${controller_name}': arm.name}
                     )
                     self.param_file.parameters = merge_dict(
                         self.param_file.parameters, updated_parameters)
@@ -157,9 +170,20 @@ class PlatformParam():
                         parameters={}
                     )
                     gripper_param_file.read()
+                    # Franka Exception. Add Arm ID.
+                    if gripper.MANIPULATOR_MODEL == FrankaGripper.MANIPULATOR_MODEL:
+                        updated_parameters = replace_dict_items(
+                            gripper_param_file.parameters,
+                            {r'${name}': f'{gripper.name}_{gripper.arm_id}'}
+                        )
+                    else:
+                        updated_parameters = replace_dict_items(
+                            gripper_param_file.parameters,
+                            {r'${name}': gripper.name}
+                        )
                     updated_parameters = replace_dict_items(
-                        gripper_param_file.parameters,
-                        {r'${name}': gripper.name}
+                        updated_parameters,
+                        {r'${controller_name}': gripper.name}
                     )
                     self.param_file.parameters = merge_dict(
                         self.param_file.parameters, updated_parameters)

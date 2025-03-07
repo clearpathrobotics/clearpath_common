@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="franka_group_state" params="name group_state joint_positions">
+    <group_state name="${group_state}" group="${name}">
+      <joint name="${name}_joint1" value="${joint_positions[0]}"/>
+      <joint name="${name}_joint2" value="${joint_positions[1]}"/>
+      <joint name="${name}_joint3" value="${joint_positions[2]}"/>
+      <joint name="${name}_joint4" value="${joint_positions[3]}"/>
+      <joint name="${name}_joint5" value="${joint_positions[4]}"/>
+      <joint name="${name}_joint6" value="${joint_positions[5]}"/>
+      <joint name="${name}_joint7" value="${joint_positions[6]}"/>
+    </group_state>
+  </xacro:macro>
+
+  <xacro:macro name="franka" params="name">
+    <group name="${name}">
+      <joint name="${name}_joint1"/>
+      <joint name="${name}_joint2"/>
+      <joint name="${name}_joint3"/>
+      <joint name="${name}_joint4"/>
+      <joint name="${name}_joint5"/>
+      <joint name="${name}_joint6"/>
+      <joint name="${name}_joint7"/>
+    </group>
+
+    <xacro:franka_group_state
+      name="${name}"
+      group_state="zero"
+      joint_positions="${[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}"
+    />
+
+    <xacro:franka_group_state
+      name="${name}"
+      group_state="home"
+      joint_positions="${[0.0, -math.pi/4, 0.0, -math.pi * 7/8, 0.0, math.pi * 3/4, 0.0]}"
+    />
+  </xacro:macro>
+</robot>
