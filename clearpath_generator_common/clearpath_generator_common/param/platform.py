@@ -195,7 +195,7 @@ class PlatformParam():
                       False, False, False,
                       False, False, False,
                       False, False, True,
-                      True, False, False]
+                      False, False, False]
 
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
