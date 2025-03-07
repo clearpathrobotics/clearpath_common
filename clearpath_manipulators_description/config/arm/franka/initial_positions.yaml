@@ -1,0 +1,8 @@
+initial_positions:
+  ${name}_fr3_joint1: 0.0
+  ${name}_fr3_joint2: 0.0
+  ${name}_fr3_joint3: 0.0
+  ${name}_fr3_joint4: 0.0
+  ${name}_fr3_joint5: 0.0
+  ${name}_fr3_joint6: 0.0
+  ${name}_fr3_joint7: 0.0

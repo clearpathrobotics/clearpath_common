@@ -33,12 +33,14 @@ from typing import List
 
 from clearpath_config.manipulators.types.arms import (
     BaseArm,
+    Franka,
     KinovaGen3Dof6,
     KinovaGen3Dof7,
     KinovaGen3Lite,
     UniversalRobots
 )
 from clearpath_config.manipulators.types.grippers import (
+    FrankaGripper,
     Kinova2FLite,
     Robotiq2F140,
     Robotiq2F85
@@ -123,6 +125,22 @@ class ManipulatorDescription():
             self.parameters.pop(self.PORT)
             self.parameters.update(arm.get_urdf_parameters())
 
+    class FrankaDescription(ArmDescription):
+        IP = Franka.IP_ADDRESS
+        PORT = Franka.IP_PORT
+
+        def __init__(self, arm: BaseArm):
+            super().__init__(arm)
+            self.parameters.pop(self.PORT)
+            self.parameters[arm.ARM_ID] = arm.arm_id
+            self.parameters.update(arm.get_urdf_parameters())
+
+    class FrankaGripperDescription(BaseDescription):
+
+        def __init__(self, gripper: FrankaGripper):
+            super().__init__(gripper)
+            self.parameters[Franka.ARM_ID] = gripper.arm_id
+
     class LiftDescription(BaseDescription):
 
         def __init__(self, lift: BaseLift) -> None:
@@ -135,6 +153,8 @@ class ManipulatorDescription():
             self.parameters.update(lift.get_urdf_parameters())
 
     MODEL = {
+        Franka.MANIPULATOR_MODEL: FrankaDescription,
+        FrankaGripper.MANIPULATOR_MODEL: FrankaGripperDescription,
         KinovaGen3Dof6.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Dof7.MANIPULATOR_MODEL: KinovaArmDescription,
         KinovaGen3Lite.MANIPULATOR_MODEL: KinovaArmDescription,
