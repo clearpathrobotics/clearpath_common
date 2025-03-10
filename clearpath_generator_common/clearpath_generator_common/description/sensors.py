@@ -168,6 +168,7 @@ class SensorDescription():
     class IntelRealsenseDescription(CameraDescription):
         IMAGE_WIDTH = 'image_width'
         IMAGE_HEIGHT = 'image_height'
+        MODEL = 'model'
 
         def __init__(self, sensor: IntelRealsense) -> None:
             super().__init__(sensor)
@@ -175,6 +176,7 @@ class SensorDescription():
             self.parameters.update({
                 self.IMAGE_HEIGHT: sensor.color_height,
                 self.IMAGE_WIDTH: sensor.color_width,
+                self.MODEL: sensor.device_type,
             })
 
     class LuxonisOAKDDescroption(CameraDescription):

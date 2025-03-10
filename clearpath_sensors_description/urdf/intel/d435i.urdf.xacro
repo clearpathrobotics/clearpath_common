@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="sensor_d435i" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d435.urdf.xacro"/>
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435i_imu_modules.urdf.xacro"/>
+
+  <xacro:macro name="sensor_d435i" params="parent *origin name:=camera use_nominal_extrinsics:=false">
+    <xacro:sensor_d435 parent="${parent}" name="${name}" use_nominal_extrinsics="${use_nominal_extrinsics}">
+      <xacro:insert_block name="origin" />
+    </xacro:sensor_d435>
+    <xacro:d435i_imu_modules name="${name}" use_nominal_extrinsics="${use_nominal_extrinsics}"/>
+  </xacro:macro>
+</robot>
