@@ -36,6 +36,7 @@ from clearpath_config.sensors.types.cameras import (
     BaseCamera,
     FlirBlackfly,
     IntelRealsense,
+    LuxonisOAKD,
     StereolabsZed
 )
 from clearpath_config.sensors.types.imu import (
@@ -176,6 +177,16 @@ class SensorDescription():
                 self.IMAGE_WIDTH: sensor.color_width,
             })
 
+    class LuxonisOAKDDescroption(CameraDescription):
+        MODEL = 'model'
+
+        def __init__(self, sensor: LuxonisOAKD) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.MODEL: sensor.device_type,
+            })
+
     class StereolabsZedDescription(CameraDescription):
         MODEL = 'model'
 
@@ -198,6 +209,7 @@ class SensorDescription():
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
         RedshiftUM7.SENSOR_MODEL: ImuDescription,
         StereolabsZed.SENSOR_MODEL: StereolabsZedDescription,
+        LuxonisOAKD.SENSOR_MODEL: LuxonisOAKDDescroption,
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:
