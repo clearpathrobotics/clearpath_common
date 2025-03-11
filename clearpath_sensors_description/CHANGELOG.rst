@@ -2,6 +2,22 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature Jazzy Ouster (`#170 <https://github.com/clearpathrobotics/clearpath_common/issues/170>`_)
+  * Add OusteOS1 description
+  * Custom OusterOS1 generator
+  * Ouster use custom description generator
+  * Use appropriate generator for Ouster
+* Add D455, D456 support (`#176 <https://github.com/clearpathrobotics/clearpath_common/issues/176>`_)
+  * Add URDFs for all supported RealSense cameras
+  * Pass the `device_type` as the model parameter to the master URDF, move specific types into a sub-directory and include them as necessary
+* Add support for OAK-D Pro W PoE (`#174 <https://github.com/clearpathrobotics/clearpath_common/issues/174>`_)
+  * Add the model for the OAK-D Pro W; it's identical to the OAK-D Pro. Add model type support to the OAK-D description
+* Add URDF, STL files for the Seyond Robin W lidar (`#169 <https://github.com/clearpathrobotics/clearpath_common/issues/169>`_)
+  * Add URDF, STL files for the Seyond Robin W lidar
+* Contributors: Chris Iverach-Brereton, luis-camero
+
 2.1.0 (2025-01-31)
 ------------------
 
