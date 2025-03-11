@@ -36,6 +36,7 @@ from clearpath_config.sensors.types.cameras import (
     BaseCamera,
     FlirBlackfly,
     IntelRealsense,
+    LuxonisOAKD,
     StereolabsZed
 )
 from clearpath_config.sensors.types.imu import (
@@ -45,7 +46,12 @@ from clearpath_config.sensors.types.imu import (
     RedshiftUM7
 )
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
-from clearpath_config.sensors.types.lidars_3d import BaseLidar3D, VelodyneLidar
+from clearpath_config.sensors.types.lidars_3d import (
+    BaseLidar3D,
+    OusterOS1,
+    SeyondLidar,
+    VelodyneLidar,
+)
 from clearpath_config.sensors.types.sensor import BaseSensor
 
 
@@ -130,6 +136,20 @@ class SensorDescription():
                 self.UPDATE_RATE: 20  # TODO: link to clearpath_config property
             })
 
+    class OusterOS1Description(Lidar3dDescription):
+        SAMPLES_HORIZONTAL = 'samples_h'
+        SAMPLES_VERTICAL = 'samples_v'
+
+        def __init__(self, sensor: BaseLidar3D) -> None:
+            super().__init__(sensor)
+
+            del self.parameters[self.ANGULAR_RESOLUTION_H]
+            del self.parameters[self.ANGULAR_RESOLUTION_V]
+            self.parameters.update({
+                self.SAMPLES_HORIZONTAL: 1024,
+                self.SAMPLES_VERTICAL: 64
+            })
+
     class ImuDescription(BaseDescription):
         UPDATE_RATE = 'update_rate'
 
@@ -163,6 +183,7 @@ class SensorDescription():
     class IntelRealsenseDescription(CameraDescription):
         IMAGE_WIDTH = 'image_width'
         IMAGE_HEIGHT = 'image_height'
+        MODEL = 'model'
 
         def __init__(self, sensor: IntelRealsense) -> None:
             super().__init__(sensor)
@@ -170,6 +191,17 @@ class SensorDescription():
             self.parameters.update({
                 self.IMAGE_HEIGHT: sensor.color_height,
                 self.IMAGE_WIDTH: sensor.color_width,
+                self.MODEL: sensor.device_type,
+            })
+
+    class LuxonisOAKDDescroption(CameraDescription):
+        MODEL = 'model'
+
+        def __init__(self, sensor: LuxonisOAKD) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.MODEL: sensor.device_type,
             })
 
     class StereolabsZedDescription(CameraDescription):
@@ -189,10 +221,13 @@ class SensorDescription():
         FlirBlackfly.SENSOR_MODEL: CameraDescription,
         AxisCamera.SENSOR_MODEL: AxisCameraDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
+        OusterOS1.SENSOR_MODEL: OusterOS1Description,
+        SeyondLidar.SENSOR_MODEL: Lidar3dDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
         RedshiftUM7.SENSOR_MODEL: ImuDescription,
         StereolabsZed.SENSOR_MODEL: StereolabsZedDescription,
+        LuxonisOAKD.SENSOR_MODEL: LuxonisOAKDDescroption,
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:
