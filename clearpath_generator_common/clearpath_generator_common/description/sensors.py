@@ -208,7 +208,7 @@ class SensorDescription():
         FlirBlackfly.SENSOR_MODEL: CameraDescription,
         AxisCamera.SENSOR_MODEL: AxisCameraDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
-        OusterOS1.SENSOR_MODEL: Lidar3dDescription,
+        OusterOS1.SENSOR_MODEL: OusterOS1Description,
         SeyondLidar.SENSOR_MODEL: Lidar3dDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
