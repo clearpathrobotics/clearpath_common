@@ -10,7 +10,6 @@
     *origin
     use_fake_hardware:=$(arg use_fake_hardware)
     use_controllers:=$(arg use_manipulation_controllers)
-    fake_sensor_commands:=false
     sim_ignition:=$(arg is_sim)
     sim_gazebo:=false
     sim_isaac:=false
@@ -26,7 +25,6 @@
         include_ros2_control="${use_controllers}"
         com_port="${com_port}"
         use_fake_hardware="${use_fake_hardware}"
-        fake_sensor_commands="${fake_sensor_commands}"
         sim_ignition="${sim_ignition}"
         sim_isaac="${sim_isaac}">
         <xacro:insert_block name="origin"/>
