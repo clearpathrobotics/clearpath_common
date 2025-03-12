@@ -1,0 +1,441 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="is_sim" default="false"/>
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_manipulation_controllers" default="false"/>
+
+  <!-- Franka Arm Xacro (without the comments) -->
+  <xacro:macro name="franka_arm" params="arm_id arm_prefix:='' no_prefix:=false description_pkg:='franka_description' connected_to:='base' xyz:='0 0 0' rpy:='0 0 0' gazebo:='false' safety_distance:=0 joint_limits inertials kinematics dynamics with_sc:=false" >
+
+    <!-- Define a property that defaults to 'arm_prefix_arm_id' concatenated with an underscore if 'no_prefix' is not set -->
+    <xacro:property name="prefix" value="${'' if no_prefix else arm_prefix + arm_id + '_'}" />
+
+    <xacro:if value="${gazebo}">
+      <xacro:property name="connected_to" value="" />
+    </xacro:if>
+
+    <xacro:unless value="${not connected_to}">
+      <link name="${connected_to}">
+      </link>
+      <joint name="${prefix}${connected_to}_joint" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${prefix}link0"/>
+        <origin rpy="${rpy}" xyz="${xyz}"/>
+      </joint>
+    </xacro:unless>
+
+    <xacro:link_with_sc no_prefix="${no_prefix}" name="link0" gazebo="${gazebo}" with_sc="${with_sc}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="-0.075 0 0.06" direction="x" radius="${0.06+safety_distance}" length="0.03" />
+      </self_collision_geometries>
+    </xacro:link_with_sc>
+
+    <xacro:link_with_sc no_prefix="${no_prefix}" name="link1" gazebo="${gazebo}" with_sc="${with_sc}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="0 0 -191.5e-3" radius="${0.06+safety_distance}" length="0.283" />
+      </self_collision_geometries>
+    </xacro:link_with_sc>
+
+    <joint name="${prefix}joint1" type="revolute">
+      <xacro:franka-kinematics name="joint1" config="${kinematics}" />
+      <parent link="${prefix}link0" />
+      <child link="${prefix}link1" />
+      <axis xyz="0 0 1" />
+      <xacro:franka-limits name="joint1" config="${joint_limits}" />
+      <xacro:franka-dynamics name="joint1" config="${dynamics}" />
+    </joint>
+
+    <xacro:link_with_sc no_prefix="${no_prefix}" name="link2" gazebo="${gazebo}" with_sc="${with_sc}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="0 0 0" radius="${0.06+safety_distance}" length="0.12" />
+      </self_collision_geometries>
+    </xacro:link_with_sc>
+
+    <joint name="${prefix}joint2" type="revolute">
+      <xacro:franka-kinematics name="joint2" config="${kinematics}" />
+      <parent link="${prefix}link1" />
+      <child link="${prefix}link2" />
+      <axis xyz="0 0 1" />
+      <xacro:franka-limits name="joint2" config="${joint_limits}" />
+      <xacro:franka-dynamics name="joint2" config="${dynamics}" />
+    </joint>
+
+    <xacro:link_with_sc no_prefix="${no_prefix}" name="link3" gazebo="${gazebo}" with_sc="${with_sc}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="0 0 -0.145" radius="${0.06+safety_distance}" length="0.15" />
+      </self_collision_geometries>
+    </xacro:link_with_sc>
+
+    <joint name="${prefix}joint3" type="revolute">
+      <xacro:franka-kinematics name="joint3" config="${kinematics}" />
+      <parent link="${prefix}link2" />
+      <child link="${prefix}link3" />
+      <axis xyz="0 0 1" />
+      <xacro:franka-limits name="joint3" config="${joint_limits}" />
+      <xacro:franka-dynamics name="joint3" config="${dynamics}" />
+    </joint>
+
+    <xacro:link_with_sc no_prefix="${no_prefix}" name="link4" gazebo="${gazebo}" with_sc="${with_sc}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="0 0 0" radius="${0.06+safety_distance}" length="0.12" />
+     </self_collision_geometries>
+    </xacro:link_with_sc>
+
+    <joint name="${prefix}joint4" type="revolute">
+      <xacro:franka-kinematics name="joint4" config="${kinematics}" />
+      <parent link="${prefix}link3" />
+      <child link="${prefix}link4" />
+      <axis xyz="0 0 1" />
+      <xacro:franka-limits name="joint4" config="${joint_limits}" />
+      <xacro:franka-dynamics name="joint4" config="${dynamics}" />
+    </joint>
+
+    <xacro:link_with_sc no_prefix="${no_prefix}" name="link5" gazebo="${gazebo}" with_sc="${with_sc}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="0 0 -0.26"    radius="${0.060+safety_distance}" length="0.10" />
+        <xacro:collision_capsule xyz="0 0.08 -0.13" radius="${0.025+safety_distance}" length="0.14" />
+      </self_collision_geometries>
+    </xacro:link_with_sc>
+
+    <joint name="${prefix}joint5" type="revolute">
+      <xacro:franka-kinematics name="joint5" config="${kinematics}" />
+      <parent link="${prefix}link4" />
+      <child link="${prefix}link5" />
+      <axis xyz="0 0 1" />
+      <xacro:franka-limits name="joint5" config="${joint_limits}" />
+      <xacro:franka-dynamics name="joint5" config="${dynamics}" />
+    </joint>
+
+    <xacro:link_with_sc no_prefix="${no_prefix}" name="link6" gazebo="${gazebo}" with_sc="${with_sc}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="0 0 -0.03" radius="${0.05+safety_distance}" length="0.08" />
+      </self_collision_geometries>
+    </xacro:link_with_sc>
+
+    <joint name="${prefix}joint6" type="revolute">
+      <xacro:franka-kinematics name="joint6" config="${kinematics}" />
+      <parent link="${prefix}link5" />
+      <child link="${prefix}link6" />
+      <axis xyz="0 0 1" />
+      <xacro:franka-limits name="joint6" config="${joint_limits}" />
+      <xacro:franka-dynamics name="joint6" config="${dynamics}" />
+    </joint>
+
+    <xacro:link_with_sc no_prefix="${no_prefix}" name="link7" gazebo="${gazebo}" rpy="0 0 ${pi/4}" with_sc="${with_sc}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="0 0 0.01" direction="z" radius="${0.04+safety_distance}" length="0.14" />
+        <xacro:collision_capsule xyz="0.06 0 0.082" direction="x" radius="${0.03+safety_distance}"  length="0.01" />
+      </self_collision_geometries>
+    </xacro:link_with_sc>
+
+    <joint name="${prefix}joint7" type="revolute">
+      <xacro:franka-kinematics name="joint7" config="${kinematics}" />
+      <parent link="${prefix}link6"/>
+      <child link="${prefix}link7"/>
+      <axis xyz="0 0 1"/>
+      <xacro:franka-limits name="joint7" config="${joint_limits}" />
+      <xacro:franka-dynamics name="joint7" config="${dynamics}" />
+    </joint>
+
+    <link name="${prefix}link8"/>
+
+    <joint name="${prefix}joint8" type="fixed">
+      <xacro:franka-kinematics name="joint8" config="${kinematics}" />
+      <parent link="${prefix}link7" />
+      <child link="${prefix}link8" />
+    </joint>
+  </xacro:macro>
+
+  <!-- Franka ROS2 Control -->
+  <xacro:macro name="franka_arm_ros2_control"
+         params="arm_id
+             robot_ip
+             use_fake_hardware:=^|false
+             fake_sensor_commands:=^|false
+             gazebo:=^|false
+             hand:=^|false
+             gazebo_effort:=^|false
+             arm_prefix:=''
+             multi_arm:=false">
+
+    <xacro:property name="arm_prefix_modified" value="${'' if arm_prefix == '' else arm_prefix + '_'}" />
+    <ros2_control name="${arm_prefix_modified}FrankaHardwareInterface" type="system">
+        <hardware>
+          <param name="arm_id">${arm_id}</param>
+          <param name="prefix">${arm_prefix}</param>
+          <xacro:if value="${use_fake_hardware}">
+            <plugin>fake_components/GenericSystem</plugin>
+            <param name="fake_sensor_commands">${fake_sensor_commands}</param>
+            <param name="state_following_offset">0.0</param>
+          </xacro:if>
+
+          <xacro:if value="${gazebo}">
+            <plugin>ign_ros2_control/IgnitionSystem</plugin>
+          </xacro:if>
+
+          <xacro:if value="${use_fake_hardware == 0 and gazebo == 0 and multi_arm == 0}">
+            <plugin>franka_hardware/FrankaHardwareInterface</plugin>
+            <param name="robot_ip">${robot_ip}</param>
+            <param name="arm_prefix">${arm_prefix}</param>
+          </xacro:if>
+          <xacro:if value="${use_fake_hardware == 0 and gazebo == 0 and multi_arm == 1}">
+            <plugin>franka_hardware/MultiFrankaHardwareInterface</plugin>
+            <param name="robot_ip">${robot_ip}</param>
+            <param name="arm_prefix">${arm_prefix}</param>
+          </xacro:if>
+        </hardware>
+
+      <xacro:macro name="configure_joint" params="joint_name initial_position">
+        <joint name="${joint_name}">
+          <xacro:unless value="${gazebo and gazebo_effort}">
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+          </xacro:unless>
+          <xacro:if value="${gazebo_effort}">
+            <command_interface name="effort"/>
+          </xacro:if>
+
+          <state_interface name="position">
+            <param name="initial_value">${initial_position}</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+            <param name="initial_value">0.0</param>
+          <state_interface name="effort"/>
+        </joint>
+      </xacro:macro>
+
+      <xacro:configure_joint joint_name="${arm_prefix_modified}${arm_id}_joint1" initial_position="0.0"/>
+      <xacro:configure_joint joint_name="${arm_prefix_modified}${arm_id}_joint2" initial_position="${-pi/4}"/>
+      <xacro:configure_joint joint_name="${arm_prefix_modified}${arm_id}_joint3" initial_position="0.0"/>
+      <xacro:configure_joint joint_name="${arm_prefix_modified}${arm_id}_joint4" initial_position="${-3*pi/4}"/>
+      <xacro:configure_joint joint_name="${arm_prefix_modified}${arm_id}_joint5" initial_position="0.0"/>
+      <xacro:configure_joint joint_name="${arm_prefix_modified}${arm_id}_joint6" initial_position="${pi/2}"/>
+      <xacro:configure_joint joint_name="${arm_prefix_modified}${arm_id}_joint7" initial_position="${pi/4}"/>
+    </ros2_control>
+
+  </xacro:macro>
+
+  <!-- Franka Parameters -->
+  <xacro:macro name="franka_robot"
+              params="arm_id
+                      joint_limits
+                      kinematics
+                      inertials
+                      dynamics
+                      parent:='world'
+                      xyz:='0 0 0'
+                      rpy:='0 0 0'
+                      hand:='true'
+                      ee_id:=none
+                      gazebo:='false'
+                      with_sc:='false'
+                      ros2_control:=false
+                      robot_ip:=''
+                      use_fake_hardware:=false
+                      fake_sensor_commands:=false
+                      gazebo_effort:=false
+                      no_prefix:='false'
+                      arm_prefix:=''
+                      connected_to:='base'
+                      multi_arm:=false">
+    <xacro:include filename="$(find franka_description)/robots/common/utils.xacro" />
+
+    <xacro:property name="arm_prefix_modified" value="${'' if arm_prefix == '' else arm_prefix + '_'}" />
+
+    <xacro:franka_arm
+      arm_id="${arm_id}"
+      arm_prefix="${arm_prefix_modified}"
+      no_prefix="${no_prefix}"
+      xyz="${xyz}"
+      rpy="${rpy}"
+      safety_distance="0.03"
+      gazebo="${gazebo}"
+      joint_limits="${joint_limits}"
+      kinematics="${kinematics}"
+      inertials="${inertials}"
+      dynamics="${dynamics}"
+      with_sc="${with_sc}"
+      connected_to="${connected_to}"
+    />
+
+    <!-- Definition of additional Gazebo tags -->
+    <xacro:if value="${gazebo}">
+
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint1" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint2" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint3" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint4" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint5" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint6" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint7" transmission="hardware_interface/PositionJointInterface" />
+
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint1" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint2" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint3" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint4" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint5" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint6" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint7" transmission="hardware_interface/VelocityJointInterface" />
+
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint1" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint2" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint3" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint4" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint5" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint6" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix_modified}${arm_id}_joint7" transmission="hardware_interface/EffortJointInterface" />
+
+      <xacro:transmission-franka-state arm_id="${arm_id}" />
+      <xacro:transmission-franka-model arm_id="${arm_id}"
+         root="${arm_prefix_modified}${arm_id}_joint1"
+         tip="${arm_prefix_modified}${arm_id}_joint8"
+       />
+
+    </xacro:if>
+
+    <xacro:if value="${ros2_control}">
+      <xacro:franka_arm_ros2_control
+          arm_id="${arm_id}"
+          robot_ip="${robot_ip}"
+          use_fake_hardware="${use_fake_hardware}"
+          fake_sensor_commands="${fake_sensor_commands}"
+          gazebo="${gazebo}"
+          hand="${hand}"
+          gazebo_effort="${gazebo_effort}"
+          arm_prefix="${arm_prefix}"
+          multi_arm="${multi_arm}"
+      />
+    </xacro:if>
+  </xacro:macro>
+
+  <xacro:macro name="franka" params="
+    name
+    parent_link
+    *origin
+    arm_id:=''
+    joint_limits:=''
+    joint_limits_parameters_file:=''
+    inertials:=''
+    inertials_parameters_file:=''
+    kinematics:=''
+    kinematics_parameters_file:=''
+    dynamics:=''
+    dynamics_parameters_file:=''
+    ros2_control:=''
+    robot_ip:=''
+    use_fake_hardware:=''
+    fake_sensor_commands:=''
+    gazebo:=''
+    gazebo_effort:=''
+  ">
+
+    <!-- Franka Type -->
+    <xacro:property name="_arm_id" value="fr3" lazy_eval="false"/>
+    <xacro:if value="${arm_id != ''}">
+      <xacro:property name="_arm_id" value="${arm_id}" lazy_eval="false"/>
+    </xacro:if>
+
+    <!-- Description Parameter Files -->
+    <xacro:property name="_joint_limits_parameters_file" value="$(find franka_description)/robots/${_arm_id}/joint_limits.yaml" lazy_eval="false"/>
+    <xacro:property name="_inertials_parameters_file" value="$(find franka_description)/robots/${_arm_id}/inertials.yaml" lazy_eval="false"/>
+    <xacro:property name="_kinematics_parameters_file" value="$(find franka_description)/robots/${_arm_id}/kinematics.yaml" lazy_eval="false"/>
+    <xacro:property name="_dynamics_parameters_file" value="$(find franka_description)/robots/${_arm_id}/dynamics.yaml" lazy_eval="false"/>
+    <xacro:if value="${joint_limits_parameters_file != ''}">
+      <xacro:property name="_joint_limits_parameters_file" value="${joint_limits_parameters_file}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${inertials_parameters_file != ''}">
+      <xacro:property name="_inertials_parameters_file" value="${inertials_parameters_file}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${kinematics_parameters_file != ''}">
+      <xacro:property name="_kinematics_parameters_file" value="${kinematics_parameters_file}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${dynamics_parameters_file != ''}">
+      <xacro:property name="_dynamics_parameters_file" value="${dynamics_parameters_file}" lazy_eval="false"/>
+    </xacro:if>
+
+    <!-- Loaded Parameters -->
+    <xacro:property name="_joint_limits" value="${xacro.load_yaml(_joint_limits_parameters_file)}" lazy_eval="false"/>
+    <xacro:property name="_inertials" value="${xacro.load_yaml(_inertials_parameters_file)}" lazy_eval="false"/>
+    <xacro:property name="_kinematics" value="${xacro.load_yaml(_kinematics_parameters_file)}" lazy_eval="false"/>
+    <xacro:property name="_dynamics" value="${xacro.load_yaml(_dynamics_parameters_file)}" lazy_eval="false"/>
+    <xacro:if value="${joint_limits != ''}">
+      <xacro:property name="_joint_limits" value="${joint_limits}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${inertials != ''}">
+      <xacro:property name="_inertials" value="${inertials}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${kinematics != ''}">
+      <xacro:property name="_kinematics" value="${kinematics}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${dynamics != ''}">
+      <xacro:property name="_dynamics" value="${dynamics}" lazy_eval="false"/>
+    </xacro:if>
+
+    <!-- Control Parameters -->
+    <xacro:property name="_ros2_control" value="$(arg use_manipulation_controllers)" lazy_eval="false"/>
+    <xacro:property name="_robot_ip" value="192.168.131.40" lazy_eval="false"/>
+    <xacro:if value="${ros2_control != ''}">
+      <xacro:property name="_ros2_control" value="${ros2_control}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${robot_ip != ''}">
+      <xacro:property name="_robot_ip" value="${robot_ip}" lazy_eval="false"/>
+    </xacro:if>
+
+    <!-- Simulation -->
+    <xacro:property name="_gazebo" value="$(arg is_sim)" lazy_eval="false"/>
+    <xacro:property name="_gazebo_effort" value="false" lazy_eval="false"/>
+    <xacro:property name="_use_fake_hardware" value="false" lazy_eval="false"/>
+    <xacro:property name="_fake_sensor_commands" value="false" lazy_eval="false"/>
+    <xacro:if value="${gazebo != ''}">
+      <xacro:property name="_gazebo" value="${gazebo}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${gazebo_effort != ''}">
+      <xacro:property name="_gazebo_effort" value="${gazebo_effort}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${use_fake_hardware != ''}">
+      <xacro:property name="_use_fake_hardware" value="${use_fake_hardware}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${fake_sensor_commands != ''}">
+      <xacro:property name="_fake_sensor_commands" value="${fake_sensor_commands}" lazy_eval="false"/>
+    </xacro:if>
+
+    <!-- Fixed Parameters -->
+    <xacro:property name="_hand" value="false" lazy_eval="false"/>
+    <xacro:property name="_ee_id" value="franka_hand" lazy_eval="false"/>
+    <xacro:property name="_multi_arm" value="false" lazy_eval="false"/>
+    <xacro:property name="_connected_to" value="" lazy_eval="false"/>
+    <xacro:property name="_with_sc" value="false" lazy_eval="false"/>
+    <xacro:property name="_no_prefix" value="false" lazy_eval="false"/>
+    <xacro:property name="_arm_prefix" value="${name}" lazy_eval="false"/>
+
+    <!-- Parent Joint -->
+    <joint name="${name}_${arm_id}_joint0" type="fixed">
+      <child link="${name}_${arm_id}_link0"/>
+      <parent link="${parent_link}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <xacro:franka_robot
+      arm_id="${_arm_id}"
+      joint_limits="${_joint_limits}"
+      inertials="${_inertials}"
+      kinematics="${_kinematics}"
+      dynamics="${_dynamics}"
+      gazebo="${_gazebo}"
+      hand="${_hand}"
+      ee_id="none"
+      with_sc="${_with_sc}"
+      ros2_control="${_ros2_control}"
+      robot_ip="${_robot_ip}"
+      use_fake_hardware="${_use_fake_hardware}"
+      fake_sensor_commands="${_fake_sensor_commands}"
+      gazebo_effort="${_gazebo_effort}"
+      no_prefix="${_no_prefix}"
+      arm_prefix= "${_arm_prefix}"
+      connected_to= "${_connected_to}"
+      multi_arm="${_multi_arm}">
+    </xacro:franka_robot>
+
+  </xacro:macro>
+
+</robot>

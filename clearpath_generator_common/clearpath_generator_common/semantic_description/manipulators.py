@@ -29,7 +29,33 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
-from clearpath_config.manipulators.types.manipulator import BaseManipulator
+from clearpath_config.manipulators.types.arms import Franka
+from clearpath_config.manipulators.types.grippers import FrankaGripper
+from clearpath_config.manipulators.types.manipulator import (
+    BaseManipulator,
+    ManipulatorPose
+)
+
+
+class ManipulatorPoseMacro():
+
+    def __init__(self, manipulator: BaseManipulator, pose: ManipulatorPose) -> None:
+        self.manipulator = manipulator
+        self.pose = pose
+
+    def macro(self) -> str:
+        return f'{self.manipulator.MANIPULATOR_MODEL}_group_state'
+
+    def parameters(self) -> dict:
+        str_joints = [f'{joint:.4f}' for joint in self.pose.joints]
+        return {
+            'name': self.manipulator.name,
+            'group_state': self.pose.name,
+            'joint_positions': f'${{[{", ".join(str_joints)}]}}'
+        }
+
+    def blocks(self) -> str:
+        return None
 
 
 class ManipulatorSemanticDescription():
@@ -56,7 +82,15 @@ class ManipulatorSemanticDescription():
         def model(self) -> str:
             return self.manipulator.MANIPULATOR_MODEL
 
+    class FrankaSemanticDescription(BaseSemanticDescription):
+
+        def __init__(self, manipulator):
+            super().__init__(manipulator)
+            self.parameters[self.NAME] = f'{manipulator.name}_{manipulator.arm_id}'
+
     MODEL = {
+        Franka.MANIPULATOR_MODEL: FrankaSemanticDescription,
+        FrankaGripper.MANIPULATOR_MODEL: FrankaSemanticDescription
     }
 
     def __new__(cls, manipulator: BaseManipulator) -> BaseManipulator:
