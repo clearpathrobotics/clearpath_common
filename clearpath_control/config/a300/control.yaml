@@ -32,14 +32,13 @@ platform_velocity_controller:
     tf_frame_prefix_enable: false
 
     cmd_vel_timeout: 0.5
-    #publish_limited_velocity: true
     #velocity_rolling_window_size: 10
 
     # Preserve turning radius when limiting speed/acceleration/jerk
     preserve_turning_radius: true
 
     # Publish limited velocity
-    publish_cmd: true
+    publish_limited_velocity: true
 
     # Publish wheel data
     publish_wheel_data: true
