@@ -45,7 +45,6 @@ REMAPPINGS = [
     ('platform_velocity_controller/odom', 'platform/odom'),
     ('platform_velocity_controller/cmd_vel', 'platform/cmd_vel'),
     ('platform_velocity_controller/cmd_vel_out', 'platform/cmd_vel_out'),
-    ('platform_velocity_controller/reference', 'platform/cmd_vel'),
     ('platform_velocity_controller/transition_event', 'platform/transition_event'),
     ('/diagnostics', 'diagnostics'),
     ('/tf', 'tf'),
