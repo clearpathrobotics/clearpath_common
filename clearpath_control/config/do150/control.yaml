@@ -1,11 +1,11 @@
 controller_manager:
   ros__parameters:
-    update_rate: 50  # Hz
+    update_rate: 20  # Hz
     use_sim_time: False
 
     joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
 
-    platform_velocity_controller.type: "clearpath_mecanum_drive_controller/MecanumDriveController"
+    platform_velocity_controller.type: "mecanum_drive_controller/MecanumDriveController"
 
 platform_velocity_controller:
   ros__parameters:
@@ -25,7 +25,7 @@ platform_velocity_controller:
     wheel_separation_multiplier: 1.0
     wheel_radius_multiplier: 1.0
 
-    publish_rate: 50.0
+    publish_rate: 20.0
     reference_timeout: 0.1
     use_stamped_vel: False
 

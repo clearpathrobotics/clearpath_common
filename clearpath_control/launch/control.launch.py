@@ -44,6 +44,7 @@ REMAPPINGS = [
     ('dynamic_joint_states', 'platform/dynamic_joint_states'),
     ('platform_velocity_controller/odom', 'platform/odom'),
     ('platform_velocity_controller/cmd_vel', 'platform/cmd_vel'),
+    ('platform_velocity_controller/reference', 'platform/cmd_vel'),
     ('platform_velocity_controller/transition_event', 'platform/transition_event'),
     ('/diagnostics', 'diagnostics'),
     ('/tf', 'tf'),
