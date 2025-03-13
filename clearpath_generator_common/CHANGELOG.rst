@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.2.0 (2025-03-13)
+------------------
 * Fix: Only use IMU for angular velocity (`#175 <https://github.com/clearpathrobotics/clearpath_common/issues/175>`_)
 * Feature Franka (`#171 <https://github.com/clearpathrobotics/clearpath_common/issues/171>`_)
   * Initial franka addition

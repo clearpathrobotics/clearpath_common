@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.2.0 (2025-03-13)
+------------------
 * Feature: Link Material (`#162 <https://github.com/clearpathrobotics/clearpath_common/issues/162>`_)
   * Add material to link generator
   * Add material xacro macro
