@@ -2,6 +2,25 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature Franka (`#171 <https://github.com/clearpathrobotics/clearpath_common/issues/171>`_)
+  * Initial franka addition
+  * Create joint instead of using connected_to parameter
+  * Custom entry for generating Franka param
+  * Franka control for multiple types
+  * Modify entire Franka arm xacro
+  * Add franka gripper
+  * Copy and modify franka description
+  * Add cutout for Franka arm_id
+  * Add dependency for franka_description
+* Feature: Manipulator Samples and Poses (`#163 <https://github.com/clearpathrobotics/clearpath_common/issues/163>`_)
+  * Add group_state macros to arm SRDF
+  * Add group_state macros to grippers SRDF
+  * Generate pose macros in URDF
+* Fix: Isolate Universal Robots driver and client library dependencies (`#164 <https://github.com/clearpathrobotics/clearpath_common/issues/164>`_)
+* Contributors: luis-camero
+
 1.1.1 (2025-01-16)
 ------------------
 

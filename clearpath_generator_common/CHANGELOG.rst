@@ -2,6 +2,39 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Only use IMU for angular velocity (`#175 <https://github.com/clearpathrobotics/clearpath_common/issues/175>`_)
+* Feature Franka (`#171 <https://github.com/clearpathrobotics/clearpath_common/issues/171>`_)
+  * Initial franka addition
+  * Create joint instead of using connected_to parameter
+  * Custom entry for generating Franka param
+  * Franka control for multiple types
+  * Modify entire Franka arm xacro
+  * Add franka gripper
+  * Copy and modify franka description
+  * Add cutout for Franka arm_id
+  * Add dependency for franka_description
+* Feature Humble Ouster (`#161 <https://github.com/clearpathrobotics/clearpath_common/issues/161>`_)
+  * Add OusteOS1 description
+  * Custom OusterOS1 generator
+  * Ouster use custom description generator
+* Feature: MoveIt Parameters and Enable (`#166 <https://github.com/clearpathrobotics/clearpath_common/issues/166>`_)
+* Feature: Manipulator Samples and Poses (`#163 <https://github.com/clearpathrobotics/clearpath_common/issues/163>`_)
+  * Add group_state macros to arm SRDF
+  * Add group_state macros to grippers SRDF
+  * Generate pose macros in URDF
+* Feature: Link Material (`#162 <https://github.com/clearpathrobotics/clearpath_common/issues/162>`_)
+  * Add material to link generator
+  * Add material xacro macro
+  * Catch exception for frame without material
+* Backport Fix: Sensor depends (`#129 <https://github.com/clearpathrobotics/clearpath_common/issues/129>`_) (`#167 <https://github.com/clearpathrobotics/clearpath_common/issues/167>`_)
+  * Remove the package initializations that depend on robot packages
+  * Add a copy of the imu_filter parameters from clearpath_sensors to clearpath_control. Change the default IMU filter config path to point to this file. Remove more unneeded initializations of clearpath_robot packages
+  Co-authored-by: Chris Iverach-Brereton <59611394+civerachb-cpr@users.noreply.github.com>
+* Fix: Change dependency on SRDF plugins (`#165 <https://github.com/clearpathrobotics/clearpath_common/issues/165>`_)
+* Contributors: luis-camero
+
 1.1.1 (2025-01-16)
 ------------------
 
