@@ -32,7 +32,6 @@ platform_velocity_controller:
     tf_frame_prefix_enable: false
 
     cmd_vel_timeout: 0.25
-    #publish_limited_velocity: true
     use_stamped_vel: true
     #velocity_rolling_window_size: 10
 
@@ -43,7 +42,7 @@ platform_velocity_controller:
     # position_feedback: false
 
     # Publish limited velocity
-    publish_cmd: true
+    publish_limited_velocity: true
 
     # Publish wheel data
     publish_wheel_data: true
