@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:macro name="fixposition" params="
+        name
+        parent_link
+        *origin
+        model:=xvn
+        topic:=platform/odom/filtered
+        update_rate:=100
+    ">
+    </xacro:macro>
+</robot>
