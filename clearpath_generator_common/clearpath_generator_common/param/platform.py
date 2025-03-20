@@ -221,6 +221,21 @@ class PlatformParam():
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
 
+            # Add MCU diagnostic category for all platforms except A200
+            if self.clearpath_config.get_platform_model() != Platform.A200:
+                self.param_file.update(
+                    {self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'mcu': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'MCU',
+                                    'expected': [
+                                        'clearpath_diagnostic_updater: MCU Firmware Version',
+                                        'clearpath_diagnostic_updater: MCU Status'
+                                    ],
+                                    'contains': ['MCU']}}}}})
+
             sensor_analyzers = {}
 
             # List all topics to be monitored from each launched sensor
