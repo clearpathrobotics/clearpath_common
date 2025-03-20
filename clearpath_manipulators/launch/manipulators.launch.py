@@ -80,11 +80,25 @@ def generate_launch_description():
         description='Launch MoveIt'
     )
 
+    arg_control_delay = DeclareLaunchArgument(
+        'control_delay',
+        default_value='0.0',
+        description='Control launch delay in seconds.'
+    )
+
+    arg_moveit_delay = DeclareLaunchArgument(
+        'moveit_delay',
+        default_value='1.0',
+        description='MoveIt launch delay in seconds.'
+    )
+
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
     launch_moveit = LaunchConfiguration('launch_moveit')
+    control_delay = LaunchConfiguration('control_delay')
+    moveit_delay = LaunchConfiguration('moveit_delay')
 
     # Launch files
     launch_file_manipulators_description = PathJoinSubstitution([
@@ -126,6 +140,11 @@ def generate_launch_description():
         ]
     )
 
+    control_delayed = TimerAction(
+        period=control_delay,
+        actions=[group_manipulators_action]
+    )
+
     # Launch MoveIt
     moveit_node_action = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(launch_file_moveit),
@@ -137,7 +156,7 @@ def generate_launch_description():
     )
 
     moveit_delayed = TimerAction(
-        period=10.0,
+        period=moveit_delay,
         actions=[moveit_node_action]
     )
 
@@ -146,6 +165,8 @@ def generate_launch_description():
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_namespace)
     ld.add_action(arg_launch_moveit)
-    ld.add_action(group_manipulators_action)
+    ld.add_action(arg_control_delay)
+    ld.add_action(arg_moveit_delay)
+    ld.add_action(control_delayed)
     ld.add_action(moveit_delayed)
     return ld

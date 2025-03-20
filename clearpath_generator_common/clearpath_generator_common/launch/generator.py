@@ -82,6 +82,7 @@ class LaunchGenerator(BaseGenerator):
                 ('use_sim_time', 'false'),
                 ('namespace', self.namespace),
                 ('launch_moveit', str(self.clearpath_config.manipulators.moveit.enable).lower()),
+                ('delay_moveit', str(self.clearpath_config.manipulators.moveit.delay))
             ]
         )
 
