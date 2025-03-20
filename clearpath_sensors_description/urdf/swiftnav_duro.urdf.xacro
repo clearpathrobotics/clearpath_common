@@ -5,7 +5,7 @@
       <visual>
         <material name="clearpath_white"/>
         <geometry>
-          <mesh filename="package://clearpath_sensors_description/meshes/swift_antenna.stl"/>
+          <mesh filename="package://clearpath_sensors_description/meshes/gnss_spherical.stl"/>
         </geometry>
       </visual>
       <collision>

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Fixposition mesh originally sourced from
+    https://docs.fixposition.com/fd/step-model-and-camera-fov-data#STEPmodelandcameraFOVdata-LinktotheSTEPfile
+-->
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
     <xacro:macro name="fixposition" params="
         name
@@ -6,7 +10,132 @@
         *origin
         model:=xvn
         topic:=platform/odom/filtered
-        update_rate:=100
+        update_rate:=200
+
+        num_gps:=2
+
+        gps_0_type:=spherical
+        gps_0_xyz:=0 0 0
+        gps_0_rpy:=0 0 0
+        gps_0_parent:=base_link
+
+        gps_1_type:=spherical
+        gps_1_xyz:=0 0 0
+        gps_1_rpy:=0 0 0
+        gps_1_parent:=base_link
     ">
+        <xacro:macro name="gnss_antenna" params="
+            prefix
+            parent_link
+            *origin
+            type:=spherical
+        ">
+            <xacro:if value="${type == 'spherical'}">
+                <link name="${prefix}_base_link">
+                    <visual>
+                        <material name="clearpath_white"/>
+                        <geometry>
+                            <mesh filename="package://clearpath_sensors_description/meshes/gnss_spherical.stl"/>
+                        </geometry>
+                    </visual>
+                    <collision>
+                        <material name="clearpath_white"/>
+                        <origin xyz="0.0000 -0.0000 0.0324"/>
+                        <geometry>
+                            <sphere radius="0.1122" />
+                        </geometry>
+                    </collision>
+                </link>
+
+                <joint name="${prefix}_base_joint" type="fixed">
+                    <parent link="${parent_link}" />
+                    <child link="${prefix}_base_link" />
+                    <xacro:insert_block name="origin" />
+                </joint>
+            </xacro:if>
+
+            <xacro:if value="${type == 'helical'}">
+                <link name="${prefix}_base_link">
+                    <visual>
+                        <material name="clearpath_white"/>
+                        <geometry>
+                            <mesh filename="package://clearpath_sensors_description/meshes/gnss_helical.stl"/>
+                        </geometry>
+                    </visual>
+                    <!--
+                        TODO: cylinder collision
+                    -->
+                </link>
+
+                <joint name="${prefix}_base_joint" type="fixed">
+                    <parent link="${parent_link}" />
+                    <child link="${prefix}_base_link" />
+                    <xacro:insert_block name="origin" />
+                </joint>
+            </xacro:if>
+
+            <xacro:if value="${type == 'patch'}">
+                <link name="${prefix}_base_link">
+                    <!--
+                        TODO: assuming 25mm square for now, but this may be incorrect
+                    -->
+                    <visual>
+                        <material name="clearpath_black" />
+                        <geometry>
+                            <box size="0.025 0.025 0.01" />
+                        </geometry>
+                        <origin xyz="0 0 0.005" />
+                    </visual>
+                    <collision>
+                        <geometry>
+                            <box size="0.025 0.025 0.01" />
+                        </geometry>
+                        <origin xyz="0 0 0.005" rpy="0 0 0" />
+                    </collision>
+                </link>
+
+                <joint name="${prefix}_base_joint" type="fixed">
+                    <parent link="${parent_link}" />
+                    <child link="${prefix}_base_link" />
+                    <xacro:insert_block name="origin" />
+                </joint>
+            </xacro:if>
+        </xacro:macro>
+
+        <link name="${name}_base_link">
+            <visual>
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.1291 0.1136 0.03" />
+                </geometry>
+                <origin xyz="0 0 0.015" rpy="0 0 0" />
+            </collision>
+        </link>
+        <joint name="${name}_base_joint" type="fixed">
+            <parent link="${parent_link}" />
+            <child link="${name}_base_link" />
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <!--
+            1 antenna is mandatory, second is optional
+        -->
+        <xacro:gnss_antenna
+            prefix="${name}_gps0"
+            parent_link="${gps_0_parent"
+            type="${gps_0_type">
+            <origin xyz="${gps_0_xyz}" rpy="{gps0_rpy}" />
+        </xacro:gnss_antenna>
+
+        <xacro:if value="${num_gps > 1}">
+            <xacro:gnss_antenna
+                prefix="${name}_gps1"
+                parent_link="${gps_1_parent"
+                type="${gps_1_type">
+                <origin xyz="${gps_1_xyz}" rpy="{gps_1_rpy}" />
+            </xacro:gnss_antenna>
+        </xacro:if>
+
     </xacro:macro>
 </robot>
