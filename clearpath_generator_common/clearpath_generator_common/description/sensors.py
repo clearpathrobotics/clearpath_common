@@ -140,7 +140,6 @@ class SensorDescription():
                 self.UPDATE_RATE: 20  # TODO: link to clearpath_config property
             })
 
-
     class InsDescription(BaseDescription):
         NUM_ANTENNAS = 'num_antennas'
 
@@ -190,7 +189,6 @@ class SensorDescription():
                 self.GPS_1_RPY_Y: sensor.antennas[-1].rpy[2],
                 self.GPS_1_PARENT: sensor.antennas[-1].parent,
             })
-
 
     class OusterOS1Description(Lidar3dDescription):
         SAMPLES_HORIZONTAL = 'samples_h'
@@ -269,7 +267,6 @@ class SensorDescription():
             self.parameters.update({
                 self.MODEL: sensor.device_type
             })
-
 
     MODEL = {
         HokuyoUST.SENSOR_MODEL: Lidar2dDescription,
