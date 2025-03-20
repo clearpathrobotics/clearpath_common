@@ -36,7 +36,7 @@
             <visual>
                 <material name="clearpath_white"/>
                 <geometry>
-                    <mesh filename="package://clearpath_sensors_description/meshes/fixposition.stl" />
+                    <mesh filename="package://clearpath_sensors_description/meshes/fixposition.stl" scale="0.001 0.001 0.001" />
                 </geometry>
                 <origin xyz="0 0 0" rpy="0 0 0" />
             </visual>
@@ -58,10 +58,20 @@
         </joint>
 
         <!--
+            Sensor origin is on the top of the unit, but base_link is on the bottom
+        -->
+        <link name="${name}_sensor"/>
+        <joint name="${name}_sensor_joint" type="fixed">
+            <parent link="${name}_base_link" />
+            <child link="${name}_sensor" />
+            <origin xyz="0 0 0.03" rpy="0 0 0" />
+        </joint>
+
+        <!--
             1 antenna is mandatory, second is optional
         -->
         <xacro:gnss_antenna
-            prefix="${name}_gps0"
+            prefix="${name}_gps_0"
             parent_link="${gps_0_parent}"
             type="${gps_0_type}">
             <origin
@@ -72,7 +82,7 @@
 
         <xacro:if value="${num_antennas > 1}">
             <xacro:gnss_antenna
-                prefix="${name}_gps1"
+                prefix="${name}_gps_1"
                 parent_link="${gps_1_parent}"
                 type="${gps_1_type}">
                 <origin
