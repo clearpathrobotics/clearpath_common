@@ -9,10 +9,8 @@
         parent_link
         *origin
         model:=xvn
-        topic:=platform/odom/filtered
-        update_rate:=200
 
-        num_gps:=2
+        num_antennas:=2
 
         gps_0_type:=spherical
         gps_0_xyz_x:=0
@@ -72,7 +70,7 @@
             />
         </xacro:gnss_antenna>
 
-        <xacro:if value="${num_gps > 1}">
+        <xacro:if value="${num_antennas > 1}">
             <xacro:gnss_antenna
                 prefix="${name}_gps1"
                 parent_link="${gps_1_parent}"
