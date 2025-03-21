@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
+    <!--
+        Macro for adding GNSS (aka: GPS) antennas to robots
+
+        3 types are supported:
+            - "spherical" - dome-shaped antennas commonly used with SwiftNav Duro receivers
+            - "helical" - cylindrical antennas included by default with Fixposition systems
+            - "patch" - small, square antennas used with low-cost units like Ublox
+
+        The antenna has 1 link (the physical mounting point) called ${prefix}_link and 1
+        fixed joint called ${prefix}_joint connecting parent_link to ${prefix}_link.
+    -->
     <xacro:macro name="gnss_antenna" params="
         prefix
         parent_link
