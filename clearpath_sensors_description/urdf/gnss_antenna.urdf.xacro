@@ -45,9 +45,6 @@
                     </geometry>
                     <origin xyz="0 0 0.0275" rpy="0 0 0" />
                 </collision>
-                <!--
-                    TODO: cylinder collision
-                -->
             </link>
 
             <joint name="${prefix}_base_joint" type="fixed">
