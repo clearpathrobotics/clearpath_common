@@ -39,6 +39,12 @@
                     </geometry>
                     <origin xyz="0 0 0" rpy="0 0 0" />
                 </visual>
+                <collision>
+                    <geometry>
+                        <cylinder radius="0.015" length="0.055"/>
+                    </geometry>
+                    <origin xyz="0 0 0.0275" rpy="0 0 0" />
+                </collision>
                 <!--
                     TODO: cylinder collision
                 -->
@@ -58,13 +64,12 @@
                     <geometry>
                         <mesh filename="package://clearpath_sensors_description/meshes/gnss_patch.stl" />
                     </geometry>
-                    <origin xyz="0 0 0.005" />
                 </visual>
                 <collision>
                     <geometry>
-                        <box size="0.025 0.025 0.01" />
+                        <box size="0.06 0.06 0.02" />
                     </geometry>
-                    <origin xyz="0 0 0.005" rpy="0 0 0" />
+                    <origin xyz="0 0 0.01" rpy="0 0 0" />
                 </collision>
             </link>
 
