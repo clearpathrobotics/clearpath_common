@@ -58,13 +58,13 @@
         </joint>
 
         <!--
-            Sensor origin is on the top of the unit, but base_link is on the bottom
+            Sensor origin is on the top of the unit, slightly in front of the mounting point
         -->
         <link name="${name}_sensor"/>
         <joint name="${name}_sensor_joint" type="fixed">
             <parent link="${name}_base_link" />
             <child link="${name}_sensor" />
-            <origin xyz="0 0 0.03" rpy="0 0 0" />
+            <origin xyz="0.035 0 0.03" rpy="0 0 0" />
         </joint>
 
         <!--
