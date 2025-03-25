@@ -61,29 +61,31 @@ class VirtualCANGenerator(BaseGenerator):
         # Check platform
         if self.clearpath_config.get_platform_model() in PLATFORMS:
             port = 11412
-            serial = '/dev/ttycan0'
-            can = 'vcan0'
+            serial_dev = '/dev/ttycan0'
+            can_dev = 'vcan0'
             baud = 's8'
             bash_writer.write(
-                f'/bin/sh -e /usr/sbin/clearpath-vcan-bridge '
+                f'/bin/bash -e /usr/sbin/clearpath-vcan-bridge '
+                f'-t virtual'
                 f'-p {port} '
-                f'-d {serial} '
-                f'-v {can} '
+                f'-s {serial_dev} '
+                f'-c {can_dev} '
                 f'-b {baud}'
             )
             # Add second vcan for A300
             if self.clearpath_config.get_platform_model() == Platform.A300:
                 port = 11413
-                serial = '/dev/ttycan1'
-                can = 'vcan1'
+                serial_dev = '/dev/ttycan1'
+                can_dev = 'vcan1'
                 baud = 's5'
                 bash_writer.write(
-                    f'/bin/sh -e /usr/sbin/clearpath-vcan-bridge '
+                    f'/bin/bash -e /usr/sbin/clearpath-vcan-bridge '
+                    f'-t virtual'
                     f'-p {port} '
-                    f'-d {serial} '
-                    f'-v {can} '
+                    f'-s {serial_dev} '
+                    f'-c {can_dev} '
                     f'-b {baud}'
-                )
+                    )
         else:
             bash_writer.add_echo(
                 'No vcan bridge required.' +
