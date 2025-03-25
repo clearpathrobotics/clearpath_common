@@ -66,7 +66,7 @@ class VirtualCANGenerator(BaseGenerator):
             baud = 's8'
             bash_writer.write(
                 f'/bin/bash -e /usr/sbin/clearpath-vcan-bridge '
-                f'-t virtual'
+                f'-t virtual '
                 f'-p {port} '
                 f'-s {serial_dev} '
                 f'-c {can_dev} '
@@ -80,7 +80,7 @@ class VirtualCANGenerator(BaseGenerator):
                 baud = 's5'
                 bash_writer.write(
                     f'/bin/bash -e /usr/sbin/clearpath-vcan-bridge '
-                    f'-t virtual'
+                    f'-t virtual '
                     f'-p {port} '
                     f'-s {serial_dev} '
                     f'-c {can_dev} '
