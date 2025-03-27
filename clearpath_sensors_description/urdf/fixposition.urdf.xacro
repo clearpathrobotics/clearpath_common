@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Fixposition mesh originally sourced from
+    https://docs.fixposition.com/fd/step-model-and-camera-fov-data#STEPmodelandcameraFOVdata-LinktotheSTEPfile
+-->
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:macro name="fixposition" params="
+        name
+        parent_link
+        *origin
+        model:=xvn
+
+        num_antennas:=2
+
+        gps_0_type:=spherical
+        gps_0_xyz_x:=0
+        gps_0_xyz_y:=0
+        gps_0_xyz_z:=0
+        gps_0_rpy_r:=0
+        gps_0_rpy_p:=0
+        gps_0_rpy_y:=0
+        gps_0_parent:=base_link
+
+        gps_1_type:=spherical
+        gps_1_xyz_x:=0
+        gps_1_xyz_y:=0
+        gps_1_xyz_z:=0
+        gps_1_rpy_r:=0
+        gps_1_rpy_p:=0
+        gps_1_rpy_y:=0
+        gps_1_parent:=base_link
+    ">
+        <xacro:include filename="$(find clearpath_sensors_description)/urdf/gnss_antenna.urdf.xacro" />
+
+        <link name="${name}_base_link">
+            <visual>
+                <material name="clearpath_white"/>
+                <geometry>
+                    <mesh filename="package://clearpath_sensors_description/meshes/fixposition.stl" scale="0.001 0.001 0.001" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+            </visual>
+            <collision>
+                <geometry>
+                    <!--
+                        Bounding box dimensions from
+                        https://docs.fixposition.com/__attachments/73072655/VRTK2_integration_manual_v2.3.3.pdf
+                    -->
+                    <box size="0.1291 0.1136 0.03" />
+                </geometry>
+                <origin xyz="0 0 0.015" rpy="0 0 0" />
+            </collision>
+        </link>
+        <joint name="${name}_base_joint" type="fixed">
+            <parent link="${parent_link}" />
+            <child link="${name}_base_link" />
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <!--
+            Sensor origin is on the top of the unit, slightly in front of the mounting point
+        -->
+        <link name="${name}_sensor"/>
+        <joint name="${name}_sensor_joint" type="fixed">
+            <parent link="${name}_base_link" />
+            <child link="${name}_sensor" />
+            <origin xyz="0.035 0 0.03" rpy="0 0 0" />
+        </joint>
+
+        <!--
+            1 antenna is mandatory, second is optional
+        -->
+        <xacro:gnss_antenna
+            prefix="${name}_gps_0"
+            parent_link="${gps_0_parent}"
+            type="${gps_0_type}">
+            <origin
+                xyz="${gps_0_xyz_x} ${gps_0_xyz_y} ${gps_0_xyz_z}"
+                rpy="${gps_0_rpy_r} ${gps_0_rpy_p} ${gps_0_rpy_y}"
+            />
+        </xacro:gnss_antenna>
+
+        <xacro:if value="${num_antennas > 1}">
+            <xacro:gnss_antenna
+                prefix="${name}_gps_1"
+                parent_link="${gps_1_parent}"
+                type="${gps_1_type}">
+                <origin
+                    xyz="${gps_1_xyz_x} ${gps_1_xyz_y} ${gps_1_xyz_z}"
+                    rpy="${gps_1_rpy_r} ${gps_1_rpy_p} ${gps_1_rpy_y}"
+                />
+            </xacro:gnss_antenna>
+        </xacro:if>
+
+    </xacro:macro>
+</robot>
