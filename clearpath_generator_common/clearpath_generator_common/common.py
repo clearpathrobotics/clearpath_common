@@ -276,6 +276,7 @@ class BashFile():
 class BaseGenerator():
     SENSORS_PATH = 'sensors/'
     PLATFORM_PATH = 'platform/'
+    PLATFORM_EXTRAS_PATH = 'platform-extras/'
     MANIPULATORS_PATH = 'manipulators/'
     LAUNCH_PATH = 'launch/'
     PARAM_PATH = 'config/'
@@ -295,6 +296,8 @@ class BaseGenerator():
             self.setup_path, self.PLATFORM_PATH, self.PARAM_PATH)
         self.platform_launch_path = os.path.join(
             self.setup_path, self.PLATFORM_PATH, self.LAUNCH_PATH)
+        self.platform_extras_launch_path = os.path.join(
+            self.setup_path, self.PLATFORM_EXTRAS_PATH, self.LAUNCH_PATH)
         self.manipulators_params_path = os.path.join(
             self.setup_path, self.MANIPULATORS_PATH, self.PARAM_PATH)
         self.manipulators_launch_path = os.path.join(
