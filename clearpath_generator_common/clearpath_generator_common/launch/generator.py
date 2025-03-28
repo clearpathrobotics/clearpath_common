@@ -81,7 +81,7 @@ class LaunchGenerator(BaseGenerator):
             ])
 
         self.platform_extras_launch_file = LaunchFile(
-            name='platform-extras',
+            name='platform_extras',
             package=self.pkg_clearpath_common,
             args=[
                 ('setup_path', self.setup_path),
