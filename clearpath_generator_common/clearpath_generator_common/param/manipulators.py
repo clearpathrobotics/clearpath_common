@@ -78,9 +78,13 @@ class ManipulatorParam():
                 package=self.default_parameter_package,
                 path=self.default_parameter_directory,
             )
+            if self.namespace == '/':
+                namespace = ''
+            else:
+                namespace = self.namespace
             self.param_file = ParamFile(
                 name=self.default_parameter_name,
-                namespace=self.namespace + '/manipulators',
+                namespace=f'{namespace}/manipulators',
                 path=self.param_path
             )
 
