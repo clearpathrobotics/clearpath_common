@@ -32,14 +32,26 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
+from clearpath_config.common.types.exception import (
+    UnsupportedAccessoryException,
+    UnsupportedMiddlewareException,
+    UnsupportedPlatformException,
+)
 from clearpath_generator_common.common import BaseGenerator
 from clearpath_generator_common.vcan.generator import VirtualCANGenerator
 
 
 def main():
-    setup_path = BaseGenerator.get_args()
-    dsg = VirtualCANGenerator(setup_path)
-    dsg.generate()
+    try:
+        setup_path = BaseGenerator.get_args()
+        dsg = VirtualCANGenerator(setup_path)
+        dsg.generate()
+    except UnsupportedAccessoryException as err:
+        print(f'[ERROR] Unable to generate vcan: {err}')
+    except UnsupportedMiddlewareException as err:
+        print(f'[ERROR] Unable to generate vcan: {err}')
+    except UnsupportedPlatformException as err:
+        print(f'[ERROR] Unable to generate vcan: {err}')
 
 
 if __name__ == '__main__':
