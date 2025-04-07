@@ -2,6 +2,11 @@
 Changelog for package clearpath_manipulators
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Rename ompl to _ompl and update to match Jazzy (`#186 <https://github.com/clearpathrobotics/clearpath_common/issues/186>`_)
+* Contributors: luis-camero
+
 2.2.0 (2025-03-11)
 ------------------
 

@@ -2,6 +2,13 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Handle empty namespace (`#187 <https://github.com/clearpathrobotics/clearpath_common/issues/187>`_)
+  * Handle empty namespace
+  * Resolve formatting issues
+* Contributors: luis-camero
+
 2.2.0 (2025-03-11)
 ------------------
 * Feature Jazzy Ouster (`#170 <https://github.com/clearpathrobotics/clearpath_common/issues/170>`_)
