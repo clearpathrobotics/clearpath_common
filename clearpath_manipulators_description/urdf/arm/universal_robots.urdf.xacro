@@ -47,7 +47,7 @@
     sim_gazebo:=''
     sim_ignition:=''
     ">
-
+    <xacro:property name="use_manipulation_controllers" value="$(arg use_manipulation_controllers)"/>
     <!-- Default Description Parameters -->
     <xacro:property name="_tf_prefix" value="${name}_" lazy_eval="false"/>
     <xacro:property name="_initial_positions" value="${dict(shoulder_pan_joint=0.0,shoulder_lift_joint=-1.57,elbow_joint=0.0,wrist_1_joint=-1.57,wrist_2_joint=0.0,wrist_3_joint=0.0)}" lazy_eval="false"/>
@@ -71,18 +71,17 @@
     <xacro:if value="${safety_k_position != ''}"> <xacro:property name="_safety_k_position" value="${safety_k_position}" lazy_eval="false"/> </xacro:if>
 
     <!-- Default Simulation Parameters -->
-    <xacro:property name="_use_fake_hardware" value="false" />
-    <xacro:property name="_fake_sensor_commands" value="false" />
+    <xacro:property name="_use_mock_hardware" value="false" />
+    <xacro:property name="_mock_sensor_commands" value="false" />
     <xacro:property name="_sim_gazebo" value="false" />
     <xacro:property name="_sim_ignition" value="$(arg is_sim)" />
     <!-- Default Simulation Parameters Overwrites -->
-    <xacro:if value="${use_fake_hardware != ''}"> <xacro:property name="_use_fake_hardware" value="${use_fake_hardware}" lazy_eval="false"/> </xacro:if>
-    <xacro:if value="${fake_sensor_commands != ''}"> <xacro:property name="_fake_sensor_commands" value="${fake_sensor_commands}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${use_mock_hardware != ''}"> <xacro:property name="_use_mock_hardware" value="${use_mock_hardware}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${mock_sensor_commands != ''}"> <xacro:property name="_mock_sensor_commands" value="${mock_sensor_commands}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${sim_gazebo != ''}"> <xacro:property name="_sim_gazebo" value="${sim_gazebo}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${sim_ignition != ''}"> <xacro:property name="_sim_ignition" value="${sim_ignition}" lazy_eval="false"/> </xacro:if>
 
     <!-- Default ros2_control Parameters -->
-    <xacro:property name="_generate_ros2_control_tag" value="$(arg use_manipulation_controllers)" lazy_eval="false"/>
     <xacro:property name="_headless_mode" value="false" lazy_eval="false"/>
     <xacro:property name="_robot_ip" value="192.168.131.40" lazy_eval="false"/>
     <xacro:property name="_reverse_ip" value="0.0.0.0" lazy_eval="false"/>
@@ -94,7 +93,6 @@
     <xacro:property name="_non_blocking_read" value="true" lazy_eval="false"/>
     <xacro:property name="_keep_alive_count" value="2.0" lazy_eval="false"/>
     <!-- Default ros2_control Parameters Overwrites -->
-    <xacro:if value="${generate_ros2_control_tag != ''}"> <xacro:property name="_generate_ros2_control_tag" value="${generate_ros2_control_tag}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${headless_mode != ''}"> <xacro:property name="_headless_mode" value="${headless_mode}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${robot_ip != ''}"> <xacro:property name="_robot_ip" value="${robot_ip}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${reverse_ip != ''}"> <xacro:property name="_reverse_ip" value="${reverse_ip}" lazy_eval="false"/> </xacro:if>
@@ -106,12 +104,12 @@
     <xacro:if value="${non_blocking_read != ''}"> <xacro:property name="_non_blocking_read" value="${non_blocking_read}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${keep_alive_count != ''}"> <xacro:property name="_keep_alive_count" value="${keep_alive_count}" lazy_eval="false"/> </xacro:if>
     <!-- Driver Dependent Parameters -->
-    <xacro:if value="${_generate_ros2_control_tag and not _use_fake_hardware and not _sim_ignition}">
+    <xacro:if value="${use_manipulation_controllers and not _use_mock_hardware and not _sim_ignition}">
       <xacro:property name="_script_filename" value="$(find ur_client_library)/resources/external_control.urscript" lazy_eval="false"/>
       <xacro:property name="_output_recipe_filename" value="$(find ur_robot_driver)/resources/rtde_output_recipe.txt" lazy_eval="false"/>
       <xacro:property name="_input_recipe_filename" value="$(find ur_robot_driver)/resources/rtde_input_recipe.txt" lazy_eval="false"/>
     </xacro:if>
-    <xacro:unless value="${_generate_ros2_control_tag and not _use_fake_hardware and not _sim_ignition}">
+    <xacro:unless value="${use_manipulation_controllers and not _use_mock_hardware and not _sim_ignition}">
       <xacro:property name="_script_filename" value="" lazy_eval="false"/>
       <xacro:property name="_output_recipe_filename" value="" lazy_eval="false"/>
       <xacro:property name="_input_recipe_filename" value="" lazy_eval="false"/>
@@ -159,7 +157,7 @@
     </xacro:ur_robot>
 
     <!-- Universal_Robots_ROS2_Driver HardwareInterface -->
-    <xacro:if value="$(arg use_manipulation_controllers)">
+    <xacro:if value="${use_manipulation_controllers}">
       <xacro:include filename="$(find ur_robot_driver)/urdf/ur.ros2_control.xacro" />
 
       <xacro:ur_ros2_control
