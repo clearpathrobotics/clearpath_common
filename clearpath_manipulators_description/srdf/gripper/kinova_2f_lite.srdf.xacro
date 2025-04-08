@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="kinova_2f_lite_group_state" params="name group_state joint_positions">
+    <group_state name="${group_state}" group="${name}">
+      <joint name="${name}_right_finger_bottom_joint" value="${joint_positions[0]}"/>
+    </group_state>
+  </xacro:macro>
+
   <xacro:macro name="kinova_2f_lite" params="name">
     <group name="${name}">
         <joint name="${name}_right_finger_bottom_joint"/>
@@ -7,12 +14,18 @@
         <joint name="${name}_left_finger_bottom_joint"/>
         <joint name="${name}_left_finger_tip_joint"/>
     </group>
-    <group_state name="open" group="${name}">
-        <joint name="${name}_right_finger_bottom_joint" value="0.0"/>
-    </group_state>
-    <group_state name="close" group="${name}">
-        <joint name="${name}_right_finger_bottom_joint" value="0.85"/>
-    </group_state>
+
+    <xacro:kinova_2f_lite_group_state
+      name="${name}"
+      group_state="open"
+      joint_positions="${[0.0]}"
+    />
+
+    <xacro:kinova_2f_lite_group_state
+      name="${name}"
+      group_state="close"
+      joint_positions="${[0.85]}"
+    />
 
     <disable_collisions link1="${name}_right_finger_dist_link" link2="${name}_left_finger_dist_link" reason="User"/>
   </xacro:macro>
