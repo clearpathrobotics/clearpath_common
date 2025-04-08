@@ -31,12 +31,12 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+from clearpath_config.common.types.platform import Platform
 from clearpath_config.platform.can import (
     PhysicalCANAdapter,
     SerialCANAdapter,
     VirtualCANAdapter,
 )
-from clearpath_config.common.types.platform import Platform
 from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BaseGenerator, BashFile
 
