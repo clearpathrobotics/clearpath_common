@@ -38,6 +38,7 @@ from launch.actions import (
     IncludeLaunchDescription,
     TimerAction
 )
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     LaunchConfiguration,
@@ -150,7 +151,8 @@ def generate_launch_description():
         launch_arguments=[
             ('setup_path', setup_path),
             ('use_sim_time', use_sim_time)
-        ]
+        ],
+        condition=IfCondition(launch_moveit)
     )
 
     moveit_delayed = TimerAction(
