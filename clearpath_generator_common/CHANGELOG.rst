@@ -2,6 +2,9 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.2.1 (2025-04-07)
 ------------------
 * Fix: Handle empty namespace (`#187 <https://github.com/clearpathrobotics/clearpath_common/issues/187>`_)
