@@ -53,5 +53,19 @@
       <origin xyz="0 0 0.4" rpy="0 0 0" />
     </joint>
 
+    <link name="${name}_front_face_mount" />
+    <joint name="${name}_front_face_link" type="fixed">
+      <parent link="${name}_center_mount" />
+      <child link="${name}_front_face_mount" />
+      <origin xyz="0.33 0 -0.08" rpy="0 0 0" />
+    </joint>
+
+    <link name="${name}_rear_face_mount" />
+    <joint name="${name}_rear_face_link" type="fixed">
+      <parent link="${name}_center_mount" />
+      <child link="${name}_rear_face_mount" />
+      <origin xyz="-0.33 0 -0.08" rpy="0 0 3.1459" />
+    </joint>
+
   </xacro:macro>
 </robot>
