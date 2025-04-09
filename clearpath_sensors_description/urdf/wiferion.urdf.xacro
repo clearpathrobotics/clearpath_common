@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="wiferion" params="name parent_link *origin">
+    <xacro:property name="thickness" value="0.03"/>
+    <xacro:property name="length" value="0.16"/>
+
+    <link name="${name}_link">
+      <visual>
+        <material name="wiferion_blue">
+          <color rgba="0.06 0.32 0.73 1.0" />
+        </material>
+        <origin xyz="${thickness/2} 0 0"/>
+        <geometry>
+          <box size="${thickness} ${length} ${length}"/>
+        </geometry>
+      </visual>
+      <collision>
+        <material name="wiferion_blue">
+          <color rgba="0.06 0.32 0.73 1.0" />
+        </material>
+        <origin xyz="${thickness/2} 0 0"/>
+        <geometry>
+          <box size="${thickness} ${length} ${length}"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${name}_joint" type="fixed">
+      <child link="${name}_link"/>
+      <parent link="${parent_link}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+  </xacro:macro>
+</robot>
