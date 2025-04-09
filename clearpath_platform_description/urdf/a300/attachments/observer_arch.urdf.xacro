@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org.xacro">
+  <xacro:macro name="observer_arch" params="name parent_link:=default_mount model:=observer_arch *origin">
+    <link name="${name}_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_arch.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_arch.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </collision>
+    </link>
+    <gazebo reference="${name}_link">
+      <material>Gazebo/DarkYellow</material>
+    </gazebo>
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <!--
+        Sensor mounting points
+        TODO: get these measurements from Rhys
+    -->
+
+    <link name="${name}_left_antenna_mount" />
+    <joint name="${name}_left_antenna_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_left_antenna_mount" />
+      <origin xyz="0 0.26 0.45" rpy="0 0 0" />
+    </joint>
+
+    <link name="${name}_right_antenna_mount" />
+    <joint name="${name}_right_antenna_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_right_antenna_mount" />
+      <origin xyz="0 -0.26 0.45" rpy="0 0 0" />
+    </joint>
+  </xacro:macro>
+</robot>

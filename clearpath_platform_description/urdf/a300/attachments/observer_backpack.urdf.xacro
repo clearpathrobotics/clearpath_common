@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org.xacro">
+  <xacro:macro name="observer_backpack" params="name parent_link:=base_link model:=observer_backpack *origin">
+    <link name="${name}_enclosure_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_enclosure.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="dark_grey"><color rgba="0.1 0.1 0.1 1.0" /></material>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_enclosure.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </collision>
+    </link>
+    <gazebo reference="${name}_enclosure_link">
+      <material>Gazebo/Black</material>
+    </gazebo>
+    <joint name="${name}_enclosure_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_enclosure_link" />
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${name}_access_panels_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_access_panels.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="yellow"><color rgba="1 0.6038269 0 1.0" /></material>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+    </link>
+    <joint name="${name}_access_panels_joint" type="fixed">
+      <parent link="${name}_enclosure_link" />
+      <child link="${name}_access_panels_link" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <gazebo reference="${name}_access_panels_link">
+      <material>Gazebo/DarkYellow</material>
+    </gazebo>
+
+    <!--
+        Mount points for sensors, other accessories
+    -->
+    <link name="${name}_center_mount" />
+    <joint name="${name}_center_joint" type="fixed">
+      <parent link="${name}_enclosure_link" />
+      <child link="${name}_center_mount" />
+      <origin xyz="0 0 0.4" rpy="0 0 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>
