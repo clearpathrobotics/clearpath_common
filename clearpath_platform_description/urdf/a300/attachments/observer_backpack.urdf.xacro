@@ -68,7 +68,7 @@
     <joint name="${name}_ins_mouint_link" type="fixed">
       <parent link="${name}_enclosure_link" />
       <child link="${name}_ins_mount" />
-      <origin xyz="-0.4 0.0 0.3192593" rpy="3.14159 0 0" />
+      <origin xyz="-0.4 0.0 0.3192593" rpy="3.14159 0 3.14159" />
     </joint>
 
     <!-- front-mounted robin -->

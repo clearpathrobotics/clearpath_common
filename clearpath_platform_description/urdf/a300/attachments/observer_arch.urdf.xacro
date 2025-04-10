@@ -59,11 +59,11 @@
     </joint>
 
     <!-- rear-facing camera suspended under sensor arch -->
-    <link name="${name}_front_camera_mount" />
-    <joint name="${name}_front_camera_mount_joint" type="fixed">
+    <link name="${name}_rear_camera_mount" />
+    <joint name="${name}_rear_camera_mount_joint" type="fixed">
       <parent link="${name}_link" />
-      <child link="${name}_front_camera_mount" />
-      <origin xyz="-0.071992 0 0.4036838" rpy="0 -0.6021385919380436 3.14159" />
+      <child link="${name}_rear_camera_mount" />
+      <origin xyz="-0.071992 0 0.4036838" rpy="0 0.6021385919380436 3.14159" />
     </joint>
 
   </xacro:macro>
