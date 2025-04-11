@@ -2,6 +2,12 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added Wiferion Charger (`#197 <https://github.com/clearpathrobotics/clearpath_common/issues/197>`_)
+* Added support for INS sensors + Fixposition XVN (`#184 <https://github.com/clearpathrobotics/clearpath_common/issues/184>`_)
+* Contributors: Chris Iverach-Brereton, Luis Camero
+
 2.2.2 (2025-04-09)
 ------------------
 

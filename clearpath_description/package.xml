@@ -17,10 +17,10 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend version_gte="2.1.0">clearpath_mounts_description</exec_depend>
-  <exec_depend version_gte="2.1.0">clearpath_platform_description</exec_depend>
-  <exec_depend version_gte="2.1.0">clearpath_sensors_description</exec_depend>
-  <exec_depend version_gte="2.1.0">clearpath_manipulators_description</exec_depend>
+  <exec_depend version_gte="2.3.0">clearpath_mounts_description</exec_depend>
+  <exec_depend version_gte="2.3.0">clearpath_platform_description</exec_depend>
+  <exec_depend version_gte="2.3.0">clearpath_sensors_description</exec_depend>
+  <exec_depend version_gte="2.3.0">clearpath_manipulators_description</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

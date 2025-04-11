@@ -2,6 +2,19 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Add CAN adapters (`#196 <https://github.com/clearpathrobotics/clearpath_common/issues/196>`_)
+* Fast Forward Feature: Add delay to manipulator controller (`#191 <https://github.com/clearpathrobotics/clearpath_common/issues/191>`_)
+* Feature: Manipulator URDF Parameters (`#181 <https://github.com/clearpathrobotics/clearpath_common/issues/181>`_) (`#190 <https://github.com/clearpathrobotics/clearpath_common/issues/190>`_)
+* Feature: MoveIt Parameters and Enable (`#166 <https://github.com/clearpathrobotics/clearpath_common/issues/166>`_) (`#189 <https://github.com/clearpathrobotics/clearpath_common/issues/189>`_)
+* Feature: Manipulator Samples and Poses (`#163 <https://github.com/clearpathrobotics/clearpath_common/issues/163>`_) (`#188 <https://github.com/clearpathrobotics/clearpath_common/issues/188>`_)
+* Add exception handling to the generators to print a nicer error message in the case of self-generated Unsupported* exceptions (`#192 <https://github.com/clearpathrobotics/clearpath_common/issues/192>`_)
+* Move extras launch into a new service (`#185 <https://github.com/clearpathrobotics/clearpath_common/issues/185>`_)
+* Add support for INS sensors + Fixposition XVN (`#184 <https://github.com/clearpathrobotics/clearpath_common/issues/184>`_)
+* Add MCU diagnostic category if not A200 (`#183 <https://github.com/clearpathrobotics/clearpath_common/issues/183>`_)
+* Contributors: Chris Iverach-Brereton, Hilary Luo, Luis Camero
+
 2.2.2 (2025-04-09)
 ------------------
 

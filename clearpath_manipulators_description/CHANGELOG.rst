@@ -2,6 +2,11 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Manipulator Samples and Poses (`#163 <https://github.com/clearpathrobotics/clearpath_common/issues/163>`_) (`#188 <https://github.com/clearpathrobotics/clearpath_common/issues/188>`_)
+* Contributors: Luis Camero
+
 2.2.2 (2025-04-09)
 ------------------
 * Fast Forward Fix: Isolate UR Client Library in URDF (`#195 <https://github.com/clearpathrobotics/clearpath_common/issues/195>`_)

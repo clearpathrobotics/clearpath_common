@@ -2,6 +2,20 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* [clearpath_control] Added remapping for upstream mecanum controller. (`#199 <https://github.com/clearpathrobotics/clearpath_common/issues/199>`_)
+* Re-add reference remapping (`#198 <https://github.com/clearpathrobotics/clearpath_common/issues/198>`_)
+* added cmd_vel_out to dingo Ds
+* remove duplicate remap
+* Jazzy dingo and ridgeback fixes (`#179 <https://github.com/clearpathrobotics/clearpath_common/issues/179>`_)
+  * Updated mecanum controller type
+  * Changed puma control frequency to 20hz
+  * Added mecanum package dep
+* initial changes for adding the linited velocity output
+* Ensure the right horizontal axis is used for yaw control, left horizontal axis for linear-y (`#178 <https://github.com/clearpathrobotics/clearpath_common/issues/178>`_)
+* Contributors: Chris Iverach-Brereton, José Mastrangelo, Roni Kreinin, Tony Baltovski, luis-camero
+
 2.2.2 (2025-04-09)
 ------------------
 
@@ -15,8 +29,6 @@ Changelog for package clearpath_control
 ------------------
 * Reduced angular velocity limits from joysticks (`#160 <https://github.com/clearpathrobotics/clearpath_common/issues/160>`_)
 * Feature/ekf diagnostics (`#158 <https://github.com/clearpathrobotics/clearpath_common/issues/158>`_)
-  * Enable ekf node diagnostics
-  * Fix CI
 * Diff drive parameter updates for improved odometry (`#155 <https://github.com/clearpathrobotics/clearpath_common/issues/155>`_)
 * Contributors: Hilary Luo, Roni Kreinin
 
