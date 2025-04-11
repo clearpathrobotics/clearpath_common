@@ -33,6 +33,11 @@
 # of Clearpath Robotics.
 import os
 
+from clearpath_config.common.types.exception import (
+    UnsupportedAccessoryException,
+    UnsupportedMiddlewareException,
+    UnsupportedPlatformException,
+)
 from clearpath_generator_common.common import BaseGenerator
 from clearpath_generator_common.semantic_description.generator import SemanticDescriptionGenerator
 from ros2run.api import get_executable_path, run_executable
@@ -41,25 +46,32 @@ PACKAGE = '<package><name>clearpath_generator_common</name></package>\n'
 
 
 def main():
-    setup_path = BaseGenerator.get_args()
-    sdg = SemanticDescriptionGenerator(setup_path)
-    sdg.generate()
-    # Create pseudo package
-    with open(os.path.join(setup_path, 'package.xml'), 'w+') as f:
-        f.write(PACKAGE)
-    # Update collision matrix
-    path = get_executable_path(
-        executable_name='moveit_collision_updater',
-        package_name='clearpath_generator_common'
-    )
-    argv = [
-        '--urdf', os.path.join(setup_path, 'robot.urdf.xacro'),
-        '--srdf', os.path.join(setup_path, 'robot.srdf.xacro'),
-        '--output', os.path.join(setup_path, 'robot.srdf')
-    ]
-    run_executable(path=path, argv=argv)
-    # Delete pseudo package
-    os.remove(os.path.join(setup_path, 'package.xml'))
+    try:
+        setup_path = BaseGenerator.get_args()
+        sdg = SemanticDescriptionGenerator(setup_path)
+        sdg.generate()
+        # Create pseudo package
+        with open(os.path.join(setup_path, 'package.xml'), 'w+') as f:
+            f.write(PACKAGE)
+        # Update collision matrix
+        path = get_executable_path(
+            executable_name='moveit_collision_updater',
+            package_name='clearpath_generator_common'
+        )
+        argv = [
+            '--urdf', os.path.join(setup_path, 'robot.urdf.xacro'),
+            '--srdf', os.path.join(setup_path, 'robot.srdf.xacro'),
+            '--output', os.path.join(setup_path, 'robot.srdf')
+        ]
+        run_executable(path=path, argv=argv)
+        # Delete pseudo package
+        os.remove(os.path.join(setup_path, 'package.xml'))
+    except UnsupportedAccessoryException as err:
+        print(f'[ERROR] Unable to generate semantic description: {err}')
+    except UnsupportedMiddlewareException as err:
+        print(f'[ERROR] Unable to generate semantic description: {err}')
+    except UnsupportedPlatformException as err:
+        print(f'[ERROR] Unable to generate semantic description: {err}')
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 50  # Hz
+    update_rate: 20  # Hz
     use_sim_time: False
 
     joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
@@ -21,7 +21,7 @@ platform_velocity_controller:
     left_wheel_radius_multiplier: 1.0
     right_wheel_radius_multiplier: 1.0
 
-    publish_rate: 50.0
+    publish_rate: 20.0
     odom_frame_id: odom
     base_frame_id: base_link
     pose_covariance_diagonal : [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
@@ -32,7 +32,6 @@ platform_velocity_controller:
     tf_frame_prefix_enable: false
 
     cmd_vel_timeout: 0.5
-    #publish_limited_velocity: true
     use_stamped_vel: true
     #velocity_rolling_window_size: 10
 
@@ -40,7 +39,7 @@ platform_velocity_controller:
     preserve_turning_radius: true
 
     # Publish limited velocity
-    publish_cmd: true
+    publish_limited_velocity: true
 
     # Publish wheel data
     publish_wheel_data: true

@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
-
 # Software License Agreement (BSD)
 #
+# @author    Tony Baltovski <tbaltovski@clearpathrobotics.com>
 # @author    Roni Kreinin <rkreinin@clearpathrobotics.com>
 # @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
 #
@@ -27,32 +26,31 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-
-# Redistribution and use in source and binary forms, with or without
-# modification, is not permitted without the express permission
-# of Clearpath Robotics.
-
-from clearpath_config.common.types.exception import (
-    UnsupportedAccessoryException,
-    UnsupportedMiddlewareException,
-    UnsupportedPlatformException,
+from launch import LaunchDescription
+from launch.actions import (
+    DeclareLaunchArgument,
 )
-from clearpath_generator_common.common import BaseGenerator
-from clearpath_generator_common.bash.generator import BashGenerator
 
+ARGUMENTS = [
+    DeclareLaunchArgument(
+        'setup_path',
+        default_value='/etc/clearpath/'
+    ),
 
-def main():
-    try:
-        setup_path = BaseGenerator.get_args()
-        bg = BashGenerator(setup_path)
-        bg.generate()
-    except UnsupportedAccessoryException as err:
-        print(f'[ERROR] Unable to generate bash: {err}')
-    except UnsupportedMiddlewareException as err:
-        print(f'[ERROR] Unable to generate bash: {err}')
-    except UnsupportedPlatformException as err:
-        print(f'[ERROR] Unable to generate bash: {err}')
+    DeclareLaunchArgument(
+        'use_sim_time',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use simulation time'
+    ),
 
+    DeclareLaunchArgument(
+        'namespace',
+        default_value='',
+        description='Robot namespace'
+    ),
+]
 
-if __name__ == '__main__':
-    main()
+def generate_launch_description():
+    ld = LaunchDescription(ARGUMENTS)
+    return ld

@@ -182,11 +182,11 @@ class ManipulatorParam():
 
             self.param_file.add_node_header()
 
-            # Get extra ros parameters from config
-            extras = self.clearpath_config.platform.extras.ros_parameters
-            for node in extras:
+            # Get MoveIt ros parameters from config
+            moveit_params = self.clearpath_config.manipulators.moveit.ros_parameters
+            for node in moveit_params:
                 if node in self.param_file.parameters:
-                    self.param_file.update({node: extras.get(node)})
+                    self.param_file.update({node: moveit_params.get(node)})
 
             if use_sim_time:
                 for node in self.param_file.parameters:

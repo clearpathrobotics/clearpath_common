@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+    <!--
+        Macro for adding GNSS (aka: GPS) antennas to robots
+
+        3 types are supported:
+            - "spherical" - dome-shaped antennas commonly used with SwiftNav Duro receivers
+            - "helical" - cylindrical antennas included by default with Fixposition systems
+            - "patch" - small, square antennas used with low-cost units like Ublox
+
+        The antenna has 1 link (the physical mounting point) called ${prefix}_link and 1
+        fixed joint called ${prefix}_joint connecting parent_link to ${prefix}_link.
+    -->
+    <xacro:macro name="gnss_antenna" params="
+        prefix
+        parent_link
+        *origin
+        type:=spherical
+    ">
+        <xacro:if value="${type == 'spherical'}">
+            <link name="${prefix}_link">
+                <visual>
+                    <material name="clearpath_white"/>
+                    <geometry>
+                        <mesh filename="package://clearpath_sensors_description/meshes/gnss_spherical.stl" />
+                    </geometry>
+                </visual>
+                <collision>
+                    <material name="clearpath_white"/>
+                    <origin xyz="0.0000 -0.0000 0.0324"/>
+                    <geometry>
+                        <sphere radius="0.1122" />
+                    </geometry>
+                </collision>
+            </link>
+
+            <joint name="${prefix}_joint" type="fixed">
+                <parent link="${parent_link}" />
+                <child link="${prefix}_link" />
+                <xacro:insert_block name="origin" />
+            </joint>
+        </xacro:if>
+
+        <xacro:if value="${type == 'helical'}">
+            <link name="${prefix}_link">
+                <visual>
+                    <material name="clearpath_white"/>
+                    <geometry>
+                        <mesh filename="package://clearpath_sensors_description/meshes/gnss_helical.stl" />
+                    </geometry>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                </visual>
+                <collision>
+                    <geometry>
+                        <cylinder radius="0.015" length="0.055"/>
+                    </geometry>
+                    <origin xyz="0 0 0.0275" rpy="0 0 0" />
+                </collision>
+            </link>
+
+            <joint name="${prefix}_joint" type="fixed">
+                <parent link="${parent_link}" />
+                <child link="${prefix}_link" />
+                <xacro:insert_block name="origin" />
+            </joint>
+        </xacro:if>
+
+        <xacro:if value="${type == 'patch'}">
+            <link name="${prefix}_link">
+                <visual>
+                    <material name="clearpath_black" />
+                    <geometry>
+                        <mesh filename="package://clearpath_sensors_description/meshes/gnss_patch.stl" />
+                    </geometry>
+                </visual>
+                <collision>
+                    <geometry>
+                        <box size="0.06 0.06 0.02" />
+                    </geometry>
+                    <origin xyz="0 0 0.01" rpy="0 0 0" />
+                </collision>
+            </link>
+
+            <joint name="${prefix}_joint" type="fixed">
+                <parent link="${parent_link}" />
+                <child link="${prefix}_link" />
+                <xacro:insert_block name="origin" />
+            </joint>
+        </xacro:if>
+    </xacro:macro>
+</robot>

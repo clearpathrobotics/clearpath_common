@@ -45,6 +45,10 @@ from clearpath_config.sensors.types.imu import (
     Microstrain,
     RedshiftUM7
 )
+from clearpath_config.sensors.types.ins import (
+    BaseINS,
+    Fixposition,
+)
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
 from clearpath_config.sensors.types.lidars_3d import (
     BaseLidar3D,
@@ -136,6 +140,56 @@ class SensorDescription():
                 self.UPDATE_RATE: 20  # TODO: link to clearpath_config property
             })
 
+    class InsDescription(BaseDescription):
+        NUM_ANTENNAS = 'num_antennas'
+
+        GPS_0_TYPE = 'gps_0_type'
+        GPS_0_XYZ_X = 'gps_0_xyz_x'
+        GPS_0_XYZ_Y = 'gps_0_xyz_y'
+        GPS_0_XYZ_Z = 'gps_0_xyz_z'
+        GPS_0_RPY_R = 'gps_0_rpy_r'
+        GPS_0_RPY_P = 'gps_0_rpy_p'
+        GPS_0_RPY_Y = 'gps_0_rpy_y'
+        GPS_0_PARENT = 'gps_0_parent'
+
+        GPS_1_TYPE = 'gps_1_type'
+        GPS_1_XYZ_X = 'gps_1_xyz_x'
+        GPS_1_XYZ_Y = 'gps_1_xyz_y'
+        GPS_1_XYZ_Z = 'gps_1_xyz_z'
+        GPS_1_RPY_R = 'gps_1_rpy_r'
+        GPS_1_RPY_P = 'gps_1_rpy_p'
+        GPS_1_RPY_Y = 'gps_1_rpy_y'
+        GPS_1_PARENT = 'gps_1_parent'
+
+        def __init__(self, sensor: BaseINS) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.NUM_ANTENNAS: len(sensor.antennas),
+
+                self.GPS_0_TYPE: sensor.antennas[0].antenna_type,
+                self.GPS_0_XYZ_X: sensor.antennas[0].xyz[0],
+                self.GPS_0_XYZ_Y: sensor.antennas[0].xyz[1],
+                self.GPS_0_XYZ_Z: sensor.antennas[0].xyz[2],
+                self.GPS_0_RPY_R: sensor.antennas[0].rpy[0],
+                self.GPS_0_RPY_P: sensor.antennas[0].rpy[1],
+                self.GPS_0_RPY_Y: sensor.antennas[0].rpy[2],
+                self.GPS_0_PARENT: sensor.antennas[0].parent,
+
+                # we only have 1 or 2 antennas, so use -1:
+                # if there's only one antenna this is the same as 0
+                # but the duplication is safely ignored because
+                # we set NUM_ANTENNAS above
+                self.GPS_1_TYPE: sensor.antennas[-1].antenna_type,
+                self.GPS_1_XYZ_X: sensor.antennas[-1].xyz[0],
+                self.GPS_1_XYZ_Y: sensor.antennas[-1].xyz[1],
+                self.GPS_1_XYZ_Z: sensor.antennas[-1].xyz[2],
+                self.GPS_1_RPY_R: sensor.antennas[-1].rpy[0],
+                self.GPS_1_RPY_P: sensor.antennas[-1].rpy[1],
+                self.GPS_1_RPY_Y: sensor.antennas[-1].rpy[2],
+                self.GPS_1_PARENT: sensor.antennas[-1].parent,
+            })
+
     class OusterOS1Description(Lidar3dDescription):
         SAMPLES_HORIZONTAL = 'samples_h'
         SAMPLES_VERTICAL = 'samples_v'
@@ -194,7 +248,7 @@ class SensorDescription():
                 self.MODEL: sensor.device_type,
             })
 
-    class LuxonisOAKDDescroption(CameraDescription):
+    class LuxonisOAKDDescription(CameraDescription):
         MODEL = 'model'
 
         def __init__(self, sensor: LuxonisOAKD) -> None:
@@ -227,7 +281,8 @@ class SensorDescription():
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
         RedshiftUM7.SENSOR_MODEL: ImuDescription,
         StereolabsZed.SENSOR_MODEL: StereolabsZedDescription,
-        LuxonisOAKD.SENSOR_MODEL: LuxonisOAKDDescroption,
+        LuxonisOAKD.SENSOR_MODEL: LuxonisOAKDDescription,
+        Fixposition.SENSOR_MODEL: InsDescription,
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:
