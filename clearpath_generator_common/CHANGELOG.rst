@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.0 (2025-04-11)
+------------------
 * Feature: Add CAN adapters (`#196 <https://github.com/clearpathrobotics/clearpath_common/issues/196>`_)
 * Fast Forward Feature: Add delay to manipulator controller (`#191 <https://github.com/clearpathrobotics/clearpath_common/issues/191>`_)
 * Feature: Manipulator URDF Parameters (`#181 <https://github.com/clearpathrobotics/clearpath_common/issues/181>`_) (`#190 <https://github.com/clearpathrobotics/clearpath_common/issues/190>`_)

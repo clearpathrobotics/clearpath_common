@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.0 (2025-04-11)
+------------------
 * [clearpath_control] Added remapping for upstream mecanum controller. (`#199 <https://github.com/clearpathrobotics/clearpath_common/issues/199>`_)
 * Re-add reference remapping (`#198 <https://github.com/clearpathrobotics/clearpath_common/issues/198>`_)
 * added cmd_vel_out to dingo Ds
