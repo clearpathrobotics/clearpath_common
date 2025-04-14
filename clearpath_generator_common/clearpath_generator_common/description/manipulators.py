@@ -71,6 +71,7 @@ class ManipulatorDescription():
                 self.NAME: manipulator.name,
                 self.PARENT: manipulator.parent,
             }
+            self.parameters.update(manipulator.get_urdf_parameters())
 
         @property
         def name(self) -> str:
@@ -123,7 +124,6 @@ class ManipulatorDescription():
         def __init__(self, arm: BaseArm) -> None:
             super().__init__(arm)
             self.parameters.pop(self.PORT)
-            self.parameters.update(arm.get_urdf_parameters())
 
     class FrankaDescription(ArmDescription):
         IP = Franka.IP_ADDRESS
