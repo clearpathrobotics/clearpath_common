@@ -59,6 +59,7 @@
                     <falloff>1.0</falloff>
                 </spot>
                 <cast_shadows>true</cast_shadows>
+                <visualize>false</visualize>
             </light>
             <plugin name='${name}_attach_light' filename='libAttachLightPlugin.so'>
                 <link_name>${name}_light_link</link_name>
