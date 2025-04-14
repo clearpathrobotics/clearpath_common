@@ -55,7 +55,7 @@
     <joint name="${name}_front_camera_mount_joint" type="fixed">
       <parent link="${name}_link" />
       <child link="${name}_front_camera_mount" />
-      <origin xyz="0.055 0 0.40896" rpy="3.14159 0 0" />
+      <origin xyz="0.0775 0 0.40896" rpy="0 0 0" />
     </joint>
 
     <!-- rear-facing camera suspended under sensor arch -->
@@ -63,7 +63,33 @@
     <joint name="${name}_rear_camera_mount_joint" type="fixed">
       <parent link="${name}_link" />
       <child link="${name}_rear_camera_mount" />
-      <origin xyz="-0.071992 0 0.4036838" rpy="0 0.6021385919380436 3.14159" />
+      <origin xyz="-0.09053483924399536 0 0.39093965966919125" rpy="0 0.6021385919380436 3.14159" />
+    </joint>
+
+    <!-- corner mounts for lights, etc... -->
+    <link name="${name}_front_left_corner_mount" />
+    <joint name="${name}_front_left_corner_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_front_left_corner_mount" />
+      <origin xyz="0.07 0.310 0.44536" rpy="0 0 0" />
+    </joint>
+    <link name="${name}_front_right_corner_mount" />
+    <joint name="${name}_front_right_corner_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_front_right_corner_mount" />
+      <origin xyz="0.07 -0.310 0.44536" rpy="0 0 0" />
+    </joint>
+    <link name="${name}_rear_left_corner_mount" />
+    <joint name="${name}_rear_left_corner_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_rear_left_corner_mount" />
+      <origin xyz="-0.07 0.310 0.44536" rpy="0 0 3.14159" />
+    </joint>
+    <link name="${name}_rear_right_corner_mount" />
+    <joint name="${name}_rear_right_corner_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_rear_right_corner_mount" />
+      <origin xyz="-0.07 -0.310 0.44536" rpy="0 0 3.14159" />
     </joint>
 
   </xacro:macro>
