@@ -57,12 +57,13 @@ class TestRobotLaunchGenerator:
                     sample,
                     e.args[0],
                 ))
+                continue
+            if 'stereolabs' in src:
+                continue
             # Try to Load Xacro
             try:
                 xacro.process_file(os.path.join(os.path.dirname(dst), 'robot.urdf.xacro')).toxml()
-            except xacro.XacroException as e:
-                if 'stereolabs':
-                    continue
+            except Exception as e:
                 errors.append("Sample '%s' xacro failed to load: '%s'" % (
                     sample,
                     e.args[0],
