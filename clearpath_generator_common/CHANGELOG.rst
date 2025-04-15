@@ -2,6 +2,11 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Skip failed tests
+* Contributors: Luis Camero
+
 1.3.1 (2025-04-15)
 ------------------
 * Skip stereolabs test
