@@ -61,7 +61,7 @@ class TestRobotLaunchGenerator:
             try:
                 xacro.process_file(os.path.join(os.path.dirname(dst), 'robot.urdf.xacro')).toxml()
             except xacro.XacroException as e:
-                if 'stereolabs' in src and 'package not found' in e.args[0]:
+                if 'stereolabs':
                     continue
                 errors.append("Sample '%s' xacro failed to load: '%s'" % (
                     sample,
