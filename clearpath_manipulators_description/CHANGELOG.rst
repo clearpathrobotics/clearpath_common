@@ -2,6 +2,9 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.2.0 (2025-03-13)
 ------------------
 * Feature Franka (`#171 <https://github.com/clearpathrobotics/clearpath_common/issues/171>`_)

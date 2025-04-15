@@ -2,6 +2,12 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Add delay to manipulator controller (`#182 <https://github.com/clearpathrobotics/clearpath_common/issues/182>`_)
+* Feature: Manipulator URDF Parameters (`#181 <https://github.com/clearpathrobotics/clearpath_common/issues/181>`_)
+* Contributors: Luis Camero
+
 1.2.0 (2025-03-13)
 ------------------
 * Fix: Only use IMU for angular velocity (`#175 <https://github.com/clearpathrobotics/clearpath_common/issues/175>`_)

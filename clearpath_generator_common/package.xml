@@ -16,10 +16,10 @@
 
   <depend>moveit_setup_srdf_plugins</depend>
 
-  <exec_depend version_gte="1.0.0">clearpath_config</exec_depend>
-  <exec_depend version_gte="1.0.0">clearpath_control</exec_depend>
-  <exec_depend version_gte="1.0.0">clearpath_description</exec_depend>
-  <exec_depend version_gte="1.0.0">clearpath_manipulators</exec_depend>
+  <exec_depend version_gte="1.3.0">clearpath_config</exec_depend>
+  <exec_depend version_gte="1.3.0">clearpath_control</exec_depend>
+  <exec_depend version_gte="1.3.0">clearpath_description</exec_depend>
+  <exec_depend version_gte="1.3.0">clearpath_manipulators</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

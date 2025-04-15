@@ -2,6 +2,11 @@
 Changelog for package clearpath_manipulators
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Add delay to manipulator controller (`#182 <https://github.com/clearpathrobotics/clearpath_common/issues/182>`_)
+* Contributors: Luis Camero
+
 1.2.0 (2025-03-13)
 ------------------
 * Feature: MoveIt Parameters and Enable (`#166 <https://github.com/clearpathrobotics/clearpath_common/issues/166>`_)

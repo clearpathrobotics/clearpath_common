@@ -2,13 +2,16 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.2.0 (2025-03-13)
 ------------------
 * Backport Fix: Sensor depends (`#129 <https://github.com/clearpathrobotics/clearpath_common/issues/129>`_) (`#167 <https://github.com/clearpathrobotics/clearpath_common/issues/167>`_)
   * Remove the package initializations that depend on robot packages
   * Add a copy of the imu_filter parameters from clearpath_sensors to clearpath_control. Change the default IMU filter config path to point to this file. Remove more unneeded initializations of clearpath_robot packages
   Co-authored-by: Chris Iverach-Brereton <59611394+civerachb-cpr@users.noreply.github.com>
-* Contributors: luis-camero
+* Contributors: Luis Camero
 
 1.1.1 (2025-01-16)
 ------------------
