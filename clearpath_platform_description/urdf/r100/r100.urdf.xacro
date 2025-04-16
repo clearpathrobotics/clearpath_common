@@ -22,7 +22,7 @@
     <xacro:property name="deck_height" value="0.280" />
     <xacro:property name="deck_thickness" value="0.005" />
 
-    <xacro:property name="riser_height" value="0.055" />
+    <xacro:property name="riser_height" value="0.070" />
 
     <xacro:property name="axle_offset" value="0.0500" />
     <xacro:property name="rocker_offset" value="0.319" />
