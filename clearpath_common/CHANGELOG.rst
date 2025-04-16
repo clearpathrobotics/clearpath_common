@@ -2,6 +2,9 @@
 Changelog for package clearpath_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.0 (2025-04-11)
 ------------------
 * Move extras launch into a new service (`#185 <https://github.com/clearpathrobotics/clearpath_common/issues/185>`_)

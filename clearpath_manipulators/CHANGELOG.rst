@@ -2,6 +2,9 @@
 Changelog for package clearpath_manipulators
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.0 (2025-04-11)
 ------------------
 * Added delay to manipulator controller (`#191 <https://github.com/clearpathrobotics/clearpath_common/issues/191>`_)

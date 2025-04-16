@@ -2,6 +2,9 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.0 (2025-04-11)
 ------------------
 * Feature: Add CAN adapters (`#196 <https://github.com/clearpathrobotics/clearpath_common/issues/196>`_)

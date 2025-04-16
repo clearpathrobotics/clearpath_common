@@ -2,6 +2,11 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* [clearpath_platform_description] Updated Ridgeback R100 raiser height to 0.07m from 0.055m. (`#201 <https://github.com/clearpathrobotics/clearpath_common/issues/201>`_)
+* Contributors: Tony Baltovski
+
 2.3.0 (2025-04-11)
 ------------------
 
