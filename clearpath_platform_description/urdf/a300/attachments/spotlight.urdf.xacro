@@ -54,8 +54,8 @@
                 </attenuation>
                 <direction>0 0 0</direction>
                 <spot>
-                    <inner_angle>0.5235987755982988</inner_angle>
-                    <outer_angle>1.0471975511965976</outer_angle>
+                    <inner_angle>1.0471975511965976</inner_angle> <!-- 60 degrees -->
+                    <outer_angle>2.0943951023931953</outer_angle> <!-- 120 degrees -->
                     <falloff>1.0</falloff>
                 </spot>
                 <cast_shadows>true</cast_shadows>
