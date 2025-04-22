@@ -208,6 +208,23 @@ class SensorDescription():
                 self.CAP_TYPE: sensor.cap_type,
             })
 
+    class SeyondLidarDescription(Lidar3dDescription):
+
+        def __init__(self, sensor: BaseLidar3D) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.ANGULAR_RESOLUTION_H: 0.01,
+                self.ANGULAR_RESOLUTION_V: 0.01,
+                self.MINIMUM_ANGLE_H: -1.0471975511965976,
+                self.MAXIMUM_ANGLE_H: 1.0471975511965976,
+                self.MINIMUM_ANGLE_V: -0.6108652381980153,
+                self.MAXIMUM_ANGLE_V: 0.6108652381980153,
+                self.MINIMUM_RANGE: 0.1,
+                self.MAXIMUM_RANGE: 150.0,
+                self.UPDATE_RATE: 20  # TODO: link to clearpath_config property
+            })
+
     class ImuDescription(BaseDescription):
         UPDATE_RATE = 'update_rate'
 
@@ -280,7 +297,7 @@ class SensorDescription():
         AxisCamera.SENSOR_MODEL: AxisCameraDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
         OusterOS1.SENSOR_MODEL: OusterOS1Description,
-        SeyondLidar.SENSOR_MODEL: Lidar3dDescription,
+        SeyondLidar.SENSOR_MODEL: SeyondLidarDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
         RedshiftUM7.SENSOR_MODEL: ImuDescription,
