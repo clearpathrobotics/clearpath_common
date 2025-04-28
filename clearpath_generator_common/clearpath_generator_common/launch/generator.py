@@ -58,6 +58,10 @@ class LaunchGenerator(BaseGenerator):
             shutil.rmtree(self.platform_extras_launch_path)
         except FileNotFoundError:
             pass
+        except PermissionError as e:
+            print(e.args)
+            print(f"All sub directories and files in '/etc/clearpath/'"
+                  "must be owned by the user in the configuration file.")
 
         try:
             shutil.rmtree(self.manipulators_launch_path)
