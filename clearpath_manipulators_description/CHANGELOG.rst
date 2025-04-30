@@ -2,6 +2,9 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.1 (2025-04-16)
 ------------------
 
@@ -15,7 +18,7 @@ Changelog for package clearpath_manipulators_description
 * Fast Forward Fix: Isolate UR Client Library in URDF (`#195 <https://github.com/clearpathrobotics/clearpath_common/issues/195>`_)
   * Fix: Isolate Universal Robots driver and client library dependencies (`#164 <https://github.com/clearpathrobotics/clearpath_common/issues/164>`_)
   * Update fake to mock
-* Contributors: luis-camero
+* Contributors: Luis Camero
 
 2.2.1 (2025-04-07)
 ------------------
@@ -30,7 +33,7 @@ Changelog for package clearpath_manipulators_description
   - Add lift description
   - Add lifts to generators
 * Updated URDF
-* Contributors: Luis Camero, luis-camero
+* Contributors: Luis Camero
 
 2.0.3 (2025-01-21)
 ------------------
