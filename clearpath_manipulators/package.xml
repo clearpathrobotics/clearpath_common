@@ -21,6 +21,7 @@
   <exec_depend>moveit_planners</exec_depend>
   <exec_depend>moveit_ros_move_group</exec_depend>
   <exec_depend>moveit_ros_warehouse</exec_depend>
+  <exec_depend>moveit_setup_srdf_plugins</exec_depend>
   <exec_depend>moveit_simple_controller_manager</exec_depend>
   <exec_depend>position_controllers</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
