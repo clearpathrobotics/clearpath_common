@@ -48,6 +48,7 @@ class LinkDescription():
 
         NAME = 'name'
         PARENT_LINK = 'parent_link'
+        RGBA = 'rgba'
 
         def __init__(self, link: BaseLink) -> None:
             self.link = link
@@ -57,7 +58,7 @@ class LinkDescription():
 
             self.parameters = {
                 self.NAME: self.link.name,
-                self.PARENT_LINK: self.link.parent
+                self.PARENT_LINK: self.link.parent,
             }
 
         @property
@@ -74,7 +75,8 @@ class LinkDescription():
         def __init__(self, link: Box) -> None:
             super().__init__(link)
             self.parameters.update({
-                self.SIZE: str(link.size).strip('[]').replace(',', '')
+                self.SIZE: str(link.size).strip('[]').replace(',', ''),
+                self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
             })
 
     class CylinderDescription(BaseDescription):
@@ -85,7 +87,8 @@ class LinkDescription():
             super().__init__(link)
             self.parameters.update({
                 self.RADIUS: link.radius,
-                self.LENGTH: link.length
+                self.LENGTH: link.length,
+                self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
             })
 
     class SphereDescription(BaseDescription):
@@ -94,7 +97,8 @@ class LinkDescription():
         def __init__(self, link: Sphere) -> None:
             super().__init__(link)
             self.parameters.update({
-                self.RADIUS: link.radius
+                self.RADIUS: link.radius,
+                self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
             })
 
     class MeshDescription(BaseDescription):
@@ -105,11 +109,13 @@ class LinkDescription():
             if (link.visual.package):
                 self.parameters.update({
                     self.VISUAL: os.path.join('package://' + link.visual.package,
-                                              File.clean(link.visual.path, make_abs=False))
+                                              File.clean(link.visual.path, make_abs=False)),
+                    self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
                 })
             else:
                 self.parameters.update({
-                    self.VISUAL: 'file://' + File.clean(link.visual.path, make_abs=False)
+                    self.VISUAL: 'file://' + File.clean(link.visual.path, make_abs=False),
+                    self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
                 })
 
     MODEL = {

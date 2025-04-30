@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="cylinder" params="name parent_link radius length *origin">
+  <xacro:macro name="cylinder" params="name parent_link radius length rgba *origin">
     <link name="${name}_link">
       <visual>
         <geometry>
           <cylinder radius="${radius}" length="${length}"/>
         </geometry>
-        <material name="clearpath_dark_grey"/>
+        <material name="${name}_rgba">
+          <color rgba="${rgba}" />
+        </material>
       </visual>
       <collision>
         <geometry>
           <cylinder radius="${radius}" length="${length}"/>
         </geometry>
-        <material name="clearpath_dark_grey"/>
       </collision>
     </link>
 

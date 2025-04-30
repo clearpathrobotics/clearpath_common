@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="mesh" params="name parent_link visual *origin">
+  <xacro:macro name="mesh" params="name parent_link visual rgba *origin">
     <link name="${name}_link">
       <visual>
         <geometry>
           <mesh filename="${visual}"/>
         </geometry>
-        <material name="clearpath_dark_grey"/>
+        <material name="${name}_rgba">
+          <color rgba="${rgba}" />
+        </material>
       </visual>
       <collision>
         <geometry>
           <mesh filename="${visual}"/>
         </geometry>
-        <material name="clearpath_dark_grey"/>
       </collision>
     </link>
 
