@@ -49,6 +49,7 @@ class LinkDescription():
         NAME = 'name'
         PARENT_LINK = 'parent_link'
         RGBA = 'rgba'
+        COLLISION_ENABLE = 'collision'
 
         def __init__(self, link: BaseLink) -> None:
             self.link = link
@@ -89,6 +90,7 @@ class LinkDescription():
                 self.RADIUS: link.radius,
                 self.LENGTH: link.length,
                 self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
+                self.COLLISION_ENABLE: self.link.collision_enable,
             })
 
     class SphereDescription(BaseDescription):
@@ -99,6 +101,7 @@ class LinkDescription():
             self.parameters.update({
                 self.RADIUS: link.radius,
                 self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
+                self.COLLISION_ENABLE: self.link.collision_enable,
             })
 
     class MeshDescription(BaseDescription):
@@ -106,16 +109,19 @@ class LinkDescription():
 
         def __init__(self, link: Mesh) -> None:
             super().__init__(link)
+            self.parameters.update({
+                self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
+                self.COLLISION_ENABLE: self.link.collision_enable,
+            })
             if (link.visual.package):
                 self.parameters.update({
                     self.VISUAL: os.path.join('package://' + link.visual.package,
                                               File.clean(link.visual.path, make_abs=False)),
-                    self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
+
                 })
             else:
                 self.parameters.update({
                     self.VISUAL: 'file://' + File.clean(link.visual.path, make_abs=False),
-                    self.RGBA: str(self.link.rgba).strip('[]').replace(',', ''),
                 })
 
     MODEL = {
