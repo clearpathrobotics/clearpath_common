@@ -43,7 +43,11 @@ class LaunchWriter():
         self.nodes: List[LaunchFile.Node] = []
         self.declared_launch_args: List[LaunchFile.LaunchArg] = []
         self.processes: List[LaunchFile.Process] = []
-        self.file = open(self.launch_file.get_full_path(), 'w+')
+        try:
+            self.file = open(self.launch_file.get_full_path(), 'w+')
+        except PermissionError as e:
+            print(e.args)
+            print("Cannot open this file")
 
     def write(self, string, indent_level=1):
         self.file.write('{0}{1}\n'.format(self.tab * indent_level, string))
