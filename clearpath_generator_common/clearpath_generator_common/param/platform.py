@@ -56,6 +56,7 @@ class PlatformParam():
     TELEOP_INTERACTIVE_MARKERS = 'teleop_interactive_markers'
     TELEOP_JOY = 'teleop_joy'
     TWIST_MUX = 'twist_mux'
+    RECORDER = 'recorder'
 
     NOT_APPLICABLE = 'not_applicable'
 
@@ -67,7 +68,8 @@ class PlatformParam():
       LOCALIZATION,
       TELEOP_INTERACTIVE_MARKERS,
       TELEOP_JOY,
-      TWIST_MUX
+      TWIST_MUX,
+      RECORDER
     ]
 
     class BaseParam():
@@ -508,6 +510,15 @@ class PlatformParam():
             super().__init__(parameter, clearpath_config, param_path)
             self.default_parameter_file_path = 'config'
 
+    class RecorderParam(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str):
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_path = 'config'
+            self.default_parameter_file_package = Package(self.CLEARPATH_DIAGNOSTICS)
+
     PARAMETER = {
         IMU_FILTER: ImuFilterParam,
         DIAGNOSTIC_AGGREGATOR: DiagnosticsAggregatorParam,
@@ -515,6 +526,7 @@ class PlatformParam():
         LOCALIZATION: LocalizationParam,
         TELEOP_JOY: TeleopJoyParam,
         TWIST_MUX: TwistMuxParam,
+        RECORDER: RecorderParam,
     }
 
     def __new__(cls,
