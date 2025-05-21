@@ -236,6 +236,28 @@ class PlatformParam():
                                     ],
                                     'contains': ['MCU']}}}}})
 
+            # Add cooling for A300 only for now
+            if self.clearpath_config.get_platform_model() == Platform.A300:
+                self.param_file.update(
+                    {self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'cooling': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Cooling',
+                                    'contains': ['Fan', 'Thermal']}}}}})
+
+            if self.clearpath_config.platform.enable_ekf:
+                self.param_file.update(
+                    {self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'odometry': {
+                                    'expected': [
+                                        'ekf_node: Filter diagnostic updater',
+                                        'ekf_node: odometry/filtered topic status',
+                                    ]}}}}})
+
             sensor_analyzers = {}
 
             # List all topics to be monitored from each launched sensor
