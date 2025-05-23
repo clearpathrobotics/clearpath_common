@@ -1,0 +1,54 @@
+# Note that this file is the default configuration but some elements are appended or overridden
+# in clearpath_generator_common
+diagnostic_aggregator:
+  ros__parameters:
+    path: Clearpath Diagnostics
+    platform:
+      type: diagnostic_aggregator/AnalyzerGroup
+      path: Platform
+      analyzers:
+        power:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Power
+          expected: [
+            'clearpath_diagnostic_updater: Battery Management System',
+            'clearpath_diagnostic_updater: Power Status'
+          ]
+          contains: [ 'Battery', 'Power' ]
+        stop_status:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: E-stop Status
+          expected: [ 'clearpath_diagnostic_updater: E-stop Status' ]
+          contains: [ 'E-stop' ]
+        lighting:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Lighting
+          contains: [ 'Light' ]
+        drive:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Drive System
+          expected: [
+            'controller_manager: Controller Manager Activity',
+            'controller_manager: Controllers Activity',
+            'controller_manager: Hardware Components Activity',
+          ]
+          contains: [
+            'lynx',
+            'puma',
+            'sevcon',
+            'controller_manager',
+            'twist_mux',
+            'joy_node'
+          ]
+        odometry:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Odometry
+          contains: [ 'odometry', 'ekf_node' ]
+        networking:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Networking
+          contains: [ 'Wi-Fi' ]
+    # sensors:
+    #   type: diagnostic_aggregator/AnalyzerGroup
+    #   path: Sensors
+    #   analyzers: # Must be populated with the sensor categories
