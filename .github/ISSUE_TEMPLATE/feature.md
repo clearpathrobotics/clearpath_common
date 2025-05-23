@@ -11,4 +11,4 @@ assignees: clearpathrobotics/clearpath-platform-team
 A clear and concise description of what you want to happen.
 
 **Other notes**
-Add anything else you thing is important.
+Add anything else you think is important.
