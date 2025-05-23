@@ -11,7 +11,7 @@ assignees: clearpathrobotics/clearpath-platform-team
  - OS: (e.g. Ubuntu 24.04)
  - ROS 2 Distro: (e.g. Jazzy)
  - Built from source or installed:
- - Package version: (if from repository, give version from `sudo dpkg -s ros-$ROS_VERSION-clearpath-common`, if from source, give commit hash)
+ - Package version: (if from repository, give version from `sudo dpkg -s ros-$ROS_DISTRO-clearpath-common`, if from source, give commit hash)
  - Real hardware or simulation:
 
  **Expected behaviour**
@@ -28,4 +28,4 @@ Provide the steps to reproduce:
 
 
 **Other notes**
-Add anything else you thing is important.
+Add anything else you think is important.
