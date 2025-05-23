@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>clearpath_diagnostics</name>
+  <version>2.4.0</version>
+  <description>Clearpath Robot Diagnostics Monitor</description>
+
+  <maintainer email="hluo@clearpathrobotics.com">Hilary Luo</maintainer>
+  <license>BSD</license>
+
+  <author email="rkreinin@clearpathrobotics.com">Roni Kreinin</author>
+  <author email="hluo@clearpathrobotics.com">Hilary Luo</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend version_gte="2.4.0">clearpath_platform_msgs</depend>
+  <depend>diagnostic_updater</depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+
+  <exec_depend>diagnostic_aggregator</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
