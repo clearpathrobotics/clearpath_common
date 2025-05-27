@@ -51,6 +51,7 @@ class PlatformParam():
     CONTROL = 'control'
     DIAGNOSTIC_AGGREGATOR = 'diagnostic_aggregator'
     DIAGNOSTIC_UPDATER = 'diagnostic_updater'
+    FOXGLOVE_BRIDGE = 'foxglove_bridge'
     IMU_FILTER = 'imu_filter'
     LOCALIZATION = 'localization'
     TELEOP_INTERACTIVE_MARKERS = 'teleop_interactive_markers'
@@ -63,6 +64,7 @@ class PlatformParam():
       CONTROL,
       DIAGNOSTIC_AGGREGATOR,
       DIAGNOSTIC_UPDATER,
+      FOXGLOVE_BRIDGE,
       IMU_FILTER,
       LOCALIZATION,
       TELEOP_INTERACTIVE_MARKERS,
@@ -431,6 +433,15 @@ class PlatformParam():
                 'rate': float(sensor.get_topic_rate(topic_key))
             }
 
+    class FoxgloveBridgeParam(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_package = Package(self.CLEARPATH_DIAGNOSTICS)
+            self.default_parameter_file_path = 'config'
+
     class LocalizationParam(BaseParam):
         EKF_NODE = 'ekf_node'
         imu_config = [False, False, False,
@@ -512,6 +523,7 @@ class PlatformParam():
         IMU_FILTER: ImuFilterParam,
         DIAGNOSTIC_AGGREGATOR: DiagnosticsAggregatorParam,
         DIAGNOSTIC_UPDATER: DiagnosticsUpdaterParam,
+        FOXGLOVE_BRIDGE: FoxgloveBridgeParam,
         LOCALIZATION: LocalizationParam,
         TELEOP_JOY: TeleopJoyParam,
         TWIST_MUX: TwistMuxParam,
