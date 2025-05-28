@@ -195,6 +195,11 @@ void ClearpathDiagnosticUpdater::firmware_diagnostic(DiagnosticStatusWrapper & s
                   "New firmware available: (%s) -> (%s)",
                   mcu_firmware_version_.c_str(),
                   latest_apt_firmware_version_.c_str());
+  } else if (mcu_firmware_version_ > latest_apt_firmware_version_) {
+    stat.summaryf(DiagnosticStatus::OK,
+                  "Firmware is newer than apt package: (%s) > (%s)",
+                  mcu_firmware_version_.c_str(),
+                  latest_apt_firmware_version_.c_str());
   } else {
     stat.summaryf(DiagnosticStatus::WARN,
                   "ros-%s-clearpath-firmware package is outdated",
