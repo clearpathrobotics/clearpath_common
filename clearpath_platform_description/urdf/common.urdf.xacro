@@ -70,7 +70,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     - level (i.e. height) is w.r.t. the base level
     -->
     <xacro:macro name="row_mounts" params="name parent_link row column columns x:=0 y:=0 z:=0 spacing:=0.08  iteration:=0">
-      <xacro:property name="chr" value="${dict(d97='a', d98='b', d99='c', d100='d', d101='e', d102='f', d103='g', d104='h')}" />
+      <xacro:property name="chr" value="${dict(d97='a', d98='b', d99='c', d100='d', d101='e', d102='f', d103='g', d104='h', d105='i', d106='j', d107='k', d108='l', d109='m', d110='n', d111='o', d112='p', d113='q', d114='r', d115='s', d116='t', d117='u', d118='v', d119='w', d120='x',
+      d121='y', d122='z')}" />
       <xacro:if value="${columns > iteration}">
         <xacro:property name="coordinate" value="${chr['d' + str(python.ord(column))] + python.str(row)}" />
         <xacro:mount
