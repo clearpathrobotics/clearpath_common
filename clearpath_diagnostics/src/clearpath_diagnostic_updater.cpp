@@ -177,11 +177,11 @@ void ClearpathDiagnosticUpdater::firmware_diagnostic(DiagnosticStatusWrapper & s
 {
   if (latest_apt_firmware_version_ == "not_found") {
     stat.summaryf(DiagnosticStatus::ERROR,
-                  "ros-%s-clearpath-firmware package not found",
+                  "ros-%s-clearpath-firmware package not found. Restart service to re-evaluate.",
                   ros_distro_.c_str());
   } else if (latest_apt_firmware_version_ == UNKNOWN) {
     stat.summaryf(DiagnosticStatus::ERROR,
-                  "ros-%s-clearpath-firmware package version not provided in config",
+                  "ros-%s-clearpath-firmware package version not provided in config. Restart service to re-evaluate.",
                   ros_distro_.c_str());
   } else if (mcu_firmware_version_ == UNKNOWN) {
     stat.summary(DiagnosticStatus::ERROR,
@@ -192,12 +192,17 @@ void ClearpathDiagnosticUpdater::firmware_diagnostic(DiagnosticStatusWrapper & s
                   mcu_firmware_version_.c_str());
   } else if (mcu_firmware_version_ < latest_apt_firmware_version_) {
     stat.summaryf(DiagnosticStatus::WARN,
-                  "New firmware available: (%s) -> (%s)",
+                  "New firmware available: (%s) -> (%s). Restart service to re-evaluate.",
+                  mcu_firmware_version_.c_str(),
+                  latest_apt_firmware_version_.c_str());
+  } else if (mcu_firmware_version_ > latest_apt_firmware_version_) {
+    stat.summaryf(DiagnosticStatus::OK,
+                  "Firmware is newer than apt package: (%s) > (%s)",
                   mcu_firmware_version_.c_str(),
                   latest_apt_firmware_version_.c_str());
   } else {
     stat.summaryf(DiagnosticStatus::WARN,
-                  "ros-%s-clearpath-firmware package is outdated",
+                  "ros-%s-clearpath-firmware package is outdated. Restart service to re-evaluate.",
                   ros_distro_.c_str());
   }
   stat.add("Latest Firmware Version Package", latest_apt_firmware_version_);
