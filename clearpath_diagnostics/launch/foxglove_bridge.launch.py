@@ -55,6 +55,7 @@ def generate_launch_description():
         namespace=namespace,
         output='screen',
         parameters=[parameters],
+        additional_env={'ROS_SUPER_CLIENT': 'True'},
     )
 
     ld = LaunchDescription()
