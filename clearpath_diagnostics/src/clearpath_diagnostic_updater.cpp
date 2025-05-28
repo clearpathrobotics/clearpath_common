@@ -67,7 +67,7 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   mcu_power_rate_ = get_double_param("mcu_power_rate");
   mcu_power_rate_ = (std::isnan(mcu_power_rate_)) ? 10.0 : mcu_power_rate_;
   bms_state_rate_ = get_double_param("bms_state_rate");
-  bms_state_rate_ = (std::isnan(bms_state_rate_)) ? 1.0 : bms_state_rate_;
+  bms_state_rate_ = (std::isnan(bms_state_rate_)) ? 1.5 : bms_state_rate_;
   stop_status_rate_ = get_double_param("stop_status_rate");
   stop_status_rate_ = (std::isnan(stop_status_rate_)) ? 1.0 : stop_status_rate_;
 
@@ -125,7 +125,7 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   mcu_power_freq_status_ = std::make_shared<FrequencyStatus>(
     FrequencyStatusParam(&mcu_power_rate_, &mcu_power_rate_, 0.1, 5));
   bms_state_freq_status_ = std::make_shared<FrequencyStatus>(
-    FrequencyStatusParam(&bms_state_rate_, &bms_state_rate_, 0.15, 10));
+    FrequencyStatusParam(&bms_state_rate_, &bms_state_rate_, 0.35, 10));
   stop_status_freq_status_ = std::make_shared<FrequencyStatus>(
     FrequencyStatusParam(&stop_status_rate_, &stop_status_rate_, 0.1, 10));
 
