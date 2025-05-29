@@ -13,7 +13,8 @@ KERNEL=="hidraw*", SUBSYSTEM=="hidraw", KERNELS=="*:054C:05C4.*", MODE="0666"
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="054c", ATTRS{idProduct}=="09cc", MODE="0666"
 # Bluetooth
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", KERNELS=="*:054C:09CC.*", MODE="0666"
-KERNEL=="js*", SUBSYSTEM=="input", ATTRS{name}=="Wireless Controller", MODE="0666", SYMLINK+="input/ps4"
+# Disabled to use DS4DRV Managed Wireless Controller
+# KERNEL=="js*", SUBSYSTEM=="input", ATTRS{name}=="Wireless Controller", MODE="0666", SYMLINK+="input/ps4"
 
 
 # Sony PlayStation DualShock 5
