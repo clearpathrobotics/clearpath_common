@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.5.0 (2025-05-29)
+------------------
 * Fix the velocity limits for Dingo-O using Logitech controllers (`#207 <https://github.com/clearpathrobotics/clearpath_common/issues/207>`_)
 * Increase A300 teleop normal speed to 0.4, reduce turbo speed to 1.5 (`#206 <https://github.com/clearpathrobotics/clearpath_common/issues/206>`_)
 * Contributors: Chris Iverach-Brereton

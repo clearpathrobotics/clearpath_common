@@ -2,8 +2,8 @@
 Changelog for package clearpath_mounts_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.5.0 (2025-05-29)
+------------------
 * Fix: Post and Riser Leg Mounts (`#216 <https://github.com/clearpathrobotics/clearpath_common/issues/216>`_)
 * Contributors: luis-camero
 
