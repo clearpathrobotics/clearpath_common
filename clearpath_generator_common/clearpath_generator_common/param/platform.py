@@ -51,6 +51,7 @@ class PlatformParam():
     CONTROL = 'control'
     DIAGNOSTIC_AGGREGATOR = 'diagnostic_aggregator'
     DIAGNOSTIC_UPDATER = 'diagnostic_updater'
+    FOXGLOVE_BRIDGE = 'foxglove_bridge'
     IMU_FILTER = 'imu_filter'
     LOCALIZATION = 'localization'
     TELEOP_INTERACTIVE_MARKERS = 'teleop_interactive_markers'
@@ -63,6 +64,7 @@ class PlatformParam():
       CONTROL,
       DIAGNOSTIC_AGGREGATOR,
       DIAGNOSTIC_UPDATER,
+      FOXGLOVE_BRIDGE,
       IMU_FILTER,
       LOCALIZATION,
       TELEOP_INTERACTIVE_MARKERS,
@@ -223,8 +225,8 @@ class PlatformParam():
 
             # Add MCU diagnostic category for all platforms except A200
             if self.clearpath_config.get_platform_model() != Platform.A200:
-                self.param_file.update(
-                    {self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
                             'analyzers': {
                                 'mcu': {
@@ -234,7 +236,44 @@ class PlatformParam():
                                         'clearpath_diagnostic_updater: MCU Firmware Version',
                                         'clearpath_diagnostic_updater: MCU Status'
                                     ],
-                                    'contains': ['MCU']}}}}})
+                                    'contains': ['MCU']
+                                }
+                            }
+                        }
+                    }
+                })
+
+            # Add cooling for A300 only for now
+            if self.clearpath_config.get_platform_model() == Platform.A300:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'cooling': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Cooling',
+                                    'contains': ['Fan', 'Thermal']
+                                }
+                            }
+                        }
+                    }
+                })
+
+            if self.clearpath_config.platform.enable_ekf:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'odometry': {
+                                    'expected': [
+                                        'ekf_node: Filter diagnostic updater',
+                                        'ekf_node: odometry/filtered topic status',
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                })
 
             sensor_analyzers = {}
 
@@ -278,12 +317,15 @@ class PlatformParam():
 
             # Update aggregator sensor sections based on the robot.yaml
             if sensor_analyzers:
-                self.param_file.update(
-                    {self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'sensors': {
                             'type': 'diagnostic_aggregator/AnalyzerGroup',
                             'path': 'Sensors',
-                            'analyzers': sensor_analyzers}}})
+                            'analyzers': sensor_analyzers
+                        }
+                    }
+                })
 
     class DiagnosticsUpdaterParam(BaseParam):
         """Parameter file for Clearpath Diagnostics indicating which topics to monitor."""
@@ -304,9 +346,12 @@ class PlatformParam():
 
             # Update parameters based on the robot.yaml
             platform_model = self.clearpath_config.get_platform_model()
-            self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {
-                'serial_number': self.clearpath_config.get_serial_number(),
-                'platform_model': platform_model}})
+            self.param_file.update({
+                self.DIAGNOSTIC_UPDATER_NODE: {
+                    'serial_number': self.clearpath_config.get_serial_number(),
+                    'platform_model': platform_model
+                }
+            })
 
             if use_sim_time:
                 latest_apt_firmware_version = 'simulated'
@@ -328,10 +373,13 @@ class PlatformParam():
                     print(f'\033[93mWarning: ros-{ROS_DISTRO}-clearpath-firmware'
                           ' package not found\033[0m')
 
-            self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {
-                'ros_distro': ROS_DISTRO,
-                'latest_apt_firmware_version': latest_apt_firmware_version,
-                'installed_apt_firmware_version': installed_apt_firmware_version}})
+            self.param_file.update({
+                self.DIAGNOSTIC_UPDATER_NODE: {
+                    'ros_distro': ROS_DISTRO,
+                    'latest_apt_firmware_version': latest_apt_firmware_version,
+                    'installed_apt_firmware_version': installed_apt_firmware_version
+                }
+            })
 
             # List all topics to be monitored from each launched sensor
             for sensor in self.clearpath_config.sensors.get_all_sensors():
@@ -382,7 +430,17 @@ class PlatformParam():
             """
             self.diag_dict[sensor.get_topic_name(topic_key, local=True)] = {
                 'type': sensor.get_topic_type(topic_key),
-                'rate': float(sensor.get_topic_rate(topic_key))}
+                'rate': float(sensor.get_topic_rate(topic_key))
+            }
+
+    class FoxgloveBridgeParam(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_package = Package(self.CLEARPATH_DIAGNOSTICS)
+            self.default_parameter_file_path = 'config'
 
     class LocalizationParam(BaseParam):
         EKF_NODE = 'ekf_node'
@@ -465,6 +523,7 @@ class PlatformParam():
         IMU_FILTER: ImuFilterParam,
         DIAGNOSTIC_AGGREGATOR: DiagnosticsAggregatorParam,
         DIAGNOSTIC_UPDATER: DiagnosticsUpdaterParam,
+        FOXGLOVE_BRIDGE: FoxgloveBridgeParam,
         LOCALIZATION: LocalizationParam,
         TELEOP_JOY: TeleopJoyParam,
         TWIST_MUX: TwistMuxParam,

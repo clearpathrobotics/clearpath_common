@@ -48,10 +48,12 @@ teleop_twist_joy_node:
     axis_linear.x: 1
     axis_linear.y: 0
     scale_linear.x: 0.4
+    scale_linear.y: 0.4
     scale_linear_turbo.x: 1.0
+    scale_linear_turbo.y: 1.0
     axis_angular.yaw: 3
-    scale_angular.yaw: 0.6
-    scale_angular_turbo.yaw: 1.0
+    scale_angular.yaw: 0.5
+    scale_angular_turbo.yaw: 1.4
     enable_button: 4
     enable_turbo_button: 5
 joy_node:

@@ -1,0 +1,8 @@
+clearpath_diagnostic_updater:
+  ros__parameters:
+    serial_number: unknown
+    platform_model: unknown
+    ros_distro: unknown
+    latest_apt_firmware_version: unknown
+    installed_apt_firmware_version: unknown
+    # topics: # Must be populated with the topics to be monitored

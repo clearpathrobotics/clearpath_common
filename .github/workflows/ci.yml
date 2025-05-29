@@ -43,6 +43,7 @@ jobs:
             clearpath_control
             clearpath_customization
             clearpath_description
+            clearpath_diagnostics
             clearpath_generator_common
             clearpath_mounts_description
             clearpath_platform_description
@@ -64,6 +65,7 @@ jobs:
             clearpath_control
             clearpath_customization
             clearpath_description
+            clearpath_diagnostics
             clearpath_generator_common
             clearpath_mounts_description
             clearpath_platform_description
@@ -104,6 +106,7 @@ jobs:
             clearpath_control
             clearpath_customization
             clearpath_description
+            clearpath_diagnostics
             clearpath_generator_common
             clearpath_mounts_description
             clearpath_platform_description
@@ -141,6 +144,7 @@ jobs:
             clearpath_control
             clearpath_customization
             clearpath_description
+            clearpath_diagnostics
             clearpath_generator_common
             clearpath_mounts_description
             clearpath_platform_description
