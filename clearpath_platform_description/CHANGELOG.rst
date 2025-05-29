@@ -2,6 +2,11 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: PACS Limits (`#215 <https://github.com/clearpathrobotics/clearpath_common/issues/215>`_)
+* Contributors: luis-camero
+
 2.3.2 (2025-04-30)
 ------------------
 

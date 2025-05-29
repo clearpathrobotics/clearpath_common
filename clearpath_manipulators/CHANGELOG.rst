@@ -2,6 +2,9 @@
 Changelog for package clearpath_manipulators
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.2 (2025-04-30)
 ------------------
 * Add srdf plugins to package xml (`#204 <https://github.com/clearpathrobotics/clearpath_common/issues/204>`_)

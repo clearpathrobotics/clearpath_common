@@ -8,6 +8,19 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+Forthcoming
+-----------
+* Allow broad window of BMS message rates (`#218 <https://github.com/clearpathrobotics/clearpath_common/issues/218>`_)
+* Fix/fw version check (`#217 <https://github.com/clearpathrobotics/clearpath_common/issues/217>`_)
+  * Add condition for mcu firmware version newer than apt package
+  * Clarify wording for checks that are evaluated on boot
+* Fix: Foxglove Bridge Superclient (`#214 <https://github.com/clearpathrobotics/clearpath_common/issues/214>`_)
+* Feature: Foxglove Bridge (`#213 <https://github.com/clearpathrobotics/clearpath_common/issues/213>`_)
+  * Add foxglove bridge launch and parameter file
+  * Add foxglove bridge parameter to generator
+* Move clearpath_diagnostics to clearpath_common (`#211 <https://github.com/clearpathrobotics/clearpath_common/issues/211>`_)
+* Contributors: Hilary Luo, luis-camero
+
 2.3.2 (2025-04-16)
 ------------------
 

@@ -2,6 +2,11 @@
 Changelog for package clearpath_bt_joy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Disable symlink rule to rely on DS4DRV instead
+* Contributors: Luis Camero
+
 2.3.2 (2025-04-30)
 ------------------
 

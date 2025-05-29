@@ -2,6 +2,16 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Foxglove Bridge (`#213 <https://github.com/clearpathrobotics/clearpath_common/issues/213>`_)
+  * Add foxglove bridge launch and parameter file
+  * Add foxglove bridge parameter to generator
+* Move clearpath_diagnostics to clearpath_common (`#211 <https://github.com/clearpathrobotics/clearpath_common/issues/211>`_)
+* Add cooling and ekf-node diagnostic settings conditionally (`#209 <https://github.com/clearpathrobotics/clearpath_common/issues/209>`_)
+  * Add cooling and ekf-node diagnostic settings conditionally
+* Contributors: Hilary Luo, luis-camero
+
 2.3.2 (2025-04-30)
 ------------------
 
