@@ -27,7 +27,7 @@
         <joint name="${name}_face_joint" type="fixed">
             <parent link="${name}_link" />
             <child link="${name}_face" />
-            <origin xyz="0 -0.34 0.15" rpy="0 0 0" />
+            <origin xyz="0 -0.34 0.15" rpy="0 0 -${pi / 2}" />
         </joint>
     </xacro:macro>
 </robot>
