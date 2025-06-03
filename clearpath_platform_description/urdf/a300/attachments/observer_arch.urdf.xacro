@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://wiki.ros.org.xacro">
   <xacro:macro name="observer_arch" params="name parent_link:=default_mount model:=observer_arch *origin">
+
+    <!--
+      Main sensor arch
+    -->
     <link name="${name}_link">
       <visual>
         <geometry>
@@ -26,7 +30,54 @@
     </joint>
 
     <!--
-        Sensor mounting points
+      Standard antennas & accessories
+    -->
+    <link name="${name}_cellular_antenna">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_cellular_antenna.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="clearpath_black" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <geometry>
+          <!-- TODO: replace with box -->
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_cellular_antenna.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${name}_cellular_antenna_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_cellular_antenna" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="${name}_wifi_antennas">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_wifi_antennas.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="clearpath_black" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <geometry>
+          <!-- TODO: replace with dual cylinders -->
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_wifi_antennas.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${name}_wifi_antennas_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_wifi_antennas" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <!--
+      Sensor mounting points
     -->
 
     <link name="${name}_left_antenna_mount" />
