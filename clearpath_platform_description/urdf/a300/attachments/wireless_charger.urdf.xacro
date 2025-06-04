@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:macro name="wireless_charger" params="name parent_link:=base_link model:=default *origin">
+        <link name="${name}_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/wireless_charger.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+            <material name="clearpath_black" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </visual>
+        <collision>
+            <geometry>
+                 <box size="0.170 0.145 0.195" />
+            </geometry>
+            <origin xyz="0 -0.265 0.18" rpy="0 0 0" />
+        </collision>
+        </link>
+        <joint name="${name}_wireless_charger_joint" type="fixed">
+            <parent link="${parent_link}" />
+            <child link="${name}_link" />
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <link name="${name}_face" />
+        <joint name="${name}_face_joint" type="fixed">
+            <parent link="${name}_link" />
+            <child link="${name}_face" />
+            <origin xyz="0 -0.34 0.15" rpy="0 0 -${pi / 2}" />
+        </joint>
+    </xacro:macro>
+</robot>

@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org.xacro">
+    <xacro:macro name="spotlight" params="name parent_link:=default_mount model:=spotlight *origin">
+        <link name="${name}_link">
+            <visual>
+                <geometry>
+                    <box size="0.05 0.05 0.05" />
+                </geometry>
+                <origin xyz="0 0 0.025" rpy="0 0 0" />
+                <material name="black">
+                    <color rgba="0 0 0 1" />
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.05 0.05 0.05" />
+                </geometry>
+                <origin xyz="0 0 0.025" rpy="0 0 0" />
+            </collision>
+        </link>
+        <joint name="${name}_joint" type="fixed">
+            <parent link="${parent_link}" />
+            <child link="${name}_link" />
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <link name="${name}_light_link">
+            <visual>
+                <geometry>
+                    <cylinder radius="0.01" length="0.0001"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <material name="white">
+                    <color rgba="1 1 1 1" />
+                </material>
+            </visual>
+        </link>
+        <joint name="${name}_light_joint" type="fixed">
+            <parent link="${name}_link" />
+            <child link="${name}_light_link" />
+            <origin xyz="0.025 0 0.025" rpy="0 -1.5707963267948966 0" />
+        </joint>
+
+        <gazebo reference="${name}_light_link">
+            <light type="spot" name="${name}_light" relative_to="${name}_light_link">
+                <pose>0 0 0 0 0 0</pose>
+                <diffuse>1 1 1 0.5</diffuse>
+                <specular>.1 .1 .1 1</specular>
+                <attenuation>
+                    <range>20</range>
+                    <constant>0.8</constant>
+                    <linear>0.75</linear>
+                    <quadratic>0.01</quadratic>
+                </attenuation>
+                <direction>0 0 0</direction>
+                <spot>
+                    <inner_angle>1.0471975511965976</inner_angle> <!-- 60 degrees -->
+                    <outer_angle>2.0943951023931953</outer_angle> <!-- 120 degrees -->
+                    <falloff>1.0</falloff>
+                </spot>
+                <cast_shadows>true</cast_shadows>
+                <visualize>false</visualize>
+            </light>
+            <plugin name='${name}_attach_light' filename='libAttachLightPlugin.so'>
+                <link_name>${name}_light_link</link_name>
+                <light>
+                <pose>0 0 0 0 0 0</pose>
+                <light_name>${name}_light</light_name>
+                </light>
+            </plugin>
+            <selfCollide>false</selfCollide>
+        </gazebo>
+    </xacro:macro>
+</robot>

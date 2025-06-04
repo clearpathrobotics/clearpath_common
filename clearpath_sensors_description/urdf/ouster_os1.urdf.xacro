@@ -21,6 +21,7 @@
     name
     parent_link
     cap:=halo
+    base:=base
     *origin
     samples_h:=1024 min_ang_h:=${-pi} max_ang_h:=${pi}
     samples_v:=64   min_ang_v:=${-21.2 * pi/180} max_ang_v:=${21.2 * pi/180}
@@ -32,9 +33,16 @@
     <xacro:property name="lidar_height" value="0.05835"/>
     <xacro:property name="lidar_diameter" value="0.087"/>
 
-    <xacro:property name="base_mass" value="0."/>
-    <xacro:property name="base_height" value="0.0225"/>
-    <xacro:property name="base_length" value="0.110"/>
+    <xacro:if value="${base == 'base'}">
+      <xacro:property name="base_mass" value="0.0"/>
+      <xacro:property name="base_height" value="0.0225"/>
+      <xacro:property name="base_length" value="0.110"/>
+    </xacro:if>
+    <xacro:unless value="${base == 'base'}">
+      <xacro:property name="base_mass" value="0.0"/>
+      <xacro:property name="base_height" value="0.0"/>
+      <xacro:property name="base_length" value="0.0"/>
+    </xacro:unless>
 
     <xacro:property name="fins_mass" value="0.079"/>
     <xacro:property name="fins_height" value="0.022"/>
@@ -46,33 +54,38 @@
 
 
     <!-- Base Link -->
-    <link name="${name}_base_link">
-      <inertial>
-        <mass value="${base_mass}"/>
-        <origin xyz="0 0 ${base_height/2}"/>
-        <xacro:ouster_box_inertia
-          mass="${base_mass}"
-          x="${base_length}"
-          y="${base_length}"
-          z="${base_height}"
-        />
-      </inertial>
-      <visual>
-        <material name="ouster_grey">
-          <color rgba="0.8 0.8 0.8 1.0"/>
-        </material>
-        <origin xyz="0 0 ${base_height}"/>
-        <geometry>
-          <mesh filename="package://clearpath_sensors_description/meshes/ouster/os1_base.dae"/>
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 ${base_height/2}"/>
-        <geometry>
-          <box size="${base_length} ${base_length} ${base_height}"/>
-        </geometry>
-      </collision>
+    <xacro:if value="${base == 'base'}">
+      <link name="${name}_base_link">
+        <inertial>
+          <mass value="${base_mass}"/>
+          <origin xyz="0 0 ${base_height/2}"/>
+          <xacro:ouster_box_inertia
+            mass="${base_mass}"
+            x="${base_length}"
+            y="${base_length}"
+            z="${base_height}"
+          />
+        </inertial>
+        <visual>
+          <material name="ouster_grey">
+            <color rgba="0.8 0.8 0.8 1.0"/>
+          </material>
+          <origin xyz="0 0 ${base_height}"/>
+          <geometry>
+            <mesh filename="package://clearpath_sensors_description/meshes/ouster/os1_base.dae"/>
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 0 ${base_height/2}"/>
+          <geometry>
+            <box size="${base_length} ${base_length} ${base_height}"/>
+          </geometry>
+        </collision>
     </link>
+  </xacro:if>
+  <xacro:unless value="${base == 'base'}">
+    <link name="${name}_base_link" />
+  </xacro:unless>
 
     <!-- Lidar Link -->
     <link name="${name}_link">
