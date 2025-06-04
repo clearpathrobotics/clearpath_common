@@ -34,14 +34,14 @@
     <xacro:property name="lidar_diameter" value="0.087"/>
 
     <xacro:if value="${base == 'base'}">
-      <xacro:property name="base_mass" value="0."/>
+      <xacro:property name="base_mass" value="0.0"/>
       <xacro:property name="base_height" value="0.0225"/>
       <xacro:property name="base_length" value="0.110"/>
     </xacro:if>
     <xacro:unless value="${base == 'base'}">
-      <xacro:property name="base_mass" value="0."/>
-      <xacro:property name="base_height" value="0."/>
-      <xacro:property name="base_length" value="0."/>
+      <xacro:property name="base_mass" value="0.0"/>
+      <xacro:property name="base_height" value="0.0"/>
+      <xacro:property name="base_length" value="0.0"/>
     </xacro:unless>
 
     <xacro:property name="fins_mass" value="0.079"/>
