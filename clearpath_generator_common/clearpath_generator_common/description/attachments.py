@@ -129,9 +129,8 @@ class AttachmentsDescription():
         # A300
         A300Attachment.BUMPER: BumperDescription,
         A300Attachment.TOP_PLATE: BaseDescription,
-        A300Attachment.AMP_FRAME: BaseDescription,
-        A300Attachment.OBSERVER_BACKPACK: BaseDescription,
-        A300Attachment.OBSERVER_ARCH: BaseDescription,
+        A300Attachment.AMP_SENSOR_ARCH: BaseDescription,
+        A300Attachment.AMP_ENCLOSURE: BaseDescription,
         A300Attachment.SPOTLIGHT: BaseDescription,
         # J100
         J100Attachment.FENDER: BaseDescription,

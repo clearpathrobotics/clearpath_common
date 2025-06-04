@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://wiki.ros.org.xacro">
-  <xacro:macro name="observer_backpack" params="name parent_link:=base_link model:=observer_backpack *origin">
+  <xacro:macro name="amp_enclosure" params="name parent_link:=base_link model:=amp_enclosure *origin">
     <link name="${name}_enclosure_link">
       <visual>
         <geometry>

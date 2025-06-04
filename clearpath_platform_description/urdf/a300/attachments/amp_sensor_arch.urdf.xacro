@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://wiki.ros.org.xacro">
-  <xacro:macro name="observer_arch" params="name parent_link:=default_mount model:=observer_arch *origin">
+  <xacro:macro name="amp_sensor_arch" params="name parent_link:=default_mount model:=amp_sensor_arch *origin">
 
     <!--
       Main sensor arch
