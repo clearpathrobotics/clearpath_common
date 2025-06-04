@@ -32,7 +32,7 @@
     <!--
       Standard antennas & accessories
     -->
-    <link name="${name}_cellular_antenna">
+    <link name="${name}_antennas">
       <visual>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_cellular_antenna.stl" scale="0.001 0.001 0.001" />
@@ -40,21 +40,6 @@
         <material name="clearpath_black" />
         <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
-      <collision>
-        <geometry>
-          <!-- TODO: replace with box -->
-          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_cellular_antenna.stl" scale="0.001 0.001 0.001" />
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-      </collision>
-    </link>
-    <joint name="${name}_cellular_antenna_joint" type="fixed">
-      <parent link="${name}_link" />
-      <child link="${name}_cellular_antenna" />
-      <origin xyz="0 0 0" rpy="0 0 0" />
-    </joint>
-
-    <link name="${name}_wifi_antennas">
       <visual>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_wifi_antennas.stl" scale="0.001 0.001 0.001" />
@@ -64,15 +49,15 @@
       </visual>
       <collision>
         <geometry>
-          <!-- TODO: replace with dual cylinders -->
-          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_wifi_antennas.stl" scale="0.001 0.001 0.001" />
+          <box size="0.170 0.350 0.12" />
         </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <material name="clearpath_black" />
+        <origin xyz="0 0 0.490" rpy="0 0 0" />
       </collision>
     </link>
-    <joint name="${name}_wifi_antennas_joint" type="fixed">
+    <joint name="${name}_antennas_joint" type="fixed">
       <parent link="${name}_link" />
-      <child link="${name}_wifi_antennas" />
+      <child link="${name}_antennas" />
       <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
