@@ -25,7 +25,7 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import getopt
+import argparse
 import os
 import sys
 
@@ -332,17 +332,16 @@ class BaseGenerator():
             last_arg_index = len(sys.argv)
         argv = sys.argv[1:last_arg_index]
 
-        try:
-            options, args = getopt.getopt(argv, 's:', ['setup_path='])
-        except getopt.GetoptError as err:
-            print(err)
+        parser = argparse.ArgumentParser()
+        parser.add_argument(
+            '-s',
+            '--setup_path',
+            type=str,
+            action='store',
+            dest='setup_path',
+            default='/etc/clearpath',
+            help='Setup path, i.e. the directory containing robot.yaml. Default: /etc/clearpath',
+        )
 
-        setup_path = '/etc/clearpath/'
-
-        for option, value in options:
-            if option in ('-s', '--setup_path'):
-                setup_path = value
-            else:
-                pass
-
-        return setup_path
+        args = parser.parse_args(argv)
+        return args.setup_path
