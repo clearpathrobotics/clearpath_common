@@ -373,11 +373,16 @@ class PlatformParam():
                     print(f'\033[93mWarning: ros-{ROS_DISTRO}-clearpath-firmware'
                           ' package not found\033[0m')
 
+            bms_state_rate = 10.0
+            if platform_model == Platform.A300:
+                bms_state_rate = 1.5
+
             self.param_file.update({
                 self.DIAGNOSTIC_UPDATER_NODE: {
                     'ros_distro': ROS_DISTRO,
                     'latest_apt_firmware_version': latest_apt_firmware_version,
-                    'installed_apt_firmware_version': installed_apt_firmware_version
+                    'installed_apt_firmware_version': installed_apt_firmware_version,
+                    'bms_state_rate': bms_state_rate
                 }
             })
 
