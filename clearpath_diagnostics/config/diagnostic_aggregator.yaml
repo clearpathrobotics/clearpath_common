@@ -20,10 +20,6 @@ diagnostic_aggregator:
           path: E-stop Status
           expected: [ 'clearpath_diagnostic_updater: E-stop Status' ]
           contains: [ 'E-stop' ]
-        lighting:
-          type: diagnostic_aggregator/GenericAnalyzer
-          path: Lighting
-          contains: [ 'Light' ]
         drive:
           type: diagnostic_aggregator/GenericAnalyzer
           path: Drive System

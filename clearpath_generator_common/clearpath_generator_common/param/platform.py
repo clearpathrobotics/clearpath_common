@@ -243,6 +243,25 @@ class PlatformParam():
                     }
                 })
 
+            # Add Lighting for every platform except A200 and J100
+            if self.clearpath_config.get_platform_model() not in (Platform.A200, Platform.J100):
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'lighting': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Lighting',
+                                    'expected': [
+                                        'lighting_node: Light Status'
+                                    ],
+                                    'contains': ['Light']
+                                }
+                            }
+                        }
+                    }
+                })
+
             # Add cooling for A300 only for now
             if self.clearpath_config.get_platform_model() == Platform.A300:
                 self.param_file.update({
