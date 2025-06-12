@@ -36,10 +36,6 @@ diagnostic_aggregator:
             'twist_mux',
             'joy_node'
           ]
-        networking:
-          type: diagnostic_aggregator/GenericAnalyzer
-          path: Networking
-          contains: [ 'Wi-Fi' ]
     # sensors:
     #   type: diagnostic_aggregator/AnalyzerGroup
     #   path: Sensors

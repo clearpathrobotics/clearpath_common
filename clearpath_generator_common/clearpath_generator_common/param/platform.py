@@ -298,6 +298,22 @@ class PlatformParam():
                     }
                 })
 
+            if self.clearpath_config.platform.enable_wireless_watcher:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'networking': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Networking',
+                                    'contains': ['Wi-Fi'],
+                                    'expected': ['wireless_watcher: Wi-Fi Monitor']
+                                }
+                            }
+                        }
+                    }
+                })
+
             sensor_analyzers = {}
 
             # List all topics to be monitored from each launched sensor
