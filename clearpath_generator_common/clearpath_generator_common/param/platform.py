@@ -36,6 +36,7 @@ from apt import Cache
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
+from clearpath_config.platform.battery import BatteryConfig
 from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
 from clearpath_config.sensors.types.gps import BaseGPS
 from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
@@ -393,8 +394,13 @@ class PlatformParam():
                           ' package not found\033[0m')
 
             bms_state_rate = 10.0
-            if platform_model == Platform.A300:
+            if (self.clearpath_config.platform.battery.model in [BatteryConfig.S_24V20_U1]):
                 bms_state_rate = 1.5
+            elif (self.clearpath_config.platform.battery.model in
+                [BatteryConfig.VALENCE_U24_12XP, BatteryConfig.VALENCE_U27_12XP]):
+                bms_state_rate = 3.0
+            elif (self.clearpath_config.platform.battery.model in [BatteryConfig.NEC_ALM12V35]):
+                bms_state_rate = 1.0
 
             self.param_file.update({
                 self.DIAGNOSTIC_UPDATER_NODE: {
