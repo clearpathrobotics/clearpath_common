@@ -285,6 +285,9 @@ class PlatformParam():
                         'platform': {
                             'analyzers': {
                                 'odometry': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Odometry',
+                                    'contains': ['odometry', 'ekf_node'],
                                     'expected': [
                                         'ekf_node: Filter diagnostic updater',
                                         'ekf_node: odometry/filtered topic status',
