@@ -445,6 +445,8 @@ class PlatformParam():
                     self.DIAGNOSTIC_UPDATER_NODE: {
                         'mcu_power_rate': 1.8,
                         'mcu_power_tolerance': 0.25,
+                        'estop_rate': 1.8,
+                        'estop_tolerance': 0.25
                     }
                 })
 

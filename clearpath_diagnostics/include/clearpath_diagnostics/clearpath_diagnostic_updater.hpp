@@ -74,6 +74,7 @@ private:
   void mcu_power_diagnostic(DiagnosticStatusWrapper & stat);
   void bms_state_diagnostic(DiagnosticStatusWrapper & stat);
   void stop_status_diagnostic(DiagnosticStatusWrapper & stat);
+  void estop_diagnostic(DiagnosticStatusWrapper & stat);
 
   // Get parameters from config
   std::string get_string_param(std::string param_name, bool mandatory = false);
@@ -90,6 +91,7 @@ private:
   std::string latest_apt_firmware_version_;
   std::string installed_apt_firmware_version_;
   std::map<std::string, std::map<std::string, rclcpp::Parameter>> topic_map_;
+  bool no_mcu;
 
   // Topic names and rates
   std::string mcu_status_topic_;
@@ -105,6 +107,8 @@ private:
   double bms_state_tolerance_;
   double stop_status_rate_;
   double stop_status_tolerance_;
+  double estop_rate_;
+  double estop_tolerance_;
 
   // Message Data
   std::string mcu_firmware_version_;
@@ -119,6 +123,7 @@ private:
   std::shared_ptr<FrequencyStatus> mcu_power_freq_status_;
   std::shared_ptr<FrequencyStatus> bms_state_freq_status_;
   std::shared_ptr<FrequencyStatus> stop_status_freq_status_;
+  std::shared_ptr<FrequencyStatus> estop_freq_status_;
 
   // Subscriptions
   rclcpp::Subscription<clearpath_platform_msgs::msg::Status>::SharedPtr sub_mcu_status_;

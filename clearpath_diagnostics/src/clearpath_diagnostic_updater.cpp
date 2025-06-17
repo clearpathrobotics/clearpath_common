@@ -78,6 +78,10 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   stop_status_rate_ = (std::isnan(stop_status_rate_)) ? 1.0 : stop_status_rate_;
   stop_status_tolerance_ = get_double_param("stop_status_tolerance");
   stop_status_tolerance_ = (std::isnan(stop_status_tolerance_)) ? 0.15 : stop_status_tolerance_;
+  estop_rate_ = get_double_param("estop_rate");
+  estop_rate_ = (std::isnan(estop_rate_)) ? 1.0 : estop_rate_;
+  estop_tolerance_ = get_double_param("estop_tolerance");
+  estop_tolerance_ = (std::isnan(estop_tolerance_)) ? 0.15 : estop_tolerance_;
 
   // Initialize variables that are populated in callbacks
   mcu_firmware_version_ = UNKNOWN;
@@ -88,7 +92,9 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   // MCU status and firmware version if there is an MCU
   if (latest_apt_firmware_version_ == "not_applicable") {
     RCLCPP_INFO(this->get_logger(), "No MCU indicated, MCU diagnostics disabled.");
+    no_mcu = true;
   } else if (latest_apt_firmware_version_ != "simulated") {
+    no_mcu = false;
     // Subscribe to MCU Status topics
     sub_mcu_status_ =
       this->create_subscription<clearpath_platform_msgs::msg::Status>(
@@ -136,12 +142,18 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
     FrequencyStatusParam(&bms_state_rate_, &bms_state_rate_, bms_state_tolerance_, 10));
   stop_status_freq_status_ = std::make_shared<FrequencyStatus>(
     FrequencyStatusParam(&stop_status_rate_, &stop_status_rate_, stop_status_tolerance_, 10));
+  estop_freq_status_ = std::make_shared<FrequencyStatus>(
+    FrequencyStatusParam(&estop_rate_, &estop_rate_, estop_tolerance_, 10));
 
   // Add diagnostic tasks
   updater_.add("Power Status", this, &ClearpathDiagnosticUpdater::mcu_power_diagnostic);
   updater_.add("Battery Management System", this,
     &ClearpathDiagnosticUpdater::bms_state_diagnostic);
-  updater_.add("E-stop Status", this, &ClearpathDiagnosticUpdater::stop_status_diagnostic);
+  if (no_mcu) {
+    updater_.add("E-stop Status", this, &ClearpathDiagnosticUpdater::estop_diagnostic);
+  } else {
+    updater_.add("E-stop Status", this, &ClearpathDiagnosticUpdater::stop_status_diagnostic);
+  }
 
   setup_topic_rate_diagnostics();
 }
@@ -416,6 +428,21 @@ void ClearpathDiagnosticUpdater::estop_callback(
   const std_msgs::msg::Bool & msg)
 {
   estop_msg_ = msg;
+  estop_freq_status_->tick();
+}
+
+/**
+ * @brief Report E-stop message information to diagnostics - only used if no MCU
+ */
+void ClearpathDiagnosticUpdater::estop_diagnostic(DiagnosticStatusWrapper & stat)
+{
+  estop_freq_status_->run(stat);
+
+  if (stat.level != diagnostic_updater::DiagnosticStatusWrapper::ERROR) {
+    // if status messages are being received then add the message details
+    stat.add("E-stop Triggered",
+      (estop_msg_.data ? "True" : "False"));
+  }
 }
 
 /**
