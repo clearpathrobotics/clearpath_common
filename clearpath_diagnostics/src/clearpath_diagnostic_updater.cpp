@@ -444,8 +444,11 @@ void ClearpathDiagnosticUpdater::estop_diagnostic(DiagnosticStatusWrapper & stat
 
   if (stat.level != diagnostic_updater::DiagnosticStatusWrapper::ERROR) {
     // if status messages are being received then add the message details
-    stat.add("E-stop Triggered",
-      (estop_msg_.data ? "True" : "False"));
+    stat.add("E-stop Triggered", (estop_msg_.data ? "True" : "False"));
+
+    if (estop_msg_.data) {
+      stat.mergeSummary(DiagnosticStatus::WARN, "E-stopped");
+    }
   }
 }
 
