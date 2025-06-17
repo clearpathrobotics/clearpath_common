@@ -2,6 +2,9 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.5.0 (2025-05-29)
 ------------------
 * Fix the velocity limits for Dingo-O using Logitech controllers (`#207 <https://github.com/clearpathrobotics/clearpath_common/issues/207>`_)

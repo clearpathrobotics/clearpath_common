@@ -2,6 +2,11 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix permissions on the generate_zenoh_router executable (`#221 <https://github.com/clearpathrobotics/clearpath_common/issues/221>`_)
+* Contributors: Chris Iverach-Brereton
+
 2.5.0 (2025-05-29)
 ------------------
 * Feature: Foxglove Bridge (`#213 <https://github.com/clearpathrobotics/clearpath_common/issues/213>`_)
