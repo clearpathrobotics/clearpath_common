@@ -98,9 +98,13 @@ private:
   std::string stop_status_topic_;
   std::string estop_topic_;
   double mcu_status_rate_;
+  double mcu_status_tolerance_;
   double mcu_power_rate_;
+  double mcu_power_tolerance_;
   double bms_state_rate_;
+  double bms_state_tolerance_;
   double stop_status_rate_;
+  double stop_status_tolerance_;
 
   // Message Data
   std::string mcu_firmware_version_;

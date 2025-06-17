@@ -412,23 +412,41 @@ class PlatformParam():
                     print(f'\033[93mWarning: ros-{ROS_DISTRO}-clearpath-firmware'
                           ' package not found\033[0m')
 
+            # Set expected BMS rate based on the platform battery model
             bms_state_rate = 10.0
+            bms_state_tolerance = 0.15
             if (self.clearpath_config.platform.battery.model in [BatteryConfig.S_24V20_U1]):
                 bms_state_rate = 1.5
+                bms_state_tolerance = 0.35
             elif (self.clearpath_config.platform.battery.model in
-                [BatteryConfig.VALENCE_U24_12XP, BatteryConfig.VALENCE_U27_12XP]):
+                    [BatteryConfig.VALENCE_U24_12XP, BatteryConfig.VALENCE_U27_12XP]):
                 bms_state_rate = 3.0
+                bms_state_tolerance = 0.25
             elif (self.clearpath_config.platform.battery.model in [BatteryConfig.NEC_ALM12V35]):
                 bms_state_rate = 1.0
+                bms_state_tolerance = 0.25
+            elif (platform_model == Platform.A200):
+                bms_state_rate = 1.8
+                bms_state_tolerance = 0.25
 
             self.param_file.update({
                 self.DIAGNOSTIC_UPDATER_NODE: {
                     'ros_distro': ROS_DISTRO,
                     'latest_apt_firmware_version': latest_apt_firmware_version,
                     'installed_apt_firmware_version': installed_apt_firmware_version,
-                    'bms_state_rate': bms_state_rate
+                    'bms_state_rate': bms_state_rate,
+                    'bms_state_tolerance': bms_state_tolerance
                 }
             })
+
+            # Additional considerations for A200 platform
+            if platform_model == Platform.A200:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'mcu_power_rate': 1.8,
+                        'mcu_power_tolerance': 0.25,
+                    }
+                })
 
             # List all topics to be monitored from each launched sensor
             for sensor in self.clearpath_config.sensors.get_all_sensors():
