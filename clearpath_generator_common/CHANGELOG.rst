@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.5.1 (2025-06-17)
+------------------
 * Fix permissions on the generate_zenoh_router executable (`#221 <https://github.com/clearpathrobotics/clearpath_common/issues/221>`_)
 * Contributors: Chris Iverach-Brereton
 
