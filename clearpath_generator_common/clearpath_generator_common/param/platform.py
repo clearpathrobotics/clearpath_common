@@ -443,10 +443,17 @@ class PlatformParam():
             if platform_model == Platform.A200:
                 self.param_file.update({
                     self.DIAGNOSTIC_UPDATER_NODE: {
+                        'stop_status_rate': 0.0,  # Disable stop status diagnostic for A200
                         'mcu_power_rate': 1.8,
                         'mcu_power_tolerance': 0.25,
                         'estop_rate': 1.8,
                         'estop_tolerance': 0.25
+                    }
+                })
+            elif platform_model == Platform.W200:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'stop_status_rate': 0.0,  # Disable stop status diagnostic for W200
                     }
                 })
 

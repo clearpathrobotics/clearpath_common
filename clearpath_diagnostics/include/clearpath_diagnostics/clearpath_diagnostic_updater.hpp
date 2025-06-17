@@ -91,7 +91,6 @@ private:
   std::string latest_apt_firmware_version_;
   std::string installed_apt_firmware_version_;
   std::map<std::string, std::map<std::string, rclcpp::Parameter>> topic_map_;
-  bool no_mcu;
 
   // Topic names and rates
   std::string mcu_status_topic_;

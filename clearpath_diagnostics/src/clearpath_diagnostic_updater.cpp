@@ -92,9 +92,7 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   // MCU status and firmware version if there is an MCU
   if (latest_apt_firmware_version_ == "not_applicable") {
     RCLCPP_INFO(this->get_logger(), "No MCU indicated, MCU diagnostics disabled.");
-    no_mcu = true;
   } else if (latest_apt_firmware_version_ != "simulated") {
-    no_mcu = false;
     // Subscribe to MCU Status topics
     sub_mcu_status_ =
       this->create_subscription<clearpath_platform_msgs::msg::Status>(
@@ -149,7 +147,7 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   updater_.add("Power Status", this, &ClearpathDiagnosticUpdater::mcu_power_diagnostic);
   updater_.add("Battery Management System", this,
     &ClearpathDiagnosticUpdater::bms_state_diagnostic);
-  if (no_mcu) {
+  if (stop_status_rate_ == 0.0) {
     updater_.add("E-stop Status", this, &ClearpathDiagnosticUpdater::estop_diagnostic);
   } else {
     updater_.add("E-stop Status", this, &ClearpathDiagnosticUpdater::stop_status_diagnostic);
