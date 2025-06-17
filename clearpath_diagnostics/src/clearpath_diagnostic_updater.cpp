@@ -304,12 +304,16 @@ void ClearpathDiagnosticUpdater::mcu_power_diagnostic(DiagnosticStatusWrapper & 
     }
 
     try {
-      for (unsigned i = 0; i < mcu_power_msg_.measured_voltages.size(); i++) {
+      unsigned int count_v = std::min(mcu_power_msg_.measured_voltages.size(),
+                             DiagnosticLabels::MEASURED_VOLTAGES.at(platform_model_).size());
+      for (unsigned i = 0; i < count_v; i++) {
         std::string name = "Measured Voltage: " +
           DiagnosticLabels::MEASURED_VOLTAGES.at(platform_model_)[i] + " (V)";
         stat.add(name, mcu_power_msg_.measured_voltages[i]);
       }
-      for (unsigned i = 0; i < mcu_power_msg_.measured_currents.size(); i++) {
+      unsigned int count_c = std::min(mcu_power_msg_.measured_currents.size(),
+                             DiagnosticLabels::MEASURED_CURRENTS.at(platform_model_).size());
+      for (unsigned i = 0; i < count_c; i++) {
         std::string name = "Measured Current: " +
           DiagnosticLabels::MEASURED_CURRENTS.at(platform_model_)[i] + " (A)";
         stat.add(name, mcu_power_msg_.measured_currents[i]);
