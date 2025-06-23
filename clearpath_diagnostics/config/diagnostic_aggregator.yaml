@@ -20,10 +20,6 @@ diagnostic_aggregator:
           path: E-stop Status
           expected: [ 'clearpath_diagnostic_updater: E-stop Status' ]
           contains: [ 'E-stop' ]
-        lighting:
-          type: diagnostic_aggregator/GenericAnalyzer
-          path: Lighting
-          contains: [ 'Light' ]
         drive:
           type: diagnostic_aggregator/GenericAnalyzer
           path: Drive System
@@ -40,14 +36,6 @@ diagnostic_aggregator:
             'twist_mux',
             'joy_node'
           ]
-        odometry:
-          type: diagnostic_aggregator/GenericAnalyzer
-          path: Odometry
-          contains: [ 'odometry', 'ekf_node' ]
-        networking:
-          type: diagnostic_aggregator/GenericAnalyzer
-          path: Networking
-          contains: [ 'Wi-Fi' ]
     # sensors:
     #   type: diagnostic_aggregator/AnalyzerGroup
     #   path: Sensors
