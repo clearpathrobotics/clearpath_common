@@ -39,7 +39,7 @@ platform_velocity_controller:
     preserve_turning_radius: true
 
     # W200 motor controllers only report velocity
-    # position_feedback: false
+    position_feedback: false
 
     # Publish limited velocity
     publish_limited_velocity: true
