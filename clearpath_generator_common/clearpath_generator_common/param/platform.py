@@ -123,17 +123,32 @@ class PlatformParam():
                             arm_param_file.parameters,
                             {r'${name}': f'{arm.name}_{arm.arm_id}'}
                         )
+                        extra_parameters = replace_dict_items(
+                            arm.ros_parameters,
+                            {r'${name}': f'{arm.name}_{arm.arm_id}'}
+                        )
                     else:
                         updated_parameters = replace_dict_items(
                             arm_param_file.parameters,
+                            {r'${name}': arm.name}
+                        )
+                        extra_parameters = replace_dict_items(
+                            arm.ros_parameters,
                             {r'${name}': arm.name}
                         )
                     updated_parameters = replace_dict_items(
                         updated_parameters,
                         {r'${controller_name}': arm.name}
                     )
+                    extra_parameters = replace_dict_items(
+                        extra_parameters,
+                        {r'${controller_name}': arm.name}
+                    )
                     self.param_file.parameters = merge_dict(
                         self.param_file.parameters, updated_parameters)
+                    # Overwrite ros parameters with extra
+                    self.param_file.parameters = merge_dict(
+                        extra_parameters, self.param_file.parameters)
 
             # Gripper Control
             if self.parameter == PlatformParam.CONTROL and use_sim_time:
@@ -157,13 +172,25 @@ class PlatformParam():
                             gripper_param_file.parameters,
                             {r'${name}': f'{gripper.name}_{gripper.arm_id}'}
                         )
+                        extra_parameters = replace_dict_items(
+                            gripper.ros_parameters,
+                            {r'${name}': f'{gripper.name}_{gripper.arm_id}'}
+                        )
                     else:
                         updated_parameters = replace_dict_items(
                             gripper_param_file.parameters,
                             {r'${name}': gripper.name}
                         )
+                        extra_parameters = replace_dict_items(
+                            gripper.ros_parameters,
+                            {r'${name}': gripper.name}
+                        )
                     updated_parameters = replace_dict_items(
                         updated_parameters,
+                        {r'${controller_name}': gripper.name}
+                    )
+                    extra_parameters = replace_dict_items(
+                        extra_parameters,
                         {r'${controller_name}': gripper.name}
                     )
                     self.param_file.parameters = merge_dict(
@@ -186,8 +213,26 @@ class PlatformParam():
                         lift_param_file.parameters,
                         {r'${name}': lift.name}
                     )
+                    updated_parameters = replace_dict_items(
+                        updated_parameters,
+                        {r'${controller_name}': lift.name}
+                    )
+
+                    extra_parameters = replace_dict_items(
+                        lift.ros_parameters,
+                        {r'${name}': lift.name}
+                    )
+                    extra_parameters = replace_dict_items(
+                        extra_parameters,
+                        {r'${controller_name}': lift.name}
+                    )
+
                     self.param_file.parameters = merge_dict(
                         self.param_file.parameters, updated_parameters)
+
+                    # Overwrite ros parameters with extra
+                    self.param_file.parameters = merge_dict(
+                        extra_parameters, self.param_file.parameters)
 
             # Get extra ros parameters from config
             extras = self.clearpath_config.platform.extras.ros_parameters
