@@ -30,7 +30,6 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 import os
-from pprint import pprint
 
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
