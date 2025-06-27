@@ -19,6 +19,7 @@
   <depend>sensor_msgs</depend>
 
   <exec_depend>diagnostic_aggregator</exec_depend>
+  <exec_depend>foxglove_bridge</exec_depend>
   <exec_depend>ros2launch</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
