@@ -35,6 +35,13 @@
     <link name="${name}_antennas">
       <visual>
         <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_bluetooth_antenna.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="clearpath_black" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <visual>
+        <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_cellular_antenna.stl" scale="0.001 0.001 0.001" />
         </geometry>
         <material name="clearpath_black" />
