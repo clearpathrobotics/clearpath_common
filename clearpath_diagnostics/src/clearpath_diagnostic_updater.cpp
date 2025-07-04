@@ -250,11 +250,23 @@ void ClearpathDiagnosticUpdater::firmware_errors_diagnostic(DiagnosticStatusWrap
   else
   {
     stat.summary(DiagnosticStatus::ERROR, "Firmware errors reported");
-    for (auto e : mcu_status_msg_.firmware_errors)
+    for (const auto &e : mcu_status_msg_.firmware_errors)
     {
-      std::string error_title = "Firmware Error " + e;
-      std::string error_message =
-          DiagnosticLabels::FIRMWARE_ERRORS.at(e)[0] + ": " + DiagnosticLabels::FIRMWARE_ERRORS.at(e)[1];
+      std::string error_title = "Firmware Error " + std::to_string(e);
+      std::string error_message;
+      try
+      {
+        error_message = DiagnosticLabels::FIRMWARE_ERRORS.at(e)[0];
+        // Add the troubleshooting message if it exists
+        if( DiagnosticLabels::FIRMWARE_ERRORS.at(e)[1].size() > 1)
+        {
+          error_message += ": " + DiagnosticLabels::FIRMWARE_ERRORS.at(e)[1];
+        }
+      }
+      catch (const std::out_of_range &)
+      {
+        error_message = "Unknown firmware error code";
+      }
       stat.add(error_title, error_message);
     }
   }
