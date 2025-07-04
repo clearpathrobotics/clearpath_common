@@ -2,6 +2,11 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add missing linear.y teleop parameters, adjust logitech gains to match equivalents from ps4 configuration (`#220 <https://github.com/clearpathrobotics/clearpath_common/issues/220>`_)
+* Contributors: Chris Iverach-Brereton
+
 1.3.2 (2025-04-15)
 ------------------
 

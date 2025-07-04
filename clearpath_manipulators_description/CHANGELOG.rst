@@ -2,6 +2,13 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix/Feature: UR Arm Controller Update Rate (`#225 <https://github.com/clearpathrobotics/clearpath_common/issues/225>`_)
+  * Change controller update rate for universal robots to 500
+  * Use UniversalRobots update_rate parameters if available
+* Contributors: luis-camero
+
 1.3.2 (2025-04-15)
 ------------------
 
