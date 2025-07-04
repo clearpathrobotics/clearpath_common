@@ -69,7 +69,7 @@ public:
   // Generated with a script in clearpath_documentation featrure/error-code-script
   // Format is {error_code, {"Error Title", "Troubleshooting/Description"}}
   //--------------------------------------------------------
-  inline static const std::map<uint8_t, std::vector<std::string>> FIRMWARE_ERRORS = {
+  inline static const std::map<uint16_t, std::vector<std::string>> FIRMWARE_ERRORS = {
       {110, {"Main Contactor Error!", ""}},
       {113, {"Battery Out of Range!", ""}},
       {116, {"E-Stop Contactor Error!", ""}},

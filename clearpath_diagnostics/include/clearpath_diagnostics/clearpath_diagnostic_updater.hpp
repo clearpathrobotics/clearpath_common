@@ -71,6 +71,7 @@ private:
   // Diagnostic Tasks
   void firmware_diagnostic(DiagnosticStatusWrapper & stat);
   void mcu_status_diagnostic(DiagnosticStatusWrapper & stat);
+  void firmware_errors_diagnostic(DiagnosticStatusWrapper & stat);
   void mcu_power_diagnostic(DiagnosticStatusWrapper & stat);
   void bms_state_diagnostic(DiagnosticStatusWrapper & stat);
   void stop_status_diagnostic(DiagnosticStatusWrapper & stat);

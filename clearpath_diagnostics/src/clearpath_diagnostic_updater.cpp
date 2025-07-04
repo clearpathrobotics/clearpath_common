@@ -94,6 +94,7 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
 
     // Add diagnostic tasks for MCU data
     updater_.add("MCU Status", this, &ClearpathDiagnosticUpdater::mcu_status_diagnostic);
+    updater_.add("MCU Firmware Errors", this, &ClearpathDiagnosticUpdater::firmware_errors_diagnostic);
     updater_.add("MCU Firmware Version", this, &ClearpathDiagnosticUpdater::firmware_diagnostic);
     RCLCPP_INFO(this->get_logger(), "MCU diagnostics started.");
   }
@@ -234,6 +235,28 @@ void ClearpathDiagnosticUpdater::mcu_status_diagnostic(DiagnosticStatusWrapper &
     stat.add("Platform Model", mcu_status_msg_.hardware_id);
     stat.add("MCU Uptime (sec)", mcu_status_msg_.mcu_uptime.sec);
     stat.add("Connection Uptime (sec)", mcu_status_msg_.connection_uptime.sec);
+  }
+}
+
+/**
+ * @brief Report Firmware Errors to diagnostics
+ */
+void ClearpathDiagnosticUpdater::firmware_errors_diagnostic(DiagnosticStatusWrapper & stat)
+{
+  if (mcu_status_msg_.firmware_errors.empty())
+  {
+    stat.summary(DiagnosticStatus::OK, "No firmware errors reported");
+  }
+  else
+  {
+    stat.summary(DiagnosticStatus::ERROR, "Firmware errors reported");
+    for (auto e : mcu_status_msg_.firmware_errors)
+    {
+      std::string error_title = "Firmware Error " + e;
+      std::string error_message =
+          DiagnosticLabels::FIRMWARE_ERRORS.at(e)[0] + ": " + DiagnosticLabels::FIRMWARE_ERRORS.at(e)[1];
+      stat.add(error_title, error_message);
+    }
   }
 }
 
