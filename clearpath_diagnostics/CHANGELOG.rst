@@ -8,8 +8,8 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
-Forthcoming
------------
+2.6.0 (2025-07-04)
+------------------
 * Add foxglove dependency (`#230 <https://github.com/clearpathrobotics/clearpath_common/issues/230>`_)
 * Fix/expected diag rates (`#227 <https://github.com/clearpathrobotics/clearpath_common/issues/227>`_)
   * loosen rate window for MCU to allow 1 message to be missed

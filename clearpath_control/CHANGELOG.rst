@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.6.0 (2025-07-04)
+------------------
 * Re-enable publishing controller input to joy_teleop/cmd_vel (`#232 <https://github.com/clearpathrobotics/clearpath_common/issues/232>`_)
 * Fix: W200 Diff Drive Parameters (`#228 <https://github.com/clearpathrobotics/clearpath_common/issues/228>`_)
   * Disable using position for odom
