@@ -65,6 +65,56 @@ public:
   inline static const std::string GENERIC = "generic";
 
   //--------------------------------------------------------
+  // Labels for Firmware Error Codes
+  // Generated with a script in clearpath_documentation featrure/error-code-script
+  // Format is {error_code, {"Error Title", "Troubleshooting/Description"}}
+  //--------------------------------------------------------
+  inline static const std::map<uint8_t, std::vector<std::string>> FIRMWARE_ERRORS = {
+      {110, {"Main Contactor Error!", ""}},
+      {113, {"Battery Out of Range!", ""}},
+      {116, {"E-Stop Contactor Error!", ""}},
+      {117, {"Brake Contactor Error!", ""}},
+      {120, {"Motor 1 Voltage Range Error!", ""}},
+      {121, {"Motor 2 Voltage Range Error!", ""}},
+      {122, {"Motor 3 Voltage Range Error!", ""}},
+      {123, {"Motor 4 Voltage Range Error!", ""}},
+      {124, {"Motor Voltage Range Error!", "This is a general error for a voltage issue on any motor."}},
+      {140, {"User Power Contactor Error!", ""}},
+      {150, {"24V Aux Power Fail!", ""}},
+      {151, {"12V Aux Power Fail!", ""}},
+      {152, {"12V1 Sys Power Fail!", ""}},
+      {153, {"12V2 Sys Power Fail!", ""}},
+      {154, {"12V A User Power Fail!", ""}},
+      {155, {"12V B User Power Fail!", ""}},
+      {156, {"VBAT User Power Fail!", ""}},
+      {157, {"24V User Power Fail!", ""}},
+      {160, {"Power Supply Failure!", "This is a general error which is set for any of the power fail errors."}},
+      {170, {"VBAT User Power Fuse Tripped!", ""}},
+      {171, {"24V User Power Fuse Tripped!", ""}},
+      {172, {"12V A User Power Fuse Tripped!", ""}},
+      {173, {"12V B User Power Fuse Tripped!", ""}},
+      {174, {"Expansion Power Fuse Tripped!", ""}},
+      {810, {"Fan 1 Below Minimum Speed!", ""}},
+      {811, {"Fan 2 Below Minimum Speed!", ""}},
+      {812, {"Fan 3 Below Minimum Speed!", ""}},
+      {813, {"Fan 4 Below Minimum Speed!", ""}},
+      {814, {"Fan 5 Below Minimum Speed!", ""}},
+      {815, {"Fan 6 Below Minimum Speed!", ""}},
+      {816, {"Fan 7 Below Minimum Speed!", ""}},
+      {817, {"Fan 8 Below Minimum Speed!", ""}},
+      {820, {"Fan Below Minimum Speed!", "This is a general error for any fan."}},
+      {830, {"Fan 1 Above Maximum Speed!", ""}},
+      {831, {"Fan 2 Above Maximum Speed!", ""}},
+      {832, {"Fan 3 Above Maximum Speed!", ""}},
+      {833, {"Fan 4 Above Maximum Speed!", ""}},
+      {834, {"Fan 5 Above Maximum Speed!", ""}},
+      {835, {"Fan 6 Above Maximum Speed!", ""}},
+      {836, {"Fan 7 Above Maximum Speed!", ""}},
+      {837, {"Fan 8 Above Maximum Speed!", ""}},
+      {840, {"Fan Above Maximum Speed!", "This is a general error for any fan."}},
+  };
+
+  //--------------------------------------------------------
   // Labels for clearpath_platform_msgs::msg::Power
   //--------------------------------------------------------
 
