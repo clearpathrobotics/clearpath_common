@@ -33,8 +33,7 @@ import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
-from clearpath_config.manipulators.types.arms import Franka, UniversalRobots
-from clearpath_config.manipulators.types.grippers import FrankaGripper
+from clearpath_config.manipulators.types.arms import UniversalRobots
 from clearpath_generator_common.common import MoveItParamFile, Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
 
@@ -105,18 +104,10 @@ class ManipulatorParam():
                     parameters={}
                 )
                 arm_param_file.read()
-
-                # Franka Exception. Add Arm ID.
-                if arm.MANIPULATOR_MODEL == Franka.MANIPULATOR_MODEL:
-                    updated_parameters = replace_dict_items(
-                        arm_param_file.parameters,
-                        {r'${name}': f'{arm.name}_{arm.arm_id}'}
-                    )
-                else:
-                    updated_parameters = replace_dict_items(
-                        arm_param_file.parameters,
-                        {r'${name}': arm.name}
-                    )
+                updated_parameters = replace_dict_items(
+                    arm_param_file.parameters,
+                    {r'${name}': arm.name}
+                )
                 # UR Arm Exception. Update Rate
                 if arm.MANIPULATOR_MODEL == UniversalRobots.MANIPULATOR_MODEL:
                     try:
