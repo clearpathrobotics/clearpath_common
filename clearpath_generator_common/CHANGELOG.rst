@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.3 (2025-07-03)
+------------------
 * Feature: Manipulator Extra ROS Parameters (`#229 <https://github.com/clearpathrobotics/clearpath_common/issues/229>`_)
   * Pass manipulator ros parameters to generated controller file
   * Update platform config parameters
