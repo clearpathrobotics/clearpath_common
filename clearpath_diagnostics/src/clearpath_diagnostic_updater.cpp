@@ -243,31 +243,36 @@ void ClearpathDiagnosticUpdater::mcu_status_diagnostic(DiagnosticStatusWrapper &
  */
 void ClearpathDiagnosticUpdater::firmware_errors_diagnostic(DiagnosticStatusWrapper & stat)
 {
-  if (mcu_status_msg_.firmware_errors.empty())
-  {
-    stat.summary(DiagnosticStatus::OK, "No firmware errors reported");
-  }
-  else
-  {
-    stat.summary(DiagnosticStatus::ERROR, "Firmware errors reported");
-    for (const auto &e : mcu_status_msg_.firmware_errors)
+  // Get the frequency status from the MCU status message
+  mcu_status_freq_status_->run(stat);
+
+  if (stat.level != diagnostic_updater::DiagnosticStatusWrapper::ERROR) {
+    if (mcu_status_msg_.firmware_errors.empty())
     {
-      std::string error_title = "Firmware Error " + std::to_string(e);
-      std::string error_message;
-      try
+      stat.summary(DiagnosticStatus::OK, "No firmware errors reported");
+    }
+    else
+    {
+      stat.summary(DiagnosticStatus::ERROR, "Firmware errors reported");
+      for (const auto &e : mcu_status_msg_.firmware_errors)
       {
-        error_message = DiagnosticLabels::FIRMWARE_ERRORS.at(e)[0];
-        // Add the troubleshooting message if it exists
-        if( DiagnosticLabels::FIRMWARE_ERRORS.at(e)[1].size() > 1)
+        std::string error_title = "Firmware Error " + std::to_string(e);
+        std::string error_message;
+        try
         {
-          error_message += ": " + DiagnosticLabels::FIRMWARE_ERRORS.at(e)[1];
+          error_message = DiagnosticLabels::FIRMWARE_ERRORS.at(e)[0];
+          // Add the troubleshooting message if it exists
+          if( DiagnosticLabels::FIRMWARE_ERRORS.at(e)[1].size() > 1)
+          {
+            error_message += ": " + DiagnosticLabels::FIRMWARE_ERRORS.at(e)[1];
+          }
         }
+        catch (const std::out_of_range &)
+        {
+          error_message = "Unknown firmware error code";
+        }
+        stat.add(error_title, error_message);
       }
-      catch (const std::out_of_range &)
-      {
-        error_message = "Unknown firmware error code";
-      }
-      stat.add(error_title, error_message);
     }
   }
 }
