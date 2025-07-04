@@ -64,12 +64,24 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   estop_topic_ = (estop_topic_ == UNKNOWN) ? "platform/emergency_stop" : estop_topic_;
   mcu_status_rate_ = get_double_param("mcu_status_rate");
   mcu_status_rate_ = (std::isnan(mcu_status_rate_)) ? 1.0 : mcu_status_rate_;
+  mcu_status_tolerance_ = get_double_param("mcu_status_tolerance");
+  mcu_status_tolerance_ = (std::isnan(mcu_status_tolerance_)) ? 0.15 : mcu_status_tolerance_;
   mcu_power_rate_ = get_double_param("mcu_power_rate");
   mcu_power_rate_ = (std::isnan(mcu_power_rate_)) ? 10.0 : mcu_power_rate_;
+  mcu_power_tolerance_ = get_double_param("mcu_power_tolerance");
+  mcu_power_tolerance_ = (std::isnan(mcu_power_tolerance_)) ? 0.15 : mcu_power_tolerance_;
   bms_state_rate_ = get_double_param("bms_state_rate");
-  bms_state_rate_ = (std::isnan(bms_state_rate_)) ? 1.5 : bms_state_rate_;
+  bms_state_rate_ = (std::isnan(bms_state_rate_)) ? 10.0 : bms_state_rate_;
+  bms_state_tolerance_ = get_double_param("bms_state_tolerance");
+  bms_state_tolerance_ = (std::isnan(bms_state_tolerance_)) ? 0.15 : bms_state_tolerance_;
   stop_status_rate_ = get_double_param("stop_status_rate");
   stop_status_rate_ = (std::isnan(stop_status_rate_)) ? 1.0 : stop_status_rate_;
+  stop_status_tolerance_ = get_double_param("stop_status_tolerance");
+  stop_status_tolerance_ = (std::isnan(stop_status_tolerance_)) ? 0.15 : stop_status_tolerance_;
+  estop_rate_ = get_double_param("estop_rate");
+  estop_rate_ = (std::isnan(estop_rate_)) ? 1.0 : estop_rate_;
+  estop_tolerance_ = get_double_param("estop_tolerance");
+  estop_tolerance_ = (std::isnan(estop_tolerance_)) ? 0.15 : estop_tolerance_;
 
   // Initialize variables that are populated in callbacks
   mcu_firmware_version_ = UNKNOWN;
@@ -90,7 +102,7 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
 
     // Create MCU Frequency Status tracking objects
     mcu_status_freq_status_ = std::make_shared<FrequencyStatus>(
-      FrequencyStatusParam(&mcu_status_rate_, &mcu_status_rate_, 0.1, 10));
+      FrequencyStatusParam(&mcu_status_rate_, &mcu_status_rate_, mcu_status_tolerance_, 10));
 
     // Add diagnostic tasks for MCU data
     updater_.add("MCU Status", this, &ClearpathDiagnosticUpdater::mcu_status_diagnostic);
@@ -123,17 +135,23 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
 
   // Create Frequency Status tracking objects
   mcu_power_freq_status_ = std::make_shared<FrequencyStatus>(
-    FrequencyStatusParam(&mcu_power_rate_, &mcu_power_rate_, 0.1, 5));
+    FrequencyStatusParam(&mcu_power_rate_, &mcu_power_rate_, mcu_power_tolerance_, 10));
   bms_state_freq_status_ = std::make_shared<FrequencyStatus>(
-    FrequencyStatusParam(&bms_state_rate_, &bms_state_rate_, 0.35, 10));
+    FrequencyStatusParam(&bms_state_rate_, &bms_state_rate_, bms_state_tolerance_, 10));
   stop_status_freq_status_ = std::make_shared<FrequencyStatus>(
-    FrequencyStatusParam(&stop_status_rate_, &stop_status_rate_, 0.1, 10));
+    FrequencyStatusParam(&stop_status_rate_, &stop_status_rate_, stop_status_tolerance_, 10));
+  estop_freq_status_ = std::make_shared<FrequencyStatus>(
+    FrequencyStatusParam(&estop_rate_, &estop_rate_, estop_tolerance_, 10));
 
   // Add diagnostic tasks
   updater_.add("Power Status", this, &ClearpathDiagnosticUpdater::mcu_power_diagnostic);
   updater_.add("Battery Management System", this,
     &ClearpathDiagnosticUpdater::bms_state_diagnostic);
-  updater_.add("E-stop Status", this, &ClearpathDiagnosticUpdater::stop_status_diagnostic);
+  if (stop_status_rate_ == 0.0) {
+    updater_.add("E-stop Status", this, &ClearpathDiagnosticUpdater::estop_diagnostic);
+  } else {
+    updater_.add("E-stop Status", this, &ClearpathDiagnosticUpdater::stop_status_diagnostic);
+  }
 
   setup_topic_rate_diagnostics();
 }
@@ -284,12 +302,16 @@ void ClearpathDiagnosticUpdater::mcu_power_diagnostic(DiagnosticStatusWrapper & 
     }
 
     try {
-      for (unsigned i = 0; i < mcu_power_msg_.measured_voltages.size(); i++) {
+      unsigned int count_v = std::min(mcu_power_msg_.measured_voltages.size(),
+                             DiagnosticLabels::MEASURED_VOLTAGES.at(platform_model_).size());
+      for (unsigned i = 0; i < count_v; i++) {
         std::string name = "Measured Voltage: " +
           DiagnosticLabels::MEASURED_VOLTAGES.at(platform_model_)[i] + " (V)";
         stat.add(name, mcu_power_msg_.measured_voltages[i]);
       }
-      for (unsigned i = 0; i < mcu_power_msg_.measured_currents.size(); i++) {
+      unsigned int count_c = std::min(mcu_power_msg_.measured_currents.size(),
+                             DiagnosticLabels::MEASURED_CURRENTS.at(platform_model_).size());
+      for (unsigned i = 0; i < count_c; i++) {
         std::string name = "Measured Current: " +
           DiagnosticLabels::MEASURED_CURRENTS.at(platform_model_)[i] + " (A)";
         stat.add(name, mcu_power_msg_.measured_currents[i]);
@@ -408,6 +430,24 @@ void ClearpathDiagnosticUpdater::estop_callback(
   const std_msgs::msg::Bool & msg)
 {
   estop_msg_ = msg;
+  estop_freq_status_->tick();
+}
+
+/**
+ * @brief Report E-stop message information to diagnostics - only used if no MCU
+ */
+void ClearpathDiagnosticUpdater::estop_diagnostic(DiagnosticStatusWrapper & stat)
+{
+  estop_freq_status_->run(stat);
+
+  if (stat.level != diagnostic_updater::DiagnosticStatusWrapper::ERROR) {
+    // if status messages are being received then add the message details
+    stat.add("E-stop Triggered", (estop_msg_.data ? "True" : "False"));
+
+    if (estop_msg_.data) {
+      stat.mergeSummary(DiagnosticStatus::WARN, "E-stopped");
+    }
+  }
 }
 
 /**

@@ -1,0 +1,139 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org.xacro">
+  <xacro:macro name="amp_sensor_arch" params="name parent_link:=default_mount model:=amp_sensor_arch *origin">
+
+    <!--
+      Main sensor arch
+    -->
+    <link name="${name}_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_arch.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_arch.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </collision>
+    </link>
+    <gazebo reference="${name}_link">
+      <material>Gazebo/DarkYellow</material>
+    </gazebo>
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_link" />
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <!--
+      Standard antennas & accessories
+    -->
+    <link name="${name}_antennas">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_bluetooth_antenna.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="clearpath_black" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_cellular_antenna.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="clearpath_black" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_wifi_antennas.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="clearpath_black" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.170 0.350 0.12" />
+        </geometry>
+        <material name="clearpath_black" />
+        <origin xyz="0 0 0.490" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${name}_antennas_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_antennas" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <!--
+      Sensor mounting points
+    -->
+
+    <link name="${name}_left_antenna_mount" />
+    <joint name="${name}_left_antenna_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_left_antenna_mount" />
+      <origin xyz="0 0.260 0.44536" rpy="0 0 0" />
+    </joint>
+
+    <link name="${name}_right_antenna_mount" />
+    <joint name="${name}_right_antenna_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_right_antenna_mount" />
+      <origin xyz="0 -0.260 0.44536" rpy="0 0 0" />
+    </joint>
+
+    <link name="${name}_lidar_mount" />
+    <joint name="${name}_lidar_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_lidar_mount" />
+      <origin xyz="0.130 0 0.30256" rpy="3.14159 0 0" />
+    </joint>
+
+    <!-- front-facing camera suspended under sensor arch -->
+    <link name="${name}_front_camera_mount" />
+    <joint name="${name}_front_camera_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_front_camera_mount" />
+      <origin xyz="0.0775 0 0.40896" rpy="0 0 0" />
+    </joint>
+
+    <!-- rear-facing camera suspended under sensor arch -->
+    <link name="${name}_rear_camera_mount" />
+    <joint name="${name}_rear_camera_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_rear_camera_mount" />
+      <origin xyz="-0.09053483924399536 0 0.39093965966919125" rpy="0 0.6021385919380436 3.14159" />
+    </joint>
+
+    <!-- corner mounts for lights, etc... -->
+    <link name="${name}_front_left_corner_mount" />
+    <joint name="${name}_front_left_corner_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_front_left_corner_mount" />
+      <origin xyz="0.07 0.310 0.44536" rpy="0 0 0" />
+    </joint>
+    <link name="${name}_front_right_corner_mount" />
+    <joint name="${name}_front_right_corner_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_front_right_corner_mount" />
+      <origin xyz="0.07 -0.310 0.44536" rpy="0 0 0" />
+    </joint>
+    <link name="${name}_rear_left_corner_mount" />
+    <joint name="${name}_rear_left_corner_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_rear_left_corner_mount" />
+      <origin xyz="-0.07 0.310 0.44536" rpy="0 0 3.14159" />
+    </joint>
+    <link name="${name}_rear_right_corner_mount" />
+    <joint name="${name}_rear_right_corner_mount_joint" type="fixed">
+      <parent link="${name}_link" />
+      <child link="${name}_rear_right_corner_mount" />
+      <origin xyz="-0.07 -0.310 0.44536" rpy="0 0 3.14159" />
+    </joint>
+
+  </xacro:macro>
+</robot>

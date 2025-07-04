@@ -79,6 +79,14 @@
                 rpy="${gps_0_rpy_r} ${gps_0_rpy_p} ${gps_0_rpy_y}"
             />
         </xacro:gnss_antenna>
+        <gazebo reference="${name}_gps_0_link">
+            <sensor name="${name}_gps_0" type="navsat">
+                <always_on>1</always_on>
+                <update_rate>1</update_rate>
+                <gz_frame_id>${name}_gps_0_link</gz_frame_id>
+                <topic>$(arg namespace)/sensors/${name}/gps_0/fix</topic>
+            </sensor>
+        </gazebo>
 
         <xacro:if value="${num_antennas > 1}">
             <xacro:gnss_antenna
@@ -90,6 +98,14 @@
                     rpy="${gps_1_rpy_r} ${gps_1_rpy_p} ${gps_1_rpy_y}"
                 />
             </xacro:gnss_antenna>
+            <gazebo reference="${name}_gps_1_link">
+                <sensor name="${name}_gps_1" type="navsat">
+                    <always_on>1</always_on>
+                    <update_rate>1</update_rate>
+                    <gz_frame_id>${name}_gps_1_link</gz_frame_id>
+                    <topic>$(arg namespace)/sensors/${name}/gps_1/fix</topic>
+                </sensor>
+            </gazebo>
         </xacro:if>
 
     </xacro:macro>

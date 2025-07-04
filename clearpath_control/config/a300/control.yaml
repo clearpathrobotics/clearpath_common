@@ -32,7 +32,7 @@ platform_velocity_controller:
     tf_frame_prefix_enable: false
 
     cmd_vel_timeout: 0.5
-    #velocity_rolling_window_size: 10
+    velocity_rolling_window_size: 5
 
     # Preserve turning radius when limiting speed/acceleration/jerk
     preserve_turning_radius: true
@@ -50,7 +50,10 @@ platform_velocity_controller:
     linear.x.has_jerk_limits: false
     linear.x.max_velocity: 2.0
     linear.x.min_velocity: -2.0
-    linear.x.max_acceleration: 4.0
+    linear.x.max_acceleration: 2.0
+    linear.x.max_deceleration: -4.0
+    linear.x.max_acceleration_reverse: -2.0
+    linear.x.max_deceleration_reverse: 4.0
     linear.x.max_jerk: 0.0
     linear.x.min_jerk: 0.0
 
@@ -60,7 +63,9 @@ platform_velocity_controller:
     angular.z.max_velocity: 2.0
     angular.z.min_velocity: -2.0
     angular.z.max_acceleration: 4.0
-    angular.z.min_acceleration: -4.0
+    angular.z.max_deceleration: -4.0
+    angular.z.max_acceleration_reverse: -4.0
+    angular.z.max_deceleration_reverse: 4.0
     angular.z.max_jerk: 0.0
     angular.z.min_jerk: 0.0
 
