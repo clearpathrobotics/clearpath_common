@@ -2,6 +2,15 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Forward Fix: Universal Robots Rate (`#233 <https://github.com/clearpathrobotics/clearpath_common/issues/233>`_)
+  * Fix/Feature: UR Arm Controller Update Rate (`#225 <https://github.com/clearpathrobotics/clearpath_common/issues/225>`_)
+  * Change controller update rate for universal robots to 500
+  * Use UniversalRobots update_rate parameters if available
+  * Remove Franka
+* Contributors: luis-camero
+
 2.6.0 (2025-07-04)
 ------------------
 * Fix/expected diag rates (`#227 <https://github.com/clearpathrobotics/clearpath_common/issues/227>`_)

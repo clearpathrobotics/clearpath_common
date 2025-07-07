@@ -8,6 +8,9 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+Forthcoming
+-----------
+
 2.6.0 (2025-07-04)
 ------------------
 * Add foxglove dependency (`#230 <https://github.com/clearpathrobotics/clearpath_common/issues/230>`_)

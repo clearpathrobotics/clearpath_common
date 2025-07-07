@@ -2,6 +2,9 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.6.0 (2025-07-04)
 ------------------
 * Add the third antenna (bluetooth) to the top of the AMP frame (`#231 <https://github.com/clearpathrobotics/clearpath_common/issues/231>`_)
