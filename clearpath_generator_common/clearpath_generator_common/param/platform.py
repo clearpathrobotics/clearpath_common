@@ -38,7 +38,7 @@ from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
 from clearpath_config.platform.battery import BatteryConfig
 from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
-from clearpath_config.sensors.types.gps import BaseGPS
+from clearpath_config.sensors.types.gps import BaseGPS, NMEA
 from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D
 from clearpath_config.sensors.types.lidars_3d import BaseLidar3D
@@ -323,6 +323,13 @@ class PlatformParam():
                     'contains': ['imu']
                 }
 
+            if self.clearpath_config.get_platform_model() == Platform.J100:
+                sensor_analyzers['gps'] = {
+                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                    'path': 'GPS',
+                    'contains': ['gps']
+                }
+
             # List all topics to be monitored from each launched sensor
             for sensor in self.clearpath_config.sensors.get_all_sensors():
 
@@ -471,6 +478,18 @@ class PlatformParam():
                             'sensors/imu_0/data': {
                                 'type': BaseIMU.TOPICS.TYPE[BaseIMU.TOPICS.DATA],
                                 'rate': 50.0
+                            }
+                        }
+                    }
+                })
+
+            if platform_model == Platform.J100:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'topics': {
+                            'sensors/gps_0/fix': {
+                                'type': NMEA.TOPICS.TYPE[NMEA.TOPICS.FIX],
+                                'rate': 10.0
                             }
                         }
                     }
