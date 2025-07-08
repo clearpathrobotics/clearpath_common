@@ -316,6 +316,13 @@ class PlatformParam():
 
             sensor_analyzers = {}
 
+            if self.clearpath_config.get_platform_model() != Platform.A300:
+                sensor_analyzers['imu'] = {
+                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                    'path': 'IMU',
+                    'contains': ['imu']
+                }
+
             # List all topics to be monitored from each launched sensor
             for sensor in self.clearpath_config.sensors.get_all_sensors():
 
@@ -454,6 +461,18 @@ class PlatformParam():
                 self.param_file.update({
                     self.DIAGNOSTIC_UPDATER_NODE: {
                         'stop_status_rate': 0.0,  # Disable stop status diagnostic for W200
+                    }
+                })
+
+            if platform_model != Platform.A300 and platform_model != Platform.A200:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'topics': {
+                            'sensors/imu_0/data': {
+                                'type': BaseIMU.TOPICS.TYPE[BaseIMU.TOPICS.DATA],
+                                'rate': 50.0
+                            }
+                        }
                     }
                 })
 
