@@ -8,6 +8,25 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+2.6.1 (2025-07-07)
+------------------
+
+2.6.0 (2025-07-04)
+------------------
+* Add foxglove dependency (`#230 <https://github.com/clearpathrobotics/clearpath_common/issues/230>`_)
+* Fix/expected diag rates (`#227 <https://github.com/clearpathrobotics/clearpath_common/issues/227>`_)
+  * loosen rate window for MCU to allow 1 message to be missed
+  * Add lighting category to diagnostics aggregator conditionally
+  * Set expected BMS Status rate based on battery type
+  * Only create the Odometry category if ekf set true
+  * Only create the Networking category if wireless watcher is enabled
+  * Configurable tolerance window on diagnostics
+  * Monitor estop instead of stop_status if stop status does not exist
+  * Safety check for size of the labels lists
+  * Add warning on estop status
+  * Disable stop status rate by platform
+* Contributors: Hilary Luo, luis-camero
+
 2.5.1 (2025-06-17)
 ------------------
 

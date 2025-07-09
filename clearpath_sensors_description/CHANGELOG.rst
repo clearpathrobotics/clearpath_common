@@ -2,6 +2,18 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.6.1 (2025-07-07)
+------------------
+
+2.6.0 (2025-07-04)
+------------------
+* Add A300 AMP attachments (`#200 <https://github.com/clearpathrobotics/clearpath_common/issues/200>`_)
+  * Add meshes, URDFs for the A300 AMP and AMP Observer attachments
+  * Add spotlight attachment with light plugin for simulation
+  * Add Seyond description with lower-than-reality resolution & correct FoV for simulation. Fix math for calculating the number of samples
+  * Add GPS plugins for the Fixposition description
+* Contributors: Chris Iverach-Brereton
+
 2.5.1 (2025-06-17)
 ------------------
 

@@ -36,6 +36,7 @@ from apt import Cache
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
+from clearpath_config.platform.battery import BatteryConfig
 from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
 from clearpath_config.sensors.types.gps import BaseGPS
 from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
@@ -243,6 +244,25 @@ class PlatformParam():
                     }
                 })
 
+            # Add Lighting for every platform except A200 and J100
+            if self.clearpath_config.get_platform_model() not in (Platform.A200, Platform.J100):
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'lighting': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Lighting',
+                                    'expected': [
+                                        'lighting_node: Light Status'
+                                    ],
+                                    'contains': ['Light']
+                                }
+                            }
+                        }
+                    }
+                })
+
             # Add cooling for A300 only for now
             if self.clearpath_config.get_platform_model() == Platform.A300:
                 self.param_file.update({
@@ -265,10 +285,29 @@ class PlatformParam():
                         'platform': {
                             'analyzers': {
                                 'odometry': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Odometry',
+                                    'contains': ['odometry', 'ekf_node'],
                                     'expected': [
                                         'ekf_node: Filter diagnostic updater',
                                         'ekf_node: odometry/filtered topic status',
                                     ]
+                                }
+                            }
+                        }
+                    }
+                })
+
+            if self.clearpath_config.platform.enable_wireless_watcher:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'networking': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Networking',
+                                    'contains': ['Wi-Fi'],
+                                    'expected': ['wireless_watcher: Wi-Fi Monitor']
                                 }
                             }
                         }
@@ -373,13 +412,50 @@ class PlatformParam():
                     print(f'\033[93mWarning: ros-{ROS_DISTRO}-clearpath-firmware'
                           ' package not found\033[0m')
 
+            # Set expected BMS rate based on the platform battery model
+            bms_state_rate = 10.0
+            bms_state_tolerance = 0.15
+            if (self.clearpath_config.platform.battery.model in [BatteryConfig.S_24V20_U1]):
+                bms_state_rate = 1.5
+                bms_state_tolerance = 0.35
+            elif (self.clearpath_config.platform.battery.model in
+                    [BatteryConfig.VALENCE_U24_12XP, BatteryConfig.VALENCE_U27_12XP]):
+                bms_state_rate = 3.0
+                bms_state_tolerance = 0.25
+            elif (self.clearpath_config.platform.battery.model in [BatteryConfig.NEC_ALM12V35]):
+                bms_state_rate = 1.0
+                bms_state_tolerance = 0.25
+            elif (platform_model == Platform.A200):
+                bms_state_rate = 1.8
+                bms_state_tolerance = 0.25
+
             self.param_file.update({
                 self.DIAGNOSTIC_UPDATER_NODE: {
                     'ros_distro': ROS_DISTRO,
                     'latest_apt_firmware_version': latest_apt_firmware_version,
-                    'installed_apt_firmware_version': installed_apt_firmware_version
+                    'installed_apt_firmware_version': installed_apt_firmware_version,
+                    'bms_state_rate': bms_state_rate,
+                    'bms_state_tolerance': bms_state_tolerance
                 }
             })
+
+            # Additional considerations for A200 platform
+            if platform_model == Platform.A200:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'stop_status_rate': 0.0,  # Disable stop status diagnostic for A200
+                        'mcu_power_rate': 1.8,
+                        'mcu_power_tolerance': 0.25,
+                        'estop_rate': 1.8,
+                        'estop_tolerance': 0.25
+                    }
+                })
+            elif platform_model == Platform.W200:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'stop_status_rate': 0.0,  # Disable stop status diagnostic for W200
+                    }
+                })
 
             # List all topics to be monitored from each launched sensor
             for sensor in self.clearpath_config.sensors.get_all_sensors():

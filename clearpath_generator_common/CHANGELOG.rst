@@ -2,6 +2,36 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.6.1 (2025-07-07)
+------------------
+* Forward Fix: Universal Robots Rate (`#233 <https://github.com/clearpathrobotics/clearpath_common/issues/233>`_)
+  * Fix/Feature: UR Arm Controller Update Rate (`#225 <https://github.com/clearpathrobotics/clearpath_common/issues/225>`_)
+  * Change controller update rate for universal robots to 500
+  * Use UniversalRobots update_rate parameters if available
+  * Remove Franka
+* Contributors: luis-camero
+
+2.6.0 (2025-07-04)
+------------------
+* Fix/expected diag rates (`#227 <https://github.com/clearpathrobotics/clearpath_common/issues/227>`_)
+  * loosen rate window for MCU to allow 1 message to be missed
+  * Add lighting category to diagnostics aggregator conditionally
+  * Set expected BMS Status rate based on battery type
+  * Only create the Odometry category if ekf set true
+  * Only create the Networking category if wireless watcher is enabled
+  * Configurable tolerance window on diagnostics
+  * Monitor estop instead of stop_status if stop status does not exist
+  * Safety check for size of the labels lists
+  * Add warning on estop status
+  * Disable stop status rate by platform
+* Use argparse instead of getopt for processing the command-line arguments (`#223 <https://github.com/clearpathrobotics/clearpath_common/issues/223>`_)
+* Add A300 AMP attachments (`#200 <https://github.com/clearpathrobotics/clearpath_common/issues/200>`_)
+  * Add meshes, URDFs for the A300 AMP and AMP Observer attachments
+  * Add spotlight attachment with light plugin for simulation
+  * Add Seyond description with lower-than-reality resolution & correct FoV for simulation. Fix math for calculating the number of samples
+  * Add GPS plugins for the Fixposition description
+* Contributors: Chris Iverach-Brereton, Hilary Luo
+
 2.5.1 (2025-06-17)
 ------------------
 * Fix permissions on the generate_zenoh_router executable (`#221 <https://github.com/clearpathrobotics/clearpath_common/issues/221>`_)

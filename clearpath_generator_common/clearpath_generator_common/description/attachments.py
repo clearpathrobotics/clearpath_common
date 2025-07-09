@@ -32,6 +32,7 @@
 from typing import List
 
 from clearpath_config.platform.attachments.a200 import A200Attachment
+from clearpath_config.platform.attachments.a300 import A300Attachment
 from clearpath_config.platform.attachments.config import BaseAttachment
 from clearpath_config.platform.attachments.dd100 import DD100Attachment
 from clearpath_config.platform.attachments.dd150 import DD150Attachment
@@ -125,6 +126,12 @@ class AttachmentsDescription():
         A200Attachment.TOP_PLATE: BaseDescription,
         A200Attachment.SENSOR_ARCH: BaseDescription,
         A200Attachment.OBSERVER_BACKPACK: BaseDescription,
+        # A300
+        A300Attachment.BUMPER: BumperDescription,
+        A300Attachment.TOP_PLATE: BaseDescription,
+        A300Attachment.AMP_SENSOR_ARCH: BaseDescription,
+        A300Attachment.AMP_ENCLOSURE: BaseDescription,
+        A300Attachment.SPOTLIGHT: BaseDescription,
         # J100
         J100Attachment.FENDER: BaseDescription,
         J100Attachment.TOP_PLATE: BaseDescription,

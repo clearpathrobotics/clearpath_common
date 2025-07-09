@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org.xacro">
+  <xacro:macro name="amp_enclosure" params="name parent_link:=base_link model:=amp_enclosure *origin">
+    <link name="${name}_enclosure_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_enclosure.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="dark_grey"><color rgba="0.1 0.1 0.1 1.0" /></material>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_enclosure.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </collision>
+    </link>
+    <gazebo reference="${name}_enclosure_link">
+      <material>Gazebo/Black</material>
+    </gazebo>
+    <joint name="${name}_enclosure_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${name}_enclosure_link" />
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${name}_access_panels_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/attachments/observer_access_panels.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="yellow"><color rgba="1 0.6038269 0 1.0" /></material>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </visual>
+    </link>
+    <joint name="${name}_access_panels_joint" type="fixed">
+      <parent link="${name}_enclosure_link" />
+      <child link="${name}_access_panels_link" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <gazebo reference="${name}_access_panels_link">
+      <material>Gazebo/DarkYellow</material>
+    </gazebo>
+
+    <!--
+        Mount points for sensors, other accessories
+    -->
+
+    <!-- center of the adjustable track on top -->
+    <link name="${name}_center_mount" />
+    <joint name="${name}_center_joint" type="fixed">
+      <parent link="${name}_enclosure_link" />
+      <child link="${name}_center_mount" />
+      <origin xyz="0 0 0.4074593" rpy="0 0 0" />
+    </joint>
+
+    <!-- standard rear-mounted antennas -->
+    <link name="${name}_antenna_mount" />
+    <joint name="${name}_antenna_mount_link" type="fixed">
+      <parent link="${name}_enclosure_link" />
+      <child link="${name}_antenna_mount" />
+      <origin xyz="-0.4028 0 0.4074593" rpy="0 0 0" />
+    </joint>
+
+    <!-- rear-mounted fixposition -->
+    <link name="${name}_ins_mount" />
+    <joint name="${name}_ins_mouint_link" type="fixed">
+      <parent link="${name}_enclosure_link" />
+      <child link="${name}_ins_mount" />
+      <origin xyz="-0.4 0.0 0.3192593" rpy="3.14159 0 3.14159" />
+    </joint>
+
+    <!-- front-mounted robin -->
+    <link name="${name}_front_lidar_mount" />
+    <joint name="${name}_front_lidar_mount_link" type="fixed">
+      <parent link="${name}_enclosure_link" />
+      <child link="${name}_front_lidar_mount" />
+      <origin xyz="0.40 0 0.2708593" rpy="0 0 0" />
+    </joint>
+  </xacro:macro>
+</robot>

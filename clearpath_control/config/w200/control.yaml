@@ -39,7 +39,7 @@ platform_velocity_controller:
     preserve_turning_radius: true
 
     # W200 motor controllers only report velocity
-    # position_feedback: false
+    position_feedback: false
 
     # Publish limited velocity
     publish_limited_velocity: true
@@ -51,14 +51,14 @@ platform_velocity_controller:
     # Whenever a min_* is unspecified, default to -max_*
     linear.x.max_velocity: 5.0
     linear.x.min_velocity: -5.0
-    linear.x.max_acceleration: 50.0
-    linear.x.max_deceleration: -50.0
+    linear.x.max_acceleration: 2.5
+    linear.x.max_deceleration: -2.5
     linear.x.max_jerk: .NAN
     linear.x.min_jerk: .NAN
 
     angular.z.max_velocity: 4.0
     angular.z.min_velocity: -4.0
-    angular.z.max_acceleration: 40.0
-    angular.z.max_deceleration: -40.0
+    angular.z.max_acceleration: 2.0
+    angular.z.max_deceleration: -2.0
     angular.z.max_jerk: .NAN
     angular.z.min_jerk: .NAN

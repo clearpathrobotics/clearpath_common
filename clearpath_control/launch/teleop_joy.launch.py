@@ -105,7 +105,7 @@ def generate_launch_description():
         ],
         remappings=[
             ('joy', 'joy_teleop/joy'),
-            #('cmd_vel', 'joy_teleop/_cmd_vel'),
+            ('cmd_vel', 'joy_teleop/cmd_vel'),
         ]
     )
 

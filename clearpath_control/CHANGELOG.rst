@@ -2,6 +2,23 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.6.1 (2025-07-07)
+------------------
+
+2.6.0 (2025-07-04)
+------------------
+* Re-enable publishing controller input to joy_teleop/cmd_vel (`#232 <https://github.com/clearpathrobotics/clearpath_common/issues/232>`_)
+* Fix: W200 Diff Drive Parameters (`#228 <https://github.com/clearpathrobotics/clearpath_common/issues/228>`_)
+  * Disable using position for odom
+  * Lower acceleration to reasonable values
+* Feature/lynx 1.0.0 (`#226 <https://github.com/clearpathrobotics/clearpath_common/issues/226>`_)
+  * Added deceleration limits to A300
+  * Update to A300 angular parameters
+  * Reduced angular velocity defaults for controllers
+* Drop A200 controller manager update rate (`#224 <https://github.com/clearpathrobotics/clearpath_common/issues/224>`_)
+  the update rate is limited by the mcu capabilities
+* Contributors: Chris Iverach-Brereton, Hilary Luo, Roni Kreinin, luis-camero
+
 2.5.1 (2025-06-17)
 ------------------
 

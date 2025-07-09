@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:macro name="seyond_lidar" params="name parent_link *origin
-                                             ang_res_h:=0.002617993877991494 min_ang_h:=-1.0471975511965976 max_ang_h:=1.0471975511965976
-                                             ang_res_v:=0.006283185307179586 min_ang_v:=-0.6108652381980153 max_ang_v:=0.6108652381980153
-                                             update_rate:=20 min_range:=0.1 max_range:=150.0">
+                                             ang_res_h:=0.002617993877991494
+                                             min_ang_h:=-1.0471975511965976
+                                             max_ang_h:=1.0471975511965976
+                                             ang_res_v:=0.006283185307179586
+                                             min_ang_v:=-0.6108652381980153
+                                             max_ang_v:=0.6108652381980153
+                                             update_rate:=20
+                                             min_range:=0.1
+                                             max_range:=150.0">
 
         <link name="${name}_base_link">
             <inertial>
@@ -49,8 +55,8 @@
             <origin xyz="0 0 0.042" rpy="0 0 0" />
         </joint>
 
-        <xacro:property name="samples_h" value="${round((max_ang_h - min_ang_h) * 180 / (ang_res_h * pi))}"/>
-        <xacro:property name="samples_v" value="${round((max_ang_v - min_ang_v) * 180 / (ang_res_v * pi))}"/>
+        <xacro:property name="samples_h" value="${round((max_ang_h - min_ang_h) / ang_res_h)}"/>
+        <xacro:property name="samples_v" value="${round((max_ang_v - min_ang_v) / ang_res_v)}"/>
         <gazebo reference="${name}_laser">
             <sensor name="${name}" type="gpu_lidar">
                 <update_rate>${update_rate}</update_rate>
