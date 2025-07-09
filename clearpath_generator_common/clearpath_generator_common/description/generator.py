@@ -180,26 +180,27 @@ class DescriptionGenerator(BaseGenerator):
         self.xacro_writer.write_newline()
         sensors = self.clearpath_config.sensors.get_all_sensors()
         for sensor in sensors:
-            sensor_description = SensorDescription(sensor)
+            if sensor.get_urdf_enabled():
+                sensor_description = SensorDescription(sensor)
 
-            self.xacro_writer.write_comment(
-                '{0}'.format(sensor_description.name)
-            )
+                self.xacro_writer.write_comment(
+                    '{0}'.format(sensor_description.name)
+                )
 
-            self.xacro_writer.write_include(
-                package=sensor_description.package,
-                file=sensor_description.model,
-                path=sensor_description.path
-            )
+                self.xacro_writer.write_include(
+                    package=sensor_description.package,
+                    file=sensor_description.model,
+                    path=sensor_description.path
+                )
 
-            self.xacro_writer.write_macro(
-                macro='{0}'.format(sensor_description.model),
-                parameters=sensor_description.parameters,
-                blocks=XacroWriter.add_origin(
-                    sensor_description.xyz, sensor_description.rpy)
-            )
+                self.xacro_writer.write_macro(
+                    macro='{0}'.format(sensor_description.model),
+                    parameters=sensor_description.parameters,
+                    blocks=XacroWriter.add_origin(
+                        sensor_description.xyz, sensor_description.rpy)
+                )
 
-            self.xacro_writer.write_newline()
+                self.xacro_writer.write_newline()
 
     def generate_manipulators(self) -> None:
         self.xacro_writer.write_comment('Manipulators')
