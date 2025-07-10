@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="do100_wheel">
+  <xacro:property name="wheel_radius" value="0.050" />
+  <xacro:property name="wheel_mass" value="0.4" />
+  <xacro:property name="wheel_width" value="0.050" />
 
-  <xacro:macro name="do100_wheel" params="prefix side *joint_pose">
-
+  <xacro:macro name="do100_mecanum_wheel" params="prefix side *joint_pose">
     <link name="${prefix}_wheel_link">
       <visual>
         <origin xyz="0 ${side * 0.027} 0" rpy="0 0 ${PI/2}"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/do100/mecanum_wheel.dae" scale="${side} 1 1" />
+          <mesh filename="package://clearpath_platform_description/meshes/do100/wheels/mecanum.dae" scale="${side} 1 1" />
         </geometry>
       </visual>
       <collision>

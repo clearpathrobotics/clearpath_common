@@ -6,20 +6,16 @@
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/do100/control.yaml"/>
 
   <!-- Included URDF/Xacro Files -->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/wheels/wheel.urdf.xacro"/>
+  <!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/wheels/wheel.urdf.xacro"/> -->
 
   <xacro:property name="PI" value="${math.pi}" />
 
   <!-- D0100 Platform Macro -->
-  <xacro:macro name="do100" params="wheel:='defaut'">
+  <xacro:macro name="do100" params="drivetrain:='omni_4wd' wheels:='mecanum'">
     <!-- Variables -->
     <xacro:property name="wheelbase" value="0.570" />
     <xacro:property name="track" value="0.3708" />
     <xacro:property name="wheel_vertical_offset" value="0.035145" />
-
-    <xacro:property name="wheel_radius" value="0.050" />
-    <xacro:property name="wheel_mass" value="0.4" />
-    <xacro:property name="wheel_width" value="0.050" />
 
     <xacro:property name="dummy_inertia" value="1e-09"/>
 
@@ -57,48 +53,11 @@
         </inertial>
     </link>
 
-    <!-- Wheels -->
-    <xacro:do100_wheel prefix="front_left" side="-1">
-      <origin xyz="${wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_wheel>
-    <xacro:do100_wheel prefix="front_right" side="1">
-      <origin xyz="${wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_wheel>
-    <xacro:do100_wheel prefix="rear_left" side="1">
-      <origin xyz="${-wheelbase/2} ${track/2+wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_wheel>
-    <xacro:do100_wheel prefix="rear_right" side="-1">
-      <origin xyz="${-wheelbase/2} ${-track/2-wheel_width/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-    </xacro:do100_wheel>
-
-    <gazebo>
-      <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
-        <wheel link_name="front_left_wheel_link">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>20</wheel_normal_force>
-          <wheel_radius>${wheel_radius}</wheel_radius>
-        </wheel>
-        <wheel link_name="front_right_wheel_link">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>20</wheel_normal_force>
-          <wheel_radius>${wheel_radius}</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_left_wheel_link">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>20</wheel_normal_force>
-          <wheel_radius>${wheel_radius}</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_right_wheel_link">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>20</wheel_normal_force>
-          <wheel_radius>${wheel_radius}</wheel_radius>
-        </wheel>
-      </plugin>
-    </gazebo>
+    <!-- Add drivetrain -->
+    <xacro:if value="${drivetrain == 'omni_4wd'}">
+      <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/drivetrain/type/omni_4wd.urdf.xacro"/>
+      <xacro:do100_drivetrain_type_omni wheels="${wheels}"/>
+    </xacro:if>
 
     <!-- Internal IMU -->
     <link name="imu_0_link">
@@ -181,40 +140,7 @@
       <child link="rear_bumper_mount" />
     </joint>
 
-    <!-- Gazebo Controller -->
-    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
 
-    <!-- ROS2 controls -->
-    <ros2_control name="do100_hardware" type="system">
-      <hardware>
-        <xacro:if value="$(arg is_sim)">
-          <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-        </xacro:if>
-        <xacro:unless value="$(arg is_sim)">
-          <plugin>clearpath_hardware_interfaces/PumaHardware</plugin>
-        </xacro:unless>
-      </hardware>
-      <joint name="front_left_wheel_joint">
-        <command_interface name="velocity"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-      <joint name="front_right_wheel_joint">
-        <command_interface name="velocity"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-      <joint name="rear_left_wheel_joint">
-        <command_interface name="velocity"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-      <joint name="rear_right_wheel_joint">
-        <command_interface name="velocity"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-    </ros2_control>
   </xacro:macro>
 
   <!-- Joint State Publisher -->

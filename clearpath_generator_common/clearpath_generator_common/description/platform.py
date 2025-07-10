@@ -62,7 +62,8 @@ class PlatformDescription():
                 file=config.get_platform_model(),
                 macro=config.get_platform_model(),
                 parameters={
-                    'wheel': config.platform.wheel,
+                    'drivetrain': config.platform.drivetrain.dt_type,
+                    'wheels': config.platform.drivetrain.wheels,
                 }
             )
 
