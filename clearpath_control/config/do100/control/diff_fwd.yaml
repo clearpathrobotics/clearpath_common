@@ -1,0 +1,74 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 20  # Hz
+    use_sim_time: False
+
+    joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
+
+    platform_velocity_controller.type: diff_drive_controller/DiffDriveController
+
+platform_velocity_controller:
+  ros__parameters:
+    use_sim_time: False
+    left_wheel_names: [ "front_left_wheel_joint" ]
+    right_wheel_names: [ "front_right_wheel_joint" ]
+
+    wheel_separation: 0.37559
+    wheels_per_side: 1
+    wheel_radius: 0.049
+
+    wheel_separation_multiplier: 1.0
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
+
+    publish_rate: 20.0
+    odom_frame_id: odom
+    base_frame_id: base_link
+    pose_covariance_diagonal : [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+
+    open_loop: false
+    enable_odom_tf: false
+    tf_frame_prefix_enable: false
+
+    cmd_vel_timeout: 0.5
+    use_stamped_vel: true
+    #velocity_rolling_window_size: 10
+
+    # Preserve turning radius when limiting speed/acceleration/jerk
+    preserve_turning_radius: true
+
+    # Publish limited velocity
+    publish_limited_velocity: true
+
+    # Publish wheel data
+    publish_wheel_data: true
+
+    # Velocity and acceleration limits
+    # Whenever a min_* is unspecified, default to -max_*
+    linear.x.max_velocity: 1.3
+    linear.x.min_velocity: -1.3
+    linear.x.max_acceleration: 1.0
+    linear.x.max_deceleration: -1.0
+    linear.x.max_jerk: .NAN
+    linear.x.min_jerk: .NAN
+
+    angular.z.max_velocity: 4.0
+    angular.z.min_velocity: -4.0
+    angular.z.max_acceleration: 2.0
+    angular.z.max_deceleration: -2.0
+    angular.z.max_jerk: .NAN
+    angular.z.min_jerk: .NAN
+
+puma_control:
+  ros__parameters:
+    canbus_dev: 'vcan0'
+    joint_names: ['front_left_wheel_joint', 'front_right_wheel_joint']
+    joint_can_ids: [2, 3]
+    joint_directions: [1, -1]
+    gear_ratio: 24.0
+    encoder_cpr: 10
+    gain:
+      p: 0.025
+      i: 0.005
+      d: 0.0

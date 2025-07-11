@@ -595,6 +595,15 @@ class PlatformParam():
             super().__init__(parameter, clearpath_config, param_path)
             self.default_parameter_file_path = 'config'
 
+    class ControlParam(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_path = f'config/{self.platform}/control'
+            self.default_parameter = self.clearpath_config.platform.drivetrain.control
+
     PARAMETER = {
         IMU_FILTER: ImuFilterParam,
         DIAGNOSTIC_AGGREGATOR: DiagnosticsAggregatorParam,
@@ -603,6 +612,7 @@ class PlatformParam():
         LOCALIZATION: LocalizationParam,
         TELEOP_JOY: TeleopJoyParam,
         TWIST_MUX: TwistMuxParam,
+        CONTROL: ControlParam
     }
 
     def __new__(cls,
