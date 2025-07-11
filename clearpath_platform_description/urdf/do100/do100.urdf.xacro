@@ -58,18 +58,20 @@
     <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/drivetrain/drivetrain.urdf.xacro"/>
 
     <!-- Hardware  -->
-    <xacro:property name="hardware">
-      <xacro:if value="$(arg is_sim)">
-        <hardware plugin="gz_ros2_control/GazeboSimSystem"/>
-      </xacro:if>
-      <xacro:unless value="$(arg is_sim)">
-        <hardware plugin="clearpath_hardware_interfaces/PumaHardware"/>
-      </xacro:unless>
-    </xacro:property>
+    <xacro:if value="$(arg is_sim)">
+      <xacro:property name="hardware_plugin" value="gz_ros2_control/GazeboSimSystem"/>
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+      <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/PumaHardware"/>
+    </xacro:unless>
 
-    <xacro:generic_drivetrain name="do100" control="${control}" front_wheels="${front_wheels}" rear_wheels="${rear_wheels}">
-      <xacro:insert_block name="hardware"/>
-    </xacro:generic_drivetrain>
+    <xacro:generic_drivetrain
+      name="do100"
+      control="${control}"
+      front_wheels="${front_wheels}"
+      rear_wheels="${rear_wheels}"
+      hardware_plugin="${hardware_plugin}"
+    />
 
     <!-- Internal IMU -->
     <link name="imu_0_link">
