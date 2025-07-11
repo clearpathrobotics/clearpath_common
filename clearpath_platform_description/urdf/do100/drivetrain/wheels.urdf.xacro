@@ -16,7 +16,7 @@
       </xacro:do100_mecanum_wheel>
     </xacro:if>
     <xacro:unless value="${front_wheels == 'mecanum'}">
-      <xacro:error message="Invalid DO100 front wheels ${front_wheels}"/>
+      <xacro:error message="Invalid Dingo-O front wheels ${front_wheels}"/>
     </xacro:unless>
 
     <!-- Rear Wheels -->
@@ -32,7 +32,7 @@
       </xacro:do100_mecanum_wheel>
     </xacro:if>
     <xacro:unless value="${rear_wheels == 'mecanum'}">
-      <xacro:error message="Invalid DO100 rear wheels ${rear_wheels}"/>
+      <xacro:error message="Invalid Dingo-O rear wheels ${rear_wheels}"/>
     </xacro:unless>
 
   </xacro:macro>
