@@ -65,6 +65,10 @@
       <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/PumaHardware"/>
     </xacro:unless>
 
+    <xacro:unless value="${control == 'omni_4wd' or control == 'diff_4wd'}">
+      <xacro:error message="Invalid drivetrain control ${control}"/>
+    </xacro:unless>
+
     <xacro:generic_drivetrain
       name="do100"
       control="${control}"

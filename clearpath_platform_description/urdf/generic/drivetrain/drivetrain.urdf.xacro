@@ -2,10 +2,6 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="generic_drivetrain">
 
   <xacro:macro name="generic_drivetrain" params="name control front_wheels rear_wheels hardware_plugin">
-    <xacro:property name="hardware">
-      <hardware plugin="${hardware_plugin}"/>
-    </xacro:property>
-
     <!-- Omni drivetrain -->
     <xacro:if value="${control == 'omni_4wd'}">
       <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/drivetrain/control/omni_4wd.urdf.xacro"/>
@@ -29,7 +25,6 @@
       <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/drivetrain/control/diff_rwd.urdf.xacro"/>
       <xacro:generic_drivetrain_control_diff_rwd name="${name}" hardware_plugin="${hardware_plugin}"/>
     </xacro:if>
-
   </xacro:macro>
 
 </robot>
