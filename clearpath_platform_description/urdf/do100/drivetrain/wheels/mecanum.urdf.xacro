@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="do100_wheel">
-  <xacro:property name="wheel_radius" value="0.050" />
-  <xacro:property name="wheel_mass" value="0.4" />
-  <xacro:property name="wheel_width" value="0.050" />
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="do100_mecanum_wheel">
+
+  <xacro:property name="do100_mecanum_wheel_radius" value="0.050" />
+  <xacro:property name="do100_mecanum_wheel_mass" value="0.4" />
+  <xacro:property name="do100_mecanum_wheel_width" value="0.050" />
 
   <xacro:macro name="do100_mecanum_wheel" params="prefix side *joint_pose">
     <link name="${prefix}_wheel_link">
@@ -15,18 +16,29 @@
       <collision>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+          <cylinder radius="${do100_mecanum_wheel_radius}" length="${do100_mecanum_wheel_width}"/>
         </geometry>
       </collision>
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="${wheel_mass}"/>
+        <mass value="${do100_mecanum_wheel_mass}"/>
         <inertia
-          ixx="${wheel_mass/12 * (3 * wheel_radius * wheel_radius + wheel_width * wheel_width)}" ixy="0" ixz="0"
-          iyy="${(wheel_radius * wheel_radius * wheel_mass)/2}" iyz="0"
-          izz="${wheel_mass/12 * (3 * wheel_radius * wheel_radius + wheel_width * wheel_width)}"/>
+          ixx="${do100_mecanum_wheel_mass/12 * (3 * do100_mecanum_wheel_radius * do100_mecanum_wheel_radius + do100_mecanum_wheel_width * do100_mecanum_wheel_width)}" ixy="0" ixz="0"
+          iyy="${(do100_mecanum_wheel_radius * do100_mecanum_wheel_radius * do100_mecanum_wheel_mass)/2}" iyz="0"
+          izz="${do100_mecanum_wheel_mass/12 * (3 * do100_mecanum_wheel_radius * do100_mecanum_wheel_radius + do100_mecanum_wheel_width * do100_mecanum_wheel_width)}"/>
       </inertial>
     </link>
+
+    <gazebo>
+      <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
+        <wheel link_name="${prefix}_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>20</wheel_normal_force>
+          <do100_mecanum_wheel_radius>${do100_mecanum_wheel_radius}</do100_mecanum_wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
 
     <gazebo reference="${prefix}_wheel_link">
       <collision>

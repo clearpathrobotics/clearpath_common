@@ -5,13 +5,10 @@
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/do100/control.yaml"/>
 
-  <!-- Included URDF/Xacro Files -->
-  <!-- <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/wheels/wheel.urdf.xacro"/> -->
-
   <xacro:property name="PI" value="${math.pi}" />
 
   <!-- D0100 Platform Macro -->
-  <xacro:macro name="do100" params="drivetrain:='omni_4wd' wheels:='mecanum'">
+  <xacro:macro name="do100" params="control:='omni_4wd' front_wheels:='mecanum' rear_wheels:='mecanum'">
     <!-- Variables -->
     <xacro:property name="wheelbase" value="0.570" />
     <xacro:property name="track" value="0.3708" />
@@ -53,11 +50,26 @@
         </inertial>
     </link>
 
+    <!-- Add wheels -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/drivetrain/wheels.urdf.xacro"/>
+    <xacro:do100_drivetrain_wheels front_wheels="${front_wheels}" rear_wheels="${rear_wheels}"/>
+
     <!-- Add drivetrain -->
-    <xacro:if value="${drivetrain == 'omni_4wd'}">
-      <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/drivetrain/type/omni_4wd.urdf.xacro"/>
-      <xacro:do100_drivetrain_type_omni wheels="${wheels}"/>
-    </xacro:if>
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/drivetrain/drivetrain.urdf.xacro"/>
+
+    <!-- Hardware  -->
+    <xacro:property name="hardware">
+      <xacro:if value="$(arg is_sim)">
+        <hardware plugin="gz_ros2_control/GazeboSimSystem"/>
+      </xacro:if>
+      <xacro:unless value="$(arg is_sim)">
+        <hardware plugin="clearpath_hardware_interfaces/PumaHardware"/>
+      </xacro:unless>
+    </xacro:property>
+
+    <xacro:generic_drivetrain name="do100" control="${control}" front_wheels="${front_wheels}" rear_wheels="${rear_wheels}">
+      <xacro:insert_block name="hardware"/>
+    </xacro:generic_drivetrain>
 
     <!-- Internal IMU -->
     <link name="imu_0_link">
