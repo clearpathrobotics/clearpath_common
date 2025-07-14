@@ -2,6 +2,9 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.6.1 (2025-07-07)
 ------------------
 * Forward Fix: Universal Robots Rate (`#233 <https://github.com/clearpathrobotics/clearpath_common/issues/233>`_)
