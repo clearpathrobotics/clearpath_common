@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="a300_motor">
+
+  <xacro:macro name="a300_motor" params="prefix *joint_pose">
+    <link name="${prefix}_motor_link">
+        <visual>
+          <material name="clearpath_dark_grey"/>
+          <geometry>
+            <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/motor.dae" />
+          </geometry>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/motor.dae" />
+          </geometry>
+        </collision>
+      </link>
+
+      <joint name="${prefix}_motor_joint" type="fixed">
+        <parent link="chassis_link"/>
+        <child link="${prefix}_motor_link"/>
+        <xacro:insert_block name="joint_pose"/>
+      </joint>
+
+  </xacro:macro>
+</robot>

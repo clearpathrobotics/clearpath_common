@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="a300_drivetrain_wheels" params="front_wheels rear_wheels">
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/wheels/outdoor.urdf.xacro" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/motor.urdf.xacro" />
+    <!-- Front Wheels -->
+    <xacro:if value="${front_wheels == 'outdoor'}">
+      <xacro:property name="front_wheel_radius" value="${a300_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${a300_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:a300_outdoor_wheel prefix="front_left">
+        <origin xyz="${wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a300_outdoor_wheel>
+
+      <!-- Motor -->
+      <xacro:a300_motor prefix="front_left">
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi}"/>
+      </xacro:a300_motor>
+
+      <!-- Wheel -->
+      <xacro:a300_outdoor_wheel prefix="front_right">
+        <origin xyz="${wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a300_outdoor_wheel>
+
+      <!-- Motor -->
+      <xacro:a300_motor prefix="front_right">
+        <origin xyz="0 0 0" rpy="${math.pi} 0 ${math.pi}"/>
+      </xacro:a300_motor>
+
+    </xacro:if>
+    <xacro:unless value="${front_wheels == 'outdoor'}">
+      <xacro:error message="Invalid A300 front wheels ${front_wheels}"/>
+    </xacro:unless>
+
+    <!-- Rear Wheels -->
+    <xacro:if value="${rear_wheels == 'outdoor'}">
+      <xacro:property name="rear_wheel_radius" value="${a300_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${a300_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:a300_outdoor_wheel prefix="rear_left">
+        <origin xyz="${-wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a300_outdoor_wheel>
+
+      <!-- Motor -->
+      <xacro:a300_motor prefix="rear_left">
+        <origin xyz="0 0 0" rpy="${math.pi} 0 0"/>
+      </xacro:a300_motor>
+
+      <!-- Wheel -->
+      <xacro:a300_outdoor_wheel prefix="rear_right">
+        <origin xyz="${-wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a300_outdoor_wheel>
+
+      <!-- Motor -->
+      <xacro:a300_motor prefix="rear_right">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:a300_motor>
+
+    </xacro:if>
+    <xacro:unless value="${rear_wheels == 'outdoor'}">
+      <xacro:error message="Invalid A300 rear wheels ${rear_wheels}"/>
+    </xacro:unless>
+  </xacro:macro>
+</robot>
