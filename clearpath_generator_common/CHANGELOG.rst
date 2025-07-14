@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.6.2 (2025-07-14)
+------------------
 * Only add sensors to the description if their urdf_enabled flag is true (`#235 <https://github.com/clearpathrobotics/clearpath_common/issues/235>`_)
 * Contributors: Chris Iverach-Brereton
 
