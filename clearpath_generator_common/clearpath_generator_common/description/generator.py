@@ -85,7 +85,7 @@ class DescriptionGenerator(BaseGenerator):
         self.xacro_writer.write_newline()
 
         self.xacro_writer.close_file()
-        print(f'Generated {self.xacro_writer.file_path}robot.urdf.xacro')
+        print(f'Generated {self.xacro_writer.file_path}/robot.urdf.xacro')
 
     def generate_common(self) -> None:
         self.xacro_writer.write_comment('Common')
