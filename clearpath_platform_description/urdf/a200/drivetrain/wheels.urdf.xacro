@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="a200_drivetrain_wheels" params="front_wheels rear_wheels">
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/drivetrain/wheels/outdoor.urdf.xacro" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/drivetrain/wheels/indoor.urdf.xacro" />
+
+    <!-- Front Wheels -->
+
+    <!-- Outdoor -->
+    <xacro:if value="${front_wheels == 'outdoor'}">
+      <xacro:property name="front_wheel_radius" value="${a200_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${a200_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:a200_outdoor_wheel prefix="front_left">
+        <origin xyz="${wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a200_outdoor_wheel>
+
+      <!-- Wheel -->
+      <xacro:a200_outdoor_wheel prefix="front_right">
+        <origin xyz="${wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a200_outdoor_wheel>
+    </xacro:if>
+
+    <!-- Indoor -->
+    <xacro:if value="${front_wheels == 'indoor'}">
+      <xacro:property name="front_wheel_radius" value="${a200_indoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${a200_indoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:a200_indoor_wheel prefix="front_left">
+        <origin xyz="${wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a200_indoor_wheel>
+
+      <!-- Wheel -->
+      <xacro:a200_indoor_wheel prefix="front_right">
+        <origin xyz="${wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a200_indoor_wheel>
+    </xacro:if>
+
+    <!-- Rear Wheels -->
+
+    <!-- Outdoor -->
+    <xacro:if value="${rear_wheels == 'outdoor'}">
+      <xacro:property name="rear_wheel_radius" value="${a200_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${a200_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:a200_outdoor_wheel prefix="rear_left">
+        <origin xyz="${-wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a200_outdoor_wheel>
+
+      <!-- Wheel -->
+      <xacro:a200_outdoor_wheel prefix="rear_right">
+        <origin xyz="${-wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a200_outdoor_wheel>
+    </xacro:if>
+
+    <!-- Indoor -->
+    <xacro:if value="${rear_wheels == 'indoor'}">
+      <xacro:property name="rear_wheel_radius" value="${a200_indoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${a200_indoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:a200_indoor_wheel prefix="rear_left">
+        <origin xyz="${-wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a200_indoor_wheel>
+
+      <!-- Wheel -->
+      <xacro:a200_indoor_wheel prefix="rear_right">
+        <origin xyz="${-wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+      </xacro:a200_indoor_wheel>
+    </xacro:if>
+  </xacro:macro>
+</robot>

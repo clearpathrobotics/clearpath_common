@@ -6,7 +6,7 @@
   <xacro:property name="a300_outdoor_wheel_width" value="0.1143" />
 
   <xacro:macro name="a300_outdoor_wheel" params="prefix *joint_pose">
-    <link name="${prefix}_wheel">
+    <link name="${prefix}_wheel_link">
       <inertial>
         <mass value="${a300_outdoor_wheel_mass}" />
         <origin xyz="0 0 0" />
@@ -30,9 +30,20 @@
       </collision>
     </link>
 
+    <gazebo>
+      <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
+        <wheel link_name="${prefix}_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>113</wheel_normal_force>
+          <wheel_radius>${a300_outdoor_wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
+
     <joint name="${prefix}_wheel_joint" type="continuous">
       <parent link="chassis_link"/>
-      <child link="${prefix}_wheel"/>
+      <child link="${prefix}_wheel_link"/>
       <xacro:insert_block name="joint_pose"/>
       <axis xyz="0 1 0" rpy="0 0 0" />
     </joint>
