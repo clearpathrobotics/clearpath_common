@@ -38,6 +38,11 @@
       <xacro:property name="chassis_z" value="0"/>
     </xacro:if>
 
+    <!-- Suspension Beam Mounting Positions -->
+    <xacro:property name="chassis_suspension_mount_x" value="0.0"/>
+    <xacro:property name="chassis_suspension_mount_y" value="0.192"/>
+    <xacro:property name="chassis_suspension_mount_z" value="0.03763"/>
+
     <!-- Bumper Mounting Positions -->
     <xacro:property name="bumper_x" value="0.368500"/>
     <xacro:property name="bumper_y" value="0.0"/>
@@ -91,6 +96,21 @@
       <origin xyz="${chassis_x} ${chassis_y} ${chassis_z}" rpy="0 0 0"/>
     </joint>
 
+    <link name="chassis_left_suspension_mount"/>
+    <link name="chassis_right_suspension_mount"/>
+
+    <joint name="chassis_left_suspension_mount_joint" type="fixed">
+      <child link="chassis_left_suspension_mount"/>
+      <parent link="chassis_link"/>
+      <origin xyz="${chassis_suspension_mount_x} ${chassis_suspension_mount_y} ${chassis_suspension_mount_z}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="chassis_right_suspension_mount_joint" type="fixed">
+      <child link="chassis_right_suspension_mount"/>
+      <parent link="chassis_link"/>
+      <origin xyz="${chassis_suspension_mount_x} ${-chassis_suspension_mount_y} ${chassis_suspension_mount_z}" rpy="0 0 0"/>
+    </joint>
+
     <!-- Bumper Mounts -->
     <link name="front_bumper_mount"/>
     <link name="rear_bumper_mount"/>
@@ -117,45 +137,9 @@
     </joint>
 
     <!-- Suspension beams -->
-    <link name="left_suspension_beam_link">
-      <visual>
-        <material name="clearpath_dark_grey"/>
-        <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/suspension_beam.dae" />
-        </geometry>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/diff_drive_collision.stl" />
-        </geometry>
-      </collision>
-    </link>
-
-    <joint name="left_suspension_beam_joint" type="fixed">
-      <parent link="chassis_link"/>
-      <child link="left_suspension_beam_link"/>
-      <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
-    </joint>
-
-    <link name="right_suspension_beam_link">
-      <visual>
-        <material name="clearpath_dark_grey"/>
-        <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/suspension_beam.dae" />
-        </geometry>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a300/mobility/diff_drive_collision.stl" />
-        </geometry>
-      </collision>
-    </link>
-
-    <joint name="right_suspension_beam_joint" type="fixed">
-      <parent link="chassis_link"/>
-      <child link="right_suspension_beam_link"/>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-    </joint>
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/suspension_beam.urdf.xacro"/>
+    <xacro:a300_suspension_beam side="left"/>
+    <xacro:a300_suspension_beam side="right"/>
 
     <!-- Add wheels -->
     <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/wheels.urdf.xacro"/>

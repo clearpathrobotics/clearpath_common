@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="a300_suspension_beam">
+
+  <xacro:macro name="a300_suspension_beam" params="side">
+    <xacro:property name="rotation_yaw" value="${math.pi if side == 'right' else 0}"/>
+    <xacro:property name="spacer_offset" value="${-0.0159 if side == 'right' else 0.0159}"/>
+    <!-- Suspension beam spacer -->
+    <link name="${side}_suspension_beam_spacer_link">
+      <visual>
+        <material name="clearpath_dark_grey"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/suspension_spacer.stl"/>
+        </geometry>
+        <origin rpy="0 0 ${rotation_yaw}"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/suspension_spacer.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${side}_suspension_beam_spacer_joint" type="fixed">
+      <parent link="chassis_${side}_suspension_mount"/>
+      <child link="${side}_suspension_beam_spacer_link"/>
+    </joint>
+
+    <!-- Suspension beam -->
+    <link name="${side}_suspension_beam_link">
+      <visual>
+        <material name="clearpath_dark_grey"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/suspension_beam.stl"/>
+        </geometry>
+        <origin rpy="0 0 ${rotation_yaw}"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/suspension_beam.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${side}_suspension_beam_joint" type="fixed">
+      <parent link="${side}_suspension_beam_spacer_link"/>
+      <child link="${side}_suspension_beam_link"/>
+      <origin xyz="0 ${spacer_offset} 0"/>
+    </joint>
+
+    <!-- Mounts -->
+    <link name="${side}_suspension_beam_front_mount"/>
+    <link name="${side}_suspension_beam_rear_mount"/>
+
+    <joint name="${side}_suspension_beam_front_mount_joint" type="fixed">
+      <parent link="${side}_suspension_beam_link"/>
+      <child link="${side}_suspension_beam_front_mount"/>
+      <origin xyz="0.256 0.0095 -0.0085" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="${side}_suspension_beam_rear_mount_joint" type="fixed">
+      <parent link="${side}_suspension_beam_link"/>
+      <child link="${side}_suspension_beam_rear_mount"/>
+      <origin xyz="-0.256 0.0095 -0.0085" rpy="0 0 0"/>
+    </joint>
+
+  </xacro:macro>
+</robot>
