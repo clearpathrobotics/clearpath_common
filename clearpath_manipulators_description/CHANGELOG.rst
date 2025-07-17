@@ -2,6 +2,14 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Franka Update (`#238 <https://github.com/clearpathrobotics/clearpath_common/issues/238>`_)
+  * Pass version parameter to Franka Hardware Interface
+  * Use franka_arm macro and always add position and velocity interfaces
+  * Only use effort
+* Contributors: luis-camero
+
 1.3.3 (2025-07-03)
 ------------------
 * Fix/Feature: UR Arm Controller Update Rate (`#225 <https://github.com/clearpathrobotics/clearpath_common/issues/225>`_)
