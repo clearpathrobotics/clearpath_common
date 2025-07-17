@@ -19,9 +19,7 @@ ${controller_name}_joint_trajectory_controller:
       - ${name}_joint6
       - ${name}_joint7
     command_interfaces:
-      - position
-      - velocity
-      # - effort
+      - effort
     state_interfaces:
       - position
       - velocity
