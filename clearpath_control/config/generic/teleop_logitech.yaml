@@ -46,8 +46,8 @@ teleop_twist_joy_node:
     publish_stamped_twist: True
     use_sim_time: False
     axis_linear.x: 1
-    axis_linear.y: 0
-    axis_angular.yaw: 3
+    axis_linear.y: 3
+    axis_angular.yaw: 0
     enable_button: 4
     enable_turbo_button: 5
 joy_node:
