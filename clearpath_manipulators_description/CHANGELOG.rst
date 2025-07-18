@@ -2,8 +2,8 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.6.3 (2025-07-18)
+------------------
 * Fix: Ewellix Gazebo Migration (`#236 <https://github.com/clearpathrobotics/clearpath_common/issues/236>`_)
 * Contributors: luis-camero
 
