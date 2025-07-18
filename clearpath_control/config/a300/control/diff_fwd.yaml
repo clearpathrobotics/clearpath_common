@@ -17,7 +17,7 @@ platform_velocity_controller:
     wheels_per_side: 1
     wheel_radius: 0.1625
 
-    wheel_separation_multiplier: 1.75
+    wheel_separation_multiplier: 1.0
     left_wheel_radius_multiplier: 1.0
     right_wheel_radius_multiplier: 1.0
 
