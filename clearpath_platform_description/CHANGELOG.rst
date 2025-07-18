@@ -2,6 +2,12 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Disable Platform Controllers in Manipulator Controllers (`#239 <https://github.com/clearpathrobotics/clearpath_common/issues/239>`_)
+  Add flag to disable platform controllers for manipulation controller manager
+* Contributors: luis-camero
+
 2.6.2 (2025-07-14)
 ------------------
 
