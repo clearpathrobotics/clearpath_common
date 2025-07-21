@@ -224,8 +224,10 @@ class PlatformParam():
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
 
+            platform_model = self.clearpath_config.get_platform_model()
+
             # Add MCU diagnostic category for all platforms except A200
-            if self.clearpath_config.get_platform_model() != Platform.A200:
+            if platform_model != Platform.A200:
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -245,7 +247,7 @@ class PlatformParam():
                 })
 
             # Add Lighting for every platform except A200 and J100
-            if self.clearpath_config.get_platform_model() not in (Platform.A200, Platform.J100):
+            if platform_model not in (Platform.A200, Platform.J100):
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -264,7 +266,7 @@ class PlatformParam():
                 })
 
             # Add cooling for A300 only for now
-            if self.clearpath_config.get_platform_model() == Platform.A300:
+            if platform_model == Platform.A300:
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -316,14 +318,14 @@ class PlatformParam():
 
             sensor_analyzers = {}
 
-            if self.clearpath_config.get_platform_model() != Platform.A300:
+            if platform_model not in (Platform.A300, Platform.A200):
                 sensor_analyzers['imu'] = {
                     'type': 'diagnostic_aggregator/GenericAnalyzer',
                     'path': 'IMU',
                     'contains': ['imu']
                 }
 
-            if self.clearpath_config.get_platform_model() == Platform.J100:
+            if platform_model == Platform.J100:
                 sensor_analyzers['gps'] = {
                     'type': 'diagnostic_aggregator/GenericAnalyzer',
                     'path': 'GPS',
@@ -471,7 +473,7 @@ class PlatformParam():
                     }
                 })
 
-            if platform_model != Platform.A300 and platform_model != Platform.A200:
+            if platform_model not in (Platform.A300, Platform.A200):
                 self.param_file.update({
                     self.DIAGNOSTIC_UPDATER_NODE: {
                         'topics': {
