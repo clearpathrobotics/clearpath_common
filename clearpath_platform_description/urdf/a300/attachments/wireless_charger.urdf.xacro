@@ -28,5 +28,12 @@
             <child link="${name}_face" />
             <origin xyz="0 -0.34 0.15" rpy="0 0 -${pi / 2}" />
         </joint>
+
+        <link name="${name}_lidar_mount" />
+        <joint name="${name}_lidar_link" type="fixed">
+            <parent link="${name}_face" />
+            <child link="${name}_lidar_mount" />
+            <origin xyz="-0.065 0 0.125" rpy="0 0 0" />
+        </joint>
     </xacro:macro>
 </robot>
