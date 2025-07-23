@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="w200_drivetrain_wheels" params="front_wheels rear_wheels">
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/drivetrain/wheels/outdoor.urdf.xacro" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/drivetrain/wheels/tracks.urdf.xacro" />
+
+    <!-- Front Wheels -->
+
+    <!-- Outdoor -->
+    <xacro:if value="${front_wheels == 'outdoor'}">
+      <xacro:property name="front_wheel_radius" value="${w200_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${w200_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:w200_outdoor_wheel prefix="front" side="left">
+        <origin xyz="${axle_x_offset} ${axle_y_offset} ${axle_z_offset}" rpy="0 0 0"/>
+      </xacro:w200_outdoor_wheel>
+
+      <!-- Wheel -->
+      <xacro:w200_outdoor_wheel prefix="front" side="right">
+        <origin xyz="${axle_x_offset} ${-axle_y_offset} ${axle_z_offset}" rpy="0 0 0"/>
+      </xacro:w200_outdoor_wheel>
+    </xacro:if>
+
+    <!-- Tracks -->
+    <xacro:if value="${front_wheels == 'tracks'}">
+      <xacro:property name="front_wheel_radius" value="${w200_tracks_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${w200_tracks_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:w200_tracks prefix="front" side="left">
+        <origin xyz="${axle_x_offset} ${axle_y_offset} ${axle_z_offset}" rpy="0 0 0"/>
+      </xacro:w200_tracks>
+
+      <!-- Wheel -->
+      <xacro:w200_tracks prefix="front" side="right">
+        <origin xyz="${axle_x_offset} ${-axle_y_offset} ${axle_z_offset}" rpy="0 0 0"/>
+      </xacro:w200_tracks>
+    </xacro:if>
+
+    <!-- Rear Wheels -->
+
+    <!-- Outdoor -->
+    <xacro:if value="${rear_wheels == 'outdoor'}">
+      <xacro:property name="rear_wheel_radius" value="${w200_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${w200_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:w200_outdoor_wheel prefix="rear" side="left">
+        <origin xyz="${-axle_x_offset} ${axle_y_offset} ${axle_z_offset}" rpy="0 0 0"/>
+      </xacro:w200_outdoor_wheel>
+
+      <!-- Wheel -->
+      <xacro:w200_outdoor_wheel prefix="rear" side="right">
+        <origin xyz="${-axle_x_offset} ${-axle_y_offset} ${axle_z_offset}" rpy="0 0 0"/>
+      </xacro:w200_outdoor_wheel>
+    </xacro:if>
+
+    <!-- Tracks -->
+    <xacro:if value="${rear_wheels == 'tracks'}">
+      <xacro:property name="rear_wheel_radius" value="${w200_tracks_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${w200_tracks_width}" scope="parent"/>
+
+      <!-- Wheel -->
+      <xacro:w200_tracks prefix="rear" side="left">
+        <origin xyz="${-axle_x_offset} ${axle_y_offset} ${axle_z_offset}" rpy="0 0 0"/>
+      </xacro:w200_tracks>
+
+      <!-- Wheel -->
+      <xacro:w200_tracks prefix="rear" side="right">
+        <origin xyz="${-axle_x_offset} ${-axle_y_offset} ${axle_z_offset}" rpy="0 0 0"/>
+      </xacro:w200_tracks>
+    </xacro:if>
+  </xacro:macro>
+</robot>

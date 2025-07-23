@@ -566,6 +566,10 @@ class PlatformParam():
                       False, False, True,
                       True, False, False]
 
+        def __init__(self, parameter, clearpath_config, param_path):
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_path = 'config/generic'
+
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
 
@@ -624,8 +628,46 @@ class PlatformParam():
                      clearpath_config: ClearpathConfig,
                      param_path: str) -> None:
             super().__init__(parameter, clearpath_config, param_path)
-            self.default_parameter_file_path = f'config/{self.platform}'
+            # Default params for controller type
+            self.default_parameter_file_path = 'config/generic'
             self.default_parameter = f'teleop_{self.clearpath_config.platform.controller}'
+            # Platform params for any controller
+            self.platform_parameter_file_path = f'config/{self.platform}'
+            self.platform_parameter = 'teleop_joy'
+
+        def generate_parameters(self, use_sim_time=False):
+            # Default parameter file
+            self.default_param_file = ParamFile(
+                name=self.default_parameter,
+                package=self.default_parameter_file_package,
+                path=self.default_parameter_file_path,
+                parameters={}
+            )
+
+            self.platform_param_file = ParamFile(
+                name=self.platform_parameter,
+                package=self.default_parameter_file_package,
+                path=self.platform_parameter_file_path,
+                parameters={}
+            )
+
+            # Read both param files
+            self.default_param_file.read()
+            self.platform_param_file.read()
+
+            # Extend default param file with platform params
+            self.param_file.parameters = self.default_param_file.parameters
+            self.param_file.update(self.platform_param_file.parameters)
+
+            # Get extra ros parameters from config
+            extras = self.clearpath_config.platform.extras.ros_parameters
+            for node in extras:
+                if node in self.param_file.parameters:
+                    self.param_file.update({node: extras.get(node)})
+
+            if use_sim_time:
+                for node in self.param_file.parameters:
+                    self.param_file.update({node: {'use_sim_time': True}})
 
     class TwistMuxParam(BaseParam):
         def __init__(self,
@@ -635,6 +677,62 @@ class PlatformParam():
             super().__init__(parameter, clearpath_config, param_path)
             self.default_parameter_file_path = 'config'
 
+    class ControlParam(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_path = f'config/{self.platform}/control'
+            self.default_parameter = self.clearpath_config.platform.drivetrain.control
+
+    class TeleopInteractiveMarkers(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            # Generic params for interactive markers
+            self.default_parameter_file_path = 'config/generic'
+            self.default_parameter = 'teleop_interactive_markers'
+            # Platform specific params
+            self.platform_parameter_file_path = f'config/{self.platform}'
+            self.platform_parameter = 'teleop_interactive_markers'
+
+        def generate_parameters(self, use_sim_time=False):
+            # Default parameter file
+            self.default_param_file = ParamFile(
+                name=self.default_parameter,
+                package=self.default_parameter_file_package,
+                path=self.default_parameter_file_path,
+                parameters={}
+            )
+
+            self.platform_param_file = ParamFile(
+                name=self.platform_parameter,
+                package=self.default_parameter_file_package,
+                path=self.platform_parameter_file_path,
+                parameters={}
+            )
+
+            # Read both param files
+            self.default_param_file.read()
+            self.platform_param_file.read()
+
+            # Extend default param file with platform params
+            self.param_file.parameters = self.default_param_file.parameters
+            self.param_file.update(self.platform_param_file.parameters)
+
+            # Get extra ros parameters from config
+            extras = self.clearpath_config.platform.extras.ros_parameters
+            for node in extras:
+                if node in self.param_file.parameters:
+                    self.param_file.update({node: extras.get(node)})
+
+            if use_sim_time:
+                for node in self.param_file.parameters:
+                    self.param_file.update({node: {'use_sim_time': True}})
+
     PARAMETER = {
         IMU_FILTER: ImuFilterParam,
         DIAGNOSTIC_AGGREGATOR: DiagnosticsAggregatorParam,
@@ -643,6 +741,8 @@ class PlatformParam():
         LOCALIZATION: LocalizationParam,
         TELEOP_JOY: TeleopJoyParam,
         TWIST_MUX: TwistMuxParam,
+        CONTROL: ControlParam,
+        TELEOP_INTERACTIVE_MARKERS: TeleopInteractiveMarkers,
     }
 
     def __new__(cls,

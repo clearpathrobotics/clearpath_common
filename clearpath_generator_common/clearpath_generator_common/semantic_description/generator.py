@@ -57,7 +57,7 @@ class SemanticDescriptionGenerator(BaseGenerator):
         self.xacro_writer.write_newline()
 
         self.xacro_writer.close_file()
-        print(f'Generated {self.xacro_writer.file_path}robot.srdf.xacro')
+        print(f'Generated {self.xacro_writer.file_path}/robot.srdf.xacro')
 
     def generate_arms(self) -> None:
         self.xacro_writer.write_comment('Arms')

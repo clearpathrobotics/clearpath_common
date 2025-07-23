@@ -1,0 +1,12 @@
+# A300 default Joy Teleop velocity limits
+teleop_twist_joy_node:
+  ros__parameters:
+    # Regular
+    scale_linear.x: 0.4
+    scale_linear.y: 0.4
+    scale_angular.yaw: 0.75
+
+    # Turbo
+    scale_linear_turbo.x: 1.5
+    scale_linear_turbo.y: 1.5
+    scale_angular_turbo.yaw: 1.5

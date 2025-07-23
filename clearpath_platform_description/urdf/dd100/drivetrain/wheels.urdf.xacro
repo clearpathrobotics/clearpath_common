@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="dd100_drivetrain_wheels">
+
+  <xacro:macro name="dd100_drivetrain_wheels" params="front_wheels rear_wheels">
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/drivetrain/wheels/indoor.urdf.xacro"/>
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/drivetrain/wheels/caster.urdf.xacro"/>
+
+    <!-- Front Wheels -->
+    <xacro:if value="${front_wheels == 'indoor'}">
+      <xacro:property name="front_wheel_radius" value="${dd100_indoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${dd100_indoor_wheel_width}" scope="parent"/>
+      <xacro:dd100_indoor_wheel prefix="front_left">
+        <origin xyz="${wheel_x_offset} ${wheelbase+front_wheel_width/2} ${wheel_z_offset}" rpy="0 0 0" />
+      </xacro:dd100_indoor_wheel>
+
+      <xacro:dd100_indoor_wheel prefix="front_right">
+        <origin xyz="${wheel_x_offset} ${-wheelbase-front_wheel_width/2} ${wheel_z_offset}" rpy="0 0 0" />
+      </xacro:dd100_indoor_wheel>
+    </xacro:if>
+    <xacro:unless value="${front_wheels == 'indoor'}">
+      <xacro:error message="Invalid Dingo-D front wheels ${front_wheels}"/>
+    </xacro:unless>
+
+    <!-- Rear Wheels -->
+    <xacro:if value="${rear_wheels == 'caster'}">
+      <xacro:property name="rear_wheel_radius" value="${dd100_caster_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${dd100_caster_wheel_width}" scope="parent"/>
+      <!-- Single caster -->
+      <xacro:dd100_caster_wheel>
+        <origin xyz="-0.244 0 -0.00674" rpy="0 0 0" />
+      </xacro:dd100_caster_wheel>
+    </xacro:if>
+    <xacro:unless value="${rear_wheels == 'caster'}">
+      <xacro:error message="Invalid Dingo-D rear wheels ${rear_wheels}"/>
+    </xacro:unless>
+
+  </xacro:macro>
+
+</robot>

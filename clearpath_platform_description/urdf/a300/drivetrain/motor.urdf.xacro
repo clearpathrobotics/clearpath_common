@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="a300_motor">
+
+  <xacro:macro name="a300_motor" params="prefix side">
+    <xacro:property name="rotation_yaw" value="${math.pi if side == 'left' else 0}"/>
+    <xacro:property name="translation_y" value="${0.0655 if side == 'left' else -0.0655}"/>
+
+    <link name="${prefix}_${side}_motor_link">
+      <visual>
+        <material name="clearpath_dark_grey"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/motor.stl"/>
+        </geometry>
+        <origin rpy="0 0 ${rotation_yaw}"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/motor.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}_${side}_motor_joint" type="fixed">
+      <parent link="${side}_suspension_beam_${prefix}_mount"/>
+      <child link="${prefix}_${side}_motor_link"/>
+      <origin rpy="0 0 0"/>
+    </joint>
+
+    <link name="${prefix}_${side}_motor_mount"/>
+
+    <joint name="${prefix}_${side}_motor_mount_joint" type="fixed">
+      <parent link="${prefix}_${side}_motor_link"/>
+      <child link="${prefix}_${side}_motor_mount"/>
+      <origin xyz="0 ${translation_y} 0"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="a300_caster_flange">
+
+  <xacro:macro name="a300_caster_flange" params="prefix side">
+    <xacro:property name="mesh"
+      value="${'primary' if ((prefix == 'front' and side == 'right') or (prefix == 'rear' and side == 'left')) else 'secondary'}"/>
+    <xacro:property name="translation_x" value="${0.148 if prefix == 'front' else -0.148}"/>
+    <xacro:property name="translation_y" value="${0.068 if side == 'left' else -0.068}"/>
+    <xacro:property name="rotation_yaw" value="${math.pi if prefix == 'rear' else 0}"/>
+    <link name="${prefix}_${side}_flange_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${rotation_yaw}"/>
+        <material name="clearpath_dark_grey"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/caster_flange_${mesh}.stl" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${prefix}_${side}_flange_joint" type="fixed">
+      <parent link="${side}_suspension_beam_${prefix}_mount"/>
+      <child link="${prefix}_${side}_flange_link"/>
+    </joint>
+
+    <link name="${prefix}_${side}_flange_mount"/>
+
+    <joint name="${prefix}_${side}_flange_mount_joint" type="fixed">
+      <parent link="${prefix}_${side}_flange_link"/>
+      <child link="${prefix}_${side}_flange_mount"/>
+      <origin xyz="${translation_x} ${translation_y} 0.02363"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

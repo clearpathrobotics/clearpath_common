@@ -8,12 +8,10 @@
   <xacro:arg name="use_platform_controllers" default="true"/>
 
   <!-- Include URDF/XACRO Files -->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/wheels/track.urdf.xacro"/>
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/wheels/wheel.urdf.xacro"/>
   <xacro:property name="PI" value="3.1415926535897931"/>
   <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/diff_unit.urdf.xacro"/>
 
-  <xacro:macro name="w200" params="wheel:='default' color:='yellow'">
+  <xacro:macro name="w200" params="control:='diff_fwd' front_wheels:='outdoor' rear_wheels:='outdoor' color:='yellow'">
     <!-- Colors: yellow, orange, olive, sand -->
     <xacro:property name="warthog_color"  value="${'warthog_'+color}"/>
     <material name="warthog_yellow"><color rgba="0.95 0.816 0.082 1.0"/></material>
@@ -119,37 +117,9 @@
       <origin xyz="-0.5826 0 0.24979" rpy="0 0 0" />
     </joint>
 
-    <!-- Wheels -->
-    <xacro:if value="${wheel == 'default'}">
-      <xacro:w200_wheel prefix="front" side="left">
-        <origin xyz="${axle_x_offset*1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 0" />
-      </xacro:w200_wheel>
-      <xacro:w200_wheel prefix="front" side="right">
-        <origin xyz="${axle_x_offset*1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 0" />
-      </xacro:w200_wheel>
-      <xacro:w200_wheel prefix="rear" side="left">
-        <origin xyz="${axle_x_offset*-1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 0" />
-      </xacro:w200_wheel>
-      <xacro:w200_wheel prefix="rear" side="right">
-        <origin xyz="${axle_x_offset*-1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 0" />
-      </xacro:w200_wheel>
-    </xacro:if>
-
-    <!-- Tracks -->
-    <xacro:if value="${wheel == 'track'}">
-      <xacro:w200_track prefix="front" side="left">
-        <origin xyz="${axle_x_offset*1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 0" />
-      </xacro:w200_track>
-      <xacro:w200_track prefix="front" side="right">
-        <origin xyz="${axle_x_offset*1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 0" />
-      </xacro:w200_track>
-      <xacro:w200_track prefix="rear" side="left">
-        <origin xyz="${axle_x_offset*-1} ${axle_y_offset*1} ${axle_z_offset}" rpy="0 0 ${PI}" />
-      </xacro:w200_track>
-      <xacro:w200_track prefix="rear" side="right">
-        <origin xyz="${axle_x_offset*-1} ${axle_y_offset*-1} ${axle_z_offset}" rpy="0 0 ${PI}" />
-      </xacro:w200_track>
-    </xacro:if>
+    <!-- Add wheels -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/drivetrain/wheels.urdf.xacro"/>
+    <xacro:w200_drivetrain_wheels front_wheels="${front_wheels}" rear_wheels="${rear_wheels}"/>
 
     <!-- Virtual Mounting Point -->
     <link name="default_mount"></link>
@@ -232,35 +202,6 @@
         </joint>
       </ros2_control>
     </xacro:if>
-    <xacro:if value="$(arg is_sim)">
-      <gazebo>
-        <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
-          <wheel link_name="front_left_wheel_link">
-            <slip_compliance_lateral>1.0</slip_compliance_lateral>
-            <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-            <wheel_normal_force>686</wheel_normal_force>
-            <wheel_radius>${wheel_radius}</wheel_radius>
-          </wheel>
-          <wheel link_name="front_right_wheel_link">
-            <slip_compliance_lateral>1.0</slip_compliance_lateral>
-            <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-            <wheel_normal_force>686</wheel_normal_force>
-            <wheel_radius>${wheel_radius}</wheel_radius>
-          </wheel>
-          <wheel link_name="rear_left_wheel_link">
-            <slip_compliance_lateral>1.0</slip_compliance_lateral>
-            <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-            <wheel_normal_force>686</wheel_normal_force>
-            <wheel_radius>${wheel_radius}</wheel_radius>
-          </wheel>
-          <wheel link_name="rear_right_wheel_link">
-            <slip_compliance_lateral>1.0</slip_compliance_lateral>
-            <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-            <wheel_normal_force>686</wheel_normal_force>
-            <wheel_radius>${wheel_radius}</wheel_radius>
-          </wheel>
-        </plugin>
-      </gazebo>
-    </xacro:if>
+
   </xacro:macro>
 </robot>

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="dd100_indoor_wheel">
+
+  <xacro:property name="dd100_indoor_wheel_radius" value="0.049" />
+  <xacro:property name="dd100_indoor_wheel_mass" value="0.111" />
+  <xacro:property name="dd100_indoor_wheel_width" value="0.02032" />
+
+  <xacro:macro name="dd100_indoor_wheel" params="prefix *joint_pose">
+    <link name="${prefix}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/dd100/wheels/indoor.stl"/>
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${dd100_indoor_wheel_radius}" length="${dd100_indoor_wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${dd100_indoor_wheel_mass}"/>
+        <inertia
+          ixx="0.0003234" ixy="0" ixz="0"
+          iyy="0.0003234" iyz="0"
+          izz="0.00049015"/>
+      </inertial>
+    </link>
+
+    <gazebo>
+      <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
+        <wheel link_name="${prefix}_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>39.2</wheel_normal_force>
+          <wheel_radius>${dd100_indoor_wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
+
+    <gazebo reference="${prefix}_wheel_link">
+      <material>Gazebo/DarkGrey</material>
+      <selfCollide>false</selfCollide>
+      <mu1 value="0.5"/>
+      <mu2 value="0.5"/>
+      <fdir1 value="1 0 0"/>
+    </gazebo>
+
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="chassis_link"/>
+      <child link="${prefix}_wheel_link" />
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>

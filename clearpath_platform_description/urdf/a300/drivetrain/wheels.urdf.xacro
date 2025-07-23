@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="a300_drivetrain_wheels" params="front_wheels rear_wheels">
+
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/wheels/outdoor.urdf.xacro" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/wheels/mecanum.urdf.xacro" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/wheels/caster.urdf.xacro" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/motor.urdf.xacro" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/caster_flange.urdf.xacro" />
+
+    <!-- Front Wheels -->
+    <xacro:if value="${front_wheels == 'outdoor'}">
+      <xacro:property name="front_wheel_radius" value="${a300_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${a300_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Motors -->
+      <xacro:a300_motor prefix="front" side="left"/>
+      <xacro:a300_motor prefix="front" side="right"/>
+
+      <!-- Wheels -->
+      <xacro:a300_outdoor_wheel prefix="front" side="left"/>
+      <xacro:a300_outdoor_wheel prefix="front" side="right"/>
+
+    </xacro:if>
+
+    <xacro:if value="${front_wheels == 'mecanum'}">
+      <xacro:property name="front_wheel_radius" value="${a300_mecanum_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${a300_mecanum_wheel_width}" scope="parent"/>
+
+      <!-- Motors -->
+      <xacro:a300_motor prefix="front" side="left"/>
+      <xacro:a300_motor prefix="front" side="right"/>
+
+      <!-- Wheels -->
+      <xacro:a300_mecanum_wheel prefix="front" side="left"/>
+      <xacro:a300_mecanum_wheel prefix="front" side="right"/>
+
+    </xacro:if>
+
+    <xacro:if value="${front_wheels == 'caster'}">
+      <xacro:property name="front_wheel_radius" value="${a300_caster_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${a300_caster_wheel_width}" scope="parent"/>
+
+      <!-- Flanges -->
+      <xacro:a300_caster_flange prefix="front" side="left"/>
+      <xacro:a300_caster_flange prefix="front" side="right"/>
+
+      <!-- Wheels -->
+      <xacro:a300_caster_wheel prefix="front" side="left"/>
+      <xacro:a300_caster_wheel prefix="front" side="right"/>
+
+    </xacro:if>
+
+    <!-- Rear Wheels -->
+    <xacro:if value="${rear_wheels == 'outdoor'}">
+      <xacro:property name="rear_wheel_radius" value="${a300_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${a300_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Motors -->
+      <xacro:a300_motor prefix="rear" side="left"/>
+      <xacro:a300_motor prefix="rear" side="right"/>
+
+      <!-- Wheels -->
+      <xacro:a300_outdoor_wheel prefix="rear" side="left"/>
+      <xacro:a300_outdoor_wheel prefix="rear" side="right"/>
+
+    </xacro:if>
+
+    <xacro:if value="${rear_wheels == 'mecanum'}">
+      <xacro:property name="rear_wheel_radius" value="${a300_mecanum_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${a300_mecanum_wheel_width}" scope="parent"/>
+
+      <!-- Motors -->
+      <xacro:a300_motor prefix="rear" side="left"/>
+      <xacro:a300_motor prefix="rear" side="right"/>
+
+      <!-- Wheels -->
+      <xacro:a300_mecanum_wheel prefix="rear" side="left"/>
+      <xacro:a300_mecanum_wheel prefix="rear" side="right"/>
+
+    </xacro:if>
+
+    <xacro:if value="${rear_wheels == 'caster'}">
+      <xacro:property name="rear_wheel_radius" value="${a300_caster_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${a300_caster_wheel_width}" scope="parent"/>
+
+      <!-- Flanges -->
+      <xacro:a300_caster_flange prefix="rear" side="left"/>
+      <xacro:a300_caster_flange prefix="rear" side="right"/>
+
+      <!-- Wheels -->
+      <xacro:a300_caster_wheel prefix="rear" side="left"/>
+      <xacro:a300_caster_wheel prefix="rear" side="right"/>
+
+    </xacro:if>
+
+  </xacro:macro>
+</robot>

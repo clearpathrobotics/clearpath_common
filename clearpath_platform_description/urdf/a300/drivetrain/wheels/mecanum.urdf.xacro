@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="a300_mecanum_wheel" xmlns:gz="http://gazebosim.org/schema">
+
+  <xacro:property name="a300_mecanum_wheel_radius" value="0.1524" />
+  <xacro:property name="a300_mecanum_wheel_mass" value="2.5" />
+  <xacro:property name="a300_mecanum_wheel_width" value="0.11859" />
+
+  <xacro:macro name="a300_mecanum_wheel" params="prefix side">
+    <xacro:property name="mesh"
+      value="${'primary' if ((prefix == 'front' and side == 'left') or (prefix == 'rear' and side == 'right')) else 'secondary'}"/>
+    <xacro:property name="fdir_side" value="${1 if side == 'left' else -1}"/>
+    <link name="${prefix}_${side}_wheel_link">
+      <inertial>
+        <mass value="${a300_mecanum_wheel_mass}" />
+        <origin xyz="0 0 0" />
+        <inertia
+          ixx="${ a300_mecanum_wheel_mass/12 * (3*a300_mecanum_wheel_radius**2 + a300_mecanum_wheel_width**2) }" ixy="0" ixz="0"
+          iyy="${ a300_mecanum_wheel_mass/2 * a300_mecanum_wheel_radius**2 }" iyz="0"
+          izz="${ a300_mecanum_wheel_mass/12 * (3*a300_mecanum_wheel_radius**2 + a300_mecanum_wheel_width**2) }" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="${-math.pi/2} 0 ${math.pi if side == 'right' else 0}"/>
+        <material name="clearpath_dark_grey"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/wheels/mecanum_${mesh}.stl" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${math.pi/2} 0 0" />
+        <geometry>
+          <cylinder length="${a300_mecanum_wheel_width}" radius="${a300_mecanum_wheel_radius}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo>
+      <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
+        <wheel link_name="${prefix}_${side}_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>113</wheel_normal_force>
+          <wheel_radius>${a300_mecanum_wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
+
+    <gazebo reference="${prefix}_wheel_link">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>0.0</mu2>
+              <fdir1 gz:expressed_in="base_link">1 ${fdir_side} 0</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+    </gazebo>
+
+    <joint name="${prefix}_${side}_wheel_joint" type="continuous">
+      <parent link="${prefix}_${side}_motor_mount"/>
+      <child link="${prefix}_${side}_wheel_link"/>
+      <axis xyz="0 1 0" rpy="0 0 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>

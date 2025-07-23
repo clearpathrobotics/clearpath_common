@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="j100_drivetrain_wheels" params="front_wheels rear_wheels">
+
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/j100/drivetrain/wheels/outdoor.urdf.xacro" />
+
+    <!-- Front Wheels -->
+    <xacro:if value="${front_wheels == 'outdoor'}">
+      <xacro:property name="front_wheel_radius" value="${j100_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${j100_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheels -->
+      <xacro:j100_outdoor_wheel prefix="front_left">
+        <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:j100_outdoor_wheel>
+
+      <xacro:j100_outdoor_wheel prefix="front_right">
+        <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:j100_outdoor_wheel>
+
+    </xacro:if>
+
+    <!-- Rear Wheels -->
+    <xacro:if value="${rear_wheels == 'outdoor'}">
+      <xacro:property name="rear_wheel_radius" value="${j100_outdoor_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${j100_outdoor_wheel_width}" scope="parent"/>
+
+      <!-- Wheels -->
+      <xacro:j100_outdoor_wheel prefix="rear_left">
+        <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:j100_outdoor_wheel>
+
+      <xacro:j100_outdoor_wheel prefix="rear_right">
+        <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+      </xacro:j100_outdoor_wheel>
+
+    </xacro:if>
+
+  </xacro:macro>
+</robot>
