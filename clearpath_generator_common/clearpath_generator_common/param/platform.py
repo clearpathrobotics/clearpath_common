@@ -525,6 +525,7 @@ class PlatformParam():
                       False, False, False,
                       False, False, True,
                       True, False, False]
+
         def __init__(self, parameter, clearpath_config, param_path):
             super().__init__(parameter, clearpath_config, param_path)
             self.default_parameter_file_path = 'config/generic'
@@ -594,8 +595,7 @@ class PlatformParam():
             self.platform_parameter_file_path = f'config/{self.platform}'
             self.platform_parameter = 'teleop_joy'
 
-
-        def generate_parameters(self, use_sim_time = False):
+        def generate_parameters(self, use_sim_time=False):
             # Default parameter file
             self.default_param_file = ParamFile(
                 name=self.default_parameter,
@@ -659,8 +659,7 @@ class PlatformParam():
             self.platform_parameter_file_path = f'config/{self.platform}'
             self.platform_parameter = 'teleop_interactive_markers'
 
-
-        def generate_parameters(self, use_sim_time = False):
+        def generate_parameters(self, use_sim_time=False):
             # Default parameter file
             self.default_param_file = ParamFile(
                 name=self.default_parameter,
