@@ -416,8 +416,8 @@ class PlatformParam():
             bms_state_rate = 10.0
             bms_state_tolerance = 0.15
             if (self.clearpath_config.platform.battery.model in [BatteryConfig.S_24V20_U1]):
-                bms_state_rate = 1.5
-                bms_state_tolerance = 0.35
+                bms_state_rate = 2.5
+                bms_state_tolerance = 0.2
             elif (self.clearpath_config.platform.battery.model in
                     [BatteryConfig.VALENCE_U24_12XP, BatteryConfig.VALENCE_U27_12XP]):
                 bms_state_rate = 3.0
