@@ -32,7 +32,8 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction
+from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction, TimerAction
+
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from clearpath_config.common.utils.dictionary import unflatten_dict
@@ -82,20 +83,27 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
     ))
     # If Simulation, Add All Listed Controllers
-    for namespace in context_control:
+    for i, namespace in enumerate(context_control):
         for controller in context_control[namespace]:
             if ('controller' not in controller or
                     'manager' in controller or
                     'platform' in controller):
                 continue
-            controllers.append(Node(
-                package='controller_manager',
-                executable='spawner',
-                arguments=[
-                    controller, '--controller-manager-timeout', '60',
-                ],
-                output='screen',
-            ))
+            controllers.append(
+                TimerAction(
+                    period=i*5.0,
+                    actions=[
+                        Node(
+                            package='controller_manager',
+                            executable='spawner',
+                            arguments=[
+                                controller, '--controller-manager-timeout', '60',
+                            ],
+                            output='screen',
+                        )
+                    ]
+                )
+            )
     return [GroupAction(controllers)]
 
 
