@@ -4,12 +4,3 @@ controller_manager:
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
-
-    ${controller_name}_controller:
-      type: position_controllers/GripperActionController
-
-${controller_name}_controller:
-  ros__parameters:
-    default: true
-    joint: ${name}_finger_joint1
-    allow_stalling: true
