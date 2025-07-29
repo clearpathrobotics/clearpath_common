@@ -2,6 +2,13 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Franka Hand (`#244 <https://github.com/clearpathrobotics/clearpath_common/issues/244>`_)
+  * Remove ros2_control controllers
+  * Move gazebo control to a separate file
+* Contributors: luis-camero
+
 1.3.4 (2025-07-17)
 ------------------
 * Fix: Franka Update (`#238 <https://github.com/clearpathrobotics/clearpath_common/issues/238>`_)
