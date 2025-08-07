@@ -86,7 +86,8 @@ class ManipulatorSemanticDescription():
 
         def __init__(self, manipulator):
             super().__init__(manipulator)
-            self.parameters[self.NAME] = f'{manipulator.name}_{manipulator.arm_id}'
+            self.parameters[self.NAME] = f'{manipulator.name}'
+            self.parameters[Franka.ARM_ID] = f'{manipulator.arm_id}'
 
     MODEL = {
         Franka.MANIPULATOR_MODEL: FrankaSemanticDescription,
