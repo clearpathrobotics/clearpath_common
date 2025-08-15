@@ -27,6 +27,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 #define CLEARPATH_DIAGNOSTIC_LABELS_HPP
 
 #include <map>
+#include <string>
 #include <vector>
 
 #include "sensor_msgs/msg/battery_state.hpp"
@@ -63,6 +64,59 @@ public:
   inline static const std::string W200 = "w200";
   // Genric Robot
   inline static const std::string GENERIC = "generic";
+
+  //--------------------------------------------------------
+  // Labels for Firmware Alert Codes
+  // Format is {alert_code, {"Alert Title", "Troubleshooting/Description"}}
+  //--------------------------------------------------------
+  inline static const std::map<std::string, std::vector<std::string>> FIRMWARE_ALERTS = {
+    {"E110", {"Main Contactor Error!", ""}},
+    {"E113", {"Battery Out of Range!", ""}},
+    {"E116", {"E-Stop Contactor Error!", ""}},
+    {"E117", {"Brake Contactor Error!", ""}},
+    {"E120", {"Motor 1 Voltage Range Error!", ""}},
+    {"E121", {"Motor 2 Voltage Range Error!", ""}},
+    {"E122", {"Motor 3 Voltage Range Error!", ""}},
+    {"E123", {"Motor 4 Voltage Range Error!", ""}},
+    {"E124",
+      {"Motor Voltage Range Error!", "This is a general error for a voltage issue on any motor."}},
+    {"E140", {"User Power Contactor Error!", ""}},
+    {"E150", {"24V Aux Power Fail!", ""}},
+    {"E151", {"12V Aux Power Fail!", ""}},
+    {"E152", {"12V1 Sys Power Fail!", ""}},
+    {"E153", {"12V2 Sys Power Fail!", ""}},
+    {"E154", {"12V A User Power Fail!", ""}},
+    {"E155", {"12V B User Power Fail!", ""}},
+    {"E156", {"VBAT User Power Fail!", ""}},
+    {"E157", {"24V User Power Fail!", ""}},
+    {"E160",
+      {"Power Supply Failure!",
+        "This is a general error which is set for any of the power fail errors."}},
+    {"E170", {"VBAT User Power Fuse Tripped!", ""}},
+    {"E171", {"24V User Power Fuse Tripped!", ""}},
+    {"E172", {"12V A User Power Fuse Tripped!", ""}},
+    {"E173", {"12V B User Power Fuse Tripped!", ""}},
+    {"E174", {"Expansion Power Fuse Tripped!", ""}},
+    {"E810", {"Fan 1 Below Minimum Speed!", ""}},
+    {"E811", {"Fan 2 Below Minimum Speed!", ""}},
+    {"E812", {"Fan 3 Below Minimum Speed!", ""}},
+    {"E813", {"Fan 4 Below Minimum Speed!", ""}},
+    {"E814", {"Fan 5 Below Minimum Speed!", ""}},
+    {"E815", {"Fan 6 Below Minimum Speed!", ""}},
+    {"E816", {"Fan 7 Below Minimum Speed!", ""}},
+    {"E817", {"Fan 8 Below Minimum Speed!", ""}},
+    {"E820", {"Fan Below Minimum Speed!", "This is a general error for any fan."}},
+    {"E830", {"Fan 1 Above Maximum Speed!", ""}},
+    {"E831", {"Fan 2 Above Maximum Speed!", ""}},
+    {"E832", {"Fan 3 Above Maximum Speed!", ""}},
+    {"E833", {"Fan 4 Above Maximum Speed!", ""}},
+    {"E834", {"Fan 5 Above Maximum Speed!", ""}},
+    {"E835", {"Fan 6 Above Maximum Speed!", ""}},
+    {"E836", {"Fan 7 Above Maximum Speed!", ""}},
+    {"E837", {"Fan 8 Above Maximum Speed!", ""}},
+    {"E840", {"Fan Above Maximum Speed!", "This is a general error for any fan."}},
+  };
+
 
   //--------------------------------------------------------
   // Labels for clearpath_platform_msgs::msg::Power
