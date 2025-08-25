@@ -22,6 +22,7 @@
   <exec_depend>kortex_description</exec_depend>
   <exec_depend>robotiq_description</exec_depend>
   <exec_depend>ur_description</exec_depend>
+  <exec_depend>ewellix_description</exec_depend>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
