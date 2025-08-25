@@ -2,6 +2,17 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.6.4 (2025-07-29)
+------------------
+
+2.6.3 (2025-07-18)
+------------------
+* Fix: Ewellix Gazebo Migration (`#236 <https://github.com/clearpathrobotics/clearpath_common/issues/236>`_)
+* Contributors: luis-camero
+
+2.6.2 (2025-07-14)
+------------------
+
 2.6.1 (2025-07-07)
 ------------------
 * Forward Fix: Universal Robots Rate (`#233 <https://github.com/clearpathrobotics/clearpath_common/issues/233>`_)

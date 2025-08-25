@@ -158,7 +158,6 @@
       <child link="rear_bumper_mount" />
     </joint>
 
-
   </xacro:macro>
 
   <!-- Joint State Publisher -->
