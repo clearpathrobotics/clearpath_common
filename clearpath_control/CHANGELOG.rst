@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.7.0 (2025-08-25)
+------------------
 * Drivetrains (`#237 <https://github.com/clearpathrobotics/clearpath_common/issues/237>`_)
   * Moved meshes to wheels folder
   Mecanum drivetrain for do100
