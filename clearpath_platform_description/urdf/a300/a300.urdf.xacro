@@ -5,19 +5,43 @@
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/a300/control.yaml"/>
   <xacro:arg name="use_platform_controllers" default="true"/>
 
-  <!-- Included URDF/XACRO Files -->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/mobility/diff_drive.urdf.xacro" />
-
   <!-- Global Variables -->
   <xacro:property name="M_PI" value="${math.pi}"/>
 
-  <xacro:macro name="a300" params="wheel:='default'">
-    <!-- Base Size -->
-    <xacro:property name="base_mass" value="70"/>
-    <xacro:property name="base_x_size" value="0.860"/>
-    <xacro:property name="base_y_size" value="0.378"/>
-    <xacro:property name="base_z_size" value="0.229559"/>
-    <xacro:property name="base_z_narrow" value="0.0568"/>
+  <xacro:macro name="a300" params="control:='diff_4wd' front_wheels:='outdoor' rear_wheels:='outdoor'">
+    <!-- Chassis Size -->
+    <xacro:property name="chassis_mass" value="70"/>
+    <xacro:property name="chassis_x_size" value="0.860"/>
+    <xacro:property name="chassis_y_size" value="0.378"/>
+    <xacro:property name="chassis_z_size" value="0.229559"/>
+
+    <!-- Wheel base and track  -->
+    <xacro:property name="wheel_base" value="0.512"/>
+    <xacro:property name="wheel_track" value="0.562"/>
+
+    <!-- Chassis Positions relative to center of rotation -->
+    <xacro:if value="${control == 'diff_4wd' or control == 'omni_4wd'}">
+      <xacro:property name="chassis_x" value="0"/>
+      <xacro:property name="chassis_y" value="0"/>
+      <xacro:property name="chassis_z" value="0"/>
+    </xacro:if>
+
+    <xacro:if value="${control == 'diff_fwd'}">
+      <xacro:property name="chassis_x" value="${-wheel_base / 2}"/>
+      <xacro:property name="chassis_y" value="0"/>
+      <xacro:property name="chassis_z" value="0"/>
+    </xacro:if>
+
+    <xacro:if value="${control == 'diff_rwd'}">
+      <xacro:property name="chassis_x" value="${wheel_base / 2}"/>
+      <xacro:property name="chassis_y" value="0"/>
+      <xacro:property name="chassis_z" value="0"/>
+    </xacro:if>
+
+    <!-- Suspension Beam Mounting Positions -->
+    <xacro:property name="chassis_suspension_mount_x" value="0.0"/>
+    <xacro:property name="chassis_suspension_mount_y" value="0.192"/>
+    <xacro:property name="chassis_suspension_mount_z" value="0.03763"/>
 
     <!-- Bumper Mounting Positions -->
     <xacro:property name="bumper_x" value="0.368500"/>
@@ -27,10 +51,13 @@
     <!-- Top Plate Mounting Positions -->
     <xacro:property name="top_x" value="0.0"/>
     <xacro:property name="top_y" value="0.0"/>
-    <xacro:property name="top_z" value="${base_z_size}"/>
+    <xacro:property name="top_z" value="${chassis_z_size}"/>
 
-    <!-- Base Link: center of the bottom of the robot -->
-    <link name="base_link">
+    <!-- Base Link: center of rotation at the bottom of the robot -->
+    <link name="base_link"/>
+
+    <!-- Chassis Link: center of the bottom of the robot chassis -->
+    <link name="chassis_link">
       <visual>
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/a300/chassis.dae" />
@@ -53,15 +80,36 @@
         </geometry>
       </collision>
       <inertial>
-        <mass value="${base_mass}"/>
-        <origin xyz="0 0 ${base_z_size/2}" rpy="0 0 0"/>
+        <mass value="${chassis_mass}"/>
+        <origin xyz="0 0 ${chassis_z_size/2}" rpy="0 0 0"/>
         <inertia
-          ixx="${ base_mass/12 * (base_y_size**2 + base_z_size**2) }" ixy="0" ixz="0"
-          iyy="${ base_mass/12 * (base_x_size**2 + base_z_size**2) }" iyz="0"
-          izz="${ base_mass/12 * (base_x_size**2 + base_y_size**2) }"
+          ixx="${ chassis_mass/12 * (chassis_y_size**2 + chassis_z_size**2) }" ixy="0" ixz="0"
+          iyy="${ chassis_mass/12 * (chassis_x_size**2 + chassis_z_size**2) }" iyz="0"
+          izz="${ chassis_mass/12 * (chassis_x_size**2 + chassis_y_size**2) }"
         />
       </inertial>
     </link>
+
+    <joint name="chassis_joint" type="fixed">
+      <child link="chassis_link"/>
+      <parent link="base_link"/>
+      <origin xyz="${chassis_x} ${chassis_y} ${chassis_z}" rpy="0 0 0"/>
+    </joint>
+
+    <link name="chassis_left_suspension_mount"/>
+    <link name="chassis_right_suspension_mount"/>
+
+    <joint name="chassis_left_suspension_mount_joint" type="fixed">
+      <child link="chassis_left_suspension_mount"/>
+      <parent link="chassis_link"/>
+      <origin xyz="${chassis_suspension_mount_x} ${chassis_suspension_mount_y} ${chassis_suspension_mount_z}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="chassis_right_suspension_mount_joint" type="fixed">
+      <child link="chassis_right_suspension_mount"/>
+      <parent link="chassis_link"/>
+      <origin xyz="${chassis_suspension_mount_x} ${-chassis_suspension_mount_y} ${chassis_suspension_mount_z}" rpy="0 0 0"/>
+    </joint>
 
     <!-- Bumper Mounts -->
     <link name="front_bumper_mount"/>
@@ -69,13 +117,13 @@
 
     <joint name="front_bumper_mount_joint" type="fixed">
       <child link="front_bumper_mount"/>
-      <parent link="base_link"/>
+      <parent link="chassis_link"/>
       <origin xyz="${bumper_x} ${bumper_y} ${bumper_z}" rpy="0 0 0"/>
     </joint>
 
     <joint name="rear_bumper_mount_joint" type="fixed">
       <child link="rear_bumper_mount"/>
-      <parent link="base_link"/>
+      <parent link="chassis_link"/>
       <origin xyz="${-bumper_x} ${bumper_y} ${bumper_z}" rpy="0 0 ${math.pi}"/>
     </joint>
 
@@ -84,15 +132,55 @@
 
     <joint name="default_mount_joint" type="fixed">
       <child link="default_mount"/>
-      <parent link="base_link"/>
+      <parent link="chassis_link"/>
       <origin xyz="${top_x} ${top_y} ${top_z}"/>
     </joint>
 
-    <!-- Gazebo Controller -->
-    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
+    <!-- Suspension beams -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/suspension_beam.urdf.xacro"/>
+    <xacro:a300_suspension_beam side="left"/>
+    <xacro:a300_suspension_beam side="right"/>
 
-    <!-- Mobility Kit -->
-    <xacro:mobility_diff_drive wheel='${wheel}'/>
+    <!-- Add wheels -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/drivetrain/wheels.urdf.xacro"/>
+    <xacro:a300_drivetrain_wheels front_wheels="${front_wheels}" rear_wheels="${rear_wheels}"/>
+
+    <!-- Add drivetrain -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/drivetrain/drivetrain.urdf.xacro"/>
+
+    <!-- Hardware  -->
+    <xacro:if value="$(arg is_sim)">
+      <xacro:property name="hardware_plugin" value="gz_ros2_control/GazeboSimSystem"/>
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+      <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/LynxHardware"/>
+    </xacro:unless>
+
+    <xacro:generic_drivetrain
+      name="a300"
+      control="${control}"
+      front_wheels="${front_wheels}"
+      rear_wheels="${rear_wheels}"
+      hardware_plugin="${hardware_plugin}"
+    />
+
+    <!-- Base Footprint: on the ground below the robot -->
+    <link name="base_footprint"/>
+
+    <xacro:if value="${control == 'diff_4wd' or control == 'omni_4wd' or control == 'diff_fwd'}">
+      <joint name="base_footprint_joint" type="fixed">
+        <origin xyz="0 0 ${front_wheel_radius}" rpy="0 0 0" />
+        <parent link="chassis_link" />
+        <child link="base_footprint" />
+      </joint>
+    </xacro:if>
+    <xacro:if value="${control == 'diff_rwd'}">
+      <joint name="base_footprint_joint" type="fixed">
+        <origin xyz="0 0 ${rear_wheel_radius}" rpy="0 0 0" />
+        <parent link="chassis_link" />
+        <child link="base_footprint" />
+      </joint>
+    </xacro:if>
 
   </xacro:macro>
 </robot>

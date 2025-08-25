@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="r100_drivetrain_wheels">
+
+  <!-- Includes -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/rocker.urdf.xacro"/>
+
+  <xacro:macro name="r100_drivetrain_wheels" params="front_wheels rear_wheels">
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/drivetrain/wheels/mecanum.urdf.xacro"/>
+
+    <!-- Front Wheels -->
+
+    <!-- Rocker -->
+    <xacro:r100_rocker prefix="front" joint_type="fixed" location="1" >
+      <limit lower="-0.08726" upper="0.08726" effort="0" velocity="0" />
+    </xacro:r100_rocker>
+
+    <xacro:if value="${front_wheels == 'mecanum'}">
+      <xacro:property name="front_wheel_radius" value="${r100_mecanum_wheel_radius}" scope="parent"/>
+      <xacro:property name="front_wheel_width" value="${r100_mecanum_wheel_width}" scope="parent"/>
+
+      <!-- Front left -->
+      <xacro:r100_mecanum_wheel parent="front_rocker_link" prefix="front_left" side="-1">
+        <origin xyz="0 ${rocker_width/2 + front_wheel_width/2} 0" rpy="0 0 0" />
+      </xacro:r100_mecanum_wheel>
+
+      <!-- Front right -->
+      <xacro:r100_mecanum_wheel parent="front_rocker_link" prefix="front_right" side="1">
+        <origin xyz="0 ${-(rocker_width/2 + front_wheel_width/2)} 0" rpy="0 0 0" />
+      </xacro:r100_mecanum_wheel>
+
+    </xacro:if>
+    <xacro:unless value="${front_wheels == 'mecanum'}">
+      <xacro:error message="Invalid R100 front wheels ${front_wheels}"/>
+    </xacro:unless>
+
+    <!-- Rear Wheels -->
+
+    <!-- Rocker -->
+    <xacro:r100_rocker prefix="rear" joint_type="fixed" location="-1" >
+      <limit effort="0" velocity="0" />
+    </xacro:r100_rocker>
+
+    <xacro:if value="${rear_wheels == 'mecanum'}">
+      <xacro:property name="rear_wheel_radius" value="${r100_mecanum_wheel_radius}" scope="parent"/>
+      <xacro:property name="rear_wheel_width" value="${r100_mecanum_wheel_width}" scope="parent"/>
+
+      <!-- Rear left -->
+      <xacro:r100_mecanum_wheel parent="rear_rocker_link" prefix="rear_left" side="1">
+        <origin xyz="0 ${rocker_width/2 + rear_wheel_width/2} 0" rpy="0 0 0" />
+      </xacro:r100_mecanum_wheel>
+
+      <!-- Rear right -->
+      <xacro:r100_mecanum_wheel parent="rear_rocker_link" prefix="rear_right" side="-1">
+        <origin xyz="0 ${-(rocker_width/2 + rear_wheel_width/2)} 0" rpy="0 0 0" />
+      </xacro:r100_mecanum_wheel>
+    </xacro:if>
+    <xacro:unless value="${rear_wheels == 'mecanum'}">
+      <xacro:error message="Invalid R100 rear wheels ${rear_wheels}"/>
+    </xacro:unless>
+
+  </xacro:macro>
+
+</robot>

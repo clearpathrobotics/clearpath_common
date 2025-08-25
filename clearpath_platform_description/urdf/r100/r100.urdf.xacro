@@ -3,20 +3,11 @@
 
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
-  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/r100/control.yaml"/>
-  <xacro:arg name="use_platform_controllers" default="true"/>
-
-  <!-- Includes -->
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/wheels/wheel.urdf.xacro"/>
-  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/rocker.urdf.xacro"/>
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/r100/control/omni_4wd.yaml"/>
 
   <!-- R100 Platform Macro -->
-  <xacro:macro name="r100" params="wheel:='defaut'">
+  <xacro:macro name="r100" params="control:='omni_4wd' front_wheels:='mecanum' rear_wheels:='mecanum'">
     <!-- Variables -->
-    <xacro:property name="wheel_radius" value="0.0759" />
-    <xacro:property name="wheel_width" value="0.0790" />
-    <xacro:property name="wheel_mass" value="2.5" />
-
     <xacro:property name="chassis_length" value="0.960" />
     <xacro:property name="chassis_width" value="0.793" />
     <xacro:property name="chassis_height" value="0.216" />
@@ -224,43 +215,32 @@
       </collision>
     </link>
 
-    <!-- Rocker -->
-    <xacro:r100_rocker prefix="front" joint_type="fixed" location="1" >
-      <limit lower="-0.08726" upper="0.08726" effort="0" velocity="0" />
-    </xacro:r100_rocker>
+    <!-- Add wheels -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/drivetrain/wheels.urdf.xacro"/>
+    <xacro:r100_drivetrain_wheels front_wheels="${front_wheels}" rear_wheels="${rear_wheels}"/>
 
-    <xacro:r100_rocker prefix="rear" joint_type="fixed" location="-1" >
-      <limit effort="0" velocity="0" />
-    </xacro:r100_rocker>
+    <!-- Add drivetrain -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/drivetrain/drivetrain.urdf.xacro"/>
 
-    <gazebo>
-      <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
-        <wheel link_name="front_left_wheel_link">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>200</wheel_normal_force>
-          <wheel_radius>${wheel_radius}</wheel_radius>
-        </wheel>
-        <wheel link_name="front_right_wheel_link">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>200</wheel_normal_force>
-          <wheel_radius>${wheel_radius}</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_left_wheel_link">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>200</wheel_normal_force>
-          <wheel_radius>${wheel_radius}</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_right_wheel_link">
-          <slip_compliance_lateral>1.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
-          <wheel_normal_force>200</wheel_normal_force>
-          <wheel_radius>${wheel_radius}</wheel_radius>
-        </wheel>
-      </plugin>
-    </gazebo>
+    <!-- Hardware  -->
+    <xacro:if value="$(arg is_sim)">
+      <xacro:property name="hardware_plugin" value="gz_ros2_control/GazeboSimSystem"/>
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+      <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/PumaHardware"/>
+    </xacro:unless>
+
+    <xacro:unless value="${control == 'omni_4wd' or control == 'diff_4wd'}">
+      <xacro:error message="Invalid drivetrain control ${control}"/>
+    </xacro:unless>
+
+    <xacro:generic_drivetrain
+      name="r100"
+      control="${control}"
+      front_wheels="${front_wheels}"
+      rear_wheels="${rear_wheels}"
+      hardware_plugin="${hardware_plugin}"
+    />
 
     <!-- Internal IMU -->
     <link name="imu_0_link">
@@ -292,43 +272,6 @@
       <child link="default_mount" />
       <origin xyz="0 0 ${riser_height + deck_thickness}" rpy="0 0 0"/>
     </joint>
-
-    <!-- Gazebo Controller -->
-    <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/gazebo.urdf.xacro"/>
-
-    <!-- ROS2 controls -->
-    <xacro:if value="$(arg use_platform_controllers)">
-      <ros2_control name="r100_hardware" type="system">
-        <hardware>
-          <xacro:if value="$(arg is_sim)">
-            <plugin>ign_ros2_control/IgnitionSystem</plugin>
-          </xacro:if>
-          <xacro:unless value="$(arg is_sim)">
-            <plugin>clearpath_hardware_interfaces/PumaHardware</plugin>
-          </xacro:unless>
-        </hardware>
-        <joint name="front_left_wheel_joint">
-          <command_interface name="velocity"/>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-        </joint>
-        <joint name="front_right_wheel_joint">
-          <command_interface name="velocity"/>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-        </joint>
-        <joint name="rear_left_wheel_joint">
-          <command_interface name="velocity"/>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-        </joint>
-        <joint name="rear_right_wheel_joint">
-          <command_interface name="velocity"/>
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-        </joint>
-      </ros2_control>
-    </xacro:if>
 
   </xacro:macro>
 </robot>

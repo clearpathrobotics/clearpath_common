@@ -38,7 +38,7 @@ from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
 from clearpath_config.platform.battery import BatteryConfig
 from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
-from clearpath_config.sensors.types.gps import BaseGPS
+from clearpath_config.sensors.types.gps import BaseGPS, NMEA
 from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D
 from clearpath_config.sensors.types.lidars_3d import BaseLidar3D
@@ -224,8 +224,10 @@ class PlatformParam():
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
 
+            platform_model = self.clearpath_config.get_platform_model()
+
             # Add MCU diagnostic category for all platforms except A200
-            if self.clearpath_config.get_platform_model() != Platform.A200:
+            if platform_model != Platform.A200:
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -245,7 +247,7 @@ class PlatformParam():
                 })
 
             # Add Lighting for every platform except A200 and J100
-            if self.clearpath_config.get_platform_model() not in (Platform.A200, Platform.J100):
+            if platform_model not in (Platform.A200, Platform.J100):
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -264,7 +266,7 @@ class PlatformParam():
                 })
 
             # Add cooling for A300 only for now
-            if self.clearpath_config.get_platform_model() == Platform.A300:
+            if platform_model == Platform.A300:
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -315,6 +317,20 @@ class PlatformParam():
                 })
 
             sensor_analyzers = {}
+
+            if platform_model not in (Platform.A300, Platform.A200):
+                sensor_analyzers['imu'] = {
+                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                    'path': 'IMU',
+                    'contains': ['imu']
+                }
+
+            if platform_model == Platform.J100:
+                sensor_analyzers['gps'] = {
+                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                    'path': 'GPS',
+                    'contains': ['gps']
+                }
 
             # List all topics to be monitored from each launched sensor
             for sensor in self.clearpath_config.sensors.get_all_sensors():
@@ -457,6 +473,30 @@ class PlatformParam():
                     }
                 })
 
+            if platform_model not in (Platform.A300, Platform.A200):
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'topics': {
+                            'sensors/imu_0/data': {
+                                'type': BaseIMU.TOPICS.TYPE[BaseIMU.TOPICS.DATA],
+                                'rate': 50.0
+                            }
+                        }
+                    }
+                })
+
+            if platform_model == Platform.J100:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'topics': {
+                            'sensors/gps_0/fix': {
+                                'type': NMEA.TOPICS.TYPE[NMEA.TOPICS.FIX],
+                                'rate': 10.0
+                            }
+                        }
+                    }
+                })
+
             # List all topics to be monitored from each launched sensor
             for sensor in self.clearpath_config.sensors.get_all_sensors():
 
@@ -526,6 +566,10 @@ class PlatformParam():
                       False, False, True,
                       True, False, False]
 
+        def __init__(self, parameter, clearpath_config, param_path):
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_path = 'config/generic'
+
         def generate_parameters(self, use_sim_time: bool = False) -> None:
             super().generate_parameters(use_sim_time)
 
@@ -584,8 +628,46 @@ class PlatformParam():
                      clearpath_config: ClearpathConfig,
                      param_path: str) -> None:
             super().__init__(parameter, clearpath_config, param_path)
-            self.default_parameter_file_path = f'config/{self.platform}'
+            # Default params for controller type
+            self.default_parameter_file_path = 'config/generic'
             self.default_parameter = f'teleop_{self.clearpath_config.platform.controller}'
+            # Platform params for any controller
+            self.platform_parameter_file_path = f'config/{self.platform}'
+            self.platform_parameter = 'teleop_joy'
+
+        def generate_parameters(self, use_sim_time=False):
+            # Default parameter file
+            self.default_param_file = ParamFile(
+                name=self.default_parameter,
+                package=self.default_parameter_file_package,
+                path=self.default_parameter_file_path,
+                parameters={}
+            )
+
+            self.platform_param_file = ParamFile(
+                name=self.platform_parameter,
+                package=self.default_parameter_file_package,
+                path=self.platform_parameter_file_path,
+                parameters={}
+            )
+
+            # Read both param files
+            self.default_param_file.read()
+            self.platform_param_file.read()
+
+            # Extend default param file with platform params
+            self.param_file.parameters = self.default_param_file.parameters
+            self.param_file.update(self.platform_param_file.parameters)
+
+            # Get extra ros parameters from config
+            extras = self.clearpath_config.platform.extras.ros_parameters
+            for node in extras:
+                if node in self.param_file.parameters:
+                    self.param_file.update({node: extras.get(node)})
+
+            if use_sim_time:
+                for node in self.param_file.parameters:
+                    self.param_file.update({node: {'use_sim_time': True}})
 
     class TwistMuxParam(BaseParam):
         def __init__(self,
@@ -595,6 +677,62 @@ class PlatformParam():
             super().__init__(parameter, clearpath_config, param_path)
             self.default_parameter_file_path = 'config'
 
+    class ControlParam(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_path = f'config/{self.platform}/control'
+            self.default_parameter = self.clearpath_config.platform.drivetrain.control
+
+    class TeleopInteractiveMarkers(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            # Generic params for interactive markers
+            self.default_parameter_file_path = 'config/generic'
+            self.default_parameter = 'teleop_interactive_markers'
+            # Platform specific params
+            self.platform_parameter_file_path = f'config/{self.platform}'
+            self.platform_parameter = 'teleop_interactive_markers'
+
+        def generate_parameters(self, use_sim_time=False):
+            # Default parameter file
+            self.default_param_file = ParamFile(
+                name=self.default_parameter,
+                package=self.default_parameter_file_package,
+                path=self.default_parameter_file_path,
+                parameters={}
+            )
+
+            self.platform_param_file = ParamFile(
+                name=self.platform_parameter,
+                package=self.default_parameter_file_package,
+                path=self.platform_parameter_file_path,
+                parameters={}
+            )
+
+            # Read both param files
+            self.default_param_file.read()
+            self.platform_param_file.read()
+
+            # Extend default param file with platform params
+            self.param_file.parameters = self.default_param_file.parameters
+            self.param_file.update(self.platform_param_file.parameters)
+
+            # Get extra ros parameters from config
+            extras = self.clearpath_config.platform.extras.ros_parameters
+            for node in extras:
+                if node in self.param_file.parameters:
+                    self.param_file.update({node: extras.get(node)})
+
+            if use_sim_time:
+                for node in self.param_file.parameters:
+                    self.param_file.update({node: {'use_sim_time': True}})
+
     PARAMETER = {
         IMU_FILTER: ImuFilterParam,
         DIAGNOSTIC_AGGREGATOR: DiagnosticsAggregatorParam,
@@ -603,6 +741,8 @@ class PlatformParam():
         LOCALIZATION: LocalizationParam,
         TELEOP_JOY: TeleopJoyParam,
         TWIST_MUX: TwistMuxParam,
+        CONTROL: ControlParam,
+        TELEOP_INTERACTIVE_MARKERS: TeleopInteractiveMarkers,
     }
 
     def __new__(cls,

@@ -1,0 +1,10 @@
+# W200 default Joy Teleop velocity limits
+teleop_twist_joy_node:
+  ros__parameters:
+    # Regular
+    scale_linear.x: 0.5
+    scale_angular.yaw: 2.4
+
+    # Turbo
+    scale_linear_turbo.x: 1.0
+    scale_angular_turbo.yaw: 2.4

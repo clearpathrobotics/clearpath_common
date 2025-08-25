@@ -40,6 +40,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 #include "sensor_msgs/msg/nav_sat_fix.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "std_msgs/msg/bool.hpp"
+#include "std_msgs/msg/string.hpp"
 
 #include "clearpath_diagnostics/clearpath_diagnostic_labels.hpp"
 #include "clearpath_platform_msgs/msg/power.hpp"
@@ -63,6 +64,7 @@ private:
 
   // Callbacks
   void mcu_status_callback(const clearpath_platform_msgs::msg::Status & msg);
+  void mcu_alerts_callback(const std_msgs::msg::String & msg);
   void mcu_power_callback(const clearpath_platform_msgs::msg::Power & msg);
   void bms_state_callback(const BatteryState & msg);
   void stop_status_callback(const clearpath_platform_msgs::msg::StopStatus & msg);
@@ -71,6 +73,7 @@ private:
   // Diagnostic Tasks
   void firmware_diagnostic(DiagnosticStatusWrapper & stat);
   void mcu_status_diagnostic(DiagnosticStatusWrapper & stat);
+  void firmware_alerts_diagnostic(DiagnosticStatusWrapper & stat);
   void mcu_power_diagnostic(DiagnosticStatusWrapper & stat);
   void bms_state_diagnostic(DiagnosticStatusWrapper & stat);
   void stop_status_diagnostic(DiagnosticStatusWrapper & stat);
@@ -94,6 +97,7 @@ private:
 
   // Topic names and rates
   std::string mcu_status_topic_;
+  std::string mcu_alerts_topic_;
   std::string mcu_power_topic_;
   std::string bms_state_topic_;
   std::string stop_status_topic_;
@@ -112,6 +116,7 @@ private:
   // Message Data
   std::string mcu_firmware_version_;
   clearpath_platform_msgs::msg::Status mcu_status_msg_;
+  std_msgs::msg::String mcu_alerts_msg_;
   clearpath_platform_msgs::msg::Power mcu_power_msg_;
   BatteryState bms_state_msg_;
   clearpath_platform_msgs::msg::StopStatus stop_status_msg_;
@@ -126,6 +131,7 @@ private:
 
   // Subscriptions
   rclcpp::Subscription<clearpath_platform_msgs::msg::Status>::SharedPtr sub_mcu_status_;
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub_mcu_alerts_;
   rclcpp::Subscription<clearpath_platform_msgs::msg::Power>::SharedPtr sub_mcu_power_;
   rclcpp::Subscription<BatteryState>::SharedPtr sub_bms_state_;
   rclcpp::Subscription<clearpath_platform_msgs::msg::StopStatus>::SharedPtr sub_stop_status_;

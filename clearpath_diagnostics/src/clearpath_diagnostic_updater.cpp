@@ -53,6 +53,9 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   // Get optional parameters from the config
   mcu_status_topic_ = get_string_param("mcu_status_topic");
   mcu_status_topic_ = (mcu_status_topic_ == UNKNOWN) ? "platform/mcu/status" : mcu_status_topic_;
+  mcu_alerts_topic_ = get_string_param("mcu_alerts_topic");
+  mcu_alerts_topic_ = (mcu_alerts_topic_ ==
+    UNKNOWN) ? "platform/mcu/status/alerts" : mcu_alerts_topic_;
   mcu_power_topic_ = get_string_param("mcu_power_topic");
   mcu_power_topic_ = (mcu_power_topic_ == UNKNOWN) ? "platform/mcu/status/power" : mcu_power_topic_;
   bms_state_topic_ = get_string_param("bms_state_topic");
@@ -100,12 +103,20 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
         rclcpp::SensorDataQoS(),
         std::bind(&ClearpathDiagnosticUpdater::mcu_status_callback, this, std::placeholders::_1));
 
+    sub_mcu_alerts_ =
+      this->create_subscription<std_msgs::msg::String>(
+        mcu_alerts_topic_,
+        rclcpp::SensorDataQoS(),
+        std::bind(&ClearpathDiagnosticUpdater::mcu_alerts_callback, this, std::placeholders::_1));
+
     // Create MCU Frequency Status tracking objects
     mcu_status_freq_status_ = std::make_shared<FrequencyStatus>(
       FrequencyStatusParam(&mcu_status_rate_, &mcu_status_rate_, mcu_status_tolerance_, 10));
 
     // Add diagnostic tasks for MCU data
     updater_.add("MCU Status", this, &ClearpathDiagnosticUpdater::mcu_status_diagnostic);
+    updater_.add("MCU Firmware Alerts", this,
+      &ClearpathDiagnosticUpdater::firmware_alerts_diagnostic);
     updater_.add("MCU Firmware Version", this, &ClearpathDiagnosticUpdater::firmware_diagnostic);
     RCLCPP_INFO(this->get_logger(), "MCU diagnostics started.");
   }
@@ -229,6 +240,71 @@ void ClearpathDiagnosticUpdater::firmware_diagnostic(DiagnosticStatusWrapper & s
 }
 
 /**
+ * @brief Helper function to split a string into a vector of strings by delimiter
+ *
+ * @param s String to split
+ * @param delimiter Delimiter to split with
+ * @return std::vector<std::string> Vector of split string
+ */
+static std::vector<std::string> split(std::string s, std::string delimiter)
+{
+  size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+  std::string token;
+  std::vector<std::string> res;
+
+  while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos) {
+    token = s.substr(pos_start, pos_end - pos_start);
+    pos_start = pos_end + delim_len;
+    res.push_back(token);
+  }
+
+  res.push_back(s.substr(pos_start));
+  return res;
+}
+
+/**
+ * @brief Report Firmware Alerts to diagnostics
+ */
+void ClearpathDiagnosticUpdater::firmware_alerts_diagnostic(DiagnosticStatusWrapper & stat)
+{
+  if (mcu_alerts_msg_.data.empty() || mcu_alerts_msg_.data == "None") {
+    stat.summary(DiagnosticStatus::OK, "No firmware alerts reported");
+  } else {
+    unsigned char diagnostic_status = DiagnosticStatus::OK;
+    std::vector<std::string> alerts = split(mcu_alerts_msg_.data, ",");
+
+    for (const auto & a : alerts) {
+      std::string alert_title = "Firmware Alert " + a;
+      std::string alert_message;
+      unsigned char alert_status = DiagnosticStatus::OK;
+      try {
+        alert_message = DiagnosticLabels::FIRMWARE_ALERTS.at(a)[0];
+        // Add the troubleshooting message if it exists
+        if (DiagnosticLabels::FIRMWARE_ALERTS.at(a)[1].size() > 1) {
+          alert_message += ": " + DiagnosticLabels::FIRMWARE_ALERTS.at(a)[1];
+        }
+      } catch (const std::out_of_range &) {
+        alert_message = "Unknown firmware alert code";
+      }
+      stat.add(alert_title, alert_message);
+
+      // Warning for W alerts, Error for E alerts
+      if (a.find('W') != std::string::npos) {
+        alert_status = DiagnosticStatus::WARN;
+      } else if (a.find('E') != std::string::npos) {
+        alert_status = DiagnosticStatus::ERROR;
+      }
+
+      if (alert_status > diagnostic_status) {
+        diagnostic_status = alert_status;
+      }
+    }
+
+    stat.summary(diagnostic_status, "Firmware alerts reported");
+  }
+}
+
+/**
  * @brief Save data from MCU Status messages
  */
 void ClearpathDiagnosticUpdater::mcu_status_callback(
@@ -237,6 +313,15 @@ void ClearpathDiagnosticUpdater::mcu_status_callback(
   mcu_firmware_version_ = msg.firmware_version;
   mcu_status_msg_ = msg;
   mcu_status_freq_status_->tick();
+}
+
+/**
+ * @brief Save data from MCU Alerts messages
+ */
+void ClearpathDiagnosticUpdater::mcu_alerts_callback(
+  const std_msgs::msg::String & msg)
+{
+  mcu_alerts_msg_ = msg;
 }
 
 /**

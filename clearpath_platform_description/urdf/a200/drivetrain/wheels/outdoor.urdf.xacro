@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="a200_outdoor_wheel">
+  <xacro:property name="a200_outdoor_wheel_radius" value="0.1651" />
+  <xacro:property name="a200_outdoor_wheel_mass" value="2.637" />
+  <xacro:property name="a200_outdoor_wheel_width" value="0.1143" />
+
+  <xacro:macro name="a200_outdoor_wheel" params="prefix *joint_pose">
+    <link name="${prefix}_wheel_link">
+      <inertial>
+        <mass value="${a200_outdoor_wheel_mass}" />
+        <origin xyz="0 0 0" />
+        <inertia
+          ixx="${ a200_outdoor_wheel_mass/12 * (3*a200_outdoor_wheel_radius**2 + a200_outdoor_wheel_width**2) }" ixy="0" ixz="0"
+          iyy="${ a200_outdoor_wheel_mass/2 * a200_outdoor_wheel_radius**2 }" iyz="0"
+          izz="${ a200_outdoor_wheel_mass/12 * (3*a200_outdoor_wheel_radius**2 + a200_outdoor_wheel_width**2) }" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/a200/wheels/outdoor.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <geometry>
+          <cylinder length="${a200_outdoor_wheel_width}" radius="${a200_outdoor_wheel_radius}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo>
+      <plugin filename="libgz-sim-wheel-slip-system.so" name="gz::sim::systems::WheelSlip">
+        <wheel link_name="${prefix}_wheel_link">
+          <slip_compliance_lateral>1.0</slip_compliance_lateral>
+          <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
+          <wheel_normal_force>113</wheel_normal_force>
+          <wheel_radius>${a200_outdoor_wheel_radius}</wheel_radius>
+        </wheel>
+      </plugin>
+    </gazebo>
+
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${prefix}_wheel_link"/>
+      <xacro:insert_block name="joint_pose"/>
+      <axis xyz="0 1 0" rpy="0 0 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>
