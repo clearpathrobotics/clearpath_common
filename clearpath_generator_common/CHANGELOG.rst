@@ -2,6 +2,37 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Drivetrains (`#237 <https://github.com/clearpathrobotics/clearpath_common/issues/237>`_)
+  * Moved meshes to wheels folder
+  Mecanum drivetrain for do100
+  * Generic drivetrain URDFs
+  * Pass hardware plugin string rather than block
+  * Added drivetrain control parameters
+  * Removed 2WD for Dingo-O
+  * DO150
+  * Dingo-D
+  * R100
+  * A300 urdf
+  * Fixed xacro generate print
+  * Generic teleop configs per controller
+  Platform specific teleop only defines velocity limits
+  * A200 drivetrain changes
+  * W200 drivetrain urdf
+  * Updated A300 meshes
+  Mecanum and caster support
+  * Separated caster wheel into swivel and wheel links
+  * Fixed joystick axis mapping
+  * Updated wheel_separation_multiplier for fwd and rwd on A300
+  * URDF structure changes for J100
+  Updated A200 and W200 to be 4WD
+  * Linting
+* Feature/monitor default sensors (`#240 <https://github.com/clearpathrobotics/clearpath_common/issues/240>`_)
+  * Monitor default platform IMUs
+  * Monitor default platform GPS
+* Contributors: Hilary Luo, Roni Kreinin
+
 2.6.4 (2025-07-29)
 ------------------
 * Fix: Update diagnostics rate for Inventus  (`#243 <https://github.com/clearpathrobotics/clearpath_common/issues/243>`_)

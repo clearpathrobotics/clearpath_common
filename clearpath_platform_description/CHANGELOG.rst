@@ -2,6 +2,35 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Drivetrains (`#237 <https://github.com/clearpathrobotics/clearpath_common/issues/237>`_)
+  * Moved meshes to wheels folder
+  Mecanum drivetrain for do100
+  * Generic drivetrain URDFs
+  * Pass hardware plugin string rather than block
+  * Added drivetrain control parameters
+  * Removed 2WD for Dingo-O
+  * DO150
+  * Dingo-D
+  * R100
+  * A300 urdf
+  * Fixed xacro generate print
+  * Generic teleop configs per controller
+  Platform specific teleop only defines velocity limits
+  * A200 drivetrain changes
+  * W200 drivetrain urdf
+  * Updated A300 meshes
+  Mecanum and caster support
+  * Separated caster wheel into swivel and wheel links
+  * Fixed joystick axis mapping
+  * Updated wheel_separation_multiplier for fwd and rwd on A300
+  * URDF structure changes for J100
+  Updated A200 and W200 to be 4WD
+  * Linting
+* Add the mounting link for the charger's 2D lidar (`#241 <https://github.com/clearpathrobotics/clearpath_common/issues/241>`_)
+* Contributors: Chris Iverach-Brereton, Roni Kreinin
+
 2.6.4 (2025-07-29)
 ------------------
 

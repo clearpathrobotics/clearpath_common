@@ -8,6 +8,13 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+Forthcoming
+-----------
+* Added MCU alerts to diagnostics (`#248 <https://github.com/clearpathrobotics/clearpath_common/issues/248>`_)
+  * Added MCU alerts to diagnostics
+  * Linting
+* Contributors: Roni Kreinin
+
 2.6.4 (2025-07-29)
 ------------------
 
