@@ -2,8 +2,8 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.6 (2025-08-26)
+------------------
 * Add ewellix_description dependency (`#144 <https://github.com/clearpathrobotics/clearpath_common/issues/144>`_)
 * Contributors: luis-camero
 
