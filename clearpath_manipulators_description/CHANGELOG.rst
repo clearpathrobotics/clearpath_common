@@ -2,6 +2,11 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add ewellix_description dependency (`#144 <https://github.com/clearpathrobotics/clearpath_common/issues/144>`_)
+* Contributors: luis-camero
+
 1.3.5 (2025-07-29)
 ------------------
 * Feature: Franka Hand (`#244 <https://github.com/clearpathrobotics/clearpath_common/issues/244>`_)
