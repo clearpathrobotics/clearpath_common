@@ -497,6 +497,10 @@ class ManipulatorParam():
                     arm,
                     joint_limits_file.parameters
                 )
+                joint_limits_file.parameters = ManipulatorParam.replace_controller_name(
+                    arm,
+                    joint_limits_file.parameters
+                )
                 parameter_file += joint_limits_file
             # Grippers
             for arm in self.clearpath_config.manipulators.get_all_arms():
@@ -517,6 +521,10 @@ class ManipulatorParam():
                     gripper,
                     joint_limits_file.parameters
                 )
+                joint_limits_file.parameters = ManipulatorParam.replace_controller_name(
+                    gripper,
+                    joint_limits_file.parameters
+                )
                 parameter_file += joint_limits_file
             # Lifts
             for lift in self.clearpath_config.manipulators.get_all_lifts():
@@ -531,6 +539,10 @@ class ManipulatorParam():
                 )
                 joint_limits_file.read()
                 joint_limits_file.parameters = ManipulatorParam.replace_name(
+                    lift,
+                    joint_limits_file.parameters
+                )
+                joint_limits_file.parameters = ManipulatorParam.replace_controller_name(
                     lift,
                     joint_limits_file.parameters
                 )
