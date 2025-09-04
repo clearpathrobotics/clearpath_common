@@ -8,27 +8,68 @@
     name
     parent_link
     *origin
-    use_fake_hardware:=$(arg use_fake_hardware)
-    use_controllers:=$(arg use_manipulation_controllers)
-    fake_sensor_commands:=false
-    sim_ignition:=$(arg is_sim)
-    sim_gazebo:=false
-    sim_isaac:=false
-    isaac_joint_commands:=/isaac_joint_commands
-    isaac_joint_states:=/isaac_joint_states
-    com_port:=/dev/ttyUSB0">
+    sim_gazebo:=''
+    sim_isaac:=''
+    isaac_joint_commands:=''
+    isaac_joint_states:=''
+    use_fake_hardware:=''
+    mock_sensor_commands:=''
+    include_ros2_control:=''
+    com_port:=''
+    gripper_speed_multiplier:=''
+    gripper_force_multiplier:=''
+    gripper_max_speed:=''
+    gripper_max_force:=''
+    gripper_closed_position:=''">
+
+    <!-- Parameter Defaults and Overwrites -->
+    <xacro:property name="_sim_gazebo" value="$(arg is_sim)" lazy_eval="false"/>
+    <xacro:property name="_sim_isaac" value="false" lazy_eval="false"/>
+    <xacro:property name="_isaac_joint_commands" value="/isaac_joint_commands" lazy_eval="false"/>
+    <xacro:property name="_isaac_joint_states" value="/isaac_joint_states" lazy_eval="false"/>
+    <xacro:property name="_use_fake_hardware" value="$(arg use_fake_hardware)" lazy_eval="false"/>
+    <xacro:property name="_mock_sensor_commands" value="false" lazy_eval="false"/>
+    <xacro:property name="_include_ros2_control" value="(arg use_manipulation_controllers)" lazy_eval="false"/>
+    <xacro:property name="_com_port" value="/dev/ttyUSB0" lazy_eval="false"/>
+    <xacro:property name="_gripper_speed_multiplier" value="1.0" lazy_eval="false"/>
+    <xacro:property name="_gripper_force_multiplier" value="0.5" lazy_eval="false"/>
+    <xacro:property name="_gripper_max_speed" value="0.150" lazy_eval="false"/>
+    <xacro:property name="_gripper_max_force" value="235.0" lazy_eval="false"/>
+    <xacro:property name="_gripper_closed_position" value="0.7929" lazy_eval="false"/>
+
+    <xacro:if value="${sim_gazebo != ''}"> <xacro:property name="_sim_gazebo" value="${sim_gazebo}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${sim_isaac != ''}"> <xacro:property name="_sim_isaac" value="${sim_isaac}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${isaac_joint_commands != ''}"> <xacro:property name="_isaac_joint_commands" value="${isaac_joint_commands}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${isaac_joint_states != ''}"> <xacro:property name="_isaac_joint_states" value="${isaac_joint_states}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${use_fake_hardware != ''}"> <xacro:property name="_use_fake_hardware" value="${use_fake_hardware}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${mock_sensor_commands != ''}"> <xacro:property name="_mock_sensor_commands" value="${mock_sensor_commands}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${include_ros2_control != ''}"> <xacro:property name="_include_ros2_control" value="${include_ros2_control}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${com_port != ''}"> <xacro:property name="_com_port" value="${com_port}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${gripper_speed_multiplier != ''}"> <xacro:property name="_gripper_speed_multiplier" value="${gripper_speed_multiplier}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${gripper_force_multiplier != ''}"> <xacro:property name="_gripper_force_multiplier" value="${gripper_force_multiplier}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${gripper_max_speed != ''}"> <xacro:property name="_gripper_max_speed" value="${gripper_max_speed}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${gripper_max_force != ''}"> <xacro:property name="_gripper_max_force" value="${gripper_max_force}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${gripper_closed_position != ''}"> <xacro:property name="_gripper_closed_position" value="${gripper_closed_position}" lazy_eval="false"/> </xacro:if>
+
     <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/>
 
     <xacro:robotiq_gripper
-        name="${name}_hardware"
-        prefix="${name}_"
-        parent="${parent_link}"
-        include_ros2_control="${use_controllers}"
-        com_port="${com_port}"
-        use_fake_hardware="${use_fake_hardware}"
-        fake_sensor_commands="${fake_sensor_commands}"
-        sim_ignition="${sim_ignition}"
-        sim_isaac="${sim_isaac}">
+        name="{name}_hardware"
+        prefix="{name}_"
+        parent="{parent_link}"
+        sim_gazebo="{_sim_gazebo}"
+        sim_isaac="{_sim_isaac}"
+        isaac_joint_commands="{_isaac_joint_commands}"
+        isaac_joint_states="{_isaac_joint_states}"
+        use_fake_hardware="{_use_fake_hardware}"
+        mock_sensor_commands="{_mock_sensor_commands}"
+        include_ros2_control="{_include_ros2_control}"
+        com_port="{_com_port}"
+        gripper_speed_multiplier="{_gripper_speed_multiplier}"
+        gripper_force_multiplier="{_gripper_force_multiplier}"
+        gripper_max_speed="{_gripper_max_speed}"
+        gripper_max_force="{_gripper_max_force}"
+        gripper_closed_position="{_gripper_closed_position}">
         <xacro:insert_block name="origin"/>
     </xacro:robotiq_gripper>
 
