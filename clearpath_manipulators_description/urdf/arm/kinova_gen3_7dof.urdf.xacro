@@ -615,7 +615,7 @@
         </joint>
         <xacro:unless value="${use_fake_hardware or sim_gazebo or sim_ignition or sim_isaac}">
           <xacro:if value="${use_internal_bus_gripper_comm}">
-            <joint name="${name}_${gripper_joint_name}">
+            <joint name="${gripper_joint_name}">
               <command_interface name="position" />
               <state_interface name="position"/>
               <state_interface name="velocity"/>
