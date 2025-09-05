@@ -79,9 +79,9 @@ class SemanticDescriptionGenerator(BaseGenerator):
             for pose in arm.poses:
                 pose_macro = ManipulatorPoseMacro(arm, pose)
                 self.xacro_writer.write_macro(
-                    macro=pose_macro.macro(),
-                    parameters=pose_macro.parameters(),
-                    blocks=pose_macro.blocks(),
+                    macro=pose_macro.macro,
+                    parameters=pose_macro.parameters,
+                    blocks=pose_macro.blocks,
                 )
 
             self.xacro_writer.write_macro(
@@ -113,9 +113,9 @@ class SemanticDescriptionGenerator(BaseGenerator):
             for pose in arm.gripper.poses:
                 pose_macro = ManipulatorPoseMacro(arm.gripper, pose)
                 self.xacro_writer.write_macro(
-                    macro=pose_macro.macro(),
-                    parameters=pose_macro.parameters(),
-                    blocks=pose_macro.blocks(),
+                    macro=pose_macro.macro,
+                    parameters=pose_macro.parameters,
+                    blocks=pose_macro.blocks,
                 )
 
             self.xacro_writer.write_macro(

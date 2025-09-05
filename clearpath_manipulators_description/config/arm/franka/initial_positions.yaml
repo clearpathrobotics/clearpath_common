@@ -1,0 +1,8 @@
+initial_positions:
+  ${name}_joint1: 0.0
+  ${name}_joint2: 0.0
+  ${name}_joint3: 0.0
+  ${name}_joint4: 0.0
+  ${name}_joint5: 0.0
+  ${name}_joint6: 0.0
+  ${name}_joint7: 0.0

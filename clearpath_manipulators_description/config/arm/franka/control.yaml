@@ -1,0 +1,34 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ${controller_name}_joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+${controller_name}_joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - ${name}_joint1
+      - ${name}_joint2
+      - ${name}_joint3
+      - ${name}_joint4
+      - ${name}_joint5
+      - ${name}_joint6
+      - ${name}_joint7
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      ${name}_joint1: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      ${name}_joint2: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      ${name}_joint3: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      ${name}_joint4: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      ${name}_joint5: { p: 250., d: 10., i: 0., i_clamp: 1. }
+      ${name}_joint6: { p: 150., d: 10., i: 0., i_clamp: 1. }
+      ${name}_joint7: { p: 50., d: 5., i: 0., i_clamp: 1. }
+

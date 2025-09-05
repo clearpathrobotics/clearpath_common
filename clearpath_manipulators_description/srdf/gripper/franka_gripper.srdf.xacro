@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="franka_gripper_group_state" params="name group_state joint_positions arm_id:=fr3">
+    <group_state name="${group_state}" group="${name}">
+      <joint name="${name}_${arm_id}_finger_joint1" value="${joint_positions[0]}"/>
+      <joint name="${name}_${arm_id}_finger_joint2" value="${joint_positions[0]}"/>
+    </group_state>
+  </xacro:macro>
+
+  <xacro:macro name="franka_gripper" params="name arm_id:=fr3">
+    <group name="${name}">
+        <joint name="${name}_${arm_id}_finger_joint1"/>
+        <joint name="${name}_${arm_id}_finger_joint2"/>
+    </group>
+
+    <xacro:franka_gripper_group_state
+      name="${name}"
+      group_state="open"
+      joint_positions="${[0.04]}"
+      arm_id="${arm_id}"
+    />
+
+    <xacro:franka_gripper_group_state
+      name="${name}"
+      group_state="close"
+      joint_positions="${[0.0]}"
+      arm_id="${arm_id}"
+    />
+
+  </xacro:macro>
+
+</robot>
