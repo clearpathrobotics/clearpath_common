@@ -33,9 +33,9 @@ import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
-from clearpath_config.manipulators.types.manipulator import BaseManipulator
 from clearpath_config.manipulators.types.arms import Franka, UniversalRobots
 from clearpath_config.manipulators.types.grippers import FrankaGripper
+from clearpath_config.manipulators.types.manipulator import BaseManipulator
 from clearpath_generator_common.common import MoveItParamFile, Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
 
@@ -48,7 +48,7 @@ class ManipulatorParam():
             manipulator: BaseManipulator,
             parameters: dict) -> dict:
         if (manipulator.MANIPULATOR_MODEL == Franka.MANIPULATOR_MODEL or
-            manipulator.MANIPULATOR_MODEL == FrankaGripper.MANIPULATOR_MODEL):
+                manipulator.MANIPULATOR_MODEL == FrankaGripper.MANIPULATOR_MODEL):
             return replace_dict_items(
                 parameters,
                 {r'${name}': f'{manipulator.name}_{manipulator.arm_id}'}

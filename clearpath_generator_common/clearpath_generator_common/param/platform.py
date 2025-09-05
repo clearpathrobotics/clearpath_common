@@ -36,6 +36,8 @@ from apt import Cache
 from clearpath_config.clearpath_config import ClearpathConfig
 from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
+from clearpath_config.manipulators.types.arms import Franka
+from clearpath_config.manipulators.types.grippers import FrankaGripper
 from clearpath_config.platform.battery import BatteryConfig
 from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
 from clearpath_config.sensors.types.gps import BaseGPS, NMEA
@@ -43,8 +45,6 @@ from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D
 from clearpath_config.sensors.types.lidars_3d import BaseLidar3D
 from clearpath_config.sensors.types.sensor import BaseSensor
-from clearpath_config.manipulators.types.arms import Franka
-from clearpath_config.manipulators.types.grippers import FrankaGripper
 from clearpath_generator_common.common import Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
 from clearpath_generator_common.ros import ROS_DISTRO
