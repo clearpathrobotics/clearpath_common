@@ -37,6 +37,7 @@ platform_velocity_controller:
     base_frame_id: "base_link"
     odom_frame_id: "odom"
     enable_odom_tf: false
+    tf_frame_prefix_enable: false
 
     # Velocity and acceleration limits
     # Whenever a min_* is unspecified, default to -max_*
