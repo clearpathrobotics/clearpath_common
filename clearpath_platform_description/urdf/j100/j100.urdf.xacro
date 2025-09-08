@@ -67,13 +67,15 @@
       <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/J100Hardware"/>
     </xacro:unless>
 
-    <xacro:generic_drivetrain
-      name="j100"
-      control="${control}"
-      front_wheels="${front_wheels}"
-      rear_wheels="${rear_wheels}"
-      hardware_plugin="${hardware_plugin}"
-    />
+    <xacro:if value="$(arg use_platform_controllers)">
+      <xacro:generic_drivetrain
+        name="j100"
+        control="${control}"
+        front_wheels="${front_wheels}"
+        rear_wheels="${rear_wheels}"
+        hardware_plugin="${hardware_plugin}"
+      />
+    </xacro:if>
 
     <link name="imu_0_link">
       <inertial>
