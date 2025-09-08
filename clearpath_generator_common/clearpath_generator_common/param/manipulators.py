@@ -188,20 +188,20 @@ class ManipulatorParam():
                 extra_parameters = gripper.ros_parameters
                 # Replace {name} in Parameters
                 updated_parameters = ManipulatorParam.replace_name(
-                    arm,
+                    gripper,
                     updated_parameters
                 )
                 extra_parameters = ManipulatorParam.replace_name(
-                    arm,
+                    gripper,
                     extra_parameters
                 )
                 # Replace {controller_name} in Parameters
                 updated_parameters = ManipulatorParam.replace_controller_name(
-                    arm,
+                    gripper,
                     updated_parameters
                 )
                 extra_parameters = ManipulatorParam.replace_controller_name(
-                    arm,
+                    gripper,
                     extra_parameters
                 )
                 self.param_file.parameters = merge_dict(
@@ -226,20 +226,20 @@ class ManipulatorParam():
                 extra_parameters = lift.ros_parameters
                 # Replace {name} in Parameters
                 updated_parameters = ManipulatorParam.replace_name(
-                    arm,
+                    lift,
                     updated_parameters
                 )
                 extra_parameters = ManipulatorParam.replace_name(
-                    arm,
+                    lift,
                     extra_parameters
                 )
                 # Replace {controller_name} in Parameters
                 updated_parameters = ManipulatorParam.replace_controller_name(
-                    arm,
+                    lift,
                     updated_parameters
                 )
                 extra_parameters = ManipulatorParam.replace_controller_name(
-                    arm,
+                    lift,
                     extra_parameters
                 )
                 self.param_file.parameters = merge_dict(
