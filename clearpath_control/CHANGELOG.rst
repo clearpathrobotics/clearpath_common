@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.7.1 (2025-09-08)
+------------------
 * Disable prefixing of links by mecanum controller (`#256 <https://github.com/clearpathrobotics/clearpath_common/issues/256>`_)
 * Contributors: luis-camero
 

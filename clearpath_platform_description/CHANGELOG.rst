@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.7.1 (2025-09-08)
+------------------
 * Fix: Ridgeback rear lights and cover colors (`#254 <https://github.com/clearpathrobotics/clearpath_common/issues/254>`_)
 * Contributors: SyZbidi
 
