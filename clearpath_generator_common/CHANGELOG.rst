@@ -2,6 +2,34 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Franka in Jazzy (`#255 <https://github.com/clearpathrobotics/clearpath_common/issues/255>`_)
+  * Forward from Humble: Feature Franka
+  * Initial franka addition
+  * Create joint instead of using connected_to parameter
+  * Custom entry for generating Franka param
+  * Franka control for multiple types
+  * Modify entire Franka arm xacro
+  * Add franka gripper
+  * Copy and modify franka description
+  * Add cutout for Franka arm_id
+  * Add dependency for franka_description
+  * Fix: Franka Update (`#238 <https://github.com/clearpathrobotics/clearpath_common/issues/238>`_)
+  * Pass version parameter to Franka Hardware Interface
+  * Use franka_arm macro and always add position and velocity interfaces
+  * Only use effort
+  * Feature: Franka Hand (`#244 <https://github.com/clearpathrobotics/clearpath_common/issues/244>`_)
+  * Remove ros2_control controllers
+  * Move gazebo control to a separate file
+  * Pass arm_id to Franka SRDF
+  * Pass poses from config with arm_id on Franka
+  * Common method to replace placeholders in parameter files
+  * Use appropriate placeholders in parameters
+  * Replace controller_name placeholders at all points
+  * Lint
+* Contributors: luis-camero
+
 2.7.0 (2025-08-25)
 ------------------
 * Drivetrains (`#237 <https://github.com/clearpathrobotics/clearpath_common/issues/237>`_)

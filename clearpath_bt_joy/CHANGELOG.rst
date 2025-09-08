@@ -2,6 +2,9 @@
 Changelog for package clearpath_bt_joy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.7.0 (2025-08-25)
 ------------------
 

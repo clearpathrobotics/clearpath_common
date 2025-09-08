@@ -2,6 +2,9 @@
 Changelog for package clearpath_mounts_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.7.0 (2025-08-25)
 ------------------
 
