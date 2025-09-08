@@ -2,8 +2,8 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.7.2 (2025-09-08)
+------------------
 * Fix: Use Platform Controllers (`#257 <https://github.com/clearpathrobotics/clearpath_common/issues/257>`_)
   Add ros2_control only when use_platform_controllers is true
 * Contributors: luis-camero
