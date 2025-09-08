@@ -2,6 +2,9 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.7.1 (2025-09-08)
 ------------------
 * Feature: Franka in Jazzy (`#255 <https://github.com/clearpathrobotics/clearpath_common/issues/255>`_)

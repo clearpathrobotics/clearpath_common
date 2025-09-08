@@ -2,6 +2,11 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: franka_description dependency (`#258 <https://github.com/clearpathrobotics/clearpath_common/issues/258>`_)
+* Contributors: luis-camero
+
 2.7.1 (2025-09-08)
 ------------------
 * Feature: Franka in Jazzy (`#255 <https://github.com/clearpathrobotics/clearpath_common/issues/255>`_)
