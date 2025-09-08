@@ -68,13 +68,15 @@
       <xacro:error message="Invalid drivetrain control ${control}"/>
     </xacro:unless>
 
-    <xacro:generic_drivetrain
-      name="dd100"
-      control="${control}"
-      front_wheels="${front_wheels}"
-      rear_wheels="${rear_wheels}"
-      hardware_plugin="${hardware_plugin}"
-    />
+    <xacro:if value="$(arg use_platform_controllers)">
+      <xacro:generic_drivetrain
+        name="dd100"
+        control="${control}"
+        front_wheels="${front_wheels}"
+        rear_wheels="${rear_wheels}"
+        hardware_plugin="${hardware_plugin}"
+      />
+    </xacro:if>
 
     <!-- Internal IMU -->
     <link name="imu_0_link">
