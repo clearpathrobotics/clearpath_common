@@ -130,6 +130,7 @@ class ManipulatorParam():
                 )
                 arm_param_file.read()
                 updated_parameters = arm_param_file.parameters
+                extra_parameters = arm.ros_parameters
                 # UR Arm Exception. Update Rate
                 if arm.MANIPULATOR_MODEL == UniversalRobots.MANIPULATOR_MODEL:
                     try:
@@ -150,13 +151,24 @@ class ManipulatorParam():
                     arm,
                     updated_parameters
                 )
+                extra_parameters = ManipulatorParam.replace_name(
+                    arm,
+                    extra_parameters
+                )
                 # Replace {controller_name} in Parameters
                 updated_parameters = ManipulatorParam.replace_controller_name(
                     arm,
                     updated_parameters
                 )
+                extra_parameters = ManipulatorParam.replace_controller_name(
+                    arm,
+                    extra_parameters
+                )
                 self.param_file.parameters = merge_dict(
                     updated_parameters, self.param_file.parameters)
+                # Overwrite ros parameters with extra
+                self.param_file.parameters = merge_dict(
+                    extra_parameters, self.param_file.parameters)
             # Grippers
             for arm in self.clearpath_config.manipulators.get_all_arms():
                 if not arm.gripper:
@@ -173,18 +185,30 @@ class ManipulatorParam():
                 )
                 gripper_param_file.read()
                 updated_parameters = gripper_param_file.parameters
+                extra_parameters = gripper.ros_parameters
                 # Replace {name} in Parameters
                 updated_parameters = ManipulatorParam.replace_name(
-                    arm,
+                    gripper,
                     updated_parameters
+                )
+                extra_parameters = ManipulatorParam.replace_name(
+                    gripper,
+                    extra_parameters
                 )
                 # Replace {controller_name} in Parameters
                 updated_parameters = ManipulatorParam.replace_controller_name(
-                    arm,
+                    gripper,
                     updated_parameters
+                )
+                extra_parameters = ManipulatorParam.replace_controller_name(
+                    gripper,
+                    extra_parameters
                 )
                 self.param_file.parameters = merge_dict(
                     self.param_file.parameters, updated_parameters)
+                # Overwrite ros parameters with extra
+                self.param_file.parameters = merge_dict(
+                    extra_parameters, self.param_file.parameters)
 
             # Lifts
             for lift in self.clearpath_config.manipulators.get_all_lifts():
@@ -199,18 +223,31 @@ class ManipulatorParam():
                 )
                 lift_param_file.read()
                 updated_parameters = lift_param_file.parameters
+                extra_parameters = lift.ros_parameters
                 # Replace {name} in Parameters
                 updated_parameters = ManipulatorParam.replace_name(
-                    arm,
+                    lift,
                     updated_parameters
+                )
+                extra_parameters = ManipulatorParam.replace_name(
+                    lift,
+                    extra_parameters
                 )
                 # Replace {controller_name} in Parameters
                 updated_parameters = ManipulatorParam.replace_controller_name(
-                    arm,
+                    lift,
                     updated_parameters
+                )
+                extra_parameters = ManipulatorParam.replace_controller_name(
+                    lift,
+                    extra_parameters
                 )
                 self.param_file.parameters = merge_dict(
                     self.param_file.parameters, updated_parameters)
+
+                # Overwrite ros parameters with extra
+                self.param_file.parameters = merge_dict(
+                    extra_parameters, self.param_file.parameters)
 
         def generate_parameter_file(self):
             param_writer = ParamWriter(self.param_file)
