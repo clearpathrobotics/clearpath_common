@@ -93,8 +93,8 @@
         <axis
           xyz="0 0 1" />
         <limit
-          lower="${-2*PI}"
-          upper="${2*PI}"
+          lower="${-2*math.pi}"
+          upper="${2*math.pi}"
           effort="39"
           velocity="1.3963" />
       </joint>
@@ -183,8 +183,8 @@
         <axis
           xyz="0 0 1" />
         <limit
-          lower="${-2*PI}"
-          upper="${2*PI}"
+          lower="${-2*math.pi}"
+          upper="${2*math.pi}"
           effort="39"
           velocity="1.3963" />
       </joint>
@@ -273,8 +273,8 @@
         <axis
           xyz="0 0 1" />
         <limit
-          lower="${-2*PI}"
-          upper="${2*PI}"
+          lower="${-2*math.pi}"
+          upper="${2*math.pi}"
           effort="9"
           velocity="1.2218" />
       </joint>
@@ -392,8 +392,8 @@
         <axis
           xyz="0 0 1" />
         <limit
-          lower="${-2*PI}"
-          upper="${2*PI}"
+          lower="${-2*math.pi}"
+          upper="${2*math.pi}"
           effort="9"
           velocity="1.2218" />
       </joint>
@@ -433,19 +433,19 @@
       <xacro:if value="${sim_ignition}">
         <link name="${name}_camera_link" />
         <joint name="${name}_camera_module" type="fixed">
-          <origin xyz="0 0.05639 0.01305" rpy="0 ${-PI/2} ${-PI/2}" />
+          <origin xyz="0 0.05639 0.01305" rpy="0 ${-math.pi/2} ${-math.pi/2}" />
           <parent link="${name}_end_effector_link" />
           <child  link="${name}_camera_link" />
         </joint>
         <link name="${name}_camera_depth_frame" />
         <joint name="${name}_depth_module" type="fixed">
-          <origin xyz="0.0275 0.066 0.01305" rpy="0 ${-PI/2} ${-PI/2}" />
+          <origin xyz="0.0275 0.066 0.01305" rpy="0 ${-math.pi/2} ${-math.pi/2}" />
           <parent link="${name}_end_effector_link" />
           <child  link="${name}_camera_depth_frame" />
         </joint>
         <link name="${name}_camera_color_frame" />
         <joint name="${name}_color_module" type="fixed">
-          <origin xyz="0 0.05639 0.01305" rpy="0 ${-PI/2} ${-PI/2}" />
+          <origin xyz="0 0.05639 0.01305" rpy="0 ${-math.pi/2} ${-math.pi/2}" />
           <parent link="${name}_end_effector_link" />
           <child  link="${name}_camera_color_frame" />
         </joint>
@@ -453,19 +453,19 @@
       <xacro:unless value="${sim_ignition}">
         <link name="${name}_camera_link" />
         <joint name="${name}_camera_module" type="fixed">
-          <origin xyz="0 0.05639 -0.00305" rpy="${PI} ${PI} 0" />
+          <origin xyz="0 0.05639 -0.00305" rpy="${math.pi} ${math.pi} 0" />
           <parent link="${name}_end_effector_link" />
           <child  link="${name}_camera_link" />
         </joint>
         <link name="${name}_camera_depth_frame" />
         <joint name="${name}_depth_module" type="fixed">
-          <origin xyz="0.0275 0.066 -0.00305" rpy="${PI} ${PI} 0" />
+          <origin xyz="0.0275 0.066 -0.00305" rpy="${math.pi} ${math.pi} 0" />
           <parent link="${name}_end_effector_link" />
           <child  link="${name}_camera_depth_frame" />
         </joint>
         <link name="${name}_camera_color_frame" />
         <joint name="${name}_color_module" type="fixed">
-          <origin xyz="0 0.05639 -0.00305" rpy="${PI} ${PI} 0" />
+          <origin xyz="0 0.05639 -0.00305" rpy="${math.pi} ${math.pi} 0" />
           <parent link="${name}_end_effector_link" />
           <child  link="${name}_camera_color_frame" />
         </joint>
