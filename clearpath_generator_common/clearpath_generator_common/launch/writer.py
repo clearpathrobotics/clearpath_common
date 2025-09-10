@@ -319,7 +319,6 @@ class LaunchWriter():
                         self.write("plugin='{0}',".format(node.plugin), indent_level=4)
                         self.write("package='{0}',".format(node.package), indent_level=4)
                         self.write("namespace='{0}',".format(node.namespace), indent_level=4)
-                        self.write("output='screen',", indent_level=4)
                         if len(node.extra_arguments) > 0:
                             self.write('extra_arguments=', indent_level=4)
                             self.write_obj(node.extra_arguments, indent_level=5)
