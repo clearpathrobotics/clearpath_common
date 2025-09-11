@@ -69,6 +69,10 @@ class TestRobotLaunchGenerator:
                 ))
                 continue
             # Try to Load Xacro
+            if 'stereolabs_zed' in sample:
+                # Skip ZED since it requires the zed-ros2-wrapper to be manually installed
+                print(f'Partially supported accessory. {sample}. Xacro load test not supported')
+                continue
             try:
                 xacro.process_file(os.path.join(os.path.dirname(dst), 'robot.urdf.xacro')).toxml()
             except xacro.XacroException as e:
