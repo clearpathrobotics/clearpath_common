@@ -151,6 +151,7 @@
       <always_on>1</always_on>
       <update_rate>${update_rate}</update_rate>
       <visualize>true</visualize>
+      <topic>$(arg namespace)/sensors/${name}</topic>
     </sensor>
     <material name="clearpath_dark_grey"/>
   </gazebo>
