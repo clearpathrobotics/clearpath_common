@@ -8,6 +8,11 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+Forthcoming
+-----------
+* Include hidden with foxglove bridge for onav (`#261 <https://github.com/clearpathrobotics/clearpath_common/issues/261>`_)
+* Contributors: Hilary Luo
+
 2.7.2 (2025-09-08)
 ------------------
 

@@ -2,6 +2,17 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Skip xacro load for zed camera since wrapper must be manually installed (`#263 <https://github.com/clearpathrobotics/clearpath_common/issues/263>`_)
+* Forward Port Feature: Manipulator Extra ROS Parameters (`#229 <https://github.com/clearpathrobotics/clearpath_common/issues/229>`_) (`#259 <https://github.com/clearpathrobotics/clearpath_common/issues/259>`_)
+  * Feature: Manipulator Extra ROS Parameters (`#229 <https://github.com/clearpathrobotics/clearpath_common/issues/229>`_)
+  * Pass manipulator ros parameters to generated controller file
+  * Update platform config parameters
+  * Remove pprint
+  * Fix parameter replacements
+* Contributors: Hilary Luo, luis-camero
+
 2.7.2 (2025-09-08)
 ------------------
 
