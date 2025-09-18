@@ -133,15 +133,19 @@ class SensorDescription():
     class OusterOS1Description(Lidar3dDescription):
         SAMPLES_HORIZONTAL = 'samples_h'
         SAMPLES_VERTICAL = 'samples_v'
+        BASE_TYPE = 'base'
+        CAP_TYPE = 'cap'
 
-        def __init__(self, sensor: BaseLidar3D) -> None:
+        def __init__(self, sensor: OusterOS1) -> None:
             super().__init__(sensor)
 
             del self.parameters[self.ANGULAR_RESOLUTION_H]
             del self.parameters[self.ANGULAR_RESOLUTION_V]
             self.parameters.update({
                 self.SAMPLES_HORIZONTAL: 1024,
-                self.SAMPLES_VERTICAL: 64
+                self.SAMPLES_VERTICAL: 64,
+                self.BASE_TYPE: sensor.base_type,
+                self.CAP_TYPE: sensor.cap_type,
             })
 
     class ImuDescription(BaseDescription):
