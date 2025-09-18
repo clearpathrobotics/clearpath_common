@@ -12,6 +12,7 @@
     *origin
     ewellix_type:=tlt_x25
     add_plate:=True
+    add_mount:=True
     parameters_file:=''
     initial_positions:=''
     initial_positions_file:=''
@@ -66,6 +67,7 @@
       parent="${parent_link}"
       tf_prefix="${_tf_prefix}"
       add_plate="${add_plate}"
+      add_mount="${add_mount}"
       initial_positions="${_initial_positions}"
       parameters_file="${_parameters_file}"
       generate_ros2_control_tag="${_generate_ros2_control_tag}"
