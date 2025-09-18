@@ -2,6 +2,13 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Backport Fix: Ouster URDF Parameters (`#266 <https://github.com/clearpathrobotics/clearpath_common/issues/266>`_)
+  * Add base parameter to Ouster URDF
+  * Add base and cap to Ouster description generator
+* Contributors: luis-camero
+
 1.3.6 (2025-08-26)
 ------------------
 
