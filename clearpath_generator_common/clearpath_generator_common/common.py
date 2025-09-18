@@ -105,6 +105,47 @@ class LaunchFile():
             self.arguments = arguments
             self.remappings = remappings
 
+    class ComposableNode(LaunchComponent):
+
+        def __init__(self,
+                     name: str,
+                     package: Package,
+                     plugin: str,
+                     namespace: str = '',
+                     parameters: List[dict] | List[str] = [],
+                     extra_arguments: List[list] | List[str] = [],
+                     remappings: List[tuple] = []) -> None:
+            super().__init__(name)
+            self.declaration = 'node_' + self.name
+            self.package = package
+            self.plugin = plugin
+            self.namespace = namespace
+            self.parameters = parameters
+            self.extra_arguments = extra_arguments
+            self.remappings = remappings
+
+    class ComposableNodeContainer(Node):
+
+        def __init__(self,
+                     name: str,
+                     executable: str = 'component_container',
+                     package: Package = 'rclcpp_components',
+                     namespace: str = '',
+                     parameters: List[dict] | List[str] = [],
+                     arguments: List[list] | List[str] = [],
+                     remappings: List[tuple] = [],
+                     composable_node_descriptions: List = []) -> None:
+            super().__init__(
+                name,
+                package,
+                executable,
+                namespace,
+                parameters,
+                arguments,
+                remappings,
+            )
+            self.composable_node_descriptions = composable_node_descriptions
+
     @staticmethod
     def get_static_tf_node(name: str,
                            namespace: str,

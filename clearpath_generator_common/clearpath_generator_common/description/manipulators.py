@@ -40,6 +40,7 @@ from clearpath_config.manipulators.types.arms import (
     UniversalRobots
 )
 from clearpath_config.manipulators.types.grippers import (
+    BaseGripper,
     FrankaGripper,
     Kinova2FLite,
     Robotiq2F140,
@@ -141,6 +142,15 @@ class ManipulatorDescription():
             super().__init__(gripper)
             self.parameters[Franka.ARM_ID] = gripper.arm_id
 
+    class BaseRobotiqGripperDescription(BaseDescription):
+
+        def __init__(self, gripper: BaseGripper):
+            assert isinstance(gripper, Robotiq2F85) or isinstance(gripper, Robotiq2F140)
+            super().__init__(gripper)
+            if (gripper.arm.MANIPULATOR_MODEL == KinovaGen3Dof6.MANIPULATOR_MODEL or
+                    gripper.arm.MANIPULATOR_MODEL == KinovaGen3Dof7.MANIPULATOR_MODEL):
+                self.parameters[gripper.USE_CONTROLLERS] = False
+
     class LiftDescription(BaseDescription):
 
         def __init__(self, lift: BaseLift) -> None:
@@ -160,6 +170,8 @@ class ManipulatorDescription():
         KinovaGen3Lite.MANIPULATOR_MODEL: KinovaArmDescription,
         UniversalRobots.MANIPULATOR_MODEL: UniversalRobotsDescription,
         Ewellix.MANIPULATOR_MODEL: EwellixDescription,
+        Robotiq2F85.MANIPULATOR_MODEL: BaseRobotiqGripperDescription,
+        Robotiq2F140.MANIPULATOR_MODEL: BaseRobotiqGripperDescription,
     }
 
     def __new__(cls, manipulator: BaseManipulator) -> BaseManipulator:

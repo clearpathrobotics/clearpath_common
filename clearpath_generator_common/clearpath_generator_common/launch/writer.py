@@ -41,6 +41,8 @@ class LaunchWriter():
         self.included_packages: List[Package] = []
         self.included_launch_files: List[LaunchFile] = []
         self.nodes: List[LaunchFile.Node] = []
+        self.composable_nodes: List[LaunchFile.ComposableNode] = []
+        self.composable_node_containers: List[LaunchFile.ComposableNodeContainer] = []
         self.declared_launch_args: List[LaunchFile.LaunchArg] = []
         self.processes: List[LaunchFile.Process] = []
         self.file = open(self.launch_file.get_full_path(), 'w+')
@@ -141,11 +143,23 @@ class LaunchWriter():
         if process not in self.processes:
             self.processes.append(process)
 
+    def add_composable_node(self, composable_node: LaunchFile.ComposableNode):
+        if composable_node not in self.composable_nodes:
+            self.composable_nodes.append(composable_node)
+
+    def add_composable_node_container(self, container: LaunchFile.ComposableNodeContainer):
+        if container not in self.composable_node_containers:
+            self.composable_node_containers.append(container)
+
     def add(self, component: LaunchFile | LaunchFile.LaunchComponent):
         if isinstance(component, LaunchFile.LaunchArg):
             self.add_launch_arg(component)
         elif isinstance(component, LaunchFile):
             self.add_launch_file(component)
+        elif isinstance(component, LaunchFile.ComposableNode):
+            self.add_composable_node(component)
+        elif isinstance(component, LaunchFile.ComposableNodeContainer):
+            self.add_composable_node_container(component)
         elif isinstance(component, LaunchFile.Node):
             self.add_node(component)
         elif isinstance(component, LaunchFile.Process):
@@ -166,6 +180,17 @@ class LaunchWriter():
             0)
         self.write(
             'from launch_ros.actions import Node', 0)
+        composable_node_imported = False
+        if len(self.composable_node_containers) > 0:
+            self.write(
+                'from launch_ros.actions import ComposableNodeContainer', 0)
+            if any(bool(i.composable_node_descriptions) for i in self.composable_node_containers):
+                composable_node_imported = True
+                self.write(
+                    'from launch_ros.descriptions import ComposableNode', 0)
+        if len(self.composable_nodes) > 0 and not composable_node_imported:
+            self.write(
+                'from launch_ros.descriptions import ComposableNode', 0)
         self.write(
             'from launch_ros.substitutions import FindPackageShare', 0)
         self.write_newline()
@@ -261,6 +286,56 @@ class LaunchWriter():
                 self.write(')')
                 self.write_newline()
 
+        if len(self.composable_node_containers) > 0:
+            self.write_comment('Composable Node Containers')
+            for container in self.composable_node_containers:
+                self.write('{0} = ComposableNodeContainer('.format(container.declaration))
+                self.write("name='{0}',".format(container.name), indent_level=2)
+                self.write("executable='{0}',".format(container.executable), indent_level=2)
+                self.write("package='{0}',".format(container.package), indent_level=2)
+                self.write("namespace='{0}',".format(container.namespace), indent_level=2)
+                self.write("output='screen',", indent_level=2)
+                # Arguments
+                if len(container.arguments) > 0:
+                    self.write('arguments=', indent_level=2)
+                    self.write_obj(container.arguments, indent_level=3)
+                    self.write(',', indent_level=2)
+                # Remappings
+                if len(container.remappings) > 0:
+                    self.write('remappings=', indent_level=2)
+                    self.write_obj(container.remappings, indent_level=3)
+                    self.write(',', indent_level=2)
+                # Parameters
+                if len(container.parameters) > 0:
+                    self.write('parameters=', indent_level=2)
+                    self.write_obj(container.parameters, indent_level=3)
+                    self.write(',', indent_level=2)
+                # Composable Nodes
+                if len(container.composable_node_descriptions) > 0:
+                    self.write('composable_node_descriptions=[', indent_level=2)
+                    for node in container.composable_node_descriptions:
+                        self.write('ComposableNode(', indent_level=3)
+                        self.write("name='{0}',".format(node.name), indent_level=4)
+                        self.write("plugin='{0}',".format(node.plugin), indent_level=4)
+                        self.write("package='{0}',".format(node.package), indent_level=4)
+                        self.write("namespace='{0}',".format(node.namespace), indent_level=4)
+                        if len(node.extra_arguments) > 0:
+                            self.write('extra_arguments=', indent_level=4)
+                            self.write_obj(node.extra_arguments, indent_level=5)
+                            self.write(',', indent_level=4)
+                        if len(node.remappings) > 0:
+                            self.write('remappings=', indent_level=4)
+                            self.write_obj(node.remappings, indent_level=5)
+                            self.write(',', indent_level=4)
+                        if len(node.parameters) > 0:
+                            self.write('parameters=', indent_level=4)
+                            self.write_obj(node.parameters, indent_level=5)
+                            self.write(',', indent_level=4)
+                        self.write('),', indent_level=3)
+                    self.write(']', indent_level=2)
+                self.write(')')
+                self.write_newline()
+
         if len(self.processes) > 0:
             self.write_comment('Processes')
             for process in self.processes:
@@ -282,6 +357,8 @@ class LaunchWriter():
             self.write('ld.add_action({0})'.format(node.declaration))
         for process in self.processes:
             self.write('ld.add_action({0})'.format(process.declaration))
+        for container in self.composable_node_containers:
+            self.write('ld.add_action({0})'.format(container.declaration))
         self.write('return ld')
 
         self.close_file()
