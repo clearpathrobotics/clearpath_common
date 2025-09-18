@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.7.4 (2025-09-18)
+------------------
 * Feature: Kinova Jazzy Support (`#265 <https://github.com/clearpathrobotics/clearpath_common/issues/265>`_)
   * Remove prefix from Kinova gripper joint
   * Switch mesh paths from file to package
