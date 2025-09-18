@@ -2,6 +2,18 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Kinova Jazzy Support (`#265 <https://github.com/clearpathrobotics/clearpath_common/issues/265>`_)
+  * Remove prefix from Kinova gripper joint
+  * Switch mesh paths from file to package
+  * Add custom description generator for Robotiq gripper on Kinova
+  * Replace 'PI' property with 'math.pi'
+  * Add ComposableNodeContainer to launch generator
+  * Remove output from ComposableNode
+  * Fix generator test
+* Contributors: luis-camero
+
 2.7.3 (2025-09-16)
 ------------------
 * Skip xacro load for zed camera since wrapper must be manually installed (`#263 <https://github.com/clearpathrobotics/clearpath_common/issues/263>`_)

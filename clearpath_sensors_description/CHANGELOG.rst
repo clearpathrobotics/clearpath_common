@@ -2,6 +2,9 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.7.3 (2025-09-16)
 ------------------
 * Set simulated camera topic (`#264 <https://github.com/clearpathrobotics/clearpath_common/issues/264>`_)
