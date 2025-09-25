@@ -44,7 +44,7 @@ class BashWriter():
         self.file.write(f'{self.tab * indent_level}{string}\n')
 
     def add_export(self, envar: str, value, indent_level=0):
-        self.write(f'{self.tab * indent_level}export {envar}={value}')
+        self.write(f'{self.tab * indent_level}export {envar}="{value}"')
 
     def add_unset(self, envar: str, indent_level=0):
         self.write(f'{self.tab * indent_level}unset {envar}')
@@ -54,6 +54,9 @@ class BashWriter():
 
     def add_echo(self, msg: str, indent_level=0):
         self.write(f'{self.tab * indent_level}echo "{msg}"')
+
+    def add_comment(self, msg: str, indent_level=0):
+        self.write(f'{self.tab * indent_level}# {msg}')
 
     def close(self):
         self.file.close()
