@@ -295,10 +295,18 @@ class MoveItParamFile(ParamFile):
 
 
 class BashFile():
+    """
+    A bash file we can source.
+
+    :param filename: The name of the file or the absolute path to the file
+    :param path: The absolute or relative directory containing the file if filename
+        is not a complete path. package must be specified if path is not absolute
+    :param package: The ROS package that contains path if it is not absolute
+    """
 
     def __init__(self,
                  filename: str,
-                 path: str,
+                 path: str = None,
                  package: Package = None,
                  ) -> None:
         self.package = package
@@ -310,8 +318,10 @@ class BashFile():
         if self.package:
             return os.path.join(
                 get_package_share_directory(self.package.name), self.path, self.file)
-        else:
+        elif self.path:
             return os.path.join(self.path, self.file)
+        else:
+            return self.file
 
 
 class BaseGenerator():
