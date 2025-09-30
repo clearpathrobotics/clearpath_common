@@ -87,4 +87,17 @@ class BashGenerator(BaseGenerator):
         else:
             bash_writer.add_unset('ROS_DISCOVERY_SERVER')
 
+        # ROS automatic discovery range
+        bash_writer.add_export(
+            'ROS_AUTOMATIC_DISCOVERY_RANGE',
+            self.clearpath_config.system.middleware.automatic_discovery_range.upper(),
+        )
+        if len(self.clearpath_config.system.middleware.static_peers) > 0:
+            bash_writer.add_export(
+                'ROS_STATIC_PEERS',
+                f'"{";".join(self.clearpath_config.system.middleware.static_peers)}"',
+            )
+        else:
+            bash_writer.add_unset('ROS_STATIC_PEERS')
+
         bash_writer.close()
