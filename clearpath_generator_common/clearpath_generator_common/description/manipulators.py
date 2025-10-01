@@ -31,6 +31,9 @@
 # of Clearpath Robotics.
 from typing import List
 
+from clearpath_config.common.types.exception import (
+    UnsupportedAccessoryException,
+)
 from clearpath_config.manipulators.types.arms import (
     BaseArm,
     Franka,
@@ -145,7 +148,10 @@ class ManipulatorDescription():
     class BaseRobotiqGripperDescription(BaseDescription):
 
         def __init__(self, gripper: BaseGripper):
-            assert isinstance(gripper, Robotiq2F85) or isinstance(gripper, Robotiq2F140)
+            if not (isinstance(gripper, Robotiq2F85) or isinstance(gripper, Robotiq2F140)):
+                raise UnsupportedAccessoryException(
+                    f'Gripper must be of type "Robotiq2F85" or "Robotiq2F140", not "{type(gripper)}"'  # noqa: E501
+                )
             super().__init__(gripper)
             if (gripper.arm.MANIPULATOR_MODEL == KinovaGen3Dof6.MANIPULATOR_MODEL or
                     gripper.arm.MANIPULATOR_MODEL == KinovaGen3Dof7.MANIPULATOR_MODEL):
