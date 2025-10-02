@@ -62,6 +62,9 @@ class TestRobotLaunchGenerator:
             except UnsupportedPlatformException as e:
                 print(f'Unsupported platform. {e}. Skipping')
                 continue
+            except FileNotFoundError as e:
+                print(f'File not found: {e}. Skipping')
+                continue
             except Exception as e:
                 errors.append("Sample '%s' failed to load: '%s'" % (
                     sample,
