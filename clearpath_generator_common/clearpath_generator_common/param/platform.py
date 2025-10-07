@@ -381,14 +381,14 @@ class PlatformParam():
 
             if self.clearpath_config.platform.wireless.router:
                 if self.clearpath_config.platform.wireless.router == PeplinkRouter.MODEL:
-                    networking_contains.append('Peplink Router')
-                    networking_expected.append('router_node: Peplink Router')
+                    networking_contains.append('Router')
+                    networking_expected.append('router_node: Router')
                 # Put additional supported router hardware here...
 
             if self.clearpath_config.platform.wireless.base_station:
                 if self.clearpath_config.platform.wireless.base_station == PeplinkRouter.MODEL:
-                    networking_contains.append('Peplink Base Station')
-                    networking_expected.append('base_station_node: Peplink Base Station')
+                    networking_contains.append('Base Station')
+                    networking_expected.append('base_station_node: Base Station')
                 # Put additional supported base station hardware here...
 
             if len(networking_contains) > 0:
