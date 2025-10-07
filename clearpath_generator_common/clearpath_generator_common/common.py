@@ -336,7 +336,8 @@ class BaseGenerator():
                  setup_path: str = '/etc/clearpath/') -> None:
         # Define paths
         self.config_path = os.path.join(setup_path, 'robot.yaml')
-        assert os.path.exists(self.config_path)
+        if not os.path.exists(self.config_path):
+            raise FileNotFoundError(f'Config path {self.config_path} does not exist')
 
         self.setup_path = setup_path
         self.sensors_params_path = os.path.join(
