@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.8.0 (2025-10-23)
+------------------
 * Put the router & base station diagnostics into Networking (`#272 <https://github.com/clearpathrobotics/clearpath_common/issues/272>`_)
   * Put the router & base station diagnostics into Networking, update the wireless watcher to use the correct flag
   * Update the new diagnostic names
