@@ -14,11 +14,11 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend version_gte="2.5.0">clearpath_config</exec_depend>
-  <exec_depend version_gte="2.5.0">clearpath_control</exec_depend>
-  <exec_depend version_gte="2.5.0">clearpath_description</exec_depend>
-  <exec_depend version_gte="2.5.0">clearpath_diagnostics</exec_depend>
-  <exec_depend version_gte="2.5.0">clearpath_manipulators</exec_depend>
+  <exec_depend version_gte="2.8.0">clearpath_config</exec_depend>
+  <exec_depend version_gte="2.8.0">clearpath_control</exec_depend>
+  <exec_depend version_gte="2.8.0">clearpath_description</exec_depend>
+  <exec_depend version_gte="2.8.0">clearpath_diagnostics</exec_depend>
+  <exec_depend version_gte="2.8.0">clearpath_manipulators</exec_depend>
 
   <exec_depend>python3-apt</exec_depend>
 

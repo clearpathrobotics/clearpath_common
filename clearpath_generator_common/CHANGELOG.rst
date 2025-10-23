@@ -2,6 +2,22 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Put the router & base station diagnostics into Networking (`#272 <https://github.com/clearpathrobotics/clearpath_common/issues/272>`_)
+  * Put the router & base station diagnostics into Networking, update the wireless watcher to use the correct flag
+  * Update the new diagnostic names
+* Add dependency on python3-apt (`#273 <https://github.com/clearpathrobotics/clearpath_common/issues/273>`_)
+* Replace assertions in clearpath_generator_common with specific exceptions. Include error messages (`#271 <https://github.com/clearpathrobotics/clearpath_common/issues/271>`_)
+* Catch FileNotFound exceptions when loading the samples and ignore them
+  Some samples have /path/to/... placeholders, which will never load correctly (`#270 <https://github.com/clearpathrobotics/clearpath_common/issues/270>`_)
+* Add `system.bash` support (`#268 <https://github.com/clearpathrobotics/clearpath_common/issues/268>`_)
+  * Add the ability to specify additional BASH sources & envars directly from robot.yaml. Put quotation marks around exports (required if the value contains whitespace). Add comments to the bash file for clarity
+* Add support for automatic discovery range (`#262 <https://github.com/clearpathrobotics/clearpath_common/issues/262>`_)
+  * Write the ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS envars
+  * Unset ROS_STATIC_PEERS if there are no peers, rather than setting an empty string
+* Contributors: Chris Iverach-Brereton
+
 2.7.4 (2025-09-18)
 ------------------
 * Feature: Kinova Jazzy Support (`#265 <https://github.com/clearpathrobotics/clearpath_common/issues/265>`_)
