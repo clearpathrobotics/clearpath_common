@@ -39,6 +39,7 @@ from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_it
 from clearpath_config.manipulators.types.arms import Franka
 from clearpath_config.manipulators.types.grippers import FrankaGripper
 from clearpath_config.platform.battery import BatteryConfig
+from clearpath_config.platform.wireless import PeplinkRouter
 from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
 from clearpath_config.sensors.types.gps import BaseGPS, NMEA
 from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
@@ -369,7 +370,28 @@ class PlatformParam():
                     }
                 })
 
-            if self.clearpath_config.platform.enable_wireless_watcher:
+            # We have a few optional nodes that go into the Networking section
+            # collect them all and then create the aggregator node
+            networking_contains = []
+            networking_expected = []
+
+            if self.clearpath_config.platform.wireless.enable_wireless_watcher:
+                networking_contains.append('Wi-Fi')
+                networking_expected.append('wireless_watcher: Wi-Fi Monitor')
+
+            if self.clearpath_config.platform.wireless.router:
+                if self.clearpath_config.platform.wireless.router == PeplinkRouter.MODEL:
+                    networking_contains.append('Router')
+                    networking_expected.append('router_node: Router')
+                # Put additional supported router hardware here...
+
+            if self.clearpath_config.platform.wireless.base_station:
+                if self.clearpath_config.platform.wireless.base_station == PeplinkRouter.MODEL:
+                    networking_contains.append('Base Station')
+                    networking_expected.append('base_station_node: Base Station')
+                # Put additional supported base station hardware here...
+
+            if len(networking_contains) > 0:
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -377,8 +399,8 @@ class PlatformParam():
                                 'networking': {
                                     'type': 'diagnostic_aggregator/GenericAnalyzer',
                                     'path': 'Networking',
-                                    'contains': ['Wi-Fi'],
-                                    'expected': ['wireless_watcher: Wi-Fi Monitor']
+                                    'contains': networking_contains,
+                                    'expected': networking_expected,
                                 }
                             }
                         }

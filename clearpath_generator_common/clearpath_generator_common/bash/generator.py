@@ -32,6 +32,8 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
+from datetime import datetime, UTC
+
 from clearpath_config.common.types.discovery import Discovery
 from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BaseGenerator, BashFile
@@ -48,18 +50,34 @@ class BashGenerator(BaseGenerator):
         clearpath_setup_bash = BashFile(filename='setup.bash', path=self.setup_path)
         bash_writer = BashWriter(clearpath_setup_bash)
 
-        workspaces = self.clearpath_config.system.workspaces
+        bash_writer.add_comment(f'Bash setup generated at {datetime.now(UTC)}')
+
+        # Additional ROS sources
+        sources = self.clearpath_config.system.bash.additional_sources
+        envs = self.clearpath_config.system.bash.additional_envars
+        if len(sources) > 0 or len(envs) > 0:
+            bash_writer.add_comment('Additional bash configuration from robot.yaml')
+            for s in sources:
+                bash_writer.add_source(BashFile(filename=s))
+
+            for e in envs:
+                bash_writer.add_export(e, envs[e])
 
         # Source core ROS
+        bash_writer.add_comment('Core ROS setup')
         ros_setup_bash = BashFile(filename='setup.bash', path=ROS_DISTRO_PATH)
         bash_writer.add_source(ros_setup_bash)
 
         # Additional workspaces
-        for workspace in workspaces:
-            bash_writer.add_source(
-                BashFile(filename='setup.bash', path=workspace.strip('setup.bash')))
+        workspaces = self.clearpath_config.system.workspaces
+        if len(workspaces) > 0:
+            bash_writer.add_comment('Additional workspaces')
+            for workspace in workspaces:
+                bash_writer.add_source(
+                    BashFile(filename='setup.bash', path=workspace.strip('setup.bash')))
 
         # ROS_DOMAIN_ID
+        bash_writer.add_comment('ROS configuration')
         domain_id = self.clearpath_config.system.domain_id
         bash_writer.add_export('ROS_DOMAIN_ID', domain_id)
 
@@ -86,5 +104,18 @@ class BashGenerator(BaseGenerator):
 
         else:
             bash_writer.add_unset('ROS_DISCOVERY_SERVER')
+
+        # ROS automatic discovery range
+        bash_writer.add_export(
+            'ROS_AUTOMATIC_DISCOVERY_RANGE',
+            self.clearpath_config.system.middleware.automatic_discovery_range.upper(),
+        )
+        if len(self.clearpath_config.system.middleware.static_peers) > 0:
+            bash_writer.add_export(
+                'ROS_STATIC_PEERS',
+                f'"{";".join(self.clearpath_config.system.middleware.static_peers)}"',
+            )
+        else:
+            bash_writer.add_unset('ROS_STATIC_PEERS')
 
         bash_writer.close()
