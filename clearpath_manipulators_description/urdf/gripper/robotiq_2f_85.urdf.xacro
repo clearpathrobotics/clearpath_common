@@ -26,9 +26,11 @@
         include_ros2_control="${use_controllers}"
         com_port="${com_port}"
         use_fake_hardware="${use_fake_hardware}"
-        fake_sensor_commands="${fake_sensor_commands}"
-        sim_ignition="${sim_ignition}"
-        sim_isaac="${sim_isaac}">
+        mock_sensor_commands="${fake_sensor_commands}"
+        sim_gazebo="${sim_gazebo}"
+        sim_isaac="${sim_isaac}"
+        isaac_joint_commands="${isaac_joint_commands}"
+        isaac_joint_states="${isaac_joint_states}">
         <xacro:insert_block name="origin"/>
     </xacro:robotiq_gripper>
 
