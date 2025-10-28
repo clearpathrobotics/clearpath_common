@@ -2,8 +2,8 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.8.1 (2025-10-28)
+------------------
 * Add guard to include zed only once
 * Contributors: Luis Camero
 
