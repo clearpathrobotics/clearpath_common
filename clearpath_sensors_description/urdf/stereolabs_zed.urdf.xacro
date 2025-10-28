@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro" />
+
+  <xacro:if value="${guard_include_zed}">
+    <xacro:property name="guard_include_zed" value="false" lazy_eval="false"/>
+    <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro"/>
+  </xacro:if>
+
   <xacro:macro name="stereolabs_zed" params="
     name
     parent_link
