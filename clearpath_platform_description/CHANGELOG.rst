@@ -2,6 +2,11 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add guard to include zed only once
+* Contributors: Luis Camero
+
 2.8.0 (2025-10-23)
 ------------------
 
