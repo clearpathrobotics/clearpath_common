@@ -11,7 +11,8 @@
     parent_link
     *origin
     ewellix_type:=tlt_x25
-    add_plate:=True
+    add_plate:=''
+    add_mount:=''
     parameters_file:=''
     initial_positions:=''
     initial_positions_file:=''
@@ -39,6 +40,8 @@
     <xacro:property name="_sim_gazebo" value="$(arg is_sim)" />
 
     <!-- Default Hardware Parameters -->
+    <xacro:property name="_add_plate" value="True"/>
+    <xacro:property name="_add_mount" value="True"/>
     <xacro:property name="_port" value="/dev/ttyUSB0"/>
     <xacro:property name="_baud" value="38400"/>
     <xacro:property name="_timeout" value="1000"/>
@@ -54,6 +57,8 @@
     <xacro:if value="${generate_ros2_control_tag != ''}"> <xacro:property name="_generate_ros2_control_tag" value="${generate_ros2_control_tag}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${use_fake_hardware != ''}"> <xacro:property name="_use_fake_hardware" value="${use_fake_hardware}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${sim_gazebo != ''}"> <xacro:property name="_sim_gazebo" value="${sim_gazebo}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${add_plate != ''}"> <xacro:property name="_add_plate" value="${add_plate}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${add_mount != ''}"> <xacro:property name="_add_mount" value="${add_mount}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${port != ''}"> <xacro:property name="_port" value="${port}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${baud != ''}"> <xacro:property name="_baud" value="${baud}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${timeout != ''}"> <xacro:property name="_timeout" value="${timeout}" lazy_eval="false"/> </xacro:if>
@@ -65,7 +70,8 @@
     <xacro:ewellix_lift
       parent="${parent_link}"
       tf_prefix="${_tf_prefix}"
-      add_plate="${add_plate}"
+      add_plate="${_add_plate}"
+      add_mount="${_add_mount}"
       initial_positions="${_initial_positions}"
       parameters_file="${_parameters_file}"
       generate_ros2_control_tag="${_generate_ros2_control_tag}"
