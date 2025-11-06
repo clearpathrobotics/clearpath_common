@@ -2,6 +2,12 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: UR Parameter Generation (`#277 <https://github.com/clearpathrobotics/clearpath_common/issues/277>`_)
+  Use merge instead of update to prevent clobbering parameters
+* Contributors: luis-camero
+
 2.8.1 (2025-10-28)
 ------------------
 
