@@ -2,8 +2,8 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.8.2 (2025-11-06)
+------------------
 * Fix: Ewellix Parameters (`#278 <https://github.com/clearpathrobotics/clearpath_common/issues/278>`_)
   Add plate and mount parameters to URDF
 * Contributors: luis-camero
