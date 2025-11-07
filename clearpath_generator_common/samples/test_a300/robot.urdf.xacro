@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="a300-00000">
+
+  <!-- Common -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro"/>
+
+  <!-- Platform -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/a300.urdf.xacro"/>
+  <xacro:a300 control="diff_4wd" front_wheels="outdoor" rear_wheels="outdoor"/>
+
+
+  <!-- Attachments -->
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/attachments/bumper.urdf.xacro"/>
+  <xacro:bumper name="front_bumper" model="default" parent_link="front_bumper_mount" extension="0.0">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bumper>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/attachments/bumper.urdf.xacro"/>
+  <xacro:bumper name="rear_bumper" model="default" parent_link="rear_bumper_mount" extension="0.0">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bumper>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/attachments/amp_enclosure.urdf.xacro"/>
+  <xacro:amp_enclosure name="enclosure" model="amp_enclosure" parent_link="base_link">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:amp_enclosure>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/attachments/amp_sensor_arch.urdf.xacro"/>
+  <xacro:amp_sensor_arch name="sensor_arch" model="amp_sensor_arch" parent_link="enclosure_antenna_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:amp_sensor_arch>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/attachments/spotlight.urdf.xacro"/>
+  <xacro:spotlight name="driving_light_1" model="spotlight" parent_link="sensor_arch_front_left_corner_mount">
+    <origin xyz="0.0 0.0 -0.08" rpy="0.0 0.5235987755982988 0.5235987755982988"/>
+  </xacro:spotlight>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/attachments/spotlight.urdf.xacro"/>
+  <xacro:spotlight name="driving_light_2" model="spotlight" parent_link="sensor_arch_front_right_corner_mount">
+    <origin xyz="0.0 0.0 -0.08" rpy="0.0 0.5235987755982988 -0.5235987755982988"/>
+  </xacro:spotlight>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/attachments/spotlight.urdf.xacro"/>
+  <xacro:spotlight name="driving_light_3" model="spotlight" parent_link="sensor_arch_rear_left_corner_mount">
+    <origin xyz="0.0 0.0 -0.08" rpy="0.0 0.5235987755982988 -0.5235987755982988"/>
+  </xacro:spotlight>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a300/attachments/spotlight.urdf.xacro"/>
+  <xacro:spotlight name="driving_light_4" model="spotlight" parent_link="sensor_arch_rear_right_corner_mount">
+    <origin xyz="0.0 0.0 -0.08" rpy="0.0 0.5235987755982988 0.5235987755982988"/>
+  </xacro:spotlight>
+
+
+  <!-- Links -->
+
+
+  <!-- Mounts -->
+
+
+  <!-- Sensors -->
+
+  <!-- lidar3d_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/seyond_lidar.urdf.xacro"/>
+  <xacro:seyond_lidar name="lidar3d_0" parent_link="enclosure_front_lidar_mount" ang_res_h="0.01" ang_res_v="0.01" min_ang_h="-1.0471975511965976" max_ang_h="1.0471975511965976" min_ang_v="-0.6108652381980153" max_ang_v="0.6108652381980153" min_range="0.1" max_range="150.0" update_rate="20">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:seyond_lidar>
+
+  <!-- camera_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/luxonis_oakd.urdf.xacro"/>
+  <xacro:luxonis_oakd name="camera_0" parent_link="sensor_arch_front_camera_mount" update_rate="30.0" model="pro_w_poe">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:luxonis_oakd>
+
+  <!-- camera_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/luxonis_oakd.urdf.xacro"/>
+  <xacro:luxonis_oakd name="camera_1" parent_link="sensor_arch_rear_camera_mount" update_rate="30.0" model="pro_w_poe">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:luxonis_oakd>
+
+  <!-- imu_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/phidgets_spatial.urdf.xacro"/>
+  <xacro:phidgets_spatial name="imu_0" parent_link="base_link">
+    <origin xyz="0.059 0.0 0.161275" rpy="0.0 0.0 0.0"/>
+  </xacro:phidgets_spatial>
+
+  <!-- ins_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/fixposition.urdf.xacro"/>
+  <xacro:fixposition name="ins_0" parent_link="enclosure_ins_mount" num_antennas="2" gps_0_type="spherical" gps_0_xyz_x="0.0" gps_0_xyz_y="0.0" gps_0_xyz_z="0.0" gps_0_rpy_r="0.0" gps_0_rpy_p="0.0" gps_0_rpy_y="0.0" gps_0_parent="sensor_arch_right_antenna_mount" gps_1_type="spherical" gps_1_xyz_x="0.0" gps_1_xyz_y="0.0" gps_1_xyz_z="0.0" gps_1_rpy_r="0.0" gps_1_rpy_p="0.0" gps_1_rpy_y="0.0" gps_1_parent="sensor_arch_left_antenna_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:fixposition>
+
+
+  <!-- Manipulators -->
+
+
+  <!-- Extras -->
+
+
+</robot>

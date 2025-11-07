@@ -43,6 +43,8 @@ class TestRobotLaunchGenerator:
         share_dir = get_package_share_directory('clearpath_config')
         sample_dir = os.path.join(share_dir, 'sample')
         for sample in os.listdir(sample_dir):
+            if '.yaml' != os.path.splitext(sample):
+                continue
             # Create Clearpath Directory
             src = os.path.join(sample_dir, sample)
             dst = os.path.join(os.environ['HOME'], '.clearpath', 'robot.yaml')

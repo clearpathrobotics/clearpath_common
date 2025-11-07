@@ -1,0 +1,126 @@
+serial_number: a300-00000
+version: 0
+system:
+  hosts:
+    - hostname: cpr-a300-00000
+      ip: 192.168.131.1
+  ros2:
+    namespace: a300_00000
+platform:
+  attachments:
+    - name: front_bumper
+      type: a300.bumper
+      parent: front_bumper_mount
+    - name: rear_bumper
+      type: a300.bumper
+      parent: rear_bumper_mount
+    - name: enclosure
+      type: a300.amp_enclosure
+    - name: sensor_arch
+      type: a300.amp_sensor_arch
+      parent: enclosure_antenna_mount
+    - name: driving_light_1
+      type: a300.spotlight
+      parent: sensor_arch_front_left_corner_mount
+      xyz: [0.0, 0.0, -0.08]
+      rpy: [0.0, 0.5235987755982988, 0.5235987755982988]
+    - name: driving_light_2
+      type: a300.spotlight
+      parent: sensor_arch_front_right_corner_mount
+      xyz: [0.0, 0.0, -0.08]
+      rpy: [0.0, 0.5235987755982988, -0.5235987755982988]
+    - name: driving_light_3
+      type: a300.spotlight
+      parent: sensor_arch_rear_left_corner_mount
+      xyz: [0.0, 0.0, -0.08]
+      rpy: [0.0, 0.5235987755982988, -0.5235987755982988]
+    - name: driving_light_4
+      type: a300.spotlight
+      parent: sensor_arch_rear_right_corner_mount
+      xyz: [0.0, 0.0, -0.08]
+      rpy: [0.0, 0.5235987755982988, 0.5235987755982988]
+sensors:
+  imu:
+    - model: phidgets_spatial
+      urdf_enabled: true
+      launch_enabled: true
+      parent: base_link
+      xyz: [0.059, 0.0, 0.161275]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        phidgets_spatial:
+          data_interval_ms: 20
+  ins:
+    - model: fixposition
+      parent: enclosure_ins_mount
+      antennas:
+        - parent: sensor_arch_right_antenna_mount
+        - parent: sensor_arch_left_antenna_mount
+  camera:
+    - model: luxonis_oakd
+      urdf_enabled: true
+      launch_enabled: true
+      parent: sensor_arch_front_camera_mount
+      ros_parameters:
+        luxonis_oakd:
+          device_type: pro_w_poe
+          camera:
+            i_enable_imu: false
+            i_enable_ir: false
+            i_floodlight_brightness: 0
+            i_ip: ''
+            i_laser_dot_brightness: 100
+            i_mx_id: ''
+            i_nn_type: none
+            i_pipeline_type: RGB
+            i_usb_speed: SUPER_PLUS
+            i_usb_port_id: ''
+          rgb:
+            i_board_socket_id: 0
+            i_fps: 30.0
+            i_height: 720
+            i_interleaved: false
+            i_max_q_size: 10
+            i_preview_size: 250
+            i_enable_preview: true
+            i_low_bandwidth: true
+            i_keep_preview_aspect_ratio: true
+            i_publish_topic: false
+            i_resolution: '1080P'
+            i_width: 1280
+    - model: luxonis_oakd
+      urdf_enabled: true
+      launch_enabled: true
+      parent: sensor_arch_rear_camera_mount
+      ros_parameters:
+        luxonis_oakd:
+          device_type: pro_w_poe
+          camera:
+            i_enable_imu: false
+            i_enable_ir: false
+            i_floodlight_brightness: 0
+            i_ip: ''
+            i_laser_dot_brightness: 100
+            i_mx_id: ''
+            i_nn_type: none
+            i_pipeline_type: RGB
+            i_usb_speed: SUPER_PLUS
+            i_usb_port_id: ''
+          rgb:
+            i_board_socket_id: 0
+            i_fps: 30.0
+            i_height: 720
+            i_interleaved: false
+            i_max_q_size: 10
+            i_preview_size: 250
+            i_enable_preview: true
+            i_low_bandwidth: true
+            i_keep_preview_aspect_ratio: true
+            i_publish_topic: false
+            i_resolution: '1080P'
+            i_width: 1280
+  lidar3d:
+    - model: seyond_lidar
+      urdf_enabled: true
+      launch_enabled: false
+      parent: enclosure_front_lidar_mount

@@ -1,0 +1,146 @@
+serial_number: a201-0000
+version: 0
+system:
+  hosts:
+    - hostname: cpr-a201-0000
+      ip: 192.168.131.1
+  ros2:
+    namespace: a201_0000
+platform:
+  attachments:
+    - name: front_bumper
+      type: a200.bumper
+      parent: front_bumper_mount
+    - name: rear_bumper
+      type: a200.bumper
+      parent: rear_bumper_mount
+    - name: backpack
+      type: a200.observer_backpack
+sensors:
+  lidar2d:
+    - model: hokuyo_ust
+      urdf_enabled: true
+      launch_enabled: true
+      parent: backpack_front_lidar_mount
+      ros_parameters:
+        urg_node:
+          laser_frame_id: lidar2d_0_laser
+          ip_address: 192.168.131.21
+          ip_port: 10940
+          angle_min: -1.5707963267948966
+          angle_max: 1.5707963267948966
+    - model: hokuyo_ust
+      urdf_enabled: true
+      launch_enabled: true
+      parent: backpack_rear_lidar_mount
+      ros_parameters:
+        urg_node:
+          laser_frame_id: lidar2d_1_laser
+          ip_address: 192.168.131.22
+          ip_port: 10940
+          angle_min: -1.5707963267948966
+          angle_max: 1.5707963267948966
+  lidar3d:
+    - model: velodyne_lidar
+      urdf_enabled: true
+      launch_enabled: true
+      parent: backpack_center_lidar_mount
+      ros_parameters:
+        velodyne_driver_node:
+          frame_id: lidar3d_0_laser
+          device_ip: 192.168.131.20
+          port: 2368
+          model: VLP16
+        velodyne_transform_node:
+          model: VLP16
+          fixed_frame: lidar3d_0_laser
+          target_frame: lidar3d_0_laser
+  camera:
+    - model: intel_realsense
+      parent: backpack_front_realsense_mount
+      ros_parameters:
+        intel_realsense:
+          camera_name: camera_0
+          device_type: d435
+          serial_no: "1234567890"
+    - model: intel_realsense
+      parent: backpack_rear_realsense_mount
+      ros_parameters:
+        intel_realsense:
+          camera_name: camera_1
+          device_type: d435
+          serial_no: "9876543210"
+    - model: axis_camera
+      parent: backpack_center_mount
+      ros_parameters:
+        axis_camera:
+          device_type: q62
+          hostname: "192.168.131.10"
+          http_port: 80
+          username: "root"
+          password: ""
+          width: 640
+          height: 480
+          fps: 20
+          tf_prefix: "axis"
+          camera_info_url: ""
+          use_encrypted_password : False
+          camera : 1
+          ir: True
+          defog: True
+          wiper: True
+          ptz: True
+          min_pan: -3.141592653589793
+          max_pan: 3.141592653589793
+          min_tilt: 0.0
+          max_tilt: 1.5707963267948966
+          min_zoom: 1
+          max_zoom: 24
+          max_pan_speed: 2.61
+          max_tilt_speed: 2.61
+          ptz_teleop: True
+          button_enable_pan_tilt : -1
+          button_enable_zoom     : -1
+          axis_pan      : 3
+          axis_tilt     : 4
+          invert_tilt   : False
+          axis_zoom_in: 5
+          axis_zoom_out: 2
+          zoom_in_offset: -1.0
+          zoom_out_offset: -1.0
+          zoom_in_scale: -0.5
+          zoom_out_scale: 0.5
+          scale_pan     : 2.61
+          scale_tilt    : 2.61
+          scale_zoom    : 100.0
+  gps:
+    - model: swiftnav_duro
+      urdf_enabled: true
+      launch_enabled: true
+      parent: backpack_right_antenna_mount
+      ros_parameters:
+        duro_node:
+          gps_receiver_frame_id: gps_0_link
+          ip_address: 192.168.131.31
+          ip_port: 55555
+          imu_frame_id: gps_0_link
+    - model: swiftnav_duro
+      urdf_enabled: true
+      launch_enabled: true
+      parent: backpack_left_antenna_mount
+      ros_parameters:
+        duro_node:
+          gps_receiver_frame_id: gps_1_link
+          ip_address: 192.168.131.32
+          ip_port: 55555
+          imu_frame_id: gps_1_link
+  imu:
+    - model: microstrain_imu
+      urdf_enabled: true
+      launch_enabled: true
+      parent: backpack_imu_mount
+      ros_parameters:
+        microstrain_inertial_driver:
+          imu_frame_id: imu_0_link
+          port: /dev/microstrain_main
+          use_enu_frame: true
