@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="a200-0000">
+
+  <!-- Common -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro"/>
+
+  <!-- Platform -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/a200.urdf.xacro"/>
+  <xacro:a200 control="diff_4wd" front_wheels="outdoor" rear_wheels="outdoor"/>
+
+
+  <!-- Attachments -->
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/attachments/bumper.urdf.xacro"/>
+  <xacro:bumper name="front_bumper" model="default" parent_link="front_bumper_mount" extension="0.0">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bumper>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/attachments/bumper.urdf.xacro"/>
+  <xacro:bumper name="rear_bumper" model="default" parent_link="rear_bumper_mount" extension="0.0">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bumper>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/attachments/observer_backpack.urdf.xacro"/>
+  <xacro:observer_backpack name="backpack" model="observer_backpack" parent_link="default_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:observer_backpack>
+
+
+  <!-- Links -->
+
+
+  <!-- Mounts -->
+
+
+  <!-- Sensors -->
+
+  <!-- lidar2d_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/hokuyo_ust.urdf.xacro"/>
+  <xacro:hokuyo_ust name="lidar2d_0" parent_link="backpack_front_lidar_mount" ang_res="0.5" min_ang="-1.5707963267948966" max_ang="1.5707963267948966" min_range="0.05" max_range="25.0" update_rate="40">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:hokuyo_ust>
+
+  <!-- lidar2d_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/hokuyo_ust.urdf.xacro"/>
+  <xacro:hokuyo_ust name="lidar2d_1" parent_link="backpack_rear_lidar_mount" ang_res="0.5" min_ang="-1.5707963267948966" max_ang="1.5707963267948966" min_range="0.05" max_range="25.0" update_rate="40">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:hokuyo_ust>
+
+  <!-- lidar3d_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/velodyne_lidar.urdf.xacro"/>
+  <xacro:velodyne_lidar name="lidar3d_0" parent_link="backpack_center_lidar_mount" ang_res_h="0.4" ang_res_v="2.0" min_ang_h="-3.141592" max_ang_h="3.141592" min_ang_v="-0.261799" max_ang_v="0.261799" min_range="0.9" max_range="130.0" update_rate="20">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:velodyne_lidar>
+
+  <!-- camera_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel_realsense.urdf.xacro"/>
+  <xacro:intel_realsense name="camera_0" parent_link="backpack_front_realsense_mount" update_rate="30" image_height="480" image_width="640" model="d435">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:intel_realsense>
+
+  <!-- camera_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel_realsense.urdf.xacro"/>
+  <xacro:intel_realsense name="camera_1" parent_link="backpack_rear_realsense_mount" update_rate="30" image_height="480" image_width="640" model="d435">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:intel_realsense>
+
+  <!-- camera_2 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis_camera.urdf.xacro"/>
+  <xacro:axis_camera name="camera_2" parent_link="backpack_center_mount" update_rate="20" model="q62">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:axis_camera>
+
+  <!-- imu_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/microstrain_imu.urdf.xacro"/>
+  <xacro:microstrain_imu name="imu_0" parent_link="backpack_imu_mount" update_rate="100">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:microstrain_imu>
+
+  <!-- gps_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/swiftnav_duro.urdf.xacro"/>
+  <xacro:swiftnav_duro name="gps_0" parent_link="backpack_right_antenna_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:swiftnav_duro>
+
+  <!-- gps_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/swiftnav_duro.urdf.xacro"/>
+  <xacro:swiftnav_duro name="gps_1" parent_link="backpack_left_antenna_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:swiftnav_duro>
+
+
+  <!-- Manipulators -->
+
+
+  <!-- Extras -->
+
+
+</robot>

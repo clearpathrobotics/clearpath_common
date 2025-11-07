@@ -33,6 +33,9 @@ install(
   RUNTIME DESTINATION lib/clearpath_generator_common
   INCLUDES DESTINATION lib/clearpath_generator_common
 )
+install(DIRECTORY samples
+  DESTINATION share/${PROJECT_NAME}
+)
 
 ament_python_install_package(${PROJECT_NAME})
 
@@ -53,6 +56,7 @@ if(BUILD_TESTING)
     test/test_generator_description.py
     test/test_generator_discovery_server.py
     test/test_generator_vcan.py
+    test/test_samples.py
   )
   foreach(_test_path ${_pytest_tests})
     get_filename_component(_test_name ${_test_path} NAME_WE)

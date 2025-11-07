@@ -1,0 +1,2 @@
+/bin/bash -e /usr/sbin/clearpath-vcan-bridge -t virtual -p 11412 -s /dev/ttycan0 -c vcan0 -b s8
+/bin/bash -e /usr/sbin/clearpath-vcan-bridge -t virtual -p 11413 -s /dev/ttycan1 -c vcan1 -b s5
