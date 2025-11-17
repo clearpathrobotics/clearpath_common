@@ -3,7 +3,7 @@
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="prefix" default="" />
   <xacro:arg name="namespace" default="" />
-  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/j100/control.yaml"/>
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/generic/control/empty.yaml"/>
   <xacro:arg name="use_platform_controllers" default="true"/>
   <link name="base_link"/>
   <link name="default_mount"/>
