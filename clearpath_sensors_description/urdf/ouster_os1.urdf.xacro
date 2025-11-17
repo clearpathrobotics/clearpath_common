@@ -198,7 +198,7 @@
     </joint>
     <xacro:if value="${cap == 'fins' or cap == 'halo'}">
       <!-- Thermal Cap Joint -->
-      <joint name="{name}_cap_joint" type="fixed">
+      <joint name="${name}_cap_joint" type="fixed">
         <child link="${name}_cap_link"/>
         <parent link="${name}_link"/>
         <origin xyz="0 0 ${lidar_height}"/>
