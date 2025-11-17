@@ -1,0 +1,6 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 20  # Hz
+    use_sim_time: False
+
+    joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster

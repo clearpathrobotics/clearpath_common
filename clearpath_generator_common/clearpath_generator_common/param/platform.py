@@ -774,8 +774,9 @@ class PlatformParam():
                      clearpath_config: ClearpathConfig,
                      param_path: str) -> None:
             super().__init__(parameter, clearpath_config, param_path)
-            self.default_parameter_file_path = f'config/{self.platform}/control'
-            self.default_parameter = self.clearpath_config.platform.drivetrain.control
+            if self.platform != Platform.GENERIC:
+                self.default_parameter_file_path = f'config/{self.platform}/control'
+                self.default_parameter = self.clearpath_config.platform.drivetrain.control
 
     class TeleopInteractiveMarkers(BaseParam):
         def __init__(self,
