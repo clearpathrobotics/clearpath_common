@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="generic_drivetrain_control_diff_rwd">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema" name="generic_drivetrain_control_diff_rwd">
 
   <xacro:macro name="generic_drivetrain_control_diff_rwd" params="name hardware_plugin">
 

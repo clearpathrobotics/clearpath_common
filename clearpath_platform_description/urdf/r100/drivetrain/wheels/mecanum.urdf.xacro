@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="r100_wheel">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema" name="r100_wheel">
   <xacro:property name="r100_mecanum_wheel_radius" value="0.0759" />
   <xacro:property name="r100_mecanum_wheel_mass" value="2.5" />
   <xacro:property name="r100_mecanum_wheel_width" value="0.0790" />
@@ -47,7 +47,7 @@
             <ode>
               <mu>1.0</mu>
               <mu2>0.0</mu2>
-              <fdir1 ignition:expressed_in="base_link">1 ${side} 0</fdir1>
+              <fdir1 gz:expressed_in="base_link">1 ${side} 0</fdir1>
             </ode>
           </friction>
         </surface>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="dd100_caster_wheel">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema" name="dd100_caster_wheel">
 
   <xacro:property name="dd100_caster_wheel_radius" value="0.01" />
   <xacro:property name="dd100_caster_wheel_mass" value="0.1" />
