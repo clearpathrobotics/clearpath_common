@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="generic_drivetrain">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema" name="generic_drivetrain">
 
   <xacro:macro name="generic_drivetrain" params="name control front_wheels rear_wheels hardware_plugin">
     <!-- Omni drivetrain -->

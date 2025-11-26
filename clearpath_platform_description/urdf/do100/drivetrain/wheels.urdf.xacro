@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:ignition="http://gazebosim.org/schema" name="do100_drivetrain_wheels">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema" name="do100_drivetrain_wheels">
 
   <xacro:macro name="do100_drivetrain_wheels" params="front_wheels rear_wheels">
     <xacro:include filename="$(find clearpath_platform_description)/urdf/do100/drivetrain/wheels/mecanum.urdf.xacro"/>
