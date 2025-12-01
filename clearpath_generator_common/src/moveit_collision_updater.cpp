@@ -73,7 +73,7 @@ int main(int argc, char * argv[])
   pos_desc.add("xacro-args", -1);
 
   po::variables_map vm;
-  po::store(po::command_line_parser(argc, argv).options(desc).positional(pos_desc).run(), vm);
+  po::store(po::command_line_parser(argc, argv).options(desc).positional(pos_desc).allow_unregistered().run(), vm);
   po::notify(vm);
 
   if (vm.count("help")) {
