@@ -1,7 +1,10 @@
 """Scripts to generate samples using the clearpath_generator_common."""
 import argparse
 import os
+import signal
 import shutil
+import subprocess
+import sys
 
 from ament_index_python.packages import get_package_share_directory
 from clearpath_generator_common.bash.generator import BashGenerator
@@ -23,6 +26,50 @@ class GenerationFailureException(Exception):
         """Initialize default exception and keep errors."""
         super().__init__(message)
         self.errors = errors
+
+
+def run_ros2_executable(*, path, argv, prefix=None):
+    """Execute a ROS2 executable."""
+    cmd = [path] + argv
+
+    # on Windows Python scripts are invokable through the interpreter
+    if os.name == 'nt' and path.endswith('.py'):
+        cmd.insert(0, sys.executable)
+
+    if prefix is not None:
+        cmd = prefix + cmd
+
+    process = subprocess.Popen(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+
+    # add signal handler for the parent process, so that we can finalize the child process
+    def signal_handler(sig, frame):
+        print('[ros2run]', 'Received signal: ', signal.strsignal(sig))
+        if process.poll() is None:
+            # If child process is running, forward the signal to it
+            process.send_signal(sig)
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
+    stdout = ''
+    stderr = ''
+
+    while process.returncode is None:
+        try:
+            out, err = process.communicate()
+            stdout += out.decode('utf-8')
+            stderr += err.decode('utf-8')
+        except KeyboardInterrupt:
+            # the subprocess will also receive the signal and should shut down
+            # therefore we continue here until the process has finished
+            pass
+    if process.returncode != 0:
+        if -process.returncode in signal.valid_signals() and os.name == 'posix':
+            # a negative value -N indicates that the child was terminated by signal N.
+            print('[ros2run]', signal.strsignal(-process.returncode))
+        else:
+            # print general failure message instead.
+            print('[ros2run]', 'Process exited with failure %d' % (process.returncode))
+    return (process.returncode, stdout, stderr)
 
 
 def generate_bash(setup_path) -> None:
@@ -75,9 +122,15 @@ def generate_semantic_description(setup_path: str) -> bool:
         '--min-collision-fraction', '0.95',
         '--ros-args', '--log-level', 'fatal'
     ]
-    run_executable(path=path, argv=argv)
+    ret, out, err = run_ros2_executable(path=path, argv=argv)
     # Delete pseudo package
     os.remove(os.path.join(setup_path, 'package.xml'))
+
+    if ret == 0:
+        print(f'Generated {os.path.join(setup_path)}/robot.srdf')
+    else:
+        print(f'Failed to generate {os.path.join(setup_path)}/robot.srdf')
+        raise Exception(f'Failed semantic generation with \n\tstdout:{out} \n\tstderr: {err}')
 
 
 def error_log(name: str, sample: str, error: Exception) -> str:
@@ -95,7 +148,7 @@ def generate_test_samples(root_dir: str):
         # Filter for Test Samples
         if 'test' not in sample:
             continue
-        print(sample)
+        print(f'Generating {sample}'.center(100, '-'))
         # Create Clearpath Directory
         src = os.path.join(sample_dir, sample)
         dst = os.path.join(
@@ -138,8 +191,10 @@ def generate_test_samples(root_dir: str):
         except Exception as e:
             errors.append(error_log('SemanticDescriptionGenerator', sample, e))
         if len(errors) > 0:
-            sample_errors.append(f'Sample "{sample}" failed to generate:\n''\n  '.join(errors))
+            sample_errors.append(f'Sample "{sample}" failed to generate:\n{'\n  '.join(errors)}')
+        print()
     if len(sample_errors) > 0:
+        print(f'Generators reported {len(sample_errors)} errors'.center(100, '*'))
         raise GenerationFailureException(
             message=f'Generation failed for {len(sample_errors)} samples:\n'
                     f'{"\n".join(sample_errors)}',
