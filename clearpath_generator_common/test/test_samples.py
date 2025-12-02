@@ -56,13 +56,21 @@ class TestSamples:
         break
     installed_sample_dir = real_installed_sample_dir
 
-    def filter_lines(self, lines: List[str]) -> str:
+    def filter_lines(self, lines: List[str], filepath: str) -> str:
         """Filter line files to prevent comparing lines that are expected to be different."""
         filtered = []
-        for line in lines:
-            if 'Bash setup generated' in line:
-                continue
-            filtered.append(line)
+
+        if 'setup.bash' == os.path.basename(filepath):
+            if 'Bash setup generated' in lines[0]:
+                filtered = lines[1:]
+
+        elif ('test_all_dual_manipulators' in filepath
+                and 'robot.srdf' == os.path.basename(filepath)):
+            for line in lines:
+                if 'disable_collisions' in line:
+                    break
+                filtered.append(line)
+            filtered.extend(lines[-2:])
         return filtered
 
     def diff_dir_trees(self, dir_1: str, dir_2: str, shallow: bool = False) -> List:
@@ -95,8 +103,8 @@ class TestSamples:
                 lines_1 = fp1.readlines()
             with open(path_2, 'r') as fp2:
                 lines_2 = fp2.readlines()
-            lines_1 = self.filter_lines(lines_1)
-            lines_2 = self.filter_lines(lines_2)
+            lines_1 = self.filter_lines(lines_1, path_1)
+            lines_2 = self.filter_lines(lines_2, path_2)
             file_diff = difflib.unified_diff(
                 a=lines_1,
                 b=lines_2,
