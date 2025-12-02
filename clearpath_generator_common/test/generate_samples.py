@@ -71,6 +71,9 @@ def generate_semantic_description(setup_path: str) -> bool:
         '--urdf', os.path.join(setup_path, 'robot.urdf.xacro'),
         '--srdf', os.path.join(setup_path, 'robot.srdf.xacro'),
         '--output', os.path.join(setup_path, 'robot.srdf'),
+        '--trials', '10000',
+        '--min-collision-fraction', '0.95',
+        '--ros-args', '--log-level', 'fatal'
     ]
     run_executable(path=path, argv=argv)
     # Delete pseudo package
