@@ -82,15 +82,15 @@ class TestSamples:
         if len(dirs_cmp.left_only) > 0:
             logs.append(
                 f'Files/directories: {dirs_cmp.left_only}, '
-                f'only found in installed samples: {dir_1} '
-                f'not in generated samples: {dir_2}'
+                f'only found in: {dir_1} '
+                f'not in: {dir_2}'
             )
         # Log Only in Generated Directory
         if len(dirs_cmp.right_only) > 0:
             logs.append(
                 f'Files/directories: {dirs_cmp.right_only}, '
-                f'only found in generated samples: {dir_2} '
-                f'not in installed samples: {dir_1}'
+                f'only found in: {dir_2} '
+                f'not in: {dir_1}'
             )
         # Compare Files
         (_, mismatches, errors) = filecmp.cmpfiles(
@@ -118,8 +118,8 @@ class TestSamples:
         if len(errors) > 0:
             logs.append(
                 f'Errors: {errors} found when '
-                f'comparing installed samples: {dir_1} '
-                f'and generated samples: {dir_2}'
+                f'comparing: {dir_1} '
+                f'and: {dir_2}'
             )
         # Recurse
         if not shallow:
