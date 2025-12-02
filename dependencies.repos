@@ -7,3 +7,7 @@ repositories:
     type: git
     url: https://github.com/clearpathrobotics/clearpath_msgs.git
     version: jazzy
+  franka_description:
+    type: git
+    url: https://github.com/frankarobotics/franka_description.git
+    version: jazzy
