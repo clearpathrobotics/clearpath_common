@@ -1,0 +1,551 @@
+serial_number: generic
+system:
+  # Blackfly Spinnaker SDK
+  bash:
+    env:
+      SPINNAKER_GENTL64_CTI: /opt/ros/jazzy/lib/spinnaker-gentl/Spinnaker_GenTL.cti
+platform:
+  description:
+    package: clearpath_platform_description
+    path: urdf/generic/empty.urdf.xacro
+  control:
+    package: clearpath_control
+    path: config/generic/control/empty.yaml
+links:
+  frame:
+    - name: camera_row
+      xyz: [0.0, -0.25, 0.0]
+    - name: imu_row
+      xyz: [0.0, -0.5, 0.0]
+    - name: gps_row
+      xyz: [0.0, -0.75, 0.0]
+    - name: ins_row
+      xyz: [0.0, -1.0, 0.0]
+    - name: lidar2d_row
+      xyz: [0.0, -1.25, 0.0]
+    - name: lidar3d_row
+      xyz: [0.0, -1.5, 0.0]
+sensors:
+  camera:
+    # Axis Camera
+    - model: axis_camera
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        axis_camera:
+          hostname: "192.168.131.10"
+    - model: axis_camera
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        axis_camera:
+          hostname: "192.168.131.10"
+    # Flir Blackfly
+    - model: flir_blackfly
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [0.25, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        flir_blackfly:
+          serial_number: ''
+          gain_auto: Continuous
+          pixel_format: BayerRG8
+          frame_rate_enable: true
+          frame_rate_auto: Off
+          frame_rate: 40
+    - model: flir_blackfly
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [0.25, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        flir_blackfly:
+          serial_number: ''
+          gain_auto: Continuous
+          pixel_format: BayerRG8
+          frame_rate_enable: true
+          frame_rate_auto: Off
+          frame_rate: 40
+    # Intel Realsense
+    - model: intel_realsense
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [0.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        intel_realsense:
+          device_type: d435
+          serial_no: "0"
+          enable_color: true
+          rgb_camera.profile: 640,480,30
+          enable_depth: true
+          depth_module.profile: 640,480,30
+          pointcloud.enable: true
+    - model: intel_realsense
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [0.5, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        intel_realsense:
+          device_type: d435
+          serial_no: "0"
+          enable_color: true
+          rgb_camera.profile: 640,480,30
+          enable_depth: true
+          depth_module.profile: 640,480,30
+          pointcloud.enable: true
+    # Luxonis OAKD
+    - model: luxonis_oakd
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [0.75, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        luxonis_oakd:
+          camera:
+            i_enable_imu: false
+            i_enable_ir: false
+            i_floodlight_brightness: 0
+            i_ip: ''
+            i_laser_dot_brightness: 100
+            i_mx_id: ''
+            i_nn_type: none
+            i_pipeline_type: RGB
+            i_usb_speed: SUPER_PLUS
+            i_usb_port_id: ''
+          rgb:
+            i_board_socket_id: 0
+            i_fps: 30.0
+            i_height: 720
+            i_interleaved: false
+            i_max_q_size: 10
+            i_preview_size: 250
+            i_enable_preview: true
+            i_low_bandwidth: true
+            i_keep_preview_aspect_ratio: true
+            i_publish_topic: false
+            i_resolution: '1080P'
+            i_width: 1280
+    - model: luxonis_oakd
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [0.75, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        luxonis_oakd:
+          camera:
+            i_enable_imu: false
+            i_enable_ir: false
+            i_floodlight_brightness: 0
+            i_ip: ''
+            i_laser_dot_brightness: 100
+            i_mx_id: ''
+            i_nn_type: none
+            i_pipeline_type: RGB
+            i_usb_speed: SUPER_PLUS
+            i_usb_port_id: ''
+          rgb:
+            i_board_socket_id: 0
+            i_fps: 30.0
+            i_height: 720
+            i_interleaved: false
+            i_max_q_size: 10
+            i_preview_size: 250
+            i_enable_preview: true
+            i_low_bandwidth: true
+            i_keep_preview_aspect_ratio: true
+            i_publish_topic: false
+            i_resolution: '1080P'
+            i_width: 1280
+    # Stereolabs Zed
+    - model: stereolabs_zed
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        stereolabs_zed:
+          general.grab_frame_rate: 30
+          general.serial_number: 0
+          general.camera_model: 'zed2'
+          general.grab_resolution: 'AUTO'
+    - model: stereolabs_zed
+      urdf_enabled: true
+      launch_enabled: true
+      parent: camera_row_link
+      xyz: [1.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        stereolabs_zed:
+          general.grab_frame_rate: 30
+          general.serial_number: 0
+          general.camera_model: 'zed2'
+          general.grab_resolution: 'AUTO'
+
+  imu:
+    # CHRobotics UM6
+    - model: chrobotics_um6
+      urdf_enabled: true
+      launch_enabled: true
+      parent: imu_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        um6_driver:
+          port: /dev/clearpath/imu
+          tf_ned_to_enu: true
+    - model: chrobotics_um6
+      urdf_enabled: true
+      launch_enabled: true
+      parent: imu_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        um6_driver:
+          port: /dev/clearpath/imu
+          tf_ned_to_enu: true
+    # Microstrain IMU
+    - model: microstrain_imu
+      urdf_enabled: true
+      launch_enabled: true
+      parent: imu_row_link
+      xyz: [0.25, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        microstrain_inertial_driver:
+          port: /dev/microstrain_main
+          use_enu_frame: true
+    - model: microstrain_imu
+      urdf_enabled: true
+      launch_enabled: true
+      parent: imu_row_link
+      xyz: [0.25, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        microstrain_inertial_driver:
+          port: /dev/microstrain_main
+          use_enu_frame: true
+    # Phidgets Spatial
+    - model: phidgets_spatial
+      urdf_enabled: true
+      launch_enabled: true
+      parent: imu_row_link
+      xyz: [0.50, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        phidgets_spatial:
+          data_interval_ms: 20
+    - model: phidgets_spatial
+      urdf_enabled: true
+      launch_enabled: true
+      parent: imu_row_link
+      xyz: [0.50, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        phidgets_spatial:
+          data_interval_ms: 20
+    # Redshift UM7
+    - model: redshift_um7
+      urdf_enabled: true
+      launch_enabled: true
+      parent: imu_row_link
+      xyz: [0.75, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        um7_driver:
+          port: /dev/clearpath/imu
+          tf_ned_to_enu: true
+    - model: redshift_um7
+      urdf_enabled: true
+      launch_enabled: true
+      parent: imu_row_link
+      xyz: [0.75, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        um7_driver:
+          port: /dev/clearpath/imu
+          tf_ned_to_enu: true
+
+  gps:
+    # Garmin 18x
+    - model: garmin_18x
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+    - model: garmin_18x
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+    # Microstrain GQ7
+    - model: microstrain_gq7
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [0.25, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        microstrain_inertial_driver:
+          port: "/dev/microstrain_main"
+          baudrate: 115200
+          gnss1_frame_id: "left_antenna_link"
+          gnss2_frame_id: "right_antenna_link"
+    # Novatel Smart6
+    - model: novatel_smart6
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [0.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        nmea_navsat_driver:
+          port: "/dev/clearpath/gps"
+          baud: 115200
+    - model: novatel_smart6
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [0.5, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        nmea_navsat_driver:
+          port: "/dev/clearpath/gps"
+          baud: 115200
+    # Novatel Smart7
+    - model: novatel_smart7
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [0.75, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        nmea_navsat_driver:
+          port: "/dev/clearpath/gps"
+          baud: 115200
+    - model: novatel_smart7
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [0.75, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        nmea_navsat_driver:
+          port: "/dev/clearpath/gps"
+          baud: 115200
+    # SwiftNav Duro
+    - model: swiftnav_duro
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        duro_node:
+          ip_address: 192.168.131.30
+          ip_port: 55555
+    - model: swiftnav_duro
+      urdf_enabled: true
+      launch_enabled: true
+      parent: gps_row_link
+      xyz: [1.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        duro_node:
+          ip_address: 192.168.131.30
+          ip_port: 55555
+
+  ins:
+    # FixPosition XVN
+    - model: fixposition
+      parent: ins_row_link
+      port: "21001"
+      ip: 192.168.131.35
+      xyz: [0.0, 0.0, 0.0]
+      antennas:
+        - type: spherical
+          xyz: [0.0, 0.10, 0.0]
+          parent: ins_row_link
+        - type: helical
+          xyz: [0.0, -0.1, 0.0]
+          parent: ins_row_link
+      ros_parameters:
+        fixposition_driver:
+          fp_output:
+            formats:
+              - ODOMETRY
+              - LLH
+              - RAWIMU
+              - CORRIMU
+            rate: 200
+            type: tcp
+            reconnect: 5
+          customer_input:
+            speed_topic: "xvn/speed"
+            rtcm_topic: "xvn/rtcm"
+    - model: fixposition
+      parent: ins_row_link
+      port: "21001"
+      ip: 192.168.131.35
+      xyz: [0.0, 0.0, 0.25]
+      antennas:
+        - type: spherical
+          xyz: [0.0, 0.1, 0.25]
+          parent: ins_row_link
+        - type: helical
+          xyz: [0.0, -0.1, 0.25]
+          parent: ins_row_link
+      ros_parameters:
+        fixposition_driver:
+          fp_output:
+            formats:
+              - ODOMETRY
+              - LLH
+              - RAWIMU
+              - CORRIMU
+            rate: 200
+            type: tcp
+            reconnect: 5
+          customer_input:
+            speed_topic: "xvn/speed"
+            rtcm_topic: "xvn/rtcm"
+
+  lidar2d:
+    # Hokuyo UST
+    - model: hokuyo_ust
+      urdf_enabled: true
+      launch_enabled: true
+      parent: lidar2d_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        urg_node:
+          laser_frame_id: lidar2d_0_laser
+          ip_address: 192.168.131.20
+          ip_port: 10940
+          angle_min: -2.356
+          angle_max: 2.356
+    - model: hokuyo_ust
+      urdf_enabled: true
+      launch_enabled: true
+      parent: lidar2d_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        urg_node:
+          laser_frame_id: lidar2d_0_laser
+          ip_address: 192.168.131.20
+          ip_port: 10940
+          angle_min: -2.356
+          angle_max: 2.356
+    # Sick LMS1xx
+    - model: sick_lms1xx
+      urdf_enabled: true
+      launch_enabled: true
+      parent: lidar2d_row_link
+      xyz: [0.25, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        lms1xx:
+          host: 192.168.131.20
+          port: 2111
+    - model: sick_lms1xx
+      urdf_enabled: true
+      launch_enabled: true
+      parent: lidar2d_row_link
+      xyz: [0.25, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        lms1xx:
+          host: 192.168.131.21
+          port: 2111
+
+  lidar3d:
+    # Ouster OS1
+    - model: ouster_os1
+      urdf_enabled: true
+      launch_enabled: true
+      parent: lidar3d_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        ouster_driver:
+          sensor_hostname: 192.168.131.20
+          udp_dest: 192.168.131.100
+          lidar_port: 7502
+          imu_port: 7503
+          proc_mask: IMU|PCL|SCAN|IMG|RAW|TLM
+          use_system_default_qos: false
+          cap_type: halo  # either halo or fins
+    - model: ouster_os1
+      urdf_enabled: true
+      launch_enabled: true
+      parent: lidar3d_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        ouster_driver:
+          sensor_hostname: 192.168.131.21
+          udp_dest: 192.168.131.100
+          lidar_port: 7502
+          imu_port: 7503
+          proc_mask: IMU|PCL|SCAN|IMG|RAW|TLM
+          use_system_default_qos: false
+          cap_type: halo  # either halo or fins
+    # Seyond LiDAR
+    - model: seyond_lidar
+      urdf_enabled: true
+      launch_enabled: false
+      parent: lidar3d_row_link
+      xyz: [0.25, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+    - model: seyond_lidar
+      urdf_enabled: true
+      launch_enabled: false
+      parent: lidar3d_row_link
+      xyz: [0.25, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+    # Velodyne LiDAR
+    - model: velodyne_lidar
+      urdf_enabled: true
+      launch_enabled: true
+      parent: lidar3d_row_link
+      xyz: [0.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        velodyne_driver_node:
+          device_ip: 192.168.131.25
+          port: 2368
+          model: VLP16
+        velodyne_transform_node:
+          model: VLP16
+    - model: velodyne_lidar
+      urdf_enabled: true
+      launch_enabled: true
+      parent: lidar3d_row_link
+      xyz: [0.5, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      ros_parameters:
+        velodyne_driver_node:
+          device_ip: 192.168.131.26
+          port: 2368
+          model: VLP16
+        velodyne_transform_node:
+          model: VLP16

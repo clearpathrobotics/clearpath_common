@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="generic-e">
+
+  <!-- Common -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro"/>
+
+  <!-- Platform -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/empty.urdf.xacro"/>
+
+  <!-- Attachments -->
+
+
+  <!-- Links -->
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="disk_row" parent_link="default_mount">
+    <origin xyz="0.0 -1.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="fath_pivot_row" parent_link="default_mount">
+    <origin xyz="0.0 -0.5 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="post_row" parent_link="default_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="sick_row" parent_link="default_mount">
+    <origin xyz="0.0 0.5 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="bracket_row" parent_link="default_mount">
+    <origin xyz="0.0 1.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+
+  <!-- Mounts -->
+
+  <!-- fath_pivot_0 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/fath_pivot.urdf.xacro"/>
+  <xacro:fath_pivot name="fath_pivot_0" parent_link="fath_pivot_row_link" angle="0.0">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:fath_pivot>
+
+  <!-- fath_pivot_1 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/fath_pivot.urdf.xacro"/>
+  <xacro:fath_pivot name="fath_pivot_1" parent_link="fath_pivot_row_link" angle="0.0">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:fath_pivot>
+
+  <!-- bracket_0 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/bracket.urdf.xacro"/>
+  <xacro:bracket name="bracket_0" parent_link="bracket_row_link" model="horizontal">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bracket>
+
+  <!-- bracket_1 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/bracket.urdf.xacro"/>
+  <xacro:bracket name="bracket_1" parent_link="bracket_row_link" model="vertical">
+    <origin xyz="0.25 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bracket>
+
+  <!-- bracket_2 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/bracket.urdf.xacro"/>
+  <xacro:bracket name="bracket_2" parent_link="bracket_row_link" model="large">
+    <origin xyz="0.5 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bracket>
+
+  <!-- bracket_3 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/bracket.urdf.xacro"/>
+  <xacro:bracket name="bracket_3" parent_link="bracket_row_link" model="horizontal">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:bracket>
+
+  <!-- bracket_4 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/bracket.urdf.xacro"/>
+  <xacro:bracket name="bracket_4" parent_link="bracket_row_link" model="vertical">
+    <origin xyz="0.25 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:bracket>
+
+  <!-- bracket_5 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/bracket.urdf.xacro"/>
+  <xacro:bracket name="bracket_5" parent_link="bracket_row_link" model="large">
+    <origin xyz="0.5 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:bracket>
+
+  <!-- sick_0 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/sick.urdf.xacro"/>
+  <xacro:sick name="sick_0" parent_link="sick_row_link" model="upright">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:sick>
+
+  <!-- sick_1 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/sick.urdf.xacro"/>
+  <xacro:sick name="sick_1" parent_link="sick_row_link" model="inverted">
+    <origin xyz="0.25 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:sick>
+
+  <!-- sick_2 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/sick.urdf.xacro"/>
+  <xacro:sick name="sick_2" parent_link="sick_row_link" model="upright">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:sick>
+
+  <!-- sick_3 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/sick.urdf.xacro"/>
+  <xacro:sick name="sick_3" parent_link="sick_row_link" model="inverted">
+    <origin xyz="0.25 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:sick>
+
+  <!-- post_0 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/post.urdf.xacro"/>
+  <xacro:post name="post_0" parent_link="post_row_link" model="single" spacing="0.08" height="0.075">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:post>
+
+  <!-- post_1 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/post.urdf.xacro"/>
+  <xacro:post name="post_1" parent_link="post_row_link" model="dual" spacing="0.08" height="0.075">
+    <origin xyz="0.25 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:post>
+
+  <!-- post_2 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/post.urdf.xacro"/>
+  <xacro:post name="post_2" parent_link="post_row_link" model="quad" spacing="0.08" height="0.075">
+    <origin xyz="0.5 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:post>
+
+  <!-- post_3 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/post.urdf.xacro"/>
+  <xacro:post name="post_3" parent_link="post_row_link" model="single" spacing="0.08" height="0.075">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:post>
+
+  <!-- post_4 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/post.urdf.xacro"/>
+  <xacro:post name="post_4" parent_link="post_row_link" model="dual" spacing="0.08" height="0.075">
+    <origin xyz="0.25 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:post>
+
+  <!-- post_5 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/post.urdf.xacro"/>
+  <xacro:post name="post_5" parent_link="post_row_link" model="quad" spacing="0.08" height="0.075">
+    <origin xyz="0.5 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:post>
+
+  <!-- disk_0 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/disk.urdf.xacro"/>
+  <xacro:disk name="disk_0" parent_link="disk_row_link">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:disk>
+
+  <!-- disk_1 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/disk.urdf.xacro"/>
+  <xacro:disk name="disk_1" parent_link="disk_row_link">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:disk>
+
+
+  <!-- Sensors -->
+
+
+  <!-- Manipulators -->
+
+
+  <!-- Extras -->
+
+
+</robot>

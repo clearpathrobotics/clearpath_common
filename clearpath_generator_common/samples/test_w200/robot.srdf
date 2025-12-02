@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="w200-0000">
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="arm_plate_link" link2="arm_plate_standalone_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="bulkhead_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="bulkhead_plate_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_plate_link" link2="chassis_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="front_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="front_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="generator_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="left_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="rear_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_link" link2="right_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="bulkhead_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="bulkhead_plate_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="chassis_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="front_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="front_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="generator_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="left_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="rear_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="arm_plate_standalone_link" link2="right_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_link" link2="bulkhead_plate_link" reason="Adjacent"/>
+    <disable_collisions link1="bulkhead_link" link2="chassis_link" reason="Adjacent"/>
+    <disable_collisions link1="bulkhead_link" link2="front_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_link" link2="front_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_link" link2="generator_link" reason="Adjacent"/>
+    <disable_collisions link1="bulkhead_link" link2="left_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_link" link2="rear_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_link" link2="right_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_plate_link" link2="chassis_link" reason="Adjacent"/>
+    <disable_collisions link1="bulkhead_plate_link" link2="front_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_plate_link" link2="front_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_plate_link" link2="generator_link" reason="Adjacent"/>
+    <disable_collisions link1="bulkhead_plate_link" link2="left_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_plate_link" link2="rear_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_plate_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="bulkhead_plate_link" link2="right_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="chassis_link" link2="front_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="chassis_link" link2="front_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="chassis_link" link2="generator_link" reason="Adjacent"/>
+    <disable_collisions link1="chassis_link" link2="left_diff_unit_link" reason="Adjacent"/>
+    <disable_collisions link1="chassis_link" link2="rear_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="chassis_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="chassis_link" link2="right_diff_unit_link" reason="Adjacent"/>
+    <disable_collisions link1="front_left_wheel_link" link2="front_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="generator_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="left_diff_unit_link" reason="Adjacent"/>
+    <disable_collisions link1="front_left_wheel_link" link2="rear_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="right_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="generator_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="left_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="rear_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="right_diff_unit_link" reason="Adjacent"/>
+    <disable_collisions link1="generator_link" link2="left_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="generator_link" link2="rear_left_wheel_link" reason="Never"/>
+    <disable_collisions link1="generator_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="generator_link" link2="right_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="left_diff_unit_link" link2="rear_left_wheel_link" reason="Adjacent"/>
+    <disable_collisions link1="left_diff_unit_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="left_diff_unit_link" link2="right_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="rear_left_wheel_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="rear_left_wheel_link" link2="right_diff_unit_link" reason="Never"/>
+    <disable_collisions link1="rear_right_wheel_link" link2="right_diff_unit_link" reason="Adjacent"/>
+</robot>

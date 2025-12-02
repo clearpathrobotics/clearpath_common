@@ -1,0 +1,363 @@
+serial_number: generic
+platform:
+  description:
+    package: clearpath_platform_description
+    path: urdf/generic/empty.urdf.xacro
+  control:
+    package: clearpath_control
+    path: config/generic/control/empty.yaml
+links:
+  frame:
+    - name: ewellix_row
+      xyz: [0.0, 0.5, 0.0]
+    - name: fr3_row
+      xyz: [0.0, 1.0, 0.0]
+    - name: fp3_row
+      xyz: [0.0, 1.5, 0.0]
+    - name: fer_row
+      xyz: [0.0, 2.0, 0.0]
+    - name: kinova_gen3_lite_row
+      xyz: [0.0, 2.5, 0.0]
+    - name: kinova_gen3_6dof_row
+      xyz: [0.0, 3.0, 0.0]
+    - name: kinova_gen3_7dof_row
+      xyz: [0.0, 3.5, 0.0]
+    - name: ur_row_1
+      xyz: [0.0, 0.0, 0.0]
+    - name: ur_row_2
+      xyz: [0.0, -2.0, 0.0]
+
+manipulators:
+  lifts:
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x13
+      parent: ewellix_row_link
+      xyz: [0.0, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x23
+      parent: ewellix_row_link
+      xyz: [0.5, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x14
+      parent: ewellix_row_link
+      xyz: [1.0, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x24
+      parent: ewellix_row_link
+      xyz: [1.5, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x15
+      parent: ewellix_row_link
+      xyz: [2.0, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x25
+      parent: ewellix_row_link
+      xyz: [2.5, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x16
+      parent: ewellix_row_link
+      xyz: [3.0, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x26
+      parent: ewellix_row_link
+      xyz: [3.5, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x17
+      parent: ewellix_row_link
+      xyz: [4.0, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: tlt_x27
+      parent: ewellix_row_link
+      xyz: [4.5, 0.0, 0.0]
+    - model: ewellix
+      add_plate: true
+      ewellix_type: ur_620
+      parent: ewellix_row_link
+      xyz: [5.0, 0.0, 0.0]
+
+  arms:
+    # Franka FR3
+    - model: franka
+      parent: fr3_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fr3
+      robot_ip: 192.168.131.40
+    - model: franka
+      parent: fr3_row_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fr3
+      robot_ip: 192.168.131.40
+      gripper:
+        model: franka_gripper
+    - model: franka
+      parent: fr3_row_link
+      xyz: [2.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fr3
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: franka
+      parent: fr3_row_link
+      xyz: [3.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fr3
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140
+    # Franka FP3
+    - model: franka
+      parent: fp3_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fp3
+      robot_ip: 192.168.131.40
+    - model: franka
+      parent: fp3_row_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fp3
+      robot_ip: 192.168.131.40
+      gripper:
+        model: franka_gripper
+    - model: franka
+      parent: fp3_row_link
+      xyz: [2.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fp3
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: franka
+      parent: fp3_row_link
+      xyz: [3.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fp3
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140
+    # Franka FER
+    - model: franka
+      parent: fer_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fer
+      robot_ip: 192.168.131.40
+    - model: franka
+      parent: fer_row_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fer
+      robot_ip: 192.168.131.40
+      gripper:
+        model: franka_gripper
+    - model: franka
+      parent: fer_row_link
+      xyz: [2.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fer
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: franka
+      parent: fer_row_link
+      xyz: [3.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      arm_id: fer
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140
+    # Kinove Gen3 Lite
+    - model: kinova_gen3_lite
+      parent: kinova_gen3_lite_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ip: 192.168.131.40
+      port: 10000
+      gripper:
+        model: kinova_2f_lite
+    # Kinova Gen3 6DoF
+    - model: kinova_gen3_6dof
+      parent: kinova_gen3_6dof_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ip: 192.168.131.40
+      port: 10000
+      gripper:
+        model: robotiq_2f_85
+    - model: kinova_gen3_6dof
+      parent: kinova_gen3_6dof_row_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ip: 192.168.131.41
+      port: 10000
+      gripper:
+        model: robotiq_2f_140
+    # Kinova Gen3 7DoF
+    - model: kinova_gen3_7dof
+      parent: kinova_gen3_7dof_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ip: 192.168.131.40
+      port: 10000
+      gripper:
+        model: robotiq_2f_85
+    - model: kinova_gen3_7dof
+      parent: kinova_gen3_7dof_row_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      ip: 192.168.131.41
+      port: 10000
+      gripper:
+        model: robotiq_2f_140
+    # Universal Robots
+    # UR3e
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur3e
+      robot_ip: 192.168.131.40
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [0.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur3e
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur3e
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140
+    # UR5e
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [2.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur5e
+      robot_ip: 192.168.131.40
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [2.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur5e
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [3.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur5e
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140
+    # UR10e
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [4.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur10e
+      robot_ip: 192.168.131.40
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [4.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur10e
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: universal_robots
+      parent: ur_row_1_link
+      xyz: [5.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur10e
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140
+    # UR16e
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur16e
+      robot_ip: 192.168.131.40
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [0.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur16e
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [1.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur16e
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140
+    # UR20
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [2.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur20
+      robot_ip: 192.168.131.40
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [2.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur20
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [3.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur20
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140
+    # UR30
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [4.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur30
+      robot_ip: 192.168.131.40
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [4.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur30
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_85
+    - model: universal_robots
+      parent: ur_row_2_link
+      xyz: [5.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, -1.5707]
+      ur_type: ur30
+      robot_ip: 192.168.131.40
+      gripper:
+        model: robotiq_2f_140

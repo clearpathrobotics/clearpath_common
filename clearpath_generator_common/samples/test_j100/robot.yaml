@@ -1,0 +1,30 @@
+serial_number: j100-0000
+version: 0
+system:
+  hosts:
+    - hostname: cpr-j100-0000
+      ip: 192.168.131.1
+  ros2:
+    namespace: j100_0000
+platform:
+  attachments:
+    # Fenders
+    - name: front_fender_default
+      type: j100.fender
+      xyz: [0.0, 0.0, 0.2]
+    - name: rear_fender_default
+      type: j100.fender
+      xyz: [0.0, 0.0, 0.2]
+      rpy: [0.0, 0.0, 3.1415]
+    - name: front_fender_sensor
+      type: j100.fender
+      xyz: [0.0, 0.0, 0.0]
+      model: sensor
+    - name: rear_fender_sensor
+      type: j100.fender
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 3.1415]
+      model: sensor
+    - name: top_plate
+      type: j100.top_plate
+      model: ark_enclosure

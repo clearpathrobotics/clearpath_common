@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="r100-0000">
+
+  <!-- Common -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro"/>
+
+  <!-- Platform -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/r100.urdf.xacro"/>
+  <xacro:r100 control="omni_4wd" front_wheels="mecanum" rear_wheels="mecanum"/>
+
+
+  <!-- Attachments -->
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/attachments/fams.urdf.xacro"/>
+  <xacro:fams name="fams" model="default" parent_link="default_mount" table_height="0.6">
+    <origin xyz="0.0 1.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:fams>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/attachments/hams.urdf.xacro"/>
+  <xacro:hams name="hams" model="default" parent_link="default_mount" table_height="0.6" mount_height="0.3">
+    <origin xyz="0.0 -1.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:hams>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/attachments/tower.urdf.xacro"/>
+  <xacro:tower name="tower" model="default" parent_link="default_mount" left_height="0.0" right_height="0.0">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:tower>
+
+
+  <!-- Links -->
+
+
+  <!-- Mounts -->
+
+
+  <!-- Sensors -->
+
+  <!-- lidar2d_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/hokuyo_ust.urdf.xacro"/>
+  <xacro:hokuyo_ust name="lidar2d_0" parent_link="chassis_link" ang_res="0.5" min_ang="-3.141592653589793" max_ang="3.141592653589793" min_range="0.05" max_range="25.0" update_rate="40">
+    <origin xyz="0.3922 0.0 0.1856" rpy="0.0 0.0 0.0"/>
+  </xacro:hokuyo_ust>
+
+
+  <!-- Manipulators -->
+
+
+  <!-- Extras -->
+
+
+</robot>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dd100-0000">
+
+  <!-- Common -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro"/>
+
+  <!-- Platform -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/dd100.urdf.xacro"/>
+  <xacro:dd100 control="diff_fwd" front_wheels="indoor" rear_wheels="caster"/>
+
+
+  <!-- Attachments -->
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/dd100/attachments/top_plate.urdf.xacro"/>
+  <xacro:top_plate name="top_plate" model="pacs" parent_link="default_mount" height="0.2">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:top_plate>
+
+
+  <!-- Links -->
+
+
+  <!-- Mounts -->
+
+  <!-- riser_0 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/riser.urdf.xacro"/>
+  <xacro:riser name="riser_0" parent_link="top_plate_mount_a1" rows="8" columns="7" thickness="0.00635">
+    <origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0"/>
+  </xacro:riser>
+
+  <!-- riser_1 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/riser.urdf.xacro"/>
+  <xacro:riser name="riser_1" parent_link="riser_0_mount_a8" rows="1" columns="7" thickness="0.00635">
+    <origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0"/>
+  </xacro:riser>
+
+  <!-- riser_2 -->
+  <xacro:include filename="$(find clearpath_mounts_description)/urdf/pacs/riser.urdf.xacro"/>
+  <xacro:riser name="riser_2" parent_link="riser_0_mount_a1" rows="4" columns="4" thickness="0.00635">
+    <origin xyz="0.0 0.0 0.2" rpy="0.0 0.0 0.0"/>
+  </xacro:riser>
+
+
+  <!-- Sensors -->
+
+
+  <!-- Manipulators -->
+
+
+  <!-- Extras -->
+
+
+</robot>
