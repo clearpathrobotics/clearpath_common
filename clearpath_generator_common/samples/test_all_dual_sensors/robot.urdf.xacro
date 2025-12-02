@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="generic-e">
+
+  <!-- Common -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro"/>
+
+  <!-- Platform -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/empty.urdf.xacro"/>
+
+  <!-- Attachments -->
+
+
+  <!-- Links -->
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="camera_row" parent_link="default_mount">
+    <origin xyz="0.0 -0.25 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="imu_row" parent_link="default_mount">
+    <origin xyz="0.0 -0.5 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="gps_row" parent_link="default_mount">
+    <origin xyz="0.0 -0.75 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="ins_row" parent_link="default_mount">
+    <origin xyz="0.0 -1.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="lidar2d_row" parent_link="default_mount">
+    <origin xyz="0.0 -1.25 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/links/frame.urdf.xacro"/>
+  <xacro:frame name="lidar3d_row" parent_link="default_mount">
+    <origin xyz="0.0 -1.5 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:frame>
+
+
+  <!-- Mounts -->
+
+
+  <!-- Sensors -->
+
+  <!-- lidar2d_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/hokuyo_ust.urdf.xacro"/>
+  <xacro:hokuyo_ust name="lidar2d_0" parent_link="lidar2d_row_link" ang_res="0.5" min_ang="-2.356" max_ang="2.356" min_range="0.05" max_range="25.0" update_rate="40">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:hokuyo_ust>
+
+  <!-- lidar2d_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/hokuyo_ust.urdf.xacro"/>
+  <xacro:hokuyo_ust name="lidar2d_1" parent_link="lidar2d_row_link" ang_res="0.5" min_ang="-2.356" max_ang="2.356" min_range="0.05" max_range="25.0" update_rate="40">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:hokuyo_ust>
+
+  <!-- lidar2d_2 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/sick_lms1xx.urdf.xacro"/>
+  <xacro:sick_lms1xx name="lidar2d_2" parent_link="lidar2d_row_link" ang_res="0.5" min_ang="-2.391" max_ang="2.391" min_range="0.05" max_range="25.0" update_rate="40">
+    <origin xyz="0.25 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:sick_lms1xx>
+
+  <!-- lidar2d_3 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/sick_lms1xx.urdf.xacro"/>
+  <xacro:sick_lms1xx name="lidar2d_3" parent_link="lidar2d_row_link" ang_res="0.5" min_ang="-2.391" max_ang="2.391" min_range="0.05" max_range="25.0" update_rate="40">
+    <origin xyz="0.25 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:sick_lms1xx>
+
+  <!-- lidar3d_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/ouster_os1.urdf.xacro"/>
+  <xacro:ouster_os1 name="lidar3d_0" parent_link="lidar3d_row_link" min_ang_h="-3.141592" max_ang_h="3.141592" min_ang_v="-0.261799" max_ang_v="0.261799" min_range="0.9" max_range="130.0" update_rate="20" samples_h="1024" samples_v="64" base="base" cap="halo">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:ouster_os1>
+
+  <!-- lidar3d_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/ouster_os1.urdf.xacro"/>
+  <xacro:ouster_os1 name="lidar3d_1" parent_link="lidar3d_row_link" min_ang_h="-3.141592" max_ang_h="3.141592" min_ang_v="-0.261799" max_ang_v="0.261799" min_range="0.9" max_range="130.0" update_rate="20" samples_h="1024" samples_v="64" base="base" cap="halo">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:ouster_os1>
+
+  <!-- lidar3d_2 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/seyond_lidar.urdf.xacro"/>
+  <xacro:seyond_lidar name="lidar3d_2" parent_link="lidar3d_row_link" ang_res_h="0.01" ang_res_v="0.01" min_ang_h="-1.0471975511965976" max_ang_h="1.0471975511965976" min_ang_v="-0.6108652381980153" max_ang_v="0.6108652381980153" min_range="0.1" max_range="150.0" update_rate="20">
+    <origin xyz="0.25 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:seyond_lidar>
+
+  <!-- lidar3d_3 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/seyond_lidar.urdf.xacro"/>
+  <xacro:seyond_lidar name="lidar3d_3" parent_link="lidar3d_row_link" ang_res_h="0.01" ang_res_v="0.01" min_ang_h="-1.0471975511965976" max_ang_h="1.0471975511965976" min_ang_v="-0.6108652381980153" max_ang_v="0.6108652381980153" min_range="0.1" max_range="150.0" update_rate="20">
+    <origin xyz="0.25 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:seyond_lidar>
+
+  <!-- lidar3d_4 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/velodyne_lidar.urdf.xacro"/>
+  <xacro:velodyne_lidar name="lidar3d_4" parent_link="lidar3d_row_link" ang_res_h="0.4" ang_res_v="2.0" min_ang_h="-3.141592" max_ang_h="3.141592" min_ang_v="-0.261799" max_ang_v="0.261799" min_range="0.9" max_range="130.0" update_rate="20">
+    <origin xyz="0.5 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:velodyne_lidar>
+
+  <!-- lidar3d_5 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/velodyne_lidar.urdf.xacro"/>
+  <xacro:velodyne_lidar name="lidar3d_5" parent_link="lidar3d_row_link" ang_res_h="0.4" ang_res_v="2.0" min_ang_h="-3.141592" max_ang_h="3.141592" min_ang_v="-0.261799" max_ang_v="0.261799" min_range="0.9" max_range="130.0" update_rate="20">
+    <origin xyz="0.5 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:velodyne_lidar>
+
+  <!-- camera_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis_camera.urdf.xacro"/>
+  <xacro:axis_camera name="camera_0" parent_link="camera_row_link" update_rate="20" model="dome_fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:axis_camera>
+
+  <!-- camera_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/axis_camera.urdf.xacro"/>
+  <xacro:axis_camera name="camera_1" parent_link="camera_row_link" update_rate="20" model="dome_fixed">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:axis_camera>
+
+  <!-- camera_2 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/flir_blackfly.urdf.xacro"/>
+  <xacro:flir_blackfly name="camera_2" parent_link="camera_row_link" update_rate="40.0">
+    <origin xyz="0.25 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:flir_blackfly>
+
+  <!-- camera_3 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/flir_blackfly.urdf.xacro"/>
+  <xacro:flir_blackfly name="camera_3" parent_link="camera_row_link" update_rate="40.0">
+    <origin xyz="0.25 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:flir_blackfly>
+
+  <!-- camera_4 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel_realsense.urdf.xacro"/>
+  <xacro:intel_realsense name="camera_4" parent_link="camera_row_link" update_rate="30" image_height="480" image_width="640" model="d435">
+    <origin xyz="0.5 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:intel_realsense>
+
+  <!-- camera_5 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel_realsense.urdf.xacro"/>
+  <xacro:intel_realsense name="camera_5" parent_link="camera_row_link" update_rate="30" image_height="480" image_width="640" model="d435">
+    <origin xyz="0.5 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:intel_realsense>
+
+  <!-- camera_6 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/luxonis_oakd.urdf.xacro"/>
+  <xacro:luxonis_oakd name="camera_6" parent_link="camera_row_link" update_rate="30.0" model="pro">
+    <origin xyz="0.75 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:luxonis_oakd>
+
+  <!-- camera_7 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/luxonis_oakd.urdf.xacro"/>
+  <xacro:luxonis_oakd name="camera_7" parent_link="camera_row_link" update_rate="30.0" model="pro">
+    <origin xyz="0.75 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:luxonis_oakd>
+
+  <!-- camera_8 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/stereolabs_zed.urdf.xacro"/>
+  <xacro:stereolabs_zed name="camera_8" parent_link="camera_row_link" update_rate="30" model="zed2">
+    <origin xyz="1.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:stereolabs_zed>
+
+  <!-- camera_9 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/stereolabs_zed.urdf.xacro"/>
+  <xacro:stereolabs_zed name="camera_9" parent_link="camera_row_link" update_rate="30" model="zed2">
+    <origin xyz="1.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:stereolabs_zed>
+
+  <!-- imu_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/chrobotics_um6.urdf.xacro"/>
+  <xacro:chrobotics_um6 name="imu_0" parent_link="imu_row_link" update_rate="20">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:chrobotics_um6>
+
+  <!-- imu_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/chrobotics_um6.urdf.xacro"/>
+  <xacro:chrobotics_um6 name="imu_1" parent_link="imu_row_link" update_rate="20">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:chrobotics_um6>
+
+  <!-- imu_2 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/microstrain_imu.urdf.xacro"/>
+  <xacro:microstrain_imu name="imu_2" parent_link="imu_row_link" update_rate="100">
+    <origin xyz="0.25 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:microstrain_imu>
+
+  <!-- imu_3 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/microstrain_imu.urdf.xacro"/>
+  <xacro:microstrain_imu name="imu_3" parent_link="imu_row_link" update_rate="100">
+    <origin xyz="0.25 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:microstrain_imu>
+
+  <!-- imu_4 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/phidgets_spatial.urdf.xacro"/>
+  <xacro:phidgets_spatial name="imu_4" parent_link="imu_row_link">
+    <origin xyz="0.5 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:phidgets_spatial>
+
+  <!-- imu_5 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/phidgets_spatial.urdf.xacro"/>
+  <xacro:phidgets_spatial name="imu_5" parent_link="imu_row_link">
+    <origin xyz="0.5 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:phidgets_spatial>
+
+  <!-- imu_6 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/redshift_um7.urdf.xacro"/>
+  <xacro:redshift_um7 name="imu_6" parent_link="imu_row_link" update_rate="20">
+    <origin xyz="0.75 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:redshift_um7>
+
+  <!-- imu_7 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/redshift_um7.urdf.xacro"/>
+  <xacro:redshift_um7 name="imu_7" parent_link="imu_row_link" update_rate="20">
+    <origin xyz="0.75 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:redshift_um7>
+
+  <!-- gps_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/garmin_18x.urdf.xacro"/>
+  <xacro:garmin_18x name="gps_0" parent_link="gps_row_link">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:garmin_18x>
+
+  <!-- gps_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/garmin_18x.urdf.xacro"/>
+  <xacro:garmin_18x name="gps_1" parent_link="gps_row_link">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:garmin_18x>
+
+  <!-- gps_2 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/microstrain_gq7.urdf.xacro"/>
+  <xacro:microstrain_gq7 name="gps_2" parent_link="gps_row_link">
+    <origin xyz="0.25 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:microstrain_gq7>
+
+  <!-- gps_3 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/novatel_smart6.urdf.xacro"/>
+  <xacro:novatel_smart6 name="gps_3" parent_link="gps_row_link">
+    <origin xyz="0.5 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:novatel_smart6>
+
+  <!-- gps_4 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/novatel_smart6.urdf.xacro"/>
+  <xacro:novatel_smart6 name="gps_4" parent_link="gps_row_link">
+    <origin xyz="0.5 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:novatel_smart6>
+
+  <!-- gps_5 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/novatel_smart7.urdf.xacro"/>
+  <xacro:novatel_smart7 name="gps_5" parent_link="gps_row_link">
+    <origin xyz="0.75 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:novatel_smart7>
+
+  <!-- gps_6 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/novatel_smart7.urdf.xacro"/>
+  <xacro:novatel_smart7 name="gps_6" parent_link="gps_row_link">
+    <origin xyz="0.75 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:novatel_smart7>
+
+  <!-- gps_7 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/swiftnav_duro.urdf.xacro"/>
+  <xacro:swiftnav_duro name="gps_7" parent_link="gps_row_link">
+    <origin xyz="1.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:swiftnav_duro>
+
+  <!-- gps_8 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/swiftnav_duro.urdf.xacro"/>
+  <xacro:swiftnav_duro name="gps_8" parent_link="gps_row_link">
+    <origin xyz="1.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:swiftnav_duro>
+
+  <!-- ins_0 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/fixposition.urdf.xacro"/>
+  <xacro:fixposition name="ins_0" parent_link="ins_row_link" num_antennas="2" gps_0_type="spherical" gps_0_xyz_x="0.0" gps_0_xyz_y="0.1" gps_0_xyz_z="0.0" gps_0_rpy_r="0.0" gps_0_rpy_p="0.0" gps_0_rpy_y="0.0" gps_0_parent="ins_row_link" gps_1_type="helical" gps_1_xyz_x="0.0" gps_1_xyz_y="-0.1" gps_1_xyz_z="0.0" gps_1_rpy_r="0.0" gps_1_rpy_p="0.0" gps_1_rpy_y="0.0" gps_1_parent="ins_row_link">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:fixposition>
+
+  <!-- ins_1 -->
+  <xacro:include filename="$(find clearpath_sensors_description)/urdf/fixposition.urdf.xacro"/>
+  <xacro:fixposition name="ins_1" parent_link="ins_row_link" num_antennas="2" gps_0_type="spherical" gps_0_xyz_x="0.0" gps_0_xyz_y="0.1" gps_0_xyz_z="0.25" gps_0_rpy_r="0.0" gps_0_rpy_p="0.0" gps_0_rpy_y="0.0" gps_0_parent="ins_row_link" gps_1_type="helical" gps_1_xyz_x="0.0" gps_1_xyz_y="-0.1" gps_1_xyz_z="0.25" gps_1_rpy_r="0.0" gps_1_rpy_p="0.0" gps_1_rpy_y="0.0" gps_1_parent="ins_row_link">
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
+  </xacro:fixposition>
+
+
+  <!-- Manipulators -->
+
+
+  <!-- Extras -->
+
+
+</robot>

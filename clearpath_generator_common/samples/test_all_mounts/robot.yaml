@@ -1,0 +1,114 @@
+serial_number: generic
+platform:
+  description:
+    package: clearpath_platform_description
+    path: urdf/generic/empty.urdf.xacro
+  control:
+    package: clearpath_control
+    path: config/generic/control/empty.yaml
+links:
+  frame:
+    - name: disk_row
+      xyz: [0.0, -1.0, 0.0]
+    - name: fath_pivot_row
+      xyz: [0.0, -0.5, 0.0]
+    - name: post_row
+      xyz: [0.0, 0.0, 0.0]
+    - name: sick_row
+      xyz: [0.0, 0.5, 0.0]
+    - name: bracket_row
+      xyz: [0.0, 1.0, 0.0]
+mounts:
+  bracket:
+    - parent: bracket_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      model: horizontal
+    - parent: bracket_row_link
+      xyz: [0.25, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      model: vertical
+    - parent: bracket_row_link
+      xyz: [0.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      model: large
+    - parent: bracket_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      model: horizontal
+    - parent: bracket_row_link
+      xyz: [0.25, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      model: vertical
+    - parent: bracket_row_link
+      xyz: [0.5, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      model: large
+  fath_pivot:
+    - parent: fath_pivot_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      angle: 0.0 # in radian
+    - parent: fath_pivot_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      angle: 0.0 # in radian
+  sick:
+    - parent: sick_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      model: upright
+    - parent: sick_row_link
+      xyz: [0.25, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      model: inverted
+    - parent: sick_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      model: upright
+    - parent: sick_row_link
+      xyz: [0.25, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      model: inverted
+  post:
+    - parent: post_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      model: single
+      height: 0.075 # height of post
+    - parent: post_row_link
+      xyz: [0.25, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      model: dual
+      spacing: 0.08 # distance between posts
+      height: 0.075 # height of post
+    - parent: post_row_link
+      xyz: [0.5, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      model: quad
+      spacing: 0.08 # distance between posts
+      height: 0.075 # height of post
+    - parent: post_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      model: single
+      height: 0.075 # height of post
+    - parent: post_row_link
+      xyz: [0.25, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      model: dual
+      spacing: 0.08 # distance between posts
+      height: 0.075 # height of post
+    - parent: post_row_link
+      xyz: [0.5, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]
+      model: quad
+      spacing: 0.08 # distance between posts
+      height: 0.075 # height of post
+  disk:
+    - parent: disk_row_link
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+    - parent: disk_row_link
+      xyz: [0.0, 0.0, 0.25]
+      rpy: [0.0, 0.0, 0.0]

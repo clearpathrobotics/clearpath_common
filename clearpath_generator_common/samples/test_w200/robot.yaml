@@ -1,0 +1,36 @@
+serial_number: w200-0000
+version: 0
+system:
+  hosts:
+    - hostname: cpr-w200-0000
+      ip: 192.168.131.1
+  ros2:
+    namespace: w200_0000
+platform:
+  attachments:
+    - name: bulkhead
+      type: w200.bulkhead
+      model: default
+      parent: default_mount
+      xyz: [0.0, 1.5, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      enabled: true
+    - name: bulkhead_plate
+      type: w200.bulkhead
+      model: arm_plate
+      parent: default_mount
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      enabled: true
+    - name: generator
+      type: w200.generator
+      parent: default_mount
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      enabled: true
+    - name: arm_plate_standalone
+      type: w200.arm_plate
+      parent: default_mount
+      xyz: [0.0, -1.5, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      enabled: true

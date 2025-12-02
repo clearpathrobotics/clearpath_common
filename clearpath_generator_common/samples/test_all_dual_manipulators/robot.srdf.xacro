@@ -1,0 +1,373 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="generic-e">
+
+  <!-- Arms -->
+
+  <!-- arm_0 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_0" arm_id="fr3"/>
+
+
+  <!-- arm_1 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_1" arm_id="fr3"/>
+
+
+  <!-- arm_2 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_2" arm_id="fr3"/>
+
+
+  <!-- arm_3 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_3" arm_id="fr3"/>
+
+
+  <!-- arm_4 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_4" arm_id="fp3"/>
+
+
+  <!-- arm_5 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_5" arm_id="fp3"/>
+
+
+  <!-- arm_6 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_6" arm_id="fp3"/>
+
+
+  <!-- arm_7 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_7" arm_id="fp3"/>
+
+
+  <!-- arm_8 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_8" arm_id="fer"/>
+
+
+  <!-- arm_9 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_9" arm_id="fer"/>
+
+
+  <!-- arm_10 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_10" arm_id="fer"/>
+
+
+  <!-- arm_11 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/franka.srdf.xacro"/>
+  <xacro:franka name="arm_11" arm_id="fer"/>
+
+
+  <!-- arm_12 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/kinova_gen3_lite.srdf.xacro"/>
+  <xacro:kinova_gen3_lite name="arm_12"/>
+
+
+  <!-- arm_13 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/kinova_gen3_6dof.srdf.xacro"/>
+  <xacro:kinova_gen3_6dof name="arm_13"/>
+
+
+  <!-- arm_14 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/kinova_gen3_6dof.srdf.xacro"/>
+  <xacro:kinova_gen3_6dof name="arm_14"/>
+
+
+  <!-- arm_15 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/kinova_gen3_7dof.srdf.xacro"/>
+  <xacro:kinova_gen3_7dof name="arm_15"/>
+
+
+  <!-- arm_16 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/kinova_gen3_7dof.srdf.xacro"/>
+  <xacro:kinova_gen3_7dof name="arm_16"/>
+
+
+  <!-- arm_17 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_17"/>
+
+
+  <!-- arm_18 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_18"/>
+
+
+  <!-- arm_19 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_19"/>
+
+
+  <!-- arm_20 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_20"/>
+
+
+  <!-- arm_21 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_21"/>
+
+
+  <!-- arm_22 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_22"/>
+
+
+  <!-- arm_23 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_23"/>
+
+
+  <!-- arm_24 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_24"/>
+
+
+  <!-- arm_25 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_25"/>
+
+
+  <!-- arm_26 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_26"/>
+
+
+  <!-- arm_27 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_27"/>
+
+
+  <!-- arm_28 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_28"/>
+
+
+  <!-- arm_29 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_29"/>
+
+
+  <!-- arm_30 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_30"/>
+
+
+  <!-- arm_31 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_31"/>
+
+
+  <!-- arm_32 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_32"/>
+
+
+  <!-- arm_33 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_33"/>
+
+
+  <!-- arm_34 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/arm/universal_robots.srdf.xacro"/>
+  <xacro:universal_robots name="arm_34"/>
+
+
+
+  <!-- Grippers -->
+
+  <!-- arm_1_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/franka_gripper.srdf.xacro"/>
+  <xacro:franka_gripper name="arm_1_gripper" arm_id="fr3"/>
+
+
+  <!-- arm_2_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_2_gripper"/>
+
+
+  <!-- arm_3_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_3_gripper"/>
+
+
+  <!-- arm_5_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/franka_gripper.srdf.xacro"/>
+  <xacro:franka_gripper name="arm_5_gripper" arm_id="fp3"/>
+
+
+  <!-- arm_6_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_6_gripper"/>
+
+
+  <!-- arm_7_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_7_gripper"/>
+
+
+  <!-- arm_9_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/franka_gripper.srdf.xacro"/>
+  <xacro:franka_gripper name="arm_9_gripper" arm_id="fer"/>
+
+
+  <!-- arm_10_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_10_gripper"/>
+
+
+  <!-- arm_11_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_11_gripper"/>
+
+
+  <!-- arm_12_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/kinova_2f_lite.srdf.xacro"/>
+  <xacro:kinova_2f_lite name="arm_12_gripper"/>
+
+
+  <!-- arm_13_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_13_gripper"/>
+
+
+  <!-- arm_14_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_14_gripper"/>
+
+
+  <!-- arm_15_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_15_gripper"/>
+
+
+  <!-- arm_16_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_16_gripper"/>
+
+
+  <!-- arm_18_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_18_gripper"/>
+
+
+  <!-- arm_19_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_19_gripper"/>
+
+
+  <!-- arm_21_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_21_gripper"/>
+
+
+  <!-- arm_22_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_22_gripper"/>
+
+
+  <!-- arm_24_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_24_gripper"/>
+
+
+  <!-- arm_25_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_25_gripper"/>
+
+
+  <!-- arm_27_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_27_gripper"/>
+
+
+  <!-- arm_28_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_28_gripper"/>
+
+
+  <!-- arm_30_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_30_gripper"/>
+
+
+  <!-- arm_31_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_31_gripper"/>
+
+
+  <!-- arm_33_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_85.srdf.xacro"/>
+  <xacro:robotiq_2f_85 name="arm_33_gripper"/>
+
+
+  <!-- arm_34_gripper -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/gripper/robotiq_2f_140.srdf.xacro"/>
+  <xacro:robotiq_2f_140 name="arm_34_gripper"/>
+
+
+
+  <!-- Lifts -->
+
+  <!-- lift_0 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_0"/>
+
+
+  <!-- lift_1 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_1"/>
+
+
+  <!-- lift_2 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_2"/>
+
+
+  <!-- lift_3 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_3"/>
+
+
+  <!-- lift_4 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_4"/>
+
+
+  <!-- lift_5 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_5"/>
+
+
+  <!-- lift_6 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_6"/>
+
+
+  <!-- lift_7 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_7"/>
+
+
+  <!-- lift_8 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_8"/>
+
+
+  <!-- lift_9 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_9"/>
+
+
+  <!-- lift_10 -->
+  <xacro:include filename="$(find clearpath_manipulators_description)/srdf/lift/ewellix.srdf.xacro"/>
+  <xacro:ewellix name="lift_10"/>
+
+
+
+</robot>

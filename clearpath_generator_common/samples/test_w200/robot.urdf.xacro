@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="w200-0000">
+
+  <!-- Common -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro"/>
+
+  <!-- Platform -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/w200.urdf.xacro"/>
+  <xacro:w200 control="diff_4wd" front_wheels="outdoor" rear_wheels="outdoor"/>
+
+
+  <!-- Attachments -->
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/attachments/bulkhead.urdf.xacro"/>
+  <xacro:bulkhead name="bulkhead" model="default" parent_link="default_mount">
+    <origin xyz="0.0 1.5 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bulkhead>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/attachments/bulkhead.urdf.xacro"/>
+  <xacro:bulkhead name="bulkhead_plate" model="arm_plate" parent_link="default_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:bulkhead>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/attachments/generator.urdf.xacro"/>
+  <xacro:generator name="generator" model="default" parent_link="default_mount">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:generator>
+
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/attachments/arm_plate.urdf.xacro"/>
+  <xacro:arm_plate name="arm_plate_standalone" model="default" parent_link="default_mount">
+    <origin xyz="0.0 -1.5 0.0" rpy="0.0 0.0 0.0"/>
+  </xacro:arm_plate>
+
+
+  <!-- Links -->
+
+
+  <!-- Mounts -->
+
+
+  <!-- Sensors -->
+
+
+  <!-- Manipulators -->
+
+
+  <!-- Extras -->
+
+
+</robot>

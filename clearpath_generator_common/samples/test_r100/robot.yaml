@@ -1,0 +1,38 @@
+serial_number: r100-0000
+version: 0
+system:
+  hosts:
+    - hostname: cpr-r100-0000
+      ip: 192.168.131.1
+  ros2:
+    namespace: r100_0000
+sensors:
+  lidar2d:
+    - model: hokuyo_ust
+      parent: chassis_link
+      xyz: [0.3922, 0.0, 0.1856]
+platform:
+  attachments:
+    - name: fams
+      type: r100.fams
+      table_height: 0.6
+      parent: default_mount
+      xyz: [0.0, 1.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      enabled: true
+    - name: hams
+      type: r100.hams
+      table_height: 0.6
+      mount_height: 0.3
+      parent: default_mount
+      xyz: [0.0, -1.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      enabled: true
+    - name: tower
+      type: r100.tower
+      left_height: 0.0
+      right_height: 0.0
+      parent: default_mount
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+      enabled: true

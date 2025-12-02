@@ -5,59 +5,6 @@
 -->
 <robot name="a300-00000">
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="camera_0_link" link2="camera_1_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="chassis_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="driving_light_1_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="driving_light_2_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="driving_light_3_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="driving_light_4_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="enclosure_enclosure_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="front_bumper_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="front_left_motor_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="front_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="front_right_motor_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="ins_0_gps_1_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="left_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="lidar3d_0_base_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="rear_bumper_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="rear_left_motor_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="rear_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="rear_right_motor_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="rear_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="right_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="sensor_arch_antennas" reason="Never"/>
-    <disable_collisions link1="camera_0_link" link2="sensor_arch_link" reason="Adjacent"/>
-    <disable_collisions link1="camera_1_link" link2="chassis_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="driving_light_1_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="driving_light_2_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="driving_light_3_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="driving_light_4_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="enclosure_enclosure_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="front_bumper_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="front_left_motor_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="front_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="front_right_motor_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="ins_0_gps_1_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="left_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="lidar3d_0_base_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="rear_bumper_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="rear_left_motor_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="rear_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="rear_right_motor_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="rear_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="right_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="sensor_arch_antennas" reason="Never"/>
-    <disable_collisions link1="camera_1_link" link2="sensor_arch_link" reason="Adjacent"/>
     <disable_collisions link1="chassis_link" link2="driving_light_1_link" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="driving_light_2_link" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="driving_light_3_link" reason="Never"/>
@@ -65,16 +12,18 @@
     <disable_collisions link1="chassis_link" link2="enclosure_enclosure_link" reason="Adjacent"/>
     <disable_collisions link1="chassis_link" link2="front_bumper_link" reason="Adjacent"/>
     <disable_collisions link1="chassis_link" link2="front_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="chassis_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="chassis_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="chassis_link" link2="ins_0_gps_1_link" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="left_suspension_beam_spacer_link" reason="Adjacent"/>
-    <disable_collisions link1="chassis_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="rear_bumper_link" reason="Adjacent"/>
     <disable_collisions link1="chassis_link" link2="rear_left_wheel_link" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="right_suspension_beam_spacer_link" reason="Adjacent"/>
+    <disable_collisions link1="chassis_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="chassis_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="chassis_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="chassis_link" link2="top_plate_default_link" reason="Adjacent"/>
+    <disable_collisions link1="chassis_link" link2="top_plate_pacs_link" reason="Adjacent"/>
+    <disable_collisions link1="chassis_link" link2="wireless_charger_link" reason="Adjacent"/>
     <disable_collisions link1="driving_light_1_link" link2="driving_light_2_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="driving_light_3_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="driving_light_4_link" reason="Never"/>
@@ -84,11 +33,8 @@
     <disable_collisions link1="driving_light_1_link" link2="front_left_wheel_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="front_right_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="driving_light_1_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="driving_light_1_link" link2="ins_0_gps_0_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="driving_light_1_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -96,8 +42,14 @@
     <disable_collisions link1="driving_light_1_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="driving_light_1_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="driving_light_1_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="driving_light_1_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="driving_light_1_link" link2="sensor_arch_link" reason="Adjacent"/>
+    <disable_collisions link1="driving_light_1_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="driving_light_1_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="driving_light_1_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="driving_light_3_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="driving_light_4_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="enclosure_enclosure_link" reason="Never"/>
@@ -106,11 +58,8 @@
     <disable_collisions link1="driving_light_2_link" link2="front_left_wheel_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="front_right_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="driving_light_2_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="driving_light_2_link" link2="ins_0_gps_1_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="driving_light_2_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -118,8 +67,14 @@
     <disable_collisions link1="driving_light_2_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="driving_light_2_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="driving_light_2_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="driving_light_2_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="driving_light_2_link" link2="sensor_arch_link" reason="Adjacent"/>
+    <disable_collisions link1="driving_light_2_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="driving_light_2_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="driving_light_2_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="driving_light_4_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="enclosure_enclosure_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="front_bumper_link" reason="Never"/>
@@ -127,11 +82,8 @@
     <disable_collisions link1="driving_light_3_link" link2="front_left_wheel_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="front_right_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="driving_light_3_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="driving_light_3_link" link2="ins_0_gps_0_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="driving_light_3_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -139,19 +91,22 @@
     <disable_collisions link1="driving_light_3_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="driving_light_3_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="driving_light_3_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="driving_light_3_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="driving_light_3_link" link2="sensor_arch_link" reason="Adjacent"/>
+    <disable_collisions link1="driving_light_3_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="driving_light_3_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="driving_light_3_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="enclosure_enclosure_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="front_bumper_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="front_left_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="front_left_wheel_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="front_right_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="driving_light_4_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="driving_light_4_link" link2="ins_0_gps_1_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="driving_light_4_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -159,19 +114,21 @@
     <disable_collisions link1="driving_light_4_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="driving_light_4_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="driving_light_4_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="driving_light_4_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="driving_light_4_link" link2="sensor_arch_link" reason="Adjacent"/>
+    <disable_collisions link1="driving_light_4_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="driving_light_4_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="driving_light_4_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="front_bumper_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="front_left_motor_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="front_left_wheel_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="front_right_motor_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="enclosure_enclosure_link" link2="ins_0_base_link" reason="Adjacent"/>
-    <disable_collisions link1="enclosure_enclosure_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="enclosure_enclosure_link" link2="ins_0_gps_1_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="enclosure_enclosure_link" link2="lidar3d_0_base_link" reason="Adjacent"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -179,18 +136,20 @@
     <disable_collisions link1="enclosure_enclosure_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="enclosure_enclosure_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="enclosure_enclosure_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="enclosure_enclosure_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="enclosure_enclosure_link" link2="sensor_arch_link" reason="Adjacent"/>
+    <disable_collisions link1="enclosure_enclosure_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="enclosure_enclosure_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="enclosure_enclosure_link" link2="wireless_charger_link" reason="Adjacent"/>
     <disable_collisions link1="front_bumper_link" link2="front_left_motor_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="front_left_wheel_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="front_right_motor_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="front_bumper_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="front_bumper_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="front_bumper_link" link2="ins_0_gps_1_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="front_bumper_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -198,17 +157,19 @@
     <disable_collisions link1="front_bumper_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="front_bumper_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="front_bumper_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="front_bumper_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="front_bumper_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="front_bumper_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="front_bumper_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="front_bumper_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="front_left_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="front_left_motor_link" link2="front_right_motor_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="front_left_motor_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="front_left_motor_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="front_left_motor_link" link2="ins_0_gps_1_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="left_suspension_beam_link" reason="Adjacent"/>
     <disable_collisions link1="front_left_motor_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="front_left_motor_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -216,16 +177,18 @@
     <disable_collisions link1="front_left_motor_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="front_left_motor_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="front_left_motor_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="front_left_motor_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="front_left_motor_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="front_left_motor_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="front_left_motor_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="front_left_motor_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="front_right_motor_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="front_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="ins_0_gps_1_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -233,15 +196,17 @@
     <disable_collisions link1="front_left_wheel_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="front_left_wheel_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="front_right_wheel_link" reason="Adjacent"/>
-    <disable_collisions link1="front_right_motor_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="front_right_motor_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="front_right_motor_link" link2="ins_0_gps_1_link" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="front_right_motor_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -249,61 +214,31 @@
     <disable_collisions link1="front_right_motor_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="right_suspension_beam_link" reason="Adjacent"/>
     <disable_collisions link1="front_right_motor_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="front_right_motor_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="front_right_motor_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="front_right_motor_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="front_right_motor_link" link2="sensor_arch_link" reason="Never"/>
-    <disable_collisions link1="front_right_wheel_link" link2="ins_0_base_link" reason="Never"/>
-    <disable_collisions link1="front_right_wheel_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="front_right_wheel_link" link2="ins_0_gps_1_link" reason="Never"/>
+    <disable_collisions link1="front_right_motor_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="front_right_motor_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="front_right_motor_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="left_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="front_right_wheel_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="rear_left_wheel_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="rear_right_motor_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="sensor_arch_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="ins_0_gps_0_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="ins_0_gps_1_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="left_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="lidar3d_0_base_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="rear_bumper_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="rear_left_motor_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="rear_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="rear_right_motor_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="rear_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="right_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="sensor_arch_antennas" reason="Never"/>
-    <disable_collisions link1="ins_0_base_link" link2="sensor_arch_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="ins_0_gps_1_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="left_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="lidar3d_0_base_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="rear_bumper_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="rear_left_motor_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="rear_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="rear_right_motor_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="rear_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="right_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_0_link" link2="sensor_arch_link" reason="Adjacent"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="left_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="left_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="lidar3d_0_base_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="rear_bumper_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="rear_left_motor_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="rear_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="rear_right_motor_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="rear_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="right_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="ins_0_gps_1_link" link2="sensor_arch_link" reason="Adjacent"/>
+    <disable_collisions link1="front_right_wheel_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="front_right_wheel_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_link" link2="left_suspension_beam_spacer_link" reason="Adjacent"/>
-    <disable_collisions link1="left_suspension_beam_link" link2="lidar3d_0_base_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_link" link2="rear_left_motor_link" reason="Adjacent"/>
     <disable_collisions link1="left_suspension_beam_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -311,9 +246,14 @@
     <disable_collisions link1="left_suspension_beam_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_link" link2="sensor_arch_link" reason="Never"/>
-    <disable_collisions link1="left_suspension_beam_spacer_link" link2="lidar3d_0_base_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_spacer_link" link2="rear_bumper_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_spacer_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_spacer_link" link2="rear_left_wheel_link" reason="Never"/>
@@ -321,50 +261,116 @@
     <disable_collisions link1="left_suspension_beam_spacer_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_spacer_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_spacer_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_spacer_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_spacer_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_spacer_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_spacer_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="left_suspension_beam_spacer_link" link2="sensor_arch_link" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="rear_bumper_link" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="rear_left_motor_link" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="rear_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="rear_right_motor_link" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="rear_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="right_suspension_beam_link" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="sensor_arch_antennas" reason="Never"/>
-    <disable_collisions link1="lidar3d_0_base_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_spacer_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_spacer_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="left_suspension_beam_spacer_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="rear_bumper_link" link2="rear_left_motor_link" reason="Never"/>
     <disable_collisions link1="rear_bumper_link" link2="rear_left_wheel_link" reason="Never"/>
     <disable_collisions link1="rear_bumper_link" link2="rear_right_motor_link" reason="Never"/>
     <disable_collisions link1="rear_bumper_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="rear_bumper_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="rear_bumper_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="rear_bumper_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="rear_bumper_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="rear_bumper_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="rear_bumper_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="rear_bumper_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="rear_bumper_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="rear_bumper_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="rear_bumper_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="rear_left_motor_link" link2="rear_left_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="rear_left_motor_link" link2="rear_right_motor_link" reason="Never"/>
     <disable_collisions link1="rear_left_motor_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="rear_left_motor_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="rear_left_motor_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="rear_left_motor_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="rear_left_motor_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="rear_left_motor_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="rear_left_motor_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="rear_left_motor_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="rear_left_motor_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="rear_left_motor_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="rear_left_motor_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="rear_right_motor_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_suspension_beam_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="rear_left_wheel_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="rear_left_wheel_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="rear_left_wheel_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="rear_left_wheel_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="rear_left_wheel_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="rear_left_wheel_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="rear_right_motor_link" link2="rear_right_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="rear_right_motor_link" link2="right_suspension_beam_link" reason="Adjacent"/>
     <disable_collisions link1="rear_right_motor_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="rear_right_motor_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="rear_right_motor_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="rear_right_motor_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="rear_right_motor_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="rear_right_motor_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="rear_right_motor_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="rear_right_motor_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="rear_right_motor_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_suspension_beam_spacer_link" reason="Never"/>
+    <disable_collisions link1="rear_right_wheel_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="rear_right_wheel_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="rear_right_wheel_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="rear_right_wheel_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="rear_right_wheel_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="rear_right_wheel_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="right_suspension_beam_link" link2="right_suspension_beam_spacer_link" reason="Adjacent"/>
+    <disable_collisions link1="right_suspension_beam_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="right_suspension_beam_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="right_suspension_beam_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_link" link2="wireless_charger_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_spacer_link" link2="riser_0_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_spacer_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_spacer_link" link2="riser_2_link" reason="Never"/>
     <disable_collisions link1="right_suspension_beam_spacer_link" link2="sensor_arch_antennas" reason="Never"/>
     <disable_collisions link1="right_suspension_beam_spacer_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_spacer_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_spacer_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="right_suspension_beam_spacer_link" link2="wireless_charger_link" reason="Never"/>
+    <disable_collisions link1="riser_0_link" link2="riser_1_link" reason="Never"/>
+    <disable_collisions link1="riser_0_link" link2="riser_2_link" reason="Never"/>
+    <disable_collisions link1="riser_0_link" link2="sensor_arch_antennas" reason="Never"/>
+    <disable_collisions link1="riser_0_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="riser_0_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="riser_0_link" link2="top_plate_pacs_link" reason="Adjacent"/>
+    <disable_collisions link1="riser_0_link" link2="wireless_charger_link" reason="Never"/>
+    <disable_collisions link1="riser_1_link" link2="riser_2_link" reason="Never"/>
+    <disable_collisions link1="riser_1_link" link2="sensor_arch_antennas" reason="Never"/>
+    <disable_collisions link1="riser_1_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="riser_1_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="riser_1_link" link2="top_plate_pacs_link" reason="Adjacent"/>
+    <disable_collisions link1="riser_1_link" link2="wireless_charger_link" reason="Never"/>
+    <disable_collisions link1="riser_2_link" link2="sensor_arch_antennas" reason="Never"/>
+    <disable_collisions link1="riser_2_link" link2="sensor_arch_link" reason="Never"/>
+    <disable_collisions link1="riser_2_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="riser_2_link" link2="top_plate_pacs_link" reason="Adjacent"/>
+    <disable_collisions link1="riser_2_link" link2="wireless_charger_link" reason="Never"/>
     <disable_collisions link1="sensor_arch_antennas" link2="sensor_arch_link" reason="Adjacent"/>
+    <disable_collisions link1="sensor_arch_antennas" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="sensor_arch_antennas" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="sensor_arch_antennas" link2="wireless_charger_link" reason="Never"/>
+    <disable_collisions link1="sensor_arch_link" link2="top_plate_default_link" reason="Never"/>
+    <disable_collisions link1="sensor_arch_link" link2="top_plate_pacs_link" reason="Never"/>
+    <disable_collisions link1="sensor_arch_link" link2="wireless_charger_link" reason="Never"/>
+    <disable_collisions link1="top_plate_default_link" link2="top_plate_pacs_link" reason="Adjacent"/>
+    <disable_collisions link1="top_plate_default_link" link2="wireless_charger_link" reason="Never"/>
+    <disable_collisions link1="top_plate_pacs_link" link2="wireless_charger_link" reason="Never"/>
 </robot>

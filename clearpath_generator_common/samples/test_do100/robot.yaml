@@ -1,0 +1,35 @@
+serial_number: do100-0000
+version: 0
+system:
+  hosts:
+    - hostname: cpr-do100-0000
+      ip: 192.168.131.1
+  ros2:
+    namespace: do100_0000
+platform:
+  attachments:
+    - name: top_plate
+      type: do100.top_plate
+      parent: default_mount
+      height: 0.2
+mounts:
+  # Risers
+  riser:
+    - parent: top_plate_mount_a1
+      xyz: [0.0, 0.0, 0.1]
+      rpy: [0.0, 0.0, 0.0]
+      rows: 8 # rows of 80mm x 80mm grid
+      columns: 7 # columns of 80mm x 80mm grid
+      thickness: 0.00635
+    - parent: riser_0_mount_a8
+      xyz: [0.0, 0.0, 0.1]
+      rpy: [0.0, 0.0, 0.0]
+      rows: 1 # rows of 80mm x 80mm grid
+      columns: 7 # columns of 80mm x 80mm grid
+      thickness: 0.00635
+    - parent: riser_0_mount_a1
+      xyz: [0.0, 0.0, 0.2]
+      rpy: [0.0, 0.0, 0.0]
+      rows: 4 # rows of 80mm x 80mm grid
+      columns: 4 # columns of 80mm x 80mm grid
+      thickness: 0.00635
