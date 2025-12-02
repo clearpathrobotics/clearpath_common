@@ -48,6 +48,7 @@ jobs:
             clearpath_mounts_description
             clearpath_platform_description
             clearpath_sensors_description
+            franka_description
   clearpath_common_src_ci:
     name: Jazzy Clearpath Source
     runs-on: ubuntu-24.04
@@ -70,6 +71,7 @@ jobs:
             clearpath_mounts_description
             clearpath_platform_description
             clearpath_sensors_description
+            franka_description
           vcs-repo-file-url: dependencies.repos
   clearpath_common_src_head_ci:
     name: Jazzy Clearpath Source with Head Branch
@@ -111,6 +113,7 @@ jobs:
             clearpath_mounts_description
             clearpath_platform_description
             clearpath_sensors_description
+            franka_description
           vcs-repo-file-url: updated_dependencies.repos
   clearpath_common_src_base_ci:
     if: github.event_name == 'pull_request'
@@ -149,4 +152,5 @@ jobs:
             clearpath_mounts_description
             clearpath_platform_description
             clearpath_sensors_description
+            franka_description
           vcs-repo-file-url: updated_dependencies.repos
