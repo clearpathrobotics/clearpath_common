@@ -42,38 +42,39 @@ int main(int argc, char * argv[])
 
   double min_collision_fraction = 1.0;
 
-  uint32_t never_trials = 0;
+  uint32_t never_trials = 10000;
 
   // clang-format off
   po::options_description desc("Allowed options");
   desc.add_options()("help", "show help")(
     "urdf", po::value(&urdf_path),
-    "path to URDF ( or xacro)")(
+        "path to URDF ( or xacro)")(
     "srdf", po::value(&srdf_path),
-    "path to SRDF ( or xacro)")(
+        "path to SRDF ( or xacro)")(
     "output", po::value(&output_path),
-    "output path for SRDF")(
+        "output path for SRDF")(
     "xacro-args", po::value<std::vector<std::string>>()->composing(),
-    "additional arguments for xacro")(
+        "additional arguments for xacro")(
     "default", po::bool_switch(&include_default),
-    "disable default colliding pairs")(
+        "disable default colliding pairs")(
     "always", po::bool_switch(&include_always),
-    "disable always colliding pairs")(
+        "disable always colliding pairs")(
     "keep", po::bool_switch(&keep_old),
-    "keep disabled link from SRDF")(
+        "keep disabled link from SRDF")(
     "verbose", po::bool_switch(&verbose),
-    "verbose output")(
+        "verbose output")(
     "trials", po::value(&never_trials),
-    "number of trials for searching never colliding pairs")(
+        "number of trials for searching never colliding pairs")(
     "min-collision-fraction", po::value(&min_collision_fraction),
-    "fraction of small sample size to determine links that are always colliding");
+        "fraction of small sample size to determine links that are always colliding");
 
 
   po::positional_options_description pos_desc;
   pos_desc.add("xacro-args", -1);
 
   po::variables_map vm;
-  po::store(po::command_line_parser(argc, argv).options(desc).positional(pos_desc).run(), vm);
+  po::store(po::command_line_parser(argc,
+    argv).options(desc).positional(pos_desc).allow_unregistered().run(), vm);
   po::notify(vm);
 
   if (vm.count("help")) {
