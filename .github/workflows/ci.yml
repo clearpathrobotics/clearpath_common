@@ -51,7 +51,7 @@ jobs:
             clearpath_platform_description
             clearpath_sensors_description
             franka_description
-          vcs-repo-file-url: source-only.repos
+          vcs-repo-file-url: source-only-dep.repos
   clearpath_common_src_ci:
     name: Jazzy Clearpath Source
     runs-on: ubuntu-latest
