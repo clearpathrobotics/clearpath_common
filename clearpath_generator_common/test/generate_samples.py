@@ -13,7 +13,7 @@ from clearpath_generator_common.discovery_server.generator import DiscoveryServe
 from clearpath_generator_common.semantic_description.generator import SemanticDescriptionGenerator
 from clearpath_generator_common.vcan.generator import VirtualCANGenerator
 from clearpath_generator_common.zenoh_router.generator import ZenohRouterGenerator
-from ros2run.api import get_executable_path, run_executable
+from ros2run.api import get_executable_path
 
 
 PACKAGE = '<package><name>clearpath_generator_common</name></package>\n'
