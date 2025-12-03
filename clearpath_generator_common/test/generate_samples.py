@@ -1,8 +1,8 @@
 """Scripts to generate samples using the clearpath_generator_common."""
 import argparse
 import os
-import signal
 import shutil
+import signal
 import subprocess
 import sys
 
