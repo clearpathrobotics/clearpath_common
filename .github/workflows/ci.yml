@@ -52,6 +52,7 @@ jobs:
             clearpath_sensors_description
             franka_description
           vcs-repo-file-url: source-only-dep.repos
+          colcon-extra-args: --packages-skip zed_components
   clearpath_common_src_ci:
     name: Jazzy Clearpath Source
     runs-on: ubuntu-latest
@@ -78,6 +79,7 @@ jobs:
             clearpath_sensors_description
             franka_description
           vcs-repo-file-url: dependencies.repos
+          colcon-extra-args: --packages-skip zed_components
   clearpath_common_src_head_ci:
     name: Jazzy Clearpath Source with Head Branch
     runs-on: ubuntu-latest
@@ -128,6 +130,7 @@ jobs:
             clearpath_sensors_description
             franka_description
           vcs-repo-file-url: updated_dependencies.repos
+          colcon-extra-args: --packages-skip zed_components
   clearpath_common_src_base_ci:
     if: github.event_name == 'pull_request'
     name: Jazzy Clearpath Source with Base Branch
@@ -175,3 +178,4 @@ jobs:
             clearpath_sensors_description
             franka_description
           vcs-repo-file-url: updated_dependencies.repos
+          colcon-extra-args: --packages-skip zed_components
