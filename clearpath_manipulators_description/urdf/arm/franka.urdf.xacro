@@ -78,6 +78,7 @@
                       joint_limits
                       kinematics
                       inertials
+                      accelerometer_config
                       dynamics
                       parent:='world'
                       xyz:='0 0 0'
@@ -111,6 +112,7 @@
       joint_limits="${joint_limits}"
       kinematics="${kinematics}"
       inertials="${inertials}"
+      accelerometer_config="${accelerometer_config}"
       dynamics="${dynamics}"
       with_sc="${with_sc}"
       connected_to="${connected_to}"
@@ -171,6 +173,7 @@
     parent_link
     *origin
     arm_id:=''
+    accelerometer_config:=''
     joint_limits:=''
     joint_limits_parameters_file:=''
     inertials:=''
@@ -198,6 +201,7 @@
     <xacro:property name="_inertials_parameters_file" value="$(find franka_description)/robots/${_arm_id}/inertials.yaml" lazy_eval="false"/>
     <xacro:property name="_kinematics_parameters_file" value="$(find franka_description)/robots/${_arm_id}/kinematics.yaml" lazy_eval="false"/>
     <xacro:property name="_dynamics_parameters_file" value="$(find franka_description)/robots/${_arm_id}/dynamics.yaml" lazy_eval="false"/>
+    <xacro:property name="_accelerometer_config" value="none" lazy_eval="false"/>
     <xacro:if value="${joint_limits_parameters_file != ''}">
       <xacro:property name="_joint_limits_parameters_file" value="${joint_limits_parameters_file}" lazy_eval="false"/>
     </xacro:if>
@@ -209,6 +213,9 @@
     </xacro:if>
     <xacro:if value="${dynamics_parameters_file != ''}">
       <xacro:property name="_dynamics_parameters_file" value="${dynamics_parameters_file}" lazy_eval="false"/>
+    </xacro:if>
+    <xacro:if value="${accelerometer_config != ''}">
+      <xacro:property name="_accelerometer_config" value="${accelerometer_config}" lazy_eval="false"/>
     </xacro:if>
 
     <!-- Loaded Parameters -->
@@ -279,6 +286,7 @@
       inertials="${_inertials}"
       kinematics="${_kinematics}"
       dynamics="${_dynamics}"
+      accelerometer_config="${_accelerometer_config}"
       gazebo="${_gazebo}"
       hand="${_hand}"
       ee_id="none"
