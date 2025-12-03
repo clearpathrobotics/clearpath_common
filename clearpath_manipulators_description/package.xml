@@ -15,7 +15,7 @@
 
   <license>BSD</license>
 
-  <!-- <exec_depend>franka_description</exec_depend> -->
+  <test_depend>franka_description</test_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>urdf</exec_depend>
   <exec_depend>xacro</exec_depend>
