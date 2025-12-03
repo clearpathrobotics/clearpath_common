@@ -21,6 +21,7 @@
   <exec_depend>microstrain_inertial_description</exec_depend>
   <exec_depend>realsense2_description</exec_depend>
   <exec_depend>velodyne_description</exec_depend>
+  <test_depend>zed_wrapper</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
