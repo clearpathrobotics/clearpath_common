@@ -147,7 +147,7 @@ def get_test_samples():
         # Filter for Test Samples
         if 'test' not in sample:
             continue
-        samples.append(samples)
+        samples.append(sample)
     return samples
 
 
