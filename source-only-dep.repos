@@ -3,7 +3,3 @@ repositories:
     type: git
     url: https://github.com/frankarobotics/franka_description.git
     version: jazzy
-  zed-ros2-wrapper:
-    type: git
-    url: https://github.com/stereolabs/zed-ros2-wrapper.git
-    version: jazzy

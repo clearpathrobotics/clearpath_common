@@ -51,7 +51,6 @@ jobs:
             clearpath_platform_description
             clearpath_sensors_description
             franka_description
-            zed_wrapper
           vcs-repo-file-url: source-only-dep.repos
           colcon-extra-args: --packages-skip zed_components
   clearpath_common_src_ci:
@@ -79,7 +78,6 @@ jobs:
             clearpath_platform_description
             clearpath_sensors_description
             franka_description
-            zed_wrapper
           vcs-repo-file-url: dependencies.repos
           colcon-extra-args: --packages-skip zed_components
   clearpath_common_src_head_ci:
@@ -131,7 +129,6 @@ jobs:
             clearpath_platform_description
             clearpath_sensors_description
             franka_description
-            zed_wrapper
           vcs-repo-file-url: updated_dependencies.repos
           colcon-extra-args: --packages-skip zed_components
   clearpath_common_src_base_ci:
@@ -180,6 +177,5 @@ jobs:
             clearpath_platform_description
             clearpath_sensors_description
             franka_description
-            zed_wrapper
           vcs-repo-file-url: updated_dependencies.repos
           colcon-extra-args: --packages-skip zed_components
