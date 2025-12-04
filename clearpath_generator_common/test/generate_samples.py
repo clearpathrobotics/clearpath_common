@@ -138,16 +138,26 @@ def error_log(name: str, sample: str, error: Exception) -> str:
     return f'{name} failed for sample "{sample}" with error: \n{error}'
 
 
+def get_test_samples():
+    """Return all test samples from Clearpath Config package."""
+    samples = []
+    share_dir = get_package_share_directory('clearpath_config')
+    sample_dir = os.path.join(share_dir, 'sample')
+    for sample in os.listdir(sample_dir):
+        # Filter for Test Samples
+        if 'test' not in sample:
+            continue
+        samples.append(samples)
+    return samples
+
+
 def generate_test_samples(root_dir: str):
     """Generate all files from common generator."""
     # Iterate through all samples in clearpath_config
     share_dir = get_package_share_directory('clearpath_config')
     sample_dir = os.path.join(share_dir, 'sample')
     sample_errors = []
-    for sample in os.listdir(sample_dir):
-        # Filter for Test Samples
-        if 'test' not in sample:
-            continue
+    for sample in get_test_samples():
         print(f'Generating {sample}'.center(100, '-'))
         # Create Clearpath Directory
         src = os.path.join(sample_dir, sample)

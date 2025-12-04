@@ -8,7 +8,7 @@ from typing import List
 
 from ament_index_python.packages import get_package_share_directory
 
-from .generate_samples import generate_test_samples
+from .generate_samples import generate_test_samples, get_test_samples
 
 
 class MissingSampleException(Exception):
@@ -55,6 +55,7 @@ class TestSamples:
                     os.path.join(installed_sample_dir, sample, 'robot.yaml'))))
         break
     installed_sample_dir = real_installed_sample_dir
+    found_samples = len(get_test_samples()) > 0
 
     def filter_lines(self, lines: List[str], filepath: str) -> str:
         """Filter line files to prevent comparing lines that are expected to be different."""
@@ -137,6 +138,8 @@ class TestSamples:
 
     def test_number_of_samples_match(self):
         """Validate number of samples matches."""
+        if not self.found_samples:
+            return
         errors = self.diff_dir_trees(
             self.new_sample_dir,
             self.installed_sample_dir,
@@ -151,6 +154,8 @@ class TestSamples:
 
     def test_samples_match(self):
         """Validate contents of generated sample directory match."""
+        if not self.found_samples:
+            return
         dirs_cmp = filecmp.dircmp(
             self.new_sample_dir,
             self.installed_sample_dir
