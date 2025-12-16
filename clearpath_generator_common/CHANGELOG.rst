@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.8.3 (2025-12-16)
+------------------
 * Fix: Generic (`#280 <https://github.com/clearpathrobotics/clearpath_common/issues/280>`_)
   * Check for generic before creating drivetrain parameters
   * Add teleop_joy default parameter file for generic robot
