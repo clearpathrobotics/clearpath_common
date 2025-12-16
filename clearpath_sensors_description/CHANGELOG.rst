@@ -2,6 +2,9 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.3.7 (2025-09-18)
 ------------------
 * Backport Fix: Ouster URDF Parameters (`#266 <https://github.com/clearpathrobotics/clearpath_common/issues/266>`_)

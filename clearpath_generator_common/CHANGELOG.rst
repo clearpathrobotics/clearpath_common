@@ -2,6 +2,12 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: UR Parameter Generation (`#277 <https://github.com/clearpathrobotics/clearpath_common/issues/277>`_) (`#285 <https://github.com/clearpathrobotics/clearpath_common/issues/285>`_)
+  Use merge instead of update to prevent clobbering parameters
+* Contributors: luis-camero
+
 1.3.7 (2025-09-18)
 ------------------
 * Backport Fix: Ouster URDF Parameters (`#266 <https://github.com/clearpathrobotics/clearpath_common/issues/266>`_)
