@@ -2,6 +2,33 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add missing Gazebo IMU topic tags for omnidirectional platforms (`#286 <https://github.com/clearpathrobotics/clearpath_common/issues/286>`_)
+  * Add missing Gazebo IMU topic tags for omnidirectional platforms
+  Fixes missing <topic> tag in IMU sensor definitions for R100, DO100,
+  and DO150 platforms. Without this tag, Gazebo publishes IMU data on
+  default topic names instead of the namespace-aware topics expected by
+  ros_gz_bridge, causing IMU data to not reach ROS 2 in simulation.
+  This issue only affected omnidirectional platforms (mecanum wheel
+  configurations). Differential drive platforms (J100, W200, DD100, DD150)
+  were already fixed in v0.2.10.
+  Tested on R100 platform with Gazebo Harmonic and ROS 2 Jazzy.
+  IMU data now successfully bridges to /r100_0000/sensors/imu_0/data_raw
+  and is consumed by ekf_localization_node for sensor fusion.
+  * Fixed indent.
+  ---------
+  Co-authored-by: Michael Wescott <Michael.E.Wescott@Spiritaero.com>
+* Replaced ignition references with gz (`#283 <https://github.com/clearpathrobotics/clearpath_common/issues/283>`_)
+* Fix: Generic (`#280 <https://github.com/clearpathrobotics/clearpath_common/issues/280>`_)
+  * Check for generic before creating drivetrain parameters
+  * Add teleop_joy default parameter file for generic robot
+  * Generic teleop values
+  * Generic control file without a controller
+  * Generic empty robot
+  * Update path to cvontrol in empty generic URDF
+* Contributors: Roni Kreinin, Tony Baltovski, luis-camero
+
 2.8.2 (2025-11-06)
 ------------------
 
