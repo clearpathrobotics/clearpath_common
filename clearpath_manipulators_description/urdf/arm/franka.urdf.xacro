@@ -77,6 +77,7 @@
               params="arm_id
                       joint_limits
                       kinematics
+                      accelerometer_config:=none
                       inertials
                       dynamics
                       parent:='world'
@@ -110,6 +111,7 @@
       gazebo="${gazebo}"
       joint_limits="${joint_limits}"
       kinematics="${kinematics}"
+      accelerometer_config="${accelerometer_config}"
       inertials="${inertials}"
       dynamics="${dynamics}"
       with_sc="${with_sc}"
@@ -179,6 +181,7 @@
     kinematics_parameters_file:=''
     dynamics:=''
     dynamics_parameters_file:=''
+    accelerometer_config:=''
     ros2_control:=''
     robot_ip:=''
     use_fake_hardware:=''
@@ -265,6 +268,7 @@
     <xacro:property name="_with_sc" value="false" lazy_eval="false"/>
     <xacro:property name="_no_prefix" value="false" lazy_eval="false"/>
     <xacro:property name="_arm_prefix" value="${name}" lazy_eval="false"/>
+    <xacro:property name="_accelerometer_config" value="none" lazy_eval="false"/>
 
     <!-- Parent Joint -->
     <joint name="${name}_${arm_id}_joint0" type="fixed">
@@ -278,6 +282,7 @@
       joint_limits="${_joint_limits}"
       inertials="${_inertials}"
       kinematics="${_kinematics}"
+      accelerometer_config="${_accelerometer_config}"
       dynamics="${_dynamics}"
       gazebo="${_gazebo}"
       hand="${_hand}"
