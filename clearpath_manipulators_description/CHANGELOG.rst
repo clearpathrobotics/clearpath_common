@@ -2,6 +2,11 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* added accelerometer_config param (`#288 <https://github.com/clearpathrobotics/clearpath_common/issues/288>`_)
+* Contributors: thickey-cpr
+
 2.8.3 (2025-12-16)
 ------------------
 

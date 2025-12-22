@@ -2,6 +2,9 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.8.3 (2025-12-16)
 ------------------
 * Add missing Gazebo IMU topic tags for omnidirectional platforms (`#286 <https://github.com/clearpathrobotics/clearpath_common/issues/286>`_)
