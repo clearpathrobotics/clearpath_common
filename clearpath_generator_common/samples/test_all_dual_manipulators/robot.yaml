@@ -86,99 +86,99 @@ manipulators:
       xyz: [5.0, 0.0, 0.0]
 
   arms:
-    # Franka FR3
-    - model: franka
-      parent: fr3_row_link
-      xyz: [0.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fr3
-      robot_ip: 192.168.131.40
-    - model: franka
-      parent: fr3_row_link
-      xyz: [1.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fr3
-      robot_ip: 192.168.131.40
-      gripper:
-        model: franka_gripper
-    - model: franka
-      parent: fr3_row_link
-      xyz: [2.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fr3
-      robot_ip: 192.168.131.40
-      gripper:
-        model: robotiq_2f_85
-    - model: franka
-      parent: fr3_row_link
-      xyz: [3.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fr3
-      robot_ip: 192.168.131.40
-      gripper:
-        model: robotiq_2f_140
-    # Franka FP3
-    - model: franka
-      parent: fp3_row_link
-      xyz: [0.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fp3
-      robot_ip: 192.168.131.40
-    - model: franka
-      parent: fp3_row_link
-      xyz: [1.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fp3
-      robot_ip: 192.168.131.40
-      gripper:
-        model: franka_gripper
-    - model: franka
-      parent: fp3_row_link
-      xyz: [2.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fp3
-      robot_ip: 192.168.131.40
-      gripper:
-        model: robotiq_2f_85
-    - model: franka
-      parent: fp3_row_link
-      xyz: [3.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fp3
-      robot_ip: 192.168.131.40
-      gripper:
-        model: robotiq_2f_140
-    # Franka FER
-    - model: franka
-      parent: fer_row_link
-      xyz: [0.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fer
-      robot_ip: 192.168.131.40
-    - model: franka
-      parent: fer_row_link
-      xyz: [1.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fer
-      robot_ip: 192.168.131.40
-      gripper:
-        model: franka_gripper
-    - model: franka
-      parent: fer_row_link
-      xyz: [2.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fer
-      robot_ip: 192.168.131.40
-      gripper:
-        model: robotiq_2f_85
-    - model: franka
-      parent: fer_row_link
-      xyz: [3.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      arm_id: fer
-      robot_ip: 192.168.131.40
-      gripper:
-        model: robotiq_2f_140
+    # # Franka FR3
+    # - model: franka
+    #   parent: fr3_row_link
+    #   xyz: [0.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fr3
+    #   robot_ip: 192.168.131.40
+    # - model: franka
+    #   parent: fr3_row_link
+    #   xyz: [1.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fr3
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: franka_gripper
+    # - model: franka
+    #   parent: fr3_row_link
+    #   xyz: [2.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fr3
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: robotiq_2f_85
+    # - model: franka
+    #   parent: fr3_row_link
+    #   xyz: [3.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fr3
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: robotiq_2f_140
+    # # Franka FP3
+    # - model: franka
+    #   parent: fp3_row_link
+    #   xyz: [0.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fp3
+    #   robot_ip: 192.168.131.40
+    # - model: franka
+    #   parent: fp3_row_link
+    #   xyz: [1.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fp3
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: franka_gripper
+    # - model: franka
+    #   parent: fp3_row_link
+    #   xyz: [2.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fp3
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: robotiq_2f_85
+    # - model: franka
+    #   parent: fp3_row_link
+    #   xyz: [3.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fp3
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: robotiq_2f_140
+    # # Franka FER
+    # - model: franka
+    #   parent: fer_row_link
+    #   xyz: [0.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fer
+    #   robot_ip: 192.168.131.40
+    # - model: franka
+    #   parent: fer_row_link
+    #   xyz: [1.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fer
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: franka_gripper
+    # - model: franka
+    #   parent: fer_row_link
+    #   xyz: [2.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fer
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: robotiq_2f_85
+    # - model: franka
+    #   parent: fer_row_link
+    #   xyz: [3.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   arm_id: fer
+    #   robot_ip: 192.168.131.40
+    #   gripper:
+    #     model: robotiq_2f_140
     # Kinove Gen3 Lite
     - model: kinova_gen3_lite
       parent: kinova_gen3_lite_row_link
