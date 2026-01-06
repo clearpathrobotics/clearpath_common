@@ -18,6 +18,7 @@ install(PROGRAMS
   ${PROJECT_NAME}/semantic_description/generate_semantic_description
   ${PROJECT_NAME}/vcan/generate_vcan
   ${PROJECT_NAME}/zenoh_router/generate_zenoh_router
+  test/generate_samples
   DESTINATION lib/${PROJECT_NAME}
 )
 
