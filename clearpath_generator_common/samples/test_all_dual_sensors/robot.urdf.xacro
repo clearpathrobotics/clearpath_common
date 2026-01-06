@@ -156,18 +156,6 @@
     <origin xyz="0.75 0.0 0.25" rpy="0.0 0.0 0.0"/>
   </xacro:luxonis_oakd>
 
-  <!-- camera_8 -->
-  <xacro:include filename="$(find clearpath_sensors_description)/urdf/stereolabs_zed.urdf.xacro"/>
-  <xacro:stereolabs_zed name="camera_8" parent_link="camera_row_link" update_rate="30" model="zed2">
-    <origin xyz="1.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-  </xacro:stereolabs_zed>
-
-  <!-- camera_9 -->
-  <xacro:include filename="$(find clearpath_sensors_description)/urdf/stereolabs_zed.urdf.xacro"/>
-  <xacro:stereolabs_zed name="camera_9" parent_link="camera_row_link" update_rate="30" model="zed2">
-    <origin xyz="1.0 0.0 0.25" rpy="0.0 0.0 0.0"/>
-  </xacro:stereolabs_zed>
-
   <!-- imu_0 -->
   <xacro:include filename="$(find clearpath_sensors_description)/urdf/chrobotics_um6.urdf.xacro"/>
   <xacro:chrobotics_um6 name="imu_0" parent_link="imu_row_link" update_rate="20">

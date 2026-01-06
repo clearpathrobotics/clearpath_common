@@ -172,30 +172,30 @@ sensors:
             i_resolution: '1080P'
             i_width: 1280
     # Stereolabs Zed
-    - model: stereolabs_zed
-      urdf_enabled: true
-      launch_enabled: true
-      parent: camera_row_link
-      xyz: [1.0, 0.0, 0.0]
-      rpy: [0.0, 0.0, 0.0]
-      ros_parameters:
-        stereolabs_zed:
-          general.grab_frame_rate: 30
-          general.serial_number: 0
-          general.camera_model: 'zed2'
-          general.grab_resolution: 'AUTO'
-    - model: stereolabs_zed
-      urdf_enabled: true
-      launch_enabled: true
-      parent: camera_row_link
-      xyz: [1.0, 0.0, 0.25]
-      rpy: [0.0, 0.0, 0.0]
-      ros_parameters:
-        stereolabs_zed:
-          general.grab_frame_rate: 30
-          general.serial_number: 0
-          general.camera_model: 'zed2'
-          general.grab_resolution: 'AUTO'
+    # - model: stereolabs_zed
+    #   urdf_enabled: true
+    #   launch_enabled: true
+    #   parent: camera_row_link
+    #   xyz: [1.0, 0.0, 0.0]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   ros_parameters:
+    #     stereolabs_zed:
+    #       general.grab_frame_rate: 30
+    #       general.serial_number: 0
+    #       general.camera_model: 'zed2'
+    #       general.grab_resolution: 'AUTO'
+    # - model: stereolabs_zed
+    #   urdf_enabled: true
+    #   launch_enabled: true
+    #   parent: camera_row_link
+    #   xyz: [1.0, 0.0, 0.25]
+    #   rpy: [0.0, 0.0, 0.0]
+    #   ros_parameters:
+    #     stereolabs_zed:
+    #       general.grab_frame_rate: 30
+    #       general.serial_number: 0
+    #       general.camera_model: 'zed2'
+    #       general.grab_resolution: 'AUTO'
 
   imu:
     # CHRobotics UM6
