@@ -15,14 +15,16 @@
 
   <license>BSD</license>
 
-  <test_depend>franka_description</test_depend>
-  <exec_depend>robot_state_publisher</exec_depend>
-  <exec_depend>urdf</exec_depend>
-  <exec_depend>xacro</exec_depend>
+  <!-- Dependencies not available from binaries -->
+  <!--<exec_depend>franka_description</exec_depend>-->
   <!--<exec_depend>kortex_description</exec_depend>-->
+
   <exec_depend>ewellix_description</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>robotiq_description</exec_depend>
   <exec_depend>ur_description</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
