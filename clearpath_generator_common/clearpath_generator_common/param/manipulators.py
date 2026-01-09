@@ -312,7 +312,7 @@ class ManipulatorParam():
             parameter_file.read()
 
             # Add All Plugins
-            for subdirectory in os.listdir(parameter_file.directory()):
+            for subdirectory in sorted(os.listdir(parameter_file.directory())):
                 subdirectory_path = os.path.join(parameter_file.directory(), subdirectory)
                 if os.path.isfile(subdirectory_path):
                     continue

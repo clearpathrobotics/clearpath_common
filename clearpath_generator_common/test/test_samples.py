@@ -87,6 +87,12 @@ class TestSamples:
                     os.path.join(installed_sample_dir, sample, 'robot.yaml'))))
         break
     installed_sample_dir = real_installed_sample_dir
+    relpath_installed_sample_dir = os.sep.join(
+        os.path.normpath(
+            installed_sample_dir).split(os.sep)[-2:])
+    relpath_new_sample_dir = os.sep.join(
+        os.path.normpath(
+            new_sample_dir).split(os.sep)[-2:])
     found_samples = len(get_test_samples()) > 0
 
     def filter_lines(self, lines: List[str], filepath: str) -> str:
