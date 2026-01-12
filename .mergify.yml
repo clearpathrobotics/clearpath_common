@@ -1,9 +1,9 @@
 pull_request_rules:
   - name: Backport merged PRs from Jazzy to Humble
     conditions:
-      - base=jazzy
-      - merged=true
-      - label=backport-humble
+      - base = jazzy
+      - merged
+      - label = backport-humble
     actions:
       backport:
         branches:
@@ -13,5 +13,3 @@ pull_request_rules:
         title: "[Humble] {{ title }}"
         body: |
           Backport of #{{ number }} to Humble.
-
-          Original PR: {{ url }}
