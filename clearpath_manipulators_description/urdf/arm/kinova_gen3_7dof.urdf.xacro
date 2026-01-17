@@ -683,7 +683,7 @@
             </depth_camera>
             <optical_frame_id>color_optical_frame</optical_frame_id>
           </camera>
-          <ignition_frame_id>camera_color_frame</ignition_frame_id>
+          <gz_frame_id>camera_color_frame</gz_frame_id>
           <always_on>1</always_on>
           <update_rate>6</update_rate>
           <visualize>true</visualize>
