@@ -7,3 +7,7 @@ repositories:
     type: git
     url: https://github.com/clearpathrobotics/clearpath_msgs.git
     version: jazzy
+  clearpath_generator_tests:
+    type: git
+    url: https://github.com/clearpathrobotics/clearpath_generator_tests.git
+    version: jazzy
