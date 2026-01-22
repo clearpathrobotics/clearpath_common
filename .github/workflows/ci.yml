@@ -101,7 +101,7 @@ jobs:
         run: dpkg --list
       - name: Print out ament_package
         continue-on-error: true
-        run: ll /opt/ros/jazzy/lib/python3.12/site-packages/ament_package
+        run: ls -al /opt/ros/jazzy/lib/python3.12/site-packages/ament_package
 
   # clearpath_common_src_head_ci:
   #   name: Jazzy Clearpath Source with Head Branch
