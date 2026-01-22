@@ -62,6 +62,8 @@ jobs:
         run: printenv
       - uses: ros-tooling/action-ros-ci@v0.3
         id: action_ros_ci_step
+        env:
+          PYTHONPATH: /opt/ros/jazzy/lib/python3.12/site-packages
         with:
           target-ros2-distro: jazzy
           package-name: |
