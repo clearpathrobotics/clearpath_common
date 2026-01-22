@@ -29,7 +29,7 @@
           </xacro:if>
 
           <xacro:if value="${gazebo}">
-            <plugin>ign_ros2_control/IgnitionSystem</plugin>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
           </xacro:if>
 
           <xacro:if value="${use_fake_hardware == 0 and gazebo == 0 and multi_arm == 0}">
