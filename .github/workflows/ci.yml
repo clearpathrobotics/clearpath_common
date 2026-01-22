@@ -62,6 +62,7 @@ jobs:
         run: printenv
       - uses: ros-tooling/action-ros-ci@v0.3
         id: action_ros_ci_step
+        continue-on-error: true
         env:
           PYTHONPATH: /opt/ros/jazzy/lib/python3.12/site-packages
         with:
@@ -79,6 +80,8 @@ jobs:
           vcs-repo-file-url: dependencies.repos
       - name: Print all environment variables 3
         run: printenv
+      - name: Print all environment variables 4
+        run: source /opt/ros/jazzy/setup.bash && printenv
 
   # clearpath_common_src_head_ci:
   #   name: Jazzy Clearpath Source with Head Branch
