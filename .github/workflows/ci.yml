@@ -89,14 +89,18 @@ jobs:
             clearpath_sensors_description
           vcs-repo-file-url: dependencies.repos
       - name: Print all environment variables 3
+        continue-on-error: true
         env:
           PYTHONPATH: /opt/ros/jazzy/lib/python3.12/site-packages
         run: printenv
       - name: Print all environment variables 4
+        continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && printenv && source
       - name: Print out all installed packages
+        continue-on-error: true
         run: dpkg --list
       - name: Print out ament_package
+        continue-on-error: true
         run: ll /opt/ros/jazzy/lib/python3.12/site-packages/ament_package
 
   # clearpath_common_src_head_ci:
