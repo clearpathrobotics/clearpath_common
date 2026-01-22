@@ -79,6 +79,8 @@ jobs:
             clearpath_sensors_description
           vcs-repo-file-url: dependencies.repos
       - name: Print all environment variables 3
+        env:
+          PYTHONPATH: /opt/ros/jazzy/lib/python3.12/site-packages
         run: printenv
       - name: Print all environment variables 4
         run: source /opt/ros/jazzy/setup.bash && printenv
