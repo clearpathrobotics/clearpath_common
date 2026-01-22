@@ -94,6 +94,10 @@ jobs:
         run: printenv
       - name: Print all environment variables 4
         run: source /opt/ros/jazzy/setup.bash && printenv && source
+      - name: Print out all installed packages
+        run: dpkg --list
+      - name: Print out ament_package
+        run: ll /opt/ros/jazzy/lib/python3.12/site-packages/ament_package
 
   # clearpath_common_src_head_ci:
   #   name: Jazzy Clearpath Source with Head Branch
