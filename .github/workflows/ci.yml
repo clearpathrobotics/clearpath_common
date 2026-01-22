@@ -64,7 +64,17 @@ jobs:
         id: action_ros_ci_step
         continue-on-error: true
         env:
+          AMENT_PREFIX_PATH: /opt/ros/jazzy
+          CMAKE_PREFIX_PATH: /opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor
+          GAZEBO_MODEL_PATH: /opt/ros/jazzy/share/GAZEBO_MODEL_PATH=/opt/ros/jazzy/share/
+          GZ_CONFIG_PATH: /opt/ros/jazzy/opt/sdformat_vendor/share/gz
+          LD_LIBRARY_PATH: /opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib
+          PATH: /opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/bin:/home/runner/work/clearpath_common/clearpath_common/ros_ws/install/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
           PYTHONPATH: /opt/ros/jazzy/lib/python3.12/site-packages
+          ROS_AUTOMATIC_DISCOVERY_RANGE: SUBNET
+          ROS_DISTRO: jazzy
+          ROS_PYTHON_VERSION: 3
+          ROS_VERSION: 2
         with:
           target-ros2-distro: jazzy
           package-name: |
@@ -83,7 +93,7 @@ jobs:
           PYTHONPATH: /opt/ros/jazzy/lib/python3.12/site-packages
         run: printenv
       - name: Print all environment variables 4
-        run: source /opt/ros/jazzy/setup.bash && printenv
+        run: source /opt/ros/jazzy/setup.bash && printenv && source
 
   # clearpath_common_src_head_ci:
   #   name: Jazzy Clearpath Source with Head Branch
