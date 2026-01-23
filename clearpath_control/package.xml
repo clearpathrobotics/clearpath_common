@@ -17,6 +17,7 @@
   <maintainer email="tbaltovski@clearpathrobotics.com">Tony Baltovski</maintainer>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>ament_package</depend>
 
   <exec_depend>clearpath_bt_joy</exec_depend>
   <exec_depend>mecanum_drive_controller</exec_depend>
