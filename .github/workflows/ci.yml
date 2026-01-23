@@ -102,13 +102,18 @@ jobs:
       - name: Print out ament_package
         continue-on-error: true
         run: ls -al /opt/ros/jazzy/lib/python3.12/site-packages/ament_package
-      - name: Build workspace with parameters
+      # - name: Build workspace with parameters
+      #   continue-on-error: true
+      #   run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_common clearpath_control clearpath_customization clearpath_description clearpath_diagnostics clearpath_generator_common clearpath_mounts_description clearpath_platform_description clearpath_sensors_description --event-handlers=console_cohesion+ --symlink-install
+      - name: Just build descriptions
         continue-on-error: true
-        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_common clearpath_control clearpath_customization clearpath_description clearpath_diagnostics clearpath_generator_common clearpath_mounts_description clearpath_platform_description clearpath_sensors_description --event-handlers=console_cohesion+ --symlink-install
-      - name: Just build workspace
+        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description clearpath_manipulators_description clerpath_platform_description clearpath_sensors_description
+      - name: Just build descriptions
         continue-on-error: true
-        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description
-  # clearpath_common_src_head_ci:
+        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description clearpath_manipulators_description clerpath_platform_description clearpath_sensors_description
+      - name: Build up to clearpath_control
+        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_control
+
   #   name: Jazzy Clearpath Source with Head Branch
   #   runs-on: ubuntu-24.04
   #   steps:
