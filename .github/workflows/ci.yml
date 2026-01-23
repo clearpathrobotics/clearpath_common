@@ -107,7 +107,7 @@ jobs:
         run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_common clearpath_control clearpath_customization clearpath_description clearpath_diagnostics clearpath_generator_common clearpath_mounts_description clearpath_platform_description clearpath_sensors_description --event-handlers=console_cohesion+ --symlink-install
       - name: Just build workspace
         continue-on-error: true
-        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --symlink-install
+        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description
   # clearpath_common_src_head_ci:
   #   name: Jazzy Clearpath Source with Head Branch
   #   runs-on: ubuntu-24.04
