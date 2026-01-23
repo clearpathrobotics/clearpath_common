@@ -108,9 +108,12 @@ jobs:
       - name: Just build descriptions
         continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description clearpath_manipulators_description clerpath_platform_description clearpath_sensors_description
-      - name: Just build descriptions
+      - name: Build up to clearpath_diagnostics
         continue-on-error: true
-        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description clearpath_manipulators_description clerpath_platform_description clearpath_sensors_description
+        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_diagnostics
+      - name: Build up to clearpath_manipulators
+        continue-on-error: true
+        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_manipulators
       - name: Build up to clearpath_control
         run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_control
 
