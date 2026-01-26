@@ -113,7 +113,7 @@ jobs:
       #   run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_common clearpath_control clearpath_customization clearpath_description clearpath_diagnostics clearpath_generator_common clearpath_mounts_description clearpath_platform_description clearpath_sensors_description --event-handlers=console_cohesion+ --symlink-install
       - name: Just build descriptions
         continue-on-error: true
-        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description clearpath_manipulators_description clerpath_platform_description clearpath_sensors_description
+        run: source /opt/ros/jazzy/setup.bash && cmake -E environment && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description clearpath_manipulators_description clerpath_platform_description clearpath_sensors_description
       - name: Build up to clearpath_diagnostics
         continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_diagnostics
