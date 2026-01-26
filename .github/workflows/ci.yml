@@ -121,7 +121,7 @@ jobs:
         continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_manipulators
       - name: Build up to clearpath_control
-        run: source /opt/ros/jazzy/setup.bash && && printenv && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_control && printenv
+        run: source /opt/ros/jazzy/setup.bash && printenv && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_control && printenv
 
   #   name: Jazzy Clearpath Source with Head Branch
   #   runs-on: ubuntu-24.04
