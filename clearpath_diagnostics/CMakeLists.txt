@@ -5,6 +5,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+message(STATUS "PYTHONPATH: $ENV{PYTHONPATH}")
+
 SET(ENV{PYTHONPATH} "/opt/ros/jazzy/lib/python3.12/site-packages/")
 
 # find dependencies
