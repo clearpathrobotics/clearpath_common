@@ -49,17 +49,13 @@ jobs:
   #           clearpath_platform_description
   #           clearpath_sensors_description
   clearpath_common_src_ci:
-    name: Jazzy Clearpath Source
+    name: Jazzy Clearpath Release
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
-      - name: Print all environment variables 1
-        run: printenv
       - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: jazzy
-      - name: Print all environment variables 2
-        run: printenv
       - uses: ros-tooling/action-ros-ci@v0.3
         id: action_ros_ci_step
         continue-on-error: true
@@ -87,21 +83,12 @@ jobs:
             clearpath_mounts_description
             clearpath_platform_description
             clearpath_sensors_description
-          vcs-repo-file-url: dependencies.repos
-      - name: Print all environment variables 3
-        continue-on-error: true
-        env:
-          PYTHONPATH: /opt/ros/jazzy/lib/python3.12/site-packages
-        run: printenv
       - name: Install again
         continue-on-error: true
         run: sudo apt-get install ros-jazzy-ament-package
       - name: Test ament_cmake_core
         continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && python3 /opt/ros/jazzy/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py
-      - name: Print all environment variables 4
-        continue-on-error: true
-        run: source /opt/ros/jazzy/setup.bash && printenv && source
       - name: Print out all installed packages
         continue-on-error: true
         run: dpkg --list
@@ -113,7 +100,7 @@ jobs:
       #   run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_common clearpath_control clearpath_customization clearpath_description clearpath_diagnostics clearpath_generator_common clearpath_mounts_description clearpath_platform_description clearpath_sensors_description --event-handlers=console_cohesion+ --symlink-install
       - name: Just build descriptions
         continue-on-error: true
-        run: source /opt/ros/jazzy/setup.bash && cmake -E environment && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description clearpath_manipulators_description clerpath_platform_description clearpath_sensors_description
+        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-select clearpath_mounts_description clearpath_manipulators_description clerpath_platform_description clearpath_sensors_description
       - name: Build up to clearpath_diagnostics
         continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_diagnostics
@@ -121,7 +108,7 @@ jobs:
         continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_manipulators
       - name: Build up to clearpath_control
-        run: source /opt/ros/jazzy/setup.bash && printenv && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_control && printenv
+        run: source /opt/ros/jazzy/setup.bash && cd /home/runner/work/clearpath_common/clearpath_common/ros_ws/ && colcon build --packages-up-to clearpath_control
 
   #   name: Jazzy Clearpath Source with Head Branch
   #   runs-on: ubuntu-24.04
