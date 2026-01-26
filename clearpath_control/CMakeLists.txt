@@ -3,7 +3,7 @@ project(clearpath_control)
 
 
 find_package(ament_cmake REQUIRED)
-
+find_package(ament_package REQUIRED)
 
 install(DIRECTORY config launch
   DESTINATION share/${PROJECT_NAME}
