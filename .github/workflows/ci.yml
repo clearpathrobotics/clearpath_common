@@ -96,6 +96,9 @@ jobs:
       - name: Install again
         continue-on-error: true
         run: sudo apt-get install ros-jazzy-ament-package
+      - name: Test ament_cmake_core
+        continue-on-error: true
+        run: source /opt/ros/jazzy/setup.bash && python3 /opt/ros/jazzy/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py
       - name: Print all environment variables 4
         continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && printenv && source
