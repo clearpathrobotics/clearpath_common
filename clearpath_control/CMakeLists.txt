@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(clearpath_control)
 
-message(STATUS "PYTHONPATH: $ENV{PYTHONPATH}")
+message(WARNING "PYTHONPATH: $ENV{PYTHONPATH}")
 
 SET(ENV{PYTHONPATH} "/opt/ros/jazzy/lib/python3.12/site-packages/")
 
