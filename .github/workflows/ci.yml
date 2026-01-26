@@ -93,6 +93,9 @@ jobs:
         env:
           PYTHONPATH: /opt/ros/jazzy/lib/python3.12/site-packages
         run: printenv
+      - name: Install again
+        continue-on-error: true
+        run: sudo apt-get install ros-jazzy-ament-package
       - name: Print all environment variables 4
         continue-on-error: true
         run: source /opt/ros/jazzy/setup.bash && printenv && source
