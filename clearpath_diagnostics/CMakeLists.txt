@@ -10,6 +10,7 @@ message(WARNING "PYTHONPATH: $ENV{PYTHONPATH}")
 SET(ENV{PYTHONPATH} "/opt/ros/jazzy/lib/python3.12/site-packages/")
 
 # find dependencies
+message(WARNING "PYTHONPATH: $ENV{PYTHONPATH}")
 find_package(ament_cmake REQUIRED)
 find_package(clearpath_platform_msgs REQUIRED)
 find_package(diagnostic_updater REQUIRED)
