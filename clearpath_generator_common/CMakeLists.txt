@@ -5,15 +5,15 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-message(WARNING "${CMAKE_PROJECT_NAME} BEFORE CMAKE_PREFIX_PATH: $ENV{CMAKE_PREFIX_PATH}")
+message(WARNING "${CMAKE_PROJECT_NAME} BEFORE CMAKE_PREFIX_PATH: [$ENV{CMAKE_PREFIX_PATH}]")
 
 SET(ENV{CMAKE_PREFIX_PATH} "/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy
 ")
 
 
 # find dependencies
-message(WARNING "${CMAKE_PROJECT_NAME} PYTHONPATH: $ENV{PYTHONPATH}")
-message(WARNING "${CMAKE_PROJECT_NAME} CMAKE_PREFIX_PATH: $ENV{CMAKE_PREFIX_PATH}")
+message(WARNING "${CMAKE_PROJECT_NAME} PYTHONPATH: [$ENV{PYTHONPATH}]")
+message(WARNING "${CMAKE_PROJECT_NAME} CMAKE_PREFIX_PATH: [$ENV{CMAKE_PREFIX_PATH}]")
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(moveit_setup_framework REQUIRED)
