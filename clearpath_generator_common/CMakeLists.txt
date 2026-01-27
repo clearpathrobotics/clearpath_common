@@ -6,8 +6,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 # find dependencies
-message(WARNING "PYTHONPATH: $ENV{PYTHONPATH}")
-message(WARNING "CMAKE_PREFIX_PATH: $ENV{CMAKE_PREFIX_PATH}")
+message(WARNING "${CMAKE_PROJECT_NAME} PYTHONPATH: $ENV{PYTHONPATH}")
+message(WARNING "${CMAKE_PROJECT_NAME} CMAKE_PREFIX_PATH: $ENV{CMAKE_PREFIX_PATH}")
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(moveit_setup_framework REQUIRED)

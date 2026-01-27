@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
 project(clearpath_control)
 
-message(WARNING "Before PYTHONPATH: $ENV{PYTHONPATH}")
+message(WARNING "${CMAKE_PROJECT_NAME} Before PYTHONPATH: $ENV{PYTHONPATH}")
 
 SET(ENV{PYTHONPATH} "/opt/ros/jazzy/lib/python3.12/site-packages/")
 
-message(WARNING "PYTHONPATH: $ENV{PYTHONPATH}")
-message(WARNING "CMAKE_PREFIX_PATH: $ENV{CMAKE_PREFIX_PATH}")
+message(WARNING "${CMAKE_PROJECT_NAME} PYTHONPATH: $ENV{PYTHONPATH}")
+message(WARNING "${CMAKE_PROJECT_NAME} CMAKE_PREFIX_PATH: $ENV{CMAKE_PREFIX_PATH}")
 find_package(ament_cmake REQUIRED)
 
 install(DIRECTORY config launch
