@@ -6,6 +6,7 @@ message(WARNING "Before PYTHONPATH: $ENV{PYTHONPATH}")
 SET(ENV{PYTHONPATH} "/opt/ros/jazzy/lib/python3.12/site-packages/")
 
 message(WARNING "PYTHONPATH: $ENV{PYTHONPATH}")
+message(WARNING "CMAKE_PREFIX_PATH: $ENV{CMAKE_PREFIX_PATH}")
 find_package(ament_cmake REQUIRED)
 
 install(DIRECTORY config launch

@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 message(WARNING "PYTHONPATH: $ENV{PYTHONPATH}")
+message(WARNING "CMAKE_PREFIX_PATH: $ENV{CMAKE_PREFIX_PATH}")
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(moveit_setup_framework REQUIRED)
