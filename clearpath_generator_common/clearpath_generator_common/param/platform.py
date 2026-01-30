@@ -542,7 +542,8 @@ class PlatformParam():
                     'latest_apt_firmware_version': latest_apt_firmware_version,
                     'installed_apt_firmware_version': installed_apt_firmware_version,
                     'bms_state_rate': bms_state_rate,
-                    'bms_state_tolerance': bms_state_tolerance
+                    'bms_state_tolerance': bms_state_tolerance,
+                    'mcu_protocol': self.clearpath_config.platform.mcu.protocol
                 }
             })
 
