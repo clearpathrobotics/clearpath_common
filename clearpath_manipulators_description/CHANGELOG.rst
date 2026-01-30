@@ -2,8 +2,8 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.9 (2026-01-30)
+------------------
 * Update Kinova 2F lite gripper joint limits (`#298 <https://github.com/clearpathrobotics/clearpath_common/issues/298>`_) (`#300 <https://github.com/clearpathrobotics/clearpath_common/issues/300>`_)
 * Contributors: mergify[bot]
 
