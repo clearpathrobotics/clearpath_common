@@ -2,8 +2,8 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.8.5 (2026-01-30)
+------------------
 * Update Ignition nomenclature to new Gazebo gz names (`#293 <https://github.com/clearpathrobotics/clearpath_common/issues/293>`_)
   * Rename ignition_frame_id to gz_frame_id in kinova_gen3_6dof.urdf.xacro
   * Rename ignition_frame_id to gz_frame_id in kinove_gen3_7dof.urdf.xacro

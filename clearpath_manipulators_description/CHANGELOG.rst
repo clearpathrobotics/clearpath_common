@@ -2,8 +2,8 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.8.5 (2026-01-30)
+------------------
 * Update Kinova 2F lite gripper joint limits (`#298 <https://github.com/clearpathrobotics/clearpath_common/issues/298>`_)
 * Update Ignition nomenclature to new Gazebo gz names (`#293 <https://github.com/clearpathrobotics/clearpath_common/issues/293>`_)
   * Rename ignition_frame_id to gz_frame_id in kinova_gen3_6dof.urdf.xacro
