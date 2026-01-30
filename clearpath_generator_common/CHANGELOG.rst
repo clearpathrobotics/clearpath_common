@@ -2,6 +2,9 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.3.8 (2025-12-16)
 ------------------
 * Fix: UR Parameter Generation (`#277 <https://github.com/clearpathrobotics/clearpath_common/issues/277>`_) (`#285 <https://github.com/clearpathrobotics/clearpath_common/issues/285>`_)
