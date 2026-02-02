@@ -743,7 +743,7 @@ template<class MsgType> void ClearpathDiagnosticUpdater::add_rate_diagnostic(
   subscriptions_.push_back(std::static_pointer_cast<void>(sub));
 }
 
-Version::Version(const std::string & version_str)
+Version::Version(const std::string & version_str) : version_str_(version_str)
 {
   std::istringstream iss(version_str);
   std::string token;
