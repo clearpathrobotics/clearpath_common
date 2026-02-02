@@ -17,6 +17,10 @@
   <exec_depend version_gte="2.5.0">clearpath_description</exec_depend>
   <exec_depend version_gte="2.5.0">clearpath_generator_common</exec_depend>
 
+  <exec_depend>rmw_fastrtps_cpp</exec_depend>
+  <exec_depend>rmw_cyclonedds_cpp</exec_depend>
+  <exec_depend>rmw_zenoh_cpp</exec_depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>
