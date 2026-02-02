@@ -216,45 +216,60 @@ void ClearpathDiagnosticUpdater::firmware_diagnostic(DiagnosticStatusWrapper & s
                   "ros-%s-clearpath-firmware package version not provided in config. Restart service to re-evaluate.",
                   ros_distro_.c_str());
   }
-  else if (mcu_firmware_version_.getString() == UNKNOWN) {
-     if (mcu_protocol_ == DiagnosticLabels::PROTON &&
-        latest_apt_firmware_version_ < PROTON_MINIMUM_FIRMWARE_VERSION) {
-      stat.summaryf(DiagnosticStatus::WARN,
+  else if (mcu_protocol_ == DiagnosticLabels::PROTON)
+  {
+    if (mcu_firmware_version_.getString() == UNKNOWN ||
+        installed_apt_firmware_version_ < PROTON_MINIMUM_FIRMWARE_VERSION) {
+          stat.summaryf(DiagnosticStatus::ERROR,
                     "Proton protocol requires firmware version %s or higher. "
                     "Current installed version: %s. Please update firmware.",
                     PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
-                    latest_apt_firmware_version_.getString().c_str());
-    } else if (mcu_protocol_ == DiagnosticLabels::UROS &&
-      latest_apt_firmware_version_ >= PROTON_MINIMUM_FIRMWARE_VERSION) {
+                    installed_apt_firmware_version_.getString().c_str());
+    } else if (mcu_firmware_version_ < latest_apt_firmware_version_) {
       stat.summaryf(DiagnosticStatus::WARN,
-                    "Micro-ROS protocol requires firmware version lower than %s."
-                    "Current installed version: %s."
-                    "If your MCU is running version %s or higher, switch the MCU protocol to Proton.",
-                    PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
-                    latest_apt_firmware_version_.getString().c_str(),
-                    PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str());
+                    "New firmware available: (%s) -> (%s). Restart service to re-evaluate.",
+                    mcu_firmware_version_.getString().c_str(),
+                    latest_apt_firmware_version_.getString().c_str());
+    } else if (mcu_firmware_version_ > latest_apt_firmware_version_) {
+      stat.summaryf(DiagnosticStatus::OK,
+                    "Firmware is newer than apt package: (%s) > (%s)",
+                    mcu_firmware_version_.getString().c_str(),
+                    latest_apt_firmware_version_.getString().c_str());
     } else {
-    stat.summary(DiagnosticStatus::ERROR,
-                  "No firmware version received from MCU");
+      stat.summaryf(DiagnosticStatus::OK,
+                    "Firmware is up to date (%s)",
+                    mcu_firmware_version_.getString().c_str());
     }
-  } else if (mcu_firmware_version_ == latest_apt_firmware_version_) {
-    stat.summaryf(DiagnosticStatus::OK,
-                  "Firmware is up to date (%s)",
-                  mcu_firmware_version_.getString().c_str());
-  } else if (mcu_firmware_version_ < latest_apt_firmware_version_) {
-    stat.summaryf(DiagnosticStatus::WARN,
-                  "New firmware available: (%s) -> (%s). Restart service to re-evaluate.",
-                  mcu_firmware_version_.getString().c_str(),
-                  latest_apt_firmware_version_.getString().c_str());
-  } else if (mcu_firmware_version_ > latest_apt_firmware_version_) {
-    stat.summaryf(DiagnosticStatus::OK,
-                  "Firmware is newer than apt package: (%s) > (%s)",
-                  mcu_firmware_version_.getString().c_str(),
-                  latest_apt_firmware_version_.getString().c_str());
-  } else {
-    stat.summaryf(DiagnosticStatus::WARN,
-                  "ros-%s-clearpath-firmware package is outdated. Restart service to re-evaluate.",
-                  ros_distro_.c_str());
+  }
+  else
+  {
+    if (mcu_firmware_version_.getString() == UNKNOWN)
+    {
+      if (installed_apt_firmware_version_ >= PROTON_MINIMUM_FIRMWARE_VERSION) {
+          stat.summaryf(DiagnosticStatus::ERROR,
+                    "Firmware version %s or higher requires the Proton protocol. "
+                    "Current installed version: %s. Please switch MCU protocol to Proton.",
+                    PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
+                    installed_apt_firmware_version_.getString().c_str());
+      } else {
+        stat.summaryf(DiagnosticStatus::ERROR,
+                      "MCU firmware version unknown.");
+      }
+    } else if (mcu_firmware_version_ < latest_apt_firmware_version_) {
+      stat.summaryf(DiagnosticStatus::WARN,
+                    "New firmware available: (%s) -> (%s). Restart service to re-evaluate.",
+                    mcu_firmware_version_.getString().c_str(),
+                    latest_apt_firmware_version_.getString().c_str());
+    } else if (mcu_firmware_version_ > latest_apt_firmware_version_) {
+      stat.summaryf(DiagnosticStatus::OK,
+                    "Firmware is newer than apt package: (%s) > (%s)",
+                    mcu_firmware_version_.getString().c_str(),
+                    latest_apt_firmware_version_.getString().c_str());
+    } else {
+      stat.summaryf(DiagnosticStatus::OK,
+                    "Firmware is up to date (%s)",
+                    mcu_firmware_version_.getString().c_str());
+    }
   }
 
   stat.add("Latest Firmware Version Package", latest_apt_firmware_version_.getString());
