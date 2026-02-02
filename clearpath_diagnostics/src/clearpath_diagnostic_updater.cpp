@@ -48,7 +48,8 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   platform_model_ = get_string_param("platform_model", true);
   ros_distro_ = get_string_param("ros_distro", true);
   latest_apt_firmware_version_ = Version(get_string_param("latest_apt_firmware_version", true));
-  installed_apt_firmware_version_ = Version(get_string_param("installed_apt_firmware_version", true));
+  installed_apt_firmware_version_ = Version(get_string_param("installed_apt_firmware_version",
+    true));
   mcu_protocol_ = get_string_param("mcu_protocol", true);
   RCLCPP_INFO(this->get_logger(), "Diagnostics starting for a %s platform with serial number %s",
               platform_model_.c_str(), serial_number_.c_str());
@@ -215,16 +216,15 @@ void ClearpathDiagnosticUpdater::firmware_diagnostic(DiagnosticStatusWrapper & s
     stat.summaryf(DiagnosticStatus::ERROR,
                   "ros-%s-clearpath-firmware package version not provided in config. Restart service to re-evaluate.",
                   ros_distro_.c_str());
-  }
-  else if (mcu_protocol_ == DiagnosticLabels::PROTON)
-  {
+  } else if (mcu_protocol_ == DiagnosticLabels::PROTON) {
     if (mcu_firmware_version_.getString() == UNKNOWN ||
-        installed_apt_firmware_version_ < PROTON_MINIMUM_FIRMWARE_VERSION) {
-          stat.summaryf(DiagnosticStatus::ERROR,
-                    "Proton protocol requires firmware version %s or higher. "
-                    "Current installed version: %s. Please update firmware.",
-                    PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
-                    installed_apt_firmware_version_.getString().c_str());
+      installed_apt_firmware_version_ < PROTON_MINIMUM_FIRMWARE_VERSION)
+    {
+      stat.summaryf(DiagnosticStatus::ERROR,
+                "Proton protocol requires firmware version %s or higher. "
+                "Current installed version: %s. Please update firmware.",
+                PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
+                installed_apt_firmware_version_.getString().c_str());
     } else if (mcu_firmware_version_ < latest_apt_firmware_version_) {
       stat.summaryf(DiagnosticStatus::WARN,
                     "New firmware available: (%s) -> (%s). Restart service to re-evaluate.",
@@ -240,17 +240,14 @@ void ClearpathDiagnosticUpdater::firmware_diagnostic(DiagnosticStatusWrapper & s
                     "Firmware is up to date (%s)",
                     mcu_firmware_version_.getString().c_str());
     }
-  }
-  else
-  {
-    if (mcu_firmware_version_.getString() == UNKNOWN)
-    {
+  } else {
+    if (mcu_firmware_version_.getString() == UNKNOWN) {
       if (installed_apt_firmware_version_ >= PROTON_MINIMUM_FIRMWARE_VERSION) {
-          stat.summaryf(DiagnosticStatus::ERROR,
-                    "Firmware version %s or higher requires the Proton protocol. "
-                    "Current installed version: %s. Please switch MCU protocol to Proton.",
-                    PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
-                    installed_apt_firmware_version_.getString().c_str());
+        stat.summaryf(DiagnosticStatus::ERROR,
+                  "Firmware version %s or higher requires the Proton protocol. "
+                  "Current installed version: %s. Please switch MCU protocol to Proton.",
+                  PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
+                  installed_apt_firmware_version_.getString().c_str());
       } else {
         stat.summaryf(DiagnosticStatus::ERROR,
                       "MCU firmware version unknown.");
@@ -758,7 +755,8 @@ template<class MsgType> void ClearpathDiagnosticUpdater::add_rate_diagnostic(
   subscriptions_.push_back(std::static_pointer_cast<void>(sub));
 }
 
-Version::Version(const std::string & version_str) : version_str_(version_str)
+Version::Version(const std::string & version_str)
+: version_str_(version_str)
 {
   std::istringstream iss(version_str);
   std::string token;

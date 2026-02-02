@@ -52,19 +52,21 @@ namespace clearpath
 
 class Version {
 public:
-  Version() : major(0), minor(0), patch(0), version_str_("0.0.0") {}
-  Version(const std::string& version_str);
+  Version()
+  : major(0), minor(0), patch(0), version_str_("0.0.0") {}
+  Version(const std::string & version_str);
   bool operator>(const Version & other) const;
   bool operator>=(const Version & other) const;
   bool operator<(const Version & other) const;
   bool operator<=(const Version & other) const;
   bool operator==(const Version & other) const;
 
-  std::string getString() const { return version_str_; }
+  std::string getString() const {return version_str_;}
 
   int major;
   int minor;
   int patch;
+
 private:
   std::string version_str_;
 };
