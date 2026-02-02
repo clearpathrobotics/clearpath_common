@@ -319,22 +319,22 @@ class PlatformParam():
                 })
 
                 if mcu_protocol == MCUConfig.PROTON:
-                  self.param_file.update({
-                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
-                        'platform': {
-                            'analyzers': {
-                                'proton': {
-                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
-                                    'path': 'MCU/Proton',
-                                    'expected': [
-                                        'proton_ros2: Proton Statistics',
-                                    ],
-                                    'contains': ['proton_ros2']
+                    self.param_file.update({
+                        self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                            'platform': {
+                                'analyzers': {
+                                    'proton': {
+                                        'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                        'path': 'MCU/Proton',
+                                        'expected': [
+                                            'proton_ros2: Proton Statistics',
+                                        ],
+                                        'contains': ['proton_ros2']
+                                    }
                                 }
                             }
                         }
-                    }
-                })
+                    })
 
             # Add Lighting for every platform except A200 and J100
             if platform_model not in (Platform.A200, Platform.J100):
