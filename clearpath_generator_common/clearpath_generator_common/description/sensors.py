@@ -43,6 +43,7 @@ from clearpath_config.sensors.types.imu import (
     BaseIMU,
     CHRoboticsUM6,
     Microstrain,
+    MicrostrainGV7,
     RedshiftUM7
 )
 from clearpath_config.sensors.types.ins import (
@@ -296,6 +297,7 @@ class SensorDescription():
         FlirBlackfly.SENSOR_MODEL: CameraDescription,
         AxisCamera.SENSOR_MODEL: AxisCameraDescription,
         Microstrain.SENSOR_MODEL: ImuDescription,
+        MicrostrainGV7.SENSOR_MODEL: ImuDescription,
         OusterOS1.SENSOR_MODEL: OusterOS1Description,
         SeyondLidar.SENSOR_MODEL: SeyondLidarDescription,
         VelodyneLidar.SENSOR_MODEL: Lidar3dDescription,
