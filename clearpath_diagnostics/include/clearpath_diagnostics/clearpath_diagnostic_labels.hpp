@@ -66,6 +66,14 @@ public:
   inline static const std::string GENERIC = "generic";
 
   //--------------------------------------------------------
+  // MCU Protocols
+  //--------------------------------------------------------
+  // Micro-ROS
+  inline static const std::string UROS = "uros";
+  // Proton
+  inline static const std::string PROTON = "proton";
+
+  //--------------------------------------------------------
   // Labels for Firmware Alert Codes
   // Format is {alert_code, {"Alert Title", "Troubleshooting/Description"}}
   //--------------------------------------------------------

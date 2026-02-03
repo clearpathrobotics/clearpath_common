@@ -31,6 +31,8 @@ using namespace clearpath_diagnostic_labels;
 namespace clearpath
 {
 
+inline static const Version PROTON_MINIMUM_FIRMWARE_VERSION = Version("3.0.0");
+
 /**
  * @brief Construct a new ClearpathDiagnosticUpdater node
  */
@@ -45,8 +47,10 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   serial_number_ = get_string_param("serial_number", true);
   platform_model_ = get_string_param("platform_model", true);
   ros_distro_ = get_string_param("ros_distro", true);
-  latest_apt_firmware_version_ = get_string_param("latest_apt_firmware_version", true);
-  installed_apt_firmware_version_ = get_string_param("installed_apt_firmware_version", true);
+  latest_apt_firmware_version_ = Version(get_string_param("latest_apt_firmware_version", true));
+  installed_apt_firmware_version_ = Version(get_string_param("installed_apt_firmware_version",
+    true));
+  mcu_protocol_ = get_string_param("mcu_protocol", true);
   RCLCPP_INFO(this->get_logger(), "Diagnostics starting for a %s platform with serial number %s",
               platform_model_.c_str(), serial_number_.c_str());
 
@@ -87,15 +91,15 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
   estop_tolerance_ = (std::isnan(estop_tolerance_)) ? 0.15 : estop_tolerance_;
 
   // Initialize variables that are populated in callbacks
-  mcu_firmware_version_ = UNKNOWN;
+  mcu_firmware_version_ = Version(UNKNOWN);
 
   // Set Hardware ID as serial number in diagnostics
   updater_.setHardwareID(serial_number_);
 
   // MCU status and firmware version if there is an MCU
-  if (latest_apt_firmware_version_ == "not_applicable") {
+  if (latest_apt_firmware_version_.getString() == "not_applicable") {
     RCLCPP_INFO(this->get_logger(), "No MCU indicated, MCU diagnostics disabled.");
-  } else if (latest_apt_firmware_version_ != "simulated") {
+  } else if (latest_apt_firmware_version_.getString() != "simulated") {
     // Subscribe to MCU Status topics
     sub_mcu_status_ =
       this->create_subscription<clearpath_platform_msgs::msg::Status>(
@@ -204,39 +208,74 @@ double ClearpathDiagnosticUpdater::get_double_param(std::string param_name, bool
  */
 void ClearpathDiagnosticUpdater::firmware_diagnostic(DiagnosticStatusWrapper & stat)
 {
-  if (latest_apt_firmware_version_ == "not_found") {
+  if (latest_apt_firmware_version_.getString() == "not_found") {
     stat.summaryf(DiagnosticStatus::ERROR,
                   "ros-%s-clearpath-firmware package not found. Restart service to re-evaluate.",
                   ros_distro_.c_str());
-  } else if (latest_apt_firmware_version_ == UNKNOWN) {
+  } else if (latest_apt_firmware_version_.getString() == UNKNOWN) {
     stat.summaryf(DiagnosticStatus::ERROR,
                   "ros-%s-clearpath-firmware package version not provided in config. Restart service to re-evaluate.",
                   ros_distro_.c_str());
-  } else if (mcu_firmware_version_ == UNKNOWN) {
-    stat.summary(DiagnosticStatus::ERROR,
-                  "No firmware version received from MCU");
-  } else if (mcu_firmware_version_ == latest_apt_firmware_version_) {
-    stat.summaryf(DiagnosticStatus::OK,
-                  "Firmware is up to date (%s)",
-                  mcu_firmware_version_.c_str());
-  } else if (mcu_firmware_version_ < latest_apt_firmware_version_) {
-    stat.summaryf(DiagnosticStatus::WARN,
-                  "New firmware available: (%s) -> (%s). Restart service to re-evaluate.",
-                  mcu_firmware_version_.c_str(),
-                  latest_apt_firmware_version_.c_str());
-  } else if (mcu_firmware_version_ > latest_apt_firmware_version_) {
-    stat.summaryf(DiagnosticStatus::OK,
-                  "Firmware is newer than apt package: (%s) > (%s)",
-                  mcu_firmware_version_.c_str(),
-                  latest_apt_firmware_version_.c_str());
+  } else if (mcu_protocol_ == DiagnosticLabels::PROTON) {
+    if (mcu_firmware_version_.getString() == UNKNOWN ||
+      installed_apt_firmware_version_ < PROTON_MINIMUM_FIRMWARE_VERSION)
+    {
+      stat.summaryf(DiagnosticStatus::ERROR,
+                "Proton protocol requires firmware version %s or higher. "
+                "Current installed version: %s. Please update firmware.",
+                PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
+                installed_apt_firmware_version_.getString().c_str());
+    } else if (mcu_firmware_version_ < latest_apt_firmware_version_) {
+      stat.summaryf(DiagnosticStatus::WARN,
+                    "New firmware available: (%s) -> (%s). Restart service to re-evaluate.",
+                    mcu_firmware_version_.getString().c_str(),
+                    latest_apt_firmware_version_.getString().c_str());
+    } else if (mcu_firmware_version_ > latest_apt_firmware_version_) {
+      stat.summaryf(DiagnosticStatus::OK,
+                    "Firmware is newer than apt package: (%s) > (%s)",
+                    mcu_firmware_version_.getString().c_str(),
+                    latest_apt_firmware_version_.getString().c_str());
+    } else {
+      stat.summaryf(DiagnosticStatus::OK,
+                    "Firmware is up to date (%s)",
+                    mcu_firmware_version_.getString().c_str());
+    }
   } else {
-    stat.summaryf(DiagnosticStatus::WARN,
-                  "ros-%s-clearpath-firmware package is outdated. Restart service to re-evaluate.",
-                  ros_distro_.c_str());
+    if (mcu_firmware_version_.getString() == UNKNOWN) {
+      if (installed_apt_firmware_version_ >= PROTON_MINIMUM_FIRMWARE_VERSION) {
+        stat.summaryf(DiagnosticStatus::ERROR,
+                  "Firmware version %s or higher requires the Proton protocol. "
+                  "Current installed version: %s. Please switch MCU protocol to Proton.",
+                  PROTON_MINIMUM_FIRMWARE_VERSION.getString().c_str(),
+                  installed_apt_firmware_version_.getString().c_str());
+      } else {
+        stat.summaryf(DiagnosticStatus::ERROR,
+                      "MCU firmware version unknown.");
+      }
+    } else if (mcu_firmware_version_ < latest_apt_firmware_version_) {
+      stat.summaryf(DiagnosticStatus::WARN,
+                    "New firmware available: (%s) -> (%s). Restart service to re-evaluate.",
+                    mcu_firmware_version_.getString().c_str(),
+                    latest_apt_firmware_version_.getString().c_str());
+    } else if (mcu_firmware_version_ > latest_apt_firmware_version_) {
+      stat.summaryf(DiagnosticStatus::OK,
+                    "Firmware is newer than apt package: (%s) > (%s)",
+                    mcu_firmware_version_.getString().c_str(),
+                    latest_apt_firmware_version_.getString().c_str());
+    } else {
+      stat.summaryf(DiagnosticStatus::OK,
+                    "Firmware is up to date (%s)",
+                    mcu_firmware_version_.getString().c_str());
+    }
   }
-  stat.add("Latest Firmware Version Package", latest_apt_firmware_version_);
-  stat.add("Firmware Version Installed on Computer", installed_apt_firmware_version_);
-  stat.add("Firmware Version on MCU", mcu_firmware_version_);
+
+  stat.add("Latest Firmware Version Package", latest_apt_firmware_version_.getString());
+  stat.add("Firmware Version Installed on Computer", installed_apt_firmware_version_.getString());
+  stat.add("Firmware Version on MCU", mcu_firmware_version_.getString());
+  stat.add("MCU Protocol", mcu_protocol_);
+  if (mcu_protocol_ == DiagnosticLabels::PROTON) {
+    stat.add("Minimum Firmware Version for Proton", PROTON_MINIMUM_FIRMWARE_VERSION.getString());
+  }
 }
 
 /**
@@ -310,7 +349,7 @@ void ClearpathDiagnosticUpdater::firmware_alerts_diagnostic(DiagnosticStatusWrap
 void ClearpathDiagnosticUpdater::mcu_status_callback(
   const clearpath_platform_msgs::msg::Status & msg)
 {
-  mcu_firmware_version_ = msg.firmware_version;
+  mcu_firmware_version_ = Version(msg.firmware_version);
   mcu_status_msg_ = msg;
   mcu_status_freq_status_->tick();
 }
@@ -333,7 +372,7 @@ void ClearpathDiagnosticUpdater::mcu_status_diagnostic(DiagnosticStatusWrapper &
 
   if (stat.level != diagnostic_updater::DiagnosticStatusWrapper::ERROR) {
     // if status messages are being received then add the message details
-    stat.add("Firmware Version", mcu_firmware_version_);
+    stat.add("Firmware Version", mcu_firmware_version_.getString());
     stat.add("Platform Model", mcu_status_msg_.hardware_id);
     stat.add("MCU Uptime (sec)", mcu_status_msg_.mcu_uptime.sec);
     stat.add("Connection Uptime (sec)", mcu_status_msg_.connection_uptime.sec);
@@ -715,7 +754,60 @@ template<class MsgType> void ClearpathDiagnosticUpdater::add_rate_diagnostic(
     });
   subscriptions_.push_back(std::static_pointer_cast<void>(sub));
 }
+
+Version::Version(const std::string & version_str)
+: version_str_(version_str)
+{
+  std::istringstream iss(version_str);
+  std::string token;
+  std::vector<int> parts;
+
+  while (std::getline(iss, token, '.')) {
+    try {
+      parts.push_back(std::stoi(token));
+    } catch (const std::exception &) {
+      parts.push_back(0);
+    }
+  }
+
+  major = parts.size() > 0 ? parts[0] : 0;
+  minor = parts.size() > 1 ? parts[1] : 0;
+  patch = parts.size() > 2 ? parts[2] : 0;
 }
+
+bool Version::operator==(const Version & other) const
+{
+  return major == other.major && minor == other.minor && patch == other.patch;
+}
+
+bool Version::operator>(const Version & other) const
+{
+  if (major != other.major) {
+    return major > other.major;
+  }
+  if (minor != other.minor) {
+    return minor > other.minor;
+  }
+  return patch > other.patch;
+}
+
+bool Version::operator<(const Version & other) const
+{
+  return !(*this > other) && !(*this == other);
+}
+
+bool Version::operator>=(const Version & other) const
+{
+  return (*this > other) || (*this == other);
+}
+
+bool Version::operator<=(const Version & other) const
+{
+  return (*this < other) || (*this == other);
+}
+
+
+}  // namespace clearpath
 
 int main(int argc, char * argv[])
 {
