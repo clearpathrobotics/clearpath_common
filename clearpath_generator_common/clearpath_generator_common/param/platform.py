@@ -39,6 +39,7 @@ from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_it
 from clearpath_config.manipulators.types.arms import Franka
 from clearpath_config.manipulators.types.grippers import FrankaGripper
 from clearpath_config.platform.battery import BatteryConfig
+from clearpath_config.platform.mcu import MCUConfig
 from clearpath_config.platform.wireless import PeplinkRouter
 from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
 from clearpath_config.sensors.types.gps import BaseGPS, NMEA
@@ -295,6 +296,7 @@ class PlatformParam():
             super().generate_parameters(use_sim_time)
 
             platform_model = self.clearpath_config.get_platform_model()
+            mcu_protocol = self.clearpath_config.platform.mcu.protocol
 
             # Add MCU diagnostic category for all platforms except A200
             if platform_model != Platform.A200:
@@ -315,6 +317,24 @@ class PlatformParam():
                         }
                     }
                 })
+
+                if mcu_protocol == MCUConfig.PROTON:
+                    self.param_file.update({
+                        self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                            'platform': {
+                                'analyzers': {
+                                    'proton': {
+                                        'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                        'path': 'MCU/Proton',
+                                        'expected': [
+                                            'proton_ros2: Proton Statistics',
+                                        ],
+                                        'contains': ['proton_ros2']
+                                    }
+                                }
+                            }
+                        }
+                    })
 
             # Add Lighting for every platform except A200 and J100
             if platform_model not in (Platform.A200, Platform.J100):
@@ -542,7 +562,8 @@ class PlatformParam():
                     'latest_apt_firmware_version': latest_apt_firmware_version,
                     'installed_apt_firmware_version': installed_apt_firmware_version,
                     'bms_state_rate': bms_state_rate,
-                    'bms_state_tolerance': bms_state_tolerance
+                    'bms_state_tolerance': bms_state_tolerance,
+                    'mcu_protocol': self.clearpath_config.platform.mcu.protocol
                 }
             })
 

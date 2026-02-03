@@ -50,6 +50,27 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 namespace clearpath
 {
 
+class Version {
+public:
+  Version()
+  : major(0), minor(0), patch(0), version_str_("0.0.0") {}
+  Version(const std::string & version_str);
+  bool operator>(const Version & other) const;
+  bool operator>=(const Version & other) const;
+  bool operator<(const Version & other) const;
+  bool operator<=(const Version & other) const;
+  bool operator==(const Version & other) const;
+
+  std::string getString() const {return version_str_;}
+
+  int major;
+  int minor;
+  int patch;
+
+private:
+  std::string version_str_;
+};
+
 class ClearpathDiagnosticUpdater : public rclcpp::Node
 {
 public:
@@ -91,8 +112,9 @@ private:
   std::string platform_model_;
   std::string namespace_;
   std::string ros_distro_;  // Specifically the ros distro used for the firmware apt package check
-  std::string latest_apt_firmware_version_;
-  std::string installed_apt_firmware_version_;
+  Version latest_apt_firmware_version_;
+  Version installed_apt_firmware_version_;
+  std::string mcu_protocol_;
   std::map<std::string, std::map<std::string, rclcpp::Parameter>> topic_map_;
 
   // Topic names and rates
@@ -114,7 +136,7 @@ private:
   double estop_tolerance_;
 
   // Message Data
-  std::string mcu_firmware_version_;
+  Version mcu_firmware_version_;
   clearpath_platform_msgs::msg::Status mcu_status_msg_;
   std_msgs::msg::String mcu_alerts_msg_;
   clearpath_platform_msgs::msg::Power mcu_power_msg_;
