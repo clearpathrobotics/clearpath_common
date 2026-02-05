@@ -123,17 +123,17 @@ jobs:
           mkdir src
           vcs import --force --recursive src/ --input file:///__w/clearpath_common/clearpath_common/dependencies.repos
           rm -r src
-      - name: Import updated_dependencies.yaml
-        continue-on-error: true
-        run: |
-          mkdir src
-          vcs import --force --recursive src/ --input file:///__w/clearpath_common/clearpath_common/updated_dependencies.repos
-          rm -r src
       - name: Import updated_dependencies.yaml from dependencies.yaml
         run: |
           mkdir src
           cat file:///__w/clearpath_common/clearpath_common/updated_dependencies.repos > file:///__w/clearpath_common/clearpath_common/dependencies.repos
           vcs import --force --recursive src/ --input file:///__w/clearpath_common/clearpath_common/dependencies.repos
+          rm -r src
+      - name: Import updated_dependencies.yaml
+        continue-on-error: true
+        run: |
+          mkdir src
+          vcs import --force --recursive src/ --input file:///__w/clearpath_common/clearpath_common/updated_dependencies.repos
           rm -r src
       # - uses: ros-tooling/setup-ros@v0.7
       #   with:
