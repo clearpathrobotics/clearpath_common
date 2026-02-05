@@ -105,7 +105,7 @@ jobs:
       - name: Updated dependencies
         run: |
           cat updated_dependencies.repos
-      - name: Print out dependencies.repos
+      - name: Install vcs
         run: |
           ls -l
           apt-get update && apt-get install curl -y
@@ -114,11 +114,16 @@ jobs:
           dpkg -i /tmp/ros2-apt-source.deb
           apt-get update
           apt-get install -y python3-vcstool python3-vcstools
+      - name: Import dependencies.yaml
+        run: |
           mkdir src
-          /usr/bin/bash -c vcs import --force --recursive src/ --input file:///__w/clearpath_common/clearpath_common/dependencies.repos
+          vcs import --force --recursive src/ --input file:///__w/clearpath_common/clearpath_common/dependencies.repos
           rm -r src
+      - name: Import updated_dependencies.yaml
+        run: |
           mkdir src
-          /usr/bin/bash -c vcs import --force --recursive src/ --input file:///__w/clearpath_common/clearpath_common/updated_dependencies.repos
+          vcs import --force --recursive src/ --input file:///__w/clearpath_common/clearpath_common/updated_dependencies.repos
+          rm -r src
       # - uses: ros-tooling/setup-ros@v0.7
       #   with:
       #     required-ros-distributions: jazzy
