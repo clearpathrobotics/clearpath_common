@@ -22,7 +22,9 @@ jobs:
         env: ${{matrix.env}}
   clearpath_common_cpr_ci:
     name: Jazzy Clearpath Release
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:noble
     steps:
       - uses: actions/checkout@v3
       - uses: ros-tooling/setup-ros@v0.7
@@ -50,7 +52,9 @@ jobs:
             clearpath_sensors_description
   clearpath_common_src_ci:
     name: Jazzy Clearpath Source
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:noble
     steps:
       - uses: actions/checkout@v3
       - uses: ros-tooling/setup-ros@v0.7
@@ -73,14 +77,21 @@ jobs:
           vcs-repo-file-url: dependencies.repos
   clearpath_common_src_head_ci:
     name: Jazzy Clearpath Source with Head Branch
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:noble
     steps:
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
         with:
           repository: clearpathrobotics/repos-dep-update-action
-          ref: 0.0.1
+          ref: 0.0.3
           path: repos-dep-update-action
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y jq git python3 python3-pip
+          python3 -m pip install yq --break-system-packages
       - name: Extract branch name
         shell: bash
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
@@ -115,14 +126,21 @@ jobs:
   clearpath_common_src_base_ci:
     if: github.event_name == 'pull_request'
     name: Jazzy Clearpath Source with Base Branch
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:noble
     steps:
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
         with:
           repository: clearpathrobotics/repos-dep-update-action
-          ref: 0.0.1
+          ref: 0.0.3
           path: repos-dep-update-action
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y jq git python3 python3-pip
+          python3 -m pip install yq --break-system-packages
       - name: Use repos update action
         uses: ./repos-dep-update-action/
         with:
