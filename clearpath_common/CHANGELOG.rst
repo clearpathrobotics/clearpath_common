@@ -2,6 +2,9 @@
 Changelog for package clearpath_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.0 (2026-02-11)
 ------------------
 * RMW dependencies (`#302 <https://github.com/clearpathrobotics/clearpath_common/issues/302>`_)

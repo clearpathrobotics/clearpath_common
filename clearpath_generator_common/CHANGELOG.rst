@@ -2,6 +2,11 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Bumped required clearpath_config dep.
+* Contributors: Tony Baltovski
+
 2.9.0 (2026-02-11)
 ------------------
 * Proton Diagnostics (`#301 <https://github.com/clearpathrobotics/clearpath_common/issues/301>`_)

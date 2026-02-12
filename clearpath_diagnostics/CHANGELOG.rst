@@ -8,6 +8,9 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+Forthcoming
+-----------
+
 2.9.0 (2026-02-11)
 ------------------
 * Proton Diagnostics (`#301 <https://github.com/clearpathrobotics/clearpath_common/issues/301>`_)

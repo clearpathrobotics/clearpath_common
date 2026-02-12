@@ -2,6 +2,9 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.0 (2026-02-11)
 ------------------
 * Updated j100 acceleration parameters (`#296 <https://github.com/clearpathrobotics/clearpath_common/issues/296>`_)
