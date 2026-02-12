@@ -48,14 +48,18 @@ platform_velocity_controller:
     # Whenever a min_* is unspecified, default to -max_*
     linear.x.max_velocity: 2.0
     linear.x.min_velocity: -2.0
-    linear.x.max_acceleration: 20.0
-    linear.x.max_deceleration: -20.0
+    linear.x.max_acceleration: 2.0
+    linear.x.max_deceleration: -4.0
+    linear.x.max_acceleration_reverse: -2.0
+    linear.x.max_deceleration_reverse: 4.0
     linear.x.max_jerk: .NAN
     linear.x.min_jerk: .NAN
 
     angular.z.max_velocity: 4.0
     angular.z.min_velocity: -4.0
-    angular.z.max_acceleration: 25.0
-    angular.z.max_deceleration: -25.0
+    angular.z.max_acceleration: 4.0
+    angular.z.max_deceleration: -4.0
+    angular.z.max_acceleration_reverse: -4.0
+    angular.z.max_deceleration_reverse: 4.0
     angular.z.max_jerk: .NAN
     angular.z.min_jerk: .NAN

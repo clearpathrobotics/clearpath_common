@@ -82,27 +82,28 @@ jobs:
       image: ubuntu:noble
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/checkout@v3
+      - name: "[Repositories Updater] Checkout action"
+        uses: actions/checkout@v3
         with:
           repository: clearpathrobotics/repos-dep-update-action
-          ref: 0.0.3
+          ref: 0.0.4
           path: repos-dep-update-action
-      - name: Install dependencies
+      - name: "[Repositories Updater] Install dependencies"
         run: |
           apt-get update
           apt-get install -y jq git python3 python3-pip
           python3 -m pip install yq --break-system-packages
-      - name: Extract branch name
+      - name: "[Repositories Updater] Extract branch name"
         shell: bash
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
-      - name: Use repos update action
+      - name: "[Repositories Updater] Run action"
         uses: ./repos-dep-update-action/
         with:
           branch: ${{ steps.extract_branch.outputs.branch }}
           input: dependencies.repos
           output: updated_dependencies.repos
-      - name: Updated dependencies
+      - name: "[Repositories Updater] Print updated dependencies"
         run: |
           cat updated_dependencies.repos
       - uses: ros-tooling/setup-ros@v0.7
@@ -131,23 +132,24 @@ jobs:
       image: ubuntu:noble
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/checkout@v3
+      - name: "[Repositories Updater] Checkout action"
+        uses: actions/checkout@v3
         with:
           repository: clearpathrobotics/repos-dep-update-action
-          ref: 0.0.3
+          ref: 0.0.4
           path: repos-dep-update-action
-      - name: Install dependencies
+      - name: "[Repositories Updater] Install dependencies"
         run: |
           apt-get update
           apt-get install -y jq git python3 python3-pip
           python3 -m pip install yq --break-system-packages
-      - name: Use repos update action
+      - name: "[Repositories Updater] Run action"
         uses: ./repos-dep-update-action/
         with:
           branch: ${{ github.event.pull_request.base.ref }}
           input: dependencies.repos
           output: updated_dependencies.repos
-      - name: Updated dependencies
+      - name: "[Repositories Updater] Print updated dependencies"
         run: |
           cat updated_dependencies.repos
       - uses: ros-tooling/setup-ros@v0.7
