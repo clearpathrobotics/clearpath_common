@@ -2,8 +2,8 @@
 Changelog for package clearpath_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.0 (2026-02-11)
+------------------
 * RMW dependencies (`#302 <https://github.com/clearpathrobotics/clearpath_common/issues/302>`_)
 * Fix: Update cmake version to 3.20 and fixed CI (`#295 <https://github.com/clearpathrobotics/clearpath_common/issues/295>`_)
   * Update cmake version to 3.20

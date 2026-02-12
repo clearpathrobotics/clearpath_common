@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.0 (2026-02-11)
+------------------
 * Proton Diagnostics (`#301 <https://github.com/clearpathrobotics/clearpath_common/issues/301>`_)
   * Updated j100 acceleration parameters
   * Proton firmware version checks
