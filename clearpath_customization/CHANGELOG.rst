@@ -2,6 +2,17 @@
 Changelog for package clearpath_customization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Update cmake version to 3.20 and fixed CI (`#295 <https://github.com/clearpathrobotics/clearpath_common/issues/295>`_)
+  * Update cmake version to 3.20
+  * Switch to ubuntu:noble container
+  * Use updated repos update action
+  * Install python and pip
+  * Add apt update
+  * Update repos update action version
+* Contributors: luis-camero
+
 2.8.5 (2026-01-30)
 ------------------
 
