@@ -61,7 +61,8 @@ def main():
         argv = [
             '--urdf', os.path.join(setup_path, 'robot.urdf.xacro'),
             '--srdf', os.path.join(setup_path, 'robot.srdf.xacro'),
-            '--output', os.path.join(setup_path, 'robot.srdf')
+            '--output', os.path.join(setup_path, 'robot.srdf'),
+            '--trials', '100000',
         ]
         run_executable(path=path, argv=argv)
         # Delete pseudo package
