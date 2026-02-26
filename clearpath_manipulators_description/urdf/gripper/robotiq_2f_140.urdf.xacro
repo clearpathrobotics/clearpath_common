@@ -39,7 +39,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_140_base_link.stl" />
+          <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_140_base_link.stl" />
         </geometry>
         <material name="">
           <color rgba="0.1 0.1 0.1 1" />
@@ -48,7 +48,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_140_base_link_collision.stl" />
+          <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_140_base_link_collision.stl" />
         </geometry>
       </collision>
     </link>
@@ -75,7 +75,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_${stroke}_outer_knuckle.stl" />
+            <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_${stroke}_outer_knuckle.stl" />
           </geometry>
           <material name="">
             <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
@@ -84,7 +84,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_${stroke}_outer_knuckle_collision.stl" />
+            <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_${stroke}_outer_knuckle_collision.stl" />
           </geometry>
         </collision>
       </link>
@@ -106,7 +106,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_${stroke}_outer_finger.stl" />
+            <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_${stroke}_outer_finger.stl" />
           </geometry>
           <material name="">
             <color rgba="0.1 0.1 0.1 1" />
@@ -115,7 +115,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_${stroke}_outer_finger_collision.stl" />
+            <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_${stroke}_outer_finger_collision.stl" />
           </geometry>
         </collision>
       </link>
@@ -137,7 +137,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_${stroke}_inner_knuckle.stl" />
+            <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_${stroke}_inner_knuckle.stl" />
           </geometry>
           <material name="">
             <color rgba="0.1 0.1 0.1 1" />
@@ -146,7 +146,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_${stroke}_inner_knuckle_collision.stl" />
+            <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_${stroke}_inner_knuckle_collision.stl" />
           </geometry>
         </collision>
       </link>
@@ -168,7 +168,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_${stroke}_inner_finger.stl" />
+            <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_${stroke}_inner_finger.stl" />
           </geometry>
           <material name="">
             <color rgba="0.1 0.1 0.1 1" />
@@ -177,7 +177,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="file://$(find clearpath_manipulators_description)/meshes/gripper/robotiq_2f_${stroke}_inner_finger_collision.stl" />
+            <mesh filename="package://clearpath_manipulators_description/meshes/gripper/robotiq_2f_${stroke}_inner_finger_collision.stl" />
           </geometry>
         </collision>
       </link>
