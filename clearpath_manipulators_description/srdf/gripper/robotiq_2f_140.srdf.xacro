@@ -13,7 +13,7 @@
       <xacro:property name="upper_finger_joint_limit" value="0.7"/>
     </xacro:if>
     <xacro:unless value="${padding}">
-      <xacro:property name="upper_finger_joint_limit" value="1.0"/>
+      <xacro:property name="upper_finger_joint_limit" value="0.767"/>
     </xacro:unless>
 
     <group name="${name}">

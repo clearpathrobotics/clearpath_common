@@ -26,7 +26,7 @@
       <xacro:property name="upper_finger_joint_limit" value="0.7"/>
     </xacro:if>
     <xacro:unless value="${padding}">
-      <xacro:property name="upper_finger_joint_limit" value="1.0"/>
+      <xacro:property name="upper_finger_joint_limit" value="0.767"/>
     </xacro:unless>
 
     <!-- this is a temporary link to rotate the 2f-140 gripper to match the 2f-85 -->
@@ -231,7 +231,7 @@
         <parent link="${prefix}robotiq_140_base_link" />
         <child link="${prefix}right_outer_knuckle" />
         <axis xyz="1 0 0" />
-        <limit lower="-0.725" upper="0.725" velocity="2.0" effort="1000" />
+        <limit lower="-0.775" upper="0.775" velocity="2.0" effort="1000" />
         <mimic joint="${prefix}finger_joint" multiplier="-1" offset="0" />
       </joint>
       <xacro:finger_joints prefix="${prefix}" fingerprefix="right" reflect="-1.0"/>
