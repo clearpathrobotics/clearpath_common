@@ -2,6 +2,15 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Robotiq 2F 140 Limits and Padding (`#311 <https://github.com/clearpathrobotics/clearpath_common/issues/311>`_)
+  * Use package instead of file to define mesh path
+  * Add padding parameter to define finger joint limits
+  * Tune down to 0.767
+* Increase collision trials to 100,000 (`#308 <https://github.com/clearpathrobotics/clearpath_common/issues/308>`_)
+* Contributors: luis-camero
+
 2.9.1 (2026-02-11)
 ------------------
 * Bumped required clearpath_config dep.
