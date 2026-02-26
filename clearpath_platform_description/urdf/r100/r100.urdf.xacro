@@ -4,6 +4,7 @@
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/r100/control/omni_4wd.yaml"/>
+  <xacro:arg name="use_platform_controllers" default="true"/>
 
   <!-- R100 Platform Macro -->
   <xacro:macro name="r100" params="control:='omni_4wd' front_wheels:='mecanum' rear_wheels:='mecanum'">
@@ -234,13 +235,15 @@
       <xacro:error message="Invalid drivetrain control ${control}"/>
     </xacro:unless>
 
-    <xacro:generic_drivetrain
-      name="r100"
-      control="${control}"
-      front_wheels="${front_wheels}"
-      rear_wheels="${rear_wheels}"
-      hardware_plugin="${hardware_plugin}"
-    />
+    <xacro:if value="$(arg use_platform_controllers)">
+      <xacro:generic_drivetrain
+        name="r100"
+        control="${control}"
+        front_wheels="${front_wheels}"
+        rear_wheels="${rear_wheels}"
+        hardware_plugin="${hardware_plugin}"
+      />
+    </xacro:if>
 
     <!-- Internal IMU -->
     <link name="imu_0_link">
