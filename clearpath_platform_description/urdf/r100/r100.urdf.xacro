@@ -3,12 +3,17 @@
 
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
+<<<<<<< HEAD
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/r100/control.yaml"/>
   <xacro:arg name="use_platform_controllers" default="true"/>
 
   <!-- Includes -->
   <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/wheels/wheel.urdf.xacro"/>
   <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/rocker.urdf.xacro"/>
+=======
+  <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/r100/control/omni_4wd.yaml"/>
+  <xacro:arg name="use_platform_controllers" default="true"/>
+>>>>>>> 932f706 (Added use_platform_controllers for R100. (#313))
 
   <!-- R100 Platform Macro -->
   <xacro:macro name="r100" params="wheel:='defaut'">
@@ -233,6 +238,7 @@
       <limit effort="0" velocity="0" />
     </xacro:r100_rocker>
 
+<<<<<<< HEAD
     <gazebo>
       <plugin filename="libignition-gazebo-wheel-slip-system.so" name="ignition::gazebo::systems::WheelSlip">
         <wheel link_name="front_left_wheel_link">
@@ -261,6 +267,29 @@
         </wheel>
       </plugin>
     </gazebo>
+=======
+    <!-- Hardware  -->
+    <xacro:if value="$(arg is_sim)">
+      <xacro:property name="hardware_plugin" value="gz_ros2_control/GazeboSimSystem"/>
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+      <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/PumaHardware"/>
+    </xacro:unless>
+
+    <xacro:unless value="${control == 'omni_4wd' or control == 'diff_4wd'}">
+      <xacro:error message="Invalid drivetrain control ${control}"/>
+    </xacro:unless>
+
+    <xacro:if value="$(arg use_platform_controllers)">
+      <xacro:generic_drivetrain
+        name="r100"
+        control="${control}"
+        front_wheels="${front_wheels}"
+        rear_wheels="${rear_wheels}"
+        hardware_plugin="${hardware_plugin}"
+      />
+    </xacro:if>
+>>>>>>> 932f706 (Added use_platform_controllers for R100. (#313))
 
     <!-- Internal IMU -->
     <link name="imu_0_link">
