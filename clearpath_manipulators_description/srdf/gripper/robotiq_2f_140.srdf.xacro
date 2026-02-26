@@ -7,7 +7,15 @@
     </group_state>
   </xacro:macro>
 
-  <xacro:macro name="robotiq_2f_140" params="name">
+  <xacro:macro name="robotiq_2f_140" params="name padding:=true">
+
+    <xacro:if value="${padding}">
+      <xacro:property name="upper_finger_joint_limit" value="0.7"/>
+    </xacro:if>
+    <xacro:unless value="${padding}">
+      <xacro:property name="upper_finger_joint_limit" value="0.767"/>
+    </xacro:unless>
+
     <group name="${name}">
         <joint name="${name}_finger_joint"/>
         <joint name="${name}_left_inner_knuckle_joint"/>
@@ -26,12 +34,15 @@
     <xacro:robotiq_2f_140_group_state
       name="${name}"
       group_state="close"
-      joint_positions="${[0.7]}"
+      joint_positions="${[upper_finger_joint_limit]}"
     />
 
     <disable_collisions link1="${name}_left_inner_knuckle" link2="${name}_left_inner_finger" reason="User"/>
     <disable_collisions link1="${name}_right_inner_knuckle" link2="${name}_right_inner_finger" reason="User"/>
     <disable_collisions link1="${name}_left_outer_knuckle" link2="${name}_left_inner_knuckle" reason="User"/>
     <disable_collisions link1="${name}_right_outer_knuckle" link2="${name}_right_inner_knuckle" reason="User"/>
+    <xacro:if value="${padding}">
+      <disable_collisions link1="${name}_right_inner_finger_pad" link2="${name}_left_inner_finger_pad" reason="User"/>
+    </xacro:if>
   </xacro:macro>
 </robot>
