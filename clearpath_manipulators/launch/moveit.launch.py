@@ -66,6 +66,9 @@ def launch_setup(context, *args, **kwargs):
             os.path.join(setup_path_context, 'robot.srdf')
         ).toxml()
     }
+    move_group_capabilities = {
+        "capabilities": "move_group/ExecuteTaskSolutionCapability"
+    }
 
     return [
         Node(
@@ -77,6 +80,7 @@ def launch_setup(context, *args, **kwargs):
                 os.path.join(setup_path_context, 'manipulators', 'config', 'moveit.yaml'),
                 robot_description,
                 robot_description_semantic,
+                move_group_capabilities,
                 {'use_sim_time': use_sim_time},
             ],
             remappings=[
