@@ -376,6 +376,8 @@ class ManipulatorParam():
             for arm in self.clearpath_config.manipulators.get_all_arms():
                 if not arm.gripper:
                     continue
+                if arm.gripper.get_manipulator_type()=='kinova_2f_lite':
+                    continue
                 gripper = arm.gripper
                 kinematics_file = MoveItParamFile(
                     name=gripper.get_manipulator_type(),
@@ -391,7 +393,7 @@ class ManipulatorParam():
                     gripper,
                     kinematics_file.parameters
                 )
-                parameter_file += kinematics_file
+                # parameter_file += kinematics_file
             # Lifts
             for lift in self.clearpath_config.manipulators.get_all_lifts():
                 kinematics_file = MoveItParamFile(
