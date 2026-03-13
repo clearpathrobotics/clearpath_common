@@ -2,6 +2,11 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Updated W200 acceleration parameters (`#315 <https://github.com/clearpathrobotics/clearpath_common/issues/315>`_)
+* Contributors: Roni Kreinin
+
 2.9.3 (2026-02-26)
 ------------------
 
