@@ -10,7 +10,7 @@ This repository provides the core platform bringup, control, diagnostics, robot 
 - `clearpath_bt_joy`: Bluetooth joystick cutoff node. (Unused at the moment)
 - `clearpath_control`: Platform controllers, localization, and teleoperation launch files.
 - `clearpath_customization`: Templates and generators for project bringup/description customization.
-- `clearpath_description`: Common description package.
+- `clearpath_description`: Clearpath URDF descriptions metapackage.
 - `clearpath_diagnostics`: Diagnostic updater and aggregator launch/config.
 - `clearpath_generator_common`: Common Python generator utilities and templates.
 - `clearpath_manipulators`: Manipulator integration package.
@@ -34,35 +34,6 @@ rosdep install --from-paths src --ignore-src -r -y
 colcon build --symlink-install
 source install/setup.bash
 ```
-
-## Run
-
-### Full platform stack
-
-[!NOTE]
-This repo is intend to be used by `clearpath_robot` or `clearpath_simulator`.
-
-```bash
-ros2 launch clearpath_common platform.launch.py
-```
-
-Useful launch arguments:
-
-- `setup_path` (default: `/etc/clearpath/`)
-- `namespace` (default: empty)
-- `use_sim_time` (`true`/`false`, default: `false`)
-- `enable_ekf` (`true`/`false`, default: `true`)
-
-Example:
-
-```bash
-ros2 launch clearpath_common platform.launch.py namespace:=robot1 use_sim_time:=true
-```
-
-## Notes
-
-- The platform launch composes description, control, localization, and teleoperation launch files.
-- Many launch files expect a `robot.yaml` YAML under `setup_path`,
 
 ## License
 
