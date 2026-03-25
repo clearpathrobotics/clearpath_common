@@ -2,6 +2,9 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.4 (2026-03-13)
 ------------------
 * Updated W200 acceleration parameters (`#315 <https://github.com/clearpathrobotics/clearpath_common/issues/315>`_)
