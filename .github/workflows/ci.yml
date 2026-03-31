@@ -24,12 +24,18 @@ jobs:
     name: Humble Clearpath Release
     runs-on: ubuntu-latest
     container:
+<<<<<<< HEAD
       image: ubuntu:jammy
     steps:
       - uses: actions/checkout@v3
       - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: humble
+=======
+      image: rostooling/setup-ros-docker:ubuntu-noble-latest
+    steps:
+      - uses: actions/checkout@v3
+>>>>>>> 42bf1a8 (Changed to rostooling/setup-ros-docker:ubuntu-noble-latest for CI image. (#320))
       - name: clearpath-package-server
         run: |
           sudo apt install wget
@@ -53,12 +59,18 @@ jobs:
     name: Humble Clearpath Source
     runs-on: ubuntu-latest
     container:
+<<<<<<< HEAD
       image: ubuntu:jammy
     steps:
       - uses: actions/checkout@v3
       - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: humble
+=======
+      image: rostooling/setup-ros-docker:ubuntu-noble-latest
+    steps:
+      - uses: actions/checkout@v3
+>>>>>>> 42bf1a8 (Changed to rostooling/setup-ros-docker:ubuntu-noble-latest for CI image. (#320))
       - uses: ros-tooling/action-ros-ci@v0.3
         id: action_ros_ci_step
         with:
@@ -77,7 +89,11 @@ jobs:
     name: Humble Clearpath Source with Head Branch
     runs-on: ubuntu-latest
     container:
+<<<<<<< HEAD
       image: ubuntu:jammy
+=======
+      image: rostooling/setup-ros-docker:ubuntu-noble-latest
+>>>>>>> 42bf1a8 (Changed to rostooling/setup-ros-docker:ubuntu-noble-latest for CI image. (#320))
     steps:
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
@@ -103,9 +119,12 @@ jobs:
       - name: Updated dependencies
         run: |
           cat updated_dependencies.repos
+<<<<<<< HEAD
       - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: humble
+=======
+>>>>>>> 42bf1a8 (Changed to rostooling/setup-ros-docker:ubuntu-noble-latest for CI image. (#320))
       - uses: ros-tooling/action-ros-ci@v0.3
         id: action_ros_ci_step
         with:
@@ -125,7 +144,11 @@ jobs:
     name: Humble Clearpath Source with Base Branch
     runs-on: ubuntu-latest
     container:
+<<<<<<< HEAD
       image: ubuntu:jammy
+=======
+      image: rostooling/setup-ros-docker:ubuntu-noble-latest
+>>>>>>> 42bf1a8 (Changed to rostooling/setup-ros-docker:ubuntu-noble-latest for CI image. (#320))
     steps:
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
@@ -147,9 +170,12 @@ jobs:
       - name: Updated dependencies
         run: |
           cat updated_dependencies.repos
+<<<<<<< HEAD
       - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: humble
+=======
+>>>>>>> 42bf1a8 (Changed to rostooling/setup-ros-docker:ubuntu-noble-latest for CI image. (#320))
       - uses: ros-tooling/action-ros-ci@v0.3
         id: action_ros_ci_step
         with:
