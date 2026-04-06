@@ -206,5 +206,5 @@ jobs:
             clearpath_mounts_description
             clearpath_platform_description
             clearpath_sensors_description
-            clearpath_generator_tests
+            clearpath_generator_common_tests
           vcs-repo-file-url: updated_dependencies.repos
