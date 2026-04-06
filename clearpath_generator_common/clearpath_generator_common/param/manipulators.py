@@ -40,6 +40,14 @@ from clearpath_generator_common.common import MoveItParamFile, Package, ParamFil
 from clearpath_generator_common.param.writer import ParamWriter
 
 
+def sort_dict_recursive(d: dict) -> dict:
+    """Recursively sort dictionary keys alphabetically at all levels."""
+    return {
+        k: sort_dict_recursive(v) if isinstance(v, dict) else v
+        for k, v in sorted(d.items())
+    }
+
+
 class ManipulatorParam():
     MOVEIT = 'moveit'
     CONTROL = 'control'
@@ -292,6 +300,10 @@ class ManipulatorParam():
             if use_sim_time:
                 for node in self.param_file.parameters:
                     self.param_file.update({node: {'use_sim_time': True}})
+
+            # Sort parameters alphabetically at all levels
+            self.param_file.parameters = sort_dict_recursive(
+                self.param_file.parameters)
 
         def generate_parameter_file(self):
             param_writer = ParamWriter(self.param_file)
