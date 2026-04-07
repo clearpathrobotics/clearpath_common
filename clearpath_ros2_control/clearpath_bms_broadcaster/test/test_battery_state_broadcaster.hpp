@@ -51,7 +51,7 @@ constexpr auto NODE_FAILURE = controller_interface::CallbackReturn::FAILURE;
 }  // namespace
 
 // subclassing and friending so we can access member variables
-class FriendBatteryStateBroadcaster : public battery_state_broadcaster::BatteryStateBroadcaster
+class FriendBatteryStateBroadcaster : public clearpath_bms_broadcaster::BatteryStateBroadcaster
 {
   FRIEND_TEST(BatteryStateBroadcasterTest, init_success);
   FRIEND_TEST(BatteryStateBroadcasterTest, all_parameters_set_configure_success);
@@ -119,7 +119,7 @@ public:
 
 protected:
   // Controller-related parameters
-  std::vector<std::string> state_joint_names_ = {"left_wheel", "right_wheel"};
+  std::vector<std::string> state_joint_names_ = {"module1", "module2"};
   std::array<double, 16> itfs_values_ = {{
     5.0,     // 0 left_voltage
     60.0,    // 1 left_temperature
@@ -141,52 +141,52 @@ protected:
 
   hardware_interface::StateInterface::SharedPtr left_voltage_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "left_wheel", "battery_voltage", &itfs_values_[0]);
+      "module1", "battery_voltage", &itfs_values_[0]);
   hardware_interface::StateInterface::SharedPtr left_temperature_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "left_wheel", "battery_temperature", &itfs_values_[1]);
+      "module1", "battery_temperature", &itfs_values_[1]);
   hardware_interface::StateInterface::SharedPtr left_charge_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "left_wheel", "battery_charge", &itfs_values_[2]);
+      "module1", "battery_charge", &itfs_values_[2]);
   hardware_interface::StateInterface::SharedPtr left_status_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "left_wheel", "battery_power_supply_status", &itfs_values_[3]);
+      "module1", "battery_power_supply_status", &itfs_values_[3]);
   hardware_interface::StateInterface::SharedPtr left_health_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "left_wheel", "battery_power_supply_health", &itfs_values_[4]);
+      "module1", "battery_power_supply_health", &itfs_values_[4]);
   hardware_interface::StateInterface::SharedPtr right_voltage_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_voltage", &itfs_values_[5]);
+      "module2", "battery_voltage", &itfs_values_[5]);
   hardware_interface::StateInterface::SharedPtr right_temperature_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_temperature", &itfs_values_[6]);
+      "module2", "battery_temperature", &itfs_values_[6]);
   hardware_interface::StateInterface::SharedPtr right_current_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_current", &itfs_values_[7]);
+      "module2", "battery_current", &itfs_values_[7]);
   hardware_interface::StateInterface::SharedPtr right_charge_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_charge", &itfs_values_[8]);
+      "module2", "battery_charge", &itfs_values_[8]);
   hardware_interface::StateInterface::SharedPtr right_percentage_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_percentage", &itfs_values_[9]);
+      "module2", "battery_percentage", &itfs_values_[9]);
   hardware_interface::StateInterface::SharedPtr right_status_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_power_supply_status", &itfs_values_[10]);
+      "module2", "battery_power_supply_status", &itfs_values_[10]);
   hardware_interface::StateInterface::SharedPtr right_health_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_power_supply_health", &itfs_values_[11]);
+      "module2", "battery_power_supply_health", &itfs_values_[11]);
   hardware_interface::StateInterface::SharedPtr right_cell_voltage_0_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_cell_voltage_0", &itfs_values_[12]);
+      "module2", "battery_cell_voltage_0", &itfs_values_[12]);
   hardware_interface::StateInterface::SharedPtr right_cell_voltage_1_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_cell_voltage_1", &itfs_values_[13]);
+      "module2", "battery_cell_voltage_1", &itfs_values_[13]);
   hardware_interface::StateInterface::SharedPtr right_cell_temperature_0_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_cell_temperature_0", &itfs_values_[14]);
+      "module2", "battery_cell_temperature_0", &itfs_values_[14]);
   hardware_interface::StateInterface::SharedPtr right_cell_temperature_1_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
-      "right_wheel", "battery_cell_temperature_1", &itfs_values_[15]);
+      "module2", "battery_cell_temperature_1", &itfs_values_[15]);
 
   // Test related parameters
   std::unique_ptr<FriendBatteryStateBroadcaster> battery_state_broadcaster_;
