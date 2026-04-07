@@ -93,25 +93,25 @@ public:
 
     std::vector<hardware_interface::LoanedStateInterface> state_ifs;
 
-    state_ifs.emplace_back(left_voltage_itf_);
-    state_ifs.emplace_back(left_temperature_itf_);
-    state_ifs.emplace_back(left_charge_itf_);
-    state_ifs.emplace_back(left_status_itf_);
-    state_ifs.emplace_back(left_health_itf_);
+    state_ifs.emplace_back(module1_voltage_itf_);
+    state_ifs.emplace_back(module1_temperature_itf_);
+    state_ifs.emplace_back(module1_charge_itf_);
+    state_ifs.emplace_back(module1_status_itf_);
+    state_ifs.emplace_back(module1_health_itf_);
 
-    state_ifs.emplace_back(right_voltage_itf_);
-    state_ifs.emplace_back(right_temperature_itf_);
-    state_ifs.emplace_back(right_current_itf_);
-    state_ifs.emplace_back(right_charge_itf_);
-    state_ifs.emplace_back(right_percentage_itf_);
-    state_ifs.emplace_back(right_status_itf_);
-    state_ifs.emplace_back(right_health_itf_);
+    state_ifs.emplace_back(module2_voltage_itf_);
+    state_ifs.emplace_back(module2_temperature_itf_);
+    state_ifs.emplace_back(module2_current_itf_);
+    state_ifs.emplace_back(module2_charge_itf_);
+    state_ifs.emplace_back(module2_percentage_itf_);
+    state_ifs.emplace_back(module2_status_itf_);
+    state_ifs.emplace_back(module2_health_itf_);
     if (include_cell_interfaces)
     {
-      state_ifs.emplace_back(right_cell_voltage_0_itf_);
-      state_ifs.emplace_back(right_cell_voltage_1_itf_);
-      state_ifs.emplace_back(right_cell_temperature_0_itf_);
-      state_ifs.emplace_back(right_cell_temperature_1_itf_);
+      state_ifs.emplace_back(module2_cell_voltage_0_itf_);
+      state_ifs.emplace_back(module2_cell_voltage_1_itf_);
+      state_ifs.emplace_back(module2_cell_temperature_0_itf_);
+      state_ifs.emplace_back(module2_cell_temperature_1_itf_);
     }
 
     battery_state_broadcaster_->assign_interfaces({}, std::move(state_ifs));
@@ -121,70 +121,70 @@ protected:
   // Controller-related parameters
   std::vector<std::string> state_joint_names_ = {"module1", "module2"};
   std::array<double, 16> itfs_values_ = {{
-    5.0,     // 0 left_voltage
-    60.0,    // 1 left_temperature
-    6000.0,  // 2 left_charge
-    3.0,     // 3 left_status
-    0.0,     // 4 left_health
-    10.0,    // 5 right_voltage
-    80.0,    // 6 right_temperature
-    2000.0,  // 7 right_current
-    5000.0,  // 8 right_charge
-    66.0,    // 9 right_percentage
-    2.0,     // 10 right_status
-    4.0,     // 11 right_health
-    3.65,    // 12 right_cell_voltage_0
-    3.70,    // 13 right_cell_voltage_1
-    30.0,    // 14 right_cell_temperature_0
-    31.0     // 15 right_cell_temperature_1
+    5.0,     // 0 module1_voltage
+    60.0,    // 1 module1_temperature
+    6000.0,  // 2 module1_charge
+    3.0,     // 3 module1_status
+    0.0,     // 4 module1_health
+    10.0,    // 5 module2_voltage
+    80.0,    // 6 module2_temperature
+    2000.0,  // 7 module2_current
+    5000.0,  // 8 module2_charge
+    66.0,    // 9 module2_percentage
+    2.0,     // 10 module2_status
+    4.0,     // 11 module2_health
+    3.65,    // 12 module2_cell_voltage_0
+    3.70,    // 13 module2_cell_voltage_1
+    30.0,    // 14 module2_cell_temperature_0
+    31.0     // 15 module2_cell_temperature_1
   }};
 
-  hardware_interface::StateInterface::SharedPtr left_voltage_itf_ =
+  hardware_interface::StateInterface::SharedPtr module1_voltage_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module1", "battery_voltage", &itfs_values_[0]);
-  hardware_interface::StateInterface::SharedPtr left_temperature_itf_ =
+  hardware_interface::StateInterface::SharedPtr module1_temperature_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module1", "battery_temperature", &itfs_values_[1]);
-  hardware_interface::StateInterface::SharedPtr left_charge_itf_ =
+  hardware_interface::StateInterface::SharedPtr module1_charge_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module1", "battery_charge", &itfs_values_[2]);
-  hardware_interface::StateInterface::SharedPtr left_status_itf_ =
+  hardware_interface::StateInterface::SharedPtr module1_status_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module1", "battery_power_supply_status", &itfs_values_[3]);
-  hardware_interface::StateInterface::SharedPtr left_health_itf_ =
+  hardware_interface::StateInterface::SharedPtr module1_health_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module1", "battery_power_supply_health", &itfs_values_[4]);
-  hardware_interface::StateInterface::SharedPtr right_voltage_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_voltage_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_voltage", &itfs_values_[5]);
-  hardware_interface::StateInterface::SharedPtr right_temperature_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_temperature_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_temperature", &itfs_values_[6]);
-  hardware_interface::StateInterface::SharedPtr right_current_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_current_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_current", &itfs_values_[7]);
-  hardware_interface::StateInterface::SharedPtr right_charge_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_charge_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_charge", &itfs_values_[8]);
-  hardware_interface::StateInterface::SharedPtr right_percentage_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_percentage_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_percentage", &itfs_values_[9]);
-  hardware_interface::StateInterface::SharedPtr right_status_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_status_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_power_supply_status", &itfs_values_[10]);
-  hardware_interface::StateInterface::SharedPtr right_health_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_health_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_power_supply_health", &itfs_values_[11]);
-  hardware_interface::StateInterface::SharedPtr right_cell_voltage_0_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_cell_voltage_0_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_cell_voltage_0", &itfs_values_[12]);
-  hardware_interface::StateInterface::SharedPtr right_cell_voltage_1_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_cell_voltage_1_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_cell_voltage_1", &itfs_values_[13]);
-  hardware_interface::StateInterface::SharedPtr right_cell_temperature_0_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_cell_temperature_0_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_cell_temperature_0", &itfs_values_[14]);
-  hardware_interface::StateInterface::SharedPtr right_cell_temperature_1_itf_ =
+  hardware_interface::StateInterface::SharedPtr module2_cell_temperature_1_itf_ =
     std::make_shared<hardware_interface::StateInterface>(
       "module2", "battery_cell_temperature_1", &itfs_values_[15]);
 
