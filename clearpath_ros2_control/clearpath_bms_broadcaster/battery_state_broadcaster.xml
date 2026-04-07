@@ -1,0 +1,9 @@
+<library path="clearpath_bms_broadcaster">
+  <class name="clearpath_bms_broadcaster/BatteryStateBroadcaster"
+         type="clearpath_bms_broadcaster::BatteryStateBroadcaster" base_class_type="controller_interface::ControllerInterface">
+  <description>
+    This controller publishes the individual battery state of each joint as sensor_msgs/BatteryState messages.
+    It also publishes the aggregated battery state of all joints as a single control_msgs/BatteryStateArray message.
+  </description>
+  </class>
+</library>
