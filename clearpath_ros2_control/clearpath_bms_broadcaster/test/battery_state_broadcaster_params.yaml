@@ -30,8 +30,8 @@ test_battery_state_broadcaster:
       capacity: 12000.0
       design_capacity: 13000.0
       power_supply_technology: 3
-      location: "left_slot"
-      serial_number: "left_serial_device"
+      location: "module1_slot"
+      serial_number: "module1_serial_device"
       cell_count: 0
     module2:
       minimum_voltage: 0.0
@@ -39,6 +39,6 @@ test_battery_state_broadcaster:
       capacity: 17000.0
       design_capacity: 18000.0
       power_supply_technology: 3
-      location: "right_slot"
-      serial_number: "right_serial_device"
+      location: "module2_slot"
+      serial_number: "module2_serial_device"
       cell_count: 2

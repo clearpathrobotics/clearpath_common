@@ -65,8 +65,8 @@ TEST_F(BatteryStateBroadcasterTest, all_parameters_set_configure_success)
   EXPECT_EQ(properties.at("module1").capacity, 12000.0);
   EXPECT_EQ(properties.at("module1").design_capacity, 13000.0);
   EXPECT_EQ(properties.at("module1").power_supply_technology, 3);
-  EXPECT_EQ(properties.at("module1").location, "left_slot");
-  EXPECT_EQ(properties.at("module1").serial_number, "left_serial_device");
+  EXPECT_EQ(properties.at("module1").location, "module1_slot");
+  EXPECT_EQ(properties.at("module1").serial_number, "module1_serial_device");
   EXPECT_EQ(properties.at("module1").cell_count, 0);
 
   EXPECT_EQ(properties.at("module2").minimum_voltage, 0.0);
@@ -74,8 +74,8 @@ TEST_F(BatteryStateBroadcasterTest, all_parameters_set_configure_success)
   EXPECT_EQ(properties.at("module2").capacity, 17000.0);
   EXPECT_EQ(properties.at("module2").design_capacity, 18000.0);
   EXPECT_EQ(properties.at("module2").power_supply_technology, 3);
-  EXPECT_EQ(properties.at("module2").location, "right_slot");
-  EXPECT_EQ(properties.at("module2").serial_number, "right_serial_device");
+  EXPECT_EQ(properties.at("module2").location, "module2_slot");
+  EXPECT_EQ(properties.at("module2").serial_number, "module2_serial_device");
   EXPECT_EQ(properties.at("module2").cell_count, 2);
 
   // check property aggregation
@@ -190,54 +190,54 @@ TEST_F(BatteryStateBroadcasterTest, publish_status_success)
 
   ASSERT_EQ(raw_battery_states_msg.battery_states.size(), 2u);
 
-  // Left wheel
-  const auto & left = raw_battery_states_msg.battery_states[0];
-  EXPECT_EQ(left.header.frame_id, "module1");
-  EXPECT_DOUBLE_EQ(left.voltage, 5.0);
-  EXPECT_DOUBLE_EQ(left.temperature, 60.0);
-  EXPECT_TRUE(std::isnan(left.current));  // disabled in params
-  EXPECT_DOUBLE_EQ(left.charge, 6000.0);
-  EXPECT_DOUBLE_EQ(left.capacity, 12000.0);
-  EXPECT_DOUBLE_EQ(left.design_capacity, 13000.0);
+  // Module 1
+  const auto & module1 = raw_battery_states_msg.battery_states[0];
+  EXPECT_EQ(module1.header.frame_id, "module1");
+  EXPECT_DOUBLE_EQ(module1.voltage, 5.0);
+  EXPECT_DOUBLE_EQ(module1.temperature, 60.0);
+  EXPECT_TRUE(std::isnan(module1.current));  // disabled in params
+  EXPECT_DOUBLE_EQ(module1.charge, 6000.0);
+  EXPECT_DOUBLE_EQ(module1.capacity, 12000.0);
+  EXPECT_DOUBLE_EQ(module1.design_capacity, 13000.0);
   // percentage calculated (no interface) = (5.0 - 0.0) * 100 / (10.0 - 0.0) = 50
-  EXPECT_DOUBLE_EQ(left.percentage, 50.0);
-  EXPECT_EQ(left.power_supply_status, 3);  // from itfs_values_[3]
-  EXPECT_EQ(left.power_supply_health, 0);  // from itfs_values_[4]
-  EXPECT_EQ(left.power_supply_technology, BatteryState::POWER_SUPPLY_TECHNOLOGY_LIPO);
-  EXPECT_TRUE(left.present);  // voltage > 0.0
-  ASSERT_TRUE(left.cell_voltage.empty());
-  ASSERT_TRUE(left.cell_temperature.empty());
-  EXPECT_EQ(left.location, "left_slot");
-  EXPECT_EQ(left.serial_number, "left_serial_device");
+  EXPECT_DOUBLE_EQ(module1.percentage, 50.0);
+  EXPECT_EQ(module1.power_supply_status, 3);  // from itfs_values_[3]
+  EXPECT_EQ(module1.power_supply_health, 0);  // from itfs_values_[4]
+  EXPECT_EQ(module1.power_supply_technology, BatteryState::POWER_SUPPLY_TECHNOLOGY_LIPO);
+  EXPECT_TRUE(module1.present);  // voltage > 0.0
+  ASSERT_TRUE(module1.cell_voltage.empty());
+  ASSERT_TRUE(module1.cell_temperature.empty());
+  EXPECT_EQ(module1.location, "module1_slot");
+  EXPECT_EQ(module1.serial_number, "module1_serial_device");
 
-  // Right wheel
-  const auto & right = raw_battery_states_msg.battery_states[1];
-  EXPECT_EQ(right.header.frame_id, "module2");
-  EXPECT_DOUBLE_EQ(right.voltage, 10.0);
-  EXPECT_DOUBLE_EQ(right.temperature, 80.0);
-  EXPECT_DOUBLE_EQ(right.current, 2000.0);
-  EXPECT_DOUBLE_EQ(right.charge, 5000.0);
-  EXPECT_DOUBLE_EQ(right.capacity, 17000.0);
-  EXPECT_DOUBLE_EQ(right.design_capacity, 18000.0);
-  EXPECT_DOUBLE_EQ(right.percentage, 66.0);  // directly from itfs_values_[9]
-  EXPECT_EQ(right.power_supply_status, 2);   // from itfs_values_[10]
-  EXPECT_EQ(right.power_supply_health, 4);   // from itfs_values_[11]
-  EXPECT_EQ(right.power_supply_technology, BatteryState::POWER_SUPPLY_TECHNOLOGY_LIPO);
-  EXPECT_TRUE(right.present);  // voltage > 0.0
-  ASSERT_THAT(right.cell_voltage, SizeIs(2));
-  EXPECT_NEAR(right.cell_voltage[0], 3.65, 1e-6);
-  EXPECT_NEAR(right.cell_voltage[1], 3.70, 1e-6);
-  ASSERT_THAT(right.cell_temperature, SizeIs(2));
-  EXPECT_DOUBLE_EQ(right.cell_temperature[0], 30.0);
-  EXPECT_DOUBLE_EQ(right.cell_temperature[1], 31.0);
-  EXPECT_EQ(right.location, "right_slot");
-  EXPECT_EQ(right.serial_number, "right_serial_device");
+  // Module 2
+  const auto & module2 = raw_battery_states_msg.battery_states[1];
+  EXPECT_EQ(module2.header.frame_id, "module2");
+  EXPECT_DOUBLE_EQ(module2.voltage, 10.0);
+  EXPECT_DOUBLE_EQ(module2.temperature, 80.0);
+  EXPECT_DOUBLE_EQ(module2.current, 2000.0);
+  EXPECT_DOUBLE_EQ(module2.charge, 5000.0);
+  EXPECT_DOUBLE_EQ(module2.capacity, 17000.0);
+  EXPECT_DOUBLE_EQ(module2.design_capacity, 18000.0);
+  EXPECT_DOUBLE_EQ(module2.percentage, 66.0);  // directly from itfs_values_[9]
+  EXPECT_EQ(module2.power_supply_status, 2);   // from itfs_values_[10]
+  EXPECT_EQ(module2.power_supply_health, 4);   // from itfs_values_[11]
+  EXPECT_EQ(module2.power_supply_technology, BatteryState::POWER_SUPPLY_TECHNOLOGY_LIPO);
+  EXPECT_TRUE(module2.present);  // voltage > 0.0
+  ASSERT_THAT(module2.cell_voltage, SizeIs(2));
+  EXPECT_NEAR(module2.cell_voltage[0], 3.65, 1e-6);
+  EXPECT_NEAR(module2.cell_voltage[1], 3.70, 1e-6);
+  ASSERT_THAT(module2.cell_temperature, SizeIs(2));
+  EXPECT_DOUBLE_EQ(module2.cell_temperature[0], 30.0);
+  EXPECT_DOUBLE_EQ(module2.cell_temperature[1], 31.0);
+  EXPECT_EQ(module2.location, "module2_slot");
+  EXPECT_EQ(module2.serial_number, "module2_serial_device");
 
   // Combined battery state message
   EXPECT_EQ(battery_state_msg.header.frame_id, "");
   EXPECT_DOUBLE_EQ(battery_state_msg.voltage, 7.5);              // average of 5 + 10
   EXPECT_DOUBLE_EQ(battery_state_msg.temperature, 70.0);         // average of 60 + 80
-  EXPECT_DOUBLE_EQ(battery_state_msg.current, 2000.0);           // only right wheel contributes
+  EXPECT_DOUBLE_EQ(battery_state_msg.current, 2000.0);           // only module2 contributes
   EXPECT_DOUBLE_EQ(battery_state_msg.charge, 11000.0);           // sum of 6000 + 5000
   EXPECT_DOUBLE_EQ(battery_state_msg.capacity, 29000.0);         // sum of 6000 + 5000
   EXPECT_DOUBLE_EQ(battery_state_msg.design_capacity, 31000.0);  // sum of 6000 + 5000
@@ -248,8 +248,8 @@ TEST_F(BatteryStateBroadcasterTest, publish_status_success)
   EXPECT_TRUE(battery_state_msg.present);  // voltage > 0.0
   ASSERT_TRUE(battery_state_msg.cell_voltage.empty());
   ASSERT_TRUE(battery_state_msg.cell_temperature.empty());
-  EXPECT_EQ(battery_state_msg.location, "left_slot, right_slot, ");
-  EXPECT_EQ(battery_state_msg.serial_number, "left_serial_device, right_serial_device, ");
+  EXPECT_EQ(battery_state_msg.location, "module1_slot, module2_slot, ");
+  EXPECT_EQ(battery_state_msg.serial_number, "module1_serial_device, module2_serial_device, ");
 }
 
 TEST_F(BatteryStateBroadcasterTest, update_broadcasted_success)
@@ -259,7 +259,7 @@ TEST_F(BatteryStateBroadcasterTest, update_broadcasted_success)
   ASSERT_EQ(battery_state_broadcaster_->on_configure(rclcpp_lifecycle::State()), NODE_SUCCESS);
   ASSERT_EQ(battery_state_broadcaster_->on_activate(rclcpp_lifecycle::State()), NODE_SUCCESS);
 
-  ASSERT_TRUE(left_voltage_itf_->set_value(10.0));
+  ASSERT_TRUE(module1_voltage_itf_->set_value(10.0));
 
   RawBatteryStatesMsg raw_battery_states_msg;
   BatteryStateMsg battery_state_msg;
@@ -267,18 +267,18 @@ TEST_F(BatteryStateBroadcasterTest, update_broadcasted_success)
 
   ASSERT_EQ(raw_battery_states_msg.battery_states.size(), 2u);
 
-  // Left wheel
-  const auto & left = raw_battery_states_msg.battery_states[0];
-  EXPECT_DOUBLE_EQ(left.voltage, 10.0);
+  // Module 1
+  const auto & module1 = raw_battery_states_msg.battery_states[0];
+  EXPECT_DOUBLE_EQ(module1.voltage, 10.0);
   // percentage calculated (no interface) = (10.0 - 0.0) * 100 / (10.0 - 0.0) = 50
-  EXPECT_DOUBLE_EQ(left.percentage, 100.0);
-  EXPECT_TRUE(left.present);  // voltage > 0.0
+  EXPECT_DOUBLE_EQ(module1.percentage, 100.0);
+  EXPECT_TRUE(module1.present);  // voltage > 0.0
 
-  // Right wheel
-  const auto & right = raw_battery_states_msg.battery_states[1];
-  EXPECT_DOUBLE_EQ(right.voltage, 10.0);
-  EXPECT_DOUBLE_EQ(right.percentage, 66.0);  // directly from itfs_values_[9]
-  EXPECT_TRUE(right.present);                // voltage > 0.0
+  // Module 2
+  const auto & module2 = raw_battery_states_msg.battery_states[1];
+  EXPECT_DOUBLE_EQ(module2.voltage, 10.0);
+  EXPECT_DOUBLE_EQ(module2.percentage, 66.0);  // directly from itfs_values_[9]
+  EXPECT_TRUE(module2.present);                // voltage > 0.0
 
   // Combined battery state message
   EXPECT_DOUBLE_EQ(battery_state_msg.voltage, 10.0);     // average of 10 + 10
@@ -293,7 +293,7 @@ TEST_F(BatteryStateBroadcasterTest, publish_nan_voltage)
   ASSERT_EQ(battery_state_broadcaster_->on_configure(rclcpp_lifecycle::State()), NODE_SUCCESS);
   ASSERT_EQ(battery_state_broadcaster_->on_activate(rclcpp_lifecycle::State()), NODE_SUCCESS);
 
-  ASSERT_TRUE(left_voltage_itf_->set_value(std::numeric_limits<double>::quiet_NaN()));
+  ASSERT_TRUE(module1_voltage_itf_->set_value(std::numeric_limits<double>::quiet_NaN()));
 
   RawBatteryStatesMsg raw_battery_states_msg;
   BatteryStateMsg battery_state_msg;
@@ -301,17 +301,17 @@ TEST_F(BatteryStateBroadcasterTest, publish_nan_voltage)
 
   ASSERT_EQ(raw_battery_states_msg.battery_states.size(), 2u);
 
-  // Left wheel
-  const auto & left = raw_battery_states_msg.battery_states[0];
-  EXPECT_TRUE(std::isnan(left.voltage));
-  EXPECT_TRUE(std::isnan(left.percentage));
-  EXPECT_FALSE(left.present);  // voltage nan
+  // Module 1
+  const auto & module1 = raw_battery_states_msg.battery_states[0];
+  EXPECT_TRUE(std::isnan(module1.voltage));
+  EXPECT_TRUE(std::isnan(module1.percentage));
+  EXPECT_FALSE(module1.present);  // voltage nan
 
-  // Right wheel
-  const auto & right = raw_battery_states_msg.battery_states[1];
-  EXPECT_DOUBLE_EQ(right.voltage, 10.0);
-  EXPECT_DOUBLE_EQ(right.percentage, 66.0);  // directly from itfs_values_[9]
-  EXPECT_TRUE(right.present);                // voltage > 0.0
+  // Module 2
+  const auto & module2 = raw_battery_states_msg.battery_states[1];
+  EXPECT_DOUBLE_EQ(module2.voltage, 10.0);
+  EXPECT_DOUBLE_EQ(module2.percentage, 66.0);  // directly from itfs_values_[9]
+  EXPECT_TRUE(module2.present);                // voltage > 0.0
 
   // Combined battery state message
   EXPECT_TRUE(std::isnan(battery_state_msg.voltage));     // average of nan + 10
