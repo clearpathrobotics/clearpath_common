@@ -67,7 +67,7 @@ if(BUILD_TESTING)
   ament_add_gmock(test_load_battery_state_broadcaster test/test_load_battery_state_broadcaster.cpp)
   target_include_directories(test_load_battery_state_broadcaster PRIVATE include)
   target_link_libraries(test_load_battery_state_broadcaster
-    battery_state_broadcaster
+    ${PROJECT_NAME}
     controller_manager::controller_manager
     ros2_control_test_assets::ros2_control_test_assets
   )
@@ -77,7 +77,10 @@ if(BUILD_TESTING)
     ${CMAKE_CURRENT_SOURCE_DIR}/test/battery_state_broadcaster_params.yaml)
   target_include_directories(test_battery_state_broadcaster PRIVATE include)
   target_link_libraries(test_battery_state_broadcaster
-    battery_state_broadcaster
+    ${PROJECT_NAME}
+    rclcpp::rclcpp
+    controller_interface::controller_interface
+    battery_state_broadcaster_parameters
   )
 endif()
 
