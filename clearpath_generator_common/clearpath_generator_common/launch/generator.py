@@ -67,7 +67,6 @@ class LaunchGenerator(BaseGenerator):
         # Make new directories
         os.makedirs(os.path.dirname(self.sensors_launch_path), exist_ok=True)
         os.makedirs(os.path.dirname(self.platform_launch_path), exist_ok=True)
-        os.makedirs(os.path.dirname(self.platform_extras_launch_path), exist_ok=True)
         os.makedirs(os.path.dirname(self.manipulators_launch_path), exist_ok=True)
 
         self.platform_launch_file = LaunchFile(
