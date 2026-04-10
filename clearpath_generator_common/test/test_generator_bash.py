@@ -26,6 +26,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import os
+import pathlib
 import shutil
 
 from ament_index_python.packages import get_package_share_directory
@@ -43,6 +44,8 @@ class TestRobotLaunchGenerator:
         share_dir = get_package_share_directory('clearpath_config')
         sample_dir = os.path.join(share_dir, 'sample')
         for sample in os.listdir(sample_dir):
+            if pathlib.Path(sample).suffix != '.yaml':
+                continue
             # Create Clearpath Directory
             src = os.path.join(sample_dir, sample)
             dst = os.path.join(os.environ['HOME'], '.clearpath', 'robot.yaml')
