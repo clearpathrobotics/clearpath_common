@@ -732,6 +732,12 @@ void ClearpathDiagnosticUpdater::setup_topic_rate_diagnostics()
 template<class MsgType> void ClearpathDiagnosticUpdater::add_rate_diagnostic(
   const std::string topic_name, const double rate)
 {
+  // Skip disabled topics (rate of 0 means the topic is not published)
+  if (rate == 0.0) {
+    RCLCPP_INFO(this->get_logger(), "Skipping diagnostic for %s (rate is 0)", topic_name.c_str());
+    return;
+  }
+
   // Store the rate so that it can be accessed via a pointer and is not deleted
   rates_.push_back(rate);
 

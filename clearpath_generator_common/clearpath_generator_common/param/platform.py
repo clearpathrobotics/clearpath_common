@@ -656,9 +656,12 @@ class PlatformParam():
             :param sensor: The sensor object from which the topic info will be gotten
             :param topic_key: The key used to identify the topic to be monitored
             """
+            rate = float(sensor.get_topic_rate(topic_key))
+            if rate == 0.0:
+                return
             self.diag_dict[sensor.get_topic_name(topic_key, local=True)] = {
                 'type': sensor.get_topic_type(topic_key),
-                'rate': float(sensor.get_topic_rate(topic_key))
+                'rate': rate
             }
 
     class FoxgloveBridgeParam(BaseParam):
