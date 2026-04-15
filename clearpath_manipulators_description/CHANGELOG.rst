@@ -2,8 +2,8 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.10 (2026-04-14)
+-------------------
 * Use package instead of file to define mesh path (`#307 <https://github.com/clearpathrobotics/clearpath_common/issues/307>`_) (`#309 <https://github.com/clearpathrobotics/clearpath_common/issues/309>`_)
   (cherry picked from commit 6d46f773eef780969c7d3b0bceb6f3c8f6db70ec)
   Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
