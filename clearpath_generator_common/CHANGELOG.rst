@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.6 (2026-04-14)
+------------------
 * Feature: Generator Sample Tests (`#294 <https://github.com/clearpathrobotics/clearpath_common/issues/294>`_)
   * Add clearpath_generator_tests to dependencies.repos
   * Increase pose trials to 10000
