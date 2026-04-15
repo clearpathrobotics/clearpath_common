@@ -2,6 +2,26 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Use package instead of file to define mesh path (`#307 <https://github.com/clearpathrobotics/clearpath_common/issues/307>`_) (`#309 <https://github.com/clearpathrobotics/clearpath_common/issues/309>`_)
+  (cherry picked from commit 6d46f773eef780969c7d3b0bceb6f3c8f6db70ec)
+  Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
+* [Humble] Fix: Update cmake version to 3.20 (`#305 <https://github.com/clearpathrobotics/clearpath_common/issues/305>`_)
+  * Fix: Update cmake version to 3.20 and fixed CI (`#295 <https://github.com/clearpathrobotics/clearpath_common/issues/295>`_)
+  * Update cmake version to 3.20
+  * Switch to ubuntu:noble container
+  * Use updated repos update action
+  * Install python and pip
+  * Add apt update
+  * Update repos update action version
+  (cherry picked from commit 5837b8961e8d9835fc1be33db864ed5eaafe6f6d)
+  * More changes to fix backport.
+  ---------
+  Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+* Contributors: mergify[bot]
+
 1.3.9 (2026-01-30)
 ------------------
 * Update Kinova 2F lite gripper joint limits (`#298 <https://github.com/clearpathrobotics/clearpath_common/issues/298>`_) (`#300 <https://github.com/clearpathrobotics/clearpath_common/issues/300>`_)

@@ -2,6 +2,23 @@
 Changelog for package clearpath_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* [Humble] Fix: Update cmake version to 3.20 (`#305 <https://github.com/clearpathrobotics/clearpath_common/issues/305>`_)
+  * Fix: Update cmake version to 3.20 and fixed CI (`#295 <https://github.com/clearpathrobotics/clearpath_common/issues/295>`_)
+  * Update cmake version to 3.20
+  * Switch to ubuntu:noble container
+  * Use updated repos update action
+  * Install python and pip
+  * Add apt update
+  * Update repos update action version
+  (cherry picked from commit 5837b8961e8d9835fc1be33db864ed5eaafe6f6d)
+  * More changes to fix backport.
+  ---------
+  Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+* Contributors: mergify[bot]
+
 1.3.9 (2026-01-30)
 ------------------
 
