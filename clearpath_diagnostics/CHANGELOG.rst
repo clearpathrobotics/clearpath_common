@@ -8,6 +8,9 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+Forthcoming
+-----------
+
 2.9.5 (2026-03-25)
 ------------------
 

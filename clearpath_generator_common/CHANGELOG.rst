@@ -2,6 +2,21 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Generator Sample Tests (`#294 <https://github.com/clearpathrobotics/clearpath_common/issues/294>`_)
+  * Add clearpath_generator_tests to dependencies.repos
+  * Increase pose trials to 10000
+  * Add CI test to build and tests generators
+  * Ignore non-YAML files in tests
+  * Update CI to use common tests
+  * Use the setup image
+  * Generate moveit.yaml in alphabetical order
+  * Remove unconditional creation of sensor and platform extras directories
+  * Initial add of README with generator tests
+  * Use pathlib to find extension
+* Contributors: luis-camero
+
 2.9.5 (2026-03-25)
 ------------------
 

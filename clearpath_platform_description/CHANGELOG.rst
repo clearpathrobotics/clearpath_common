@@ -2,6 +2,9 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.5 (2026-03-25)
 ------------------
 * Re-added vertical off-set for A200 wheels. (`#318 <https://github.com/clearpathrobotics/clearpath_common/issues/318>`_)
