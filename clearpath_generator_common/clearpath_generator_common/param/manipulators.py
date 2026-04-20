@@ -156,6 +156,25 @@ class ManipulatorParam():
                     except Exception as e:
                         print(f'Unable to get UniversalRobots {arm.ur_type}_'
                               f'update_rate.yaml parameter file: {e.args[0]}')
+                    # UR Arm Exception. GPIO Controller
+                    if arm.gpio_controller:
+                        gpio_controller_name = f'{arm.name}_io_and_status_controller'
+                        gpio_parameters = {
+                            'controller_manager': {
+                                'ros__parameters': {
+                                    gpio_controller_name: {
+                                        'type': 'ur_controllers/GPIOController',
+                                    },
+                                },
+                            },
+                            gpio_controller_name: {
+                                'ros__parameters': {
+                                    'tf_prefix': f'{arm.name}_',
+                                },
+                            },
+                        }
+                        updated_parameters = merge_dict(
+                            updated_parameters, gpio_parameters)
                 # Replace {name} in Parameters
                 updated_parameters = ManipulatorParam.replace_name(
                     arm,
