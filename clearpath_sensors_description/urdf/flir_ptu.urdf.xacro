@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="flir_ptu" params="
+        name
+        parent_link
+        *origin
+        model:=ptu5
+        update_rate:=10
+    ">
+        <xacro:include filename="$(find flir_ptu_description)/urdf/flir_ptu.urdf.xacro"/>
+
+        <!-- Mount the PTU base to the parent link -->
+        <joint name="${name}_mount_joint" type="fixed">
+            <xacro:insert_block name="origin"/>
+            <parent link="${parent_link}"/>
+            <child link="${name}_base_link"/>
+        </joint>
+
+        <!-- Instantiate the model-specific PTU macro (ptu5 or d46) -->
+        <xacro:flir_ptu name="${name}" model="${model}"/>
+    </xacro:macro>
+</robot>
