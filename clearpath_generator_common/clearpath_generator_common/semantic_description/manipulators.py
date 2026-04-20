@@ -30,7 +30,10 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 from clearpath_config.manipulators.types.arms import Franka
-from clearpath_config.manipulators.types.grippers import FrankaGripper
+from clearpath_config.manipulators.types.grippers import (
+    FrankaGripper,
+    Robotiq2F140
+)
 from clearpath_config.manipulators.types.manipulator import (
     BaseManipulator,
     ManipulatorPose
@@ -88,9 +91,18 @@ class ManipulatorSemanticDescription():
             super().__init__(manipulator)
             self.parameters[self.NAME] = f'{manipulator.name}_{manipulator.arm_id}'
 
+    class Robotiq2F140SemanticDescription(BaseSemanticDescription):
+
+        def __init__(self, manipulator):
+            super().__init__(manipulator)
+            urdf_parameters = dict(manipulator.get_urdf_parameters())
+            padding = urdf_parameters.get(Robotiq2F140.PADDING, 'true')
+            self.parameters[Robotiq2F140.PADDING] = f'{padding}'
+
     MODEL = {
         Franka.MANIPULATOR_MODEL: FrankaSemanticDescription,
-        FrankaGripper.MANIPULATOR_MODEL: FrankaSemanticDescription
+        FrankaGripper.MANIPULATOR_MODEL: FrankaSemanticDescription,
+        Robotiq2F140.MANIPULATOR_MODEL: Robotiq2F140SemanticDescription
     }
 
     def __new__(cls, manipulator: BaseManipulator) -> BaseManipulator:
