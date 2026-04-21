@@ -17,7 +17,10 @@
              multi_arm:=false">
 
     <xacro:property name="arm_prefix_modified" value="${'' if arm_prefix == '' else arm_prefix + '_'}" />
-    <ros2_control name="${arm_prefix_modified}FrankaHardwareInterface" type="system">
+    <ros2_control name="${arm_prefix_modified}FrankaHardwareInterface" type="system" async="true">
+        <properties>
+            <async affinity="[14,15]" scheduling_policy="synchronized" print_warnings="true" thread_priority="99"/>
+        </properties>
         <hardware>
           <param name="version">0.1.0</param>
           <param name="arm_id">${arm_id}</param>
