@@ -205,3 +205,58 @@ jobs:
             clearpath_sensors_description
             clearpath_generator_common_tests
           vcs-repo-file-url: updated_dependencies.repos
+  clearpath_packages_generator_tests_ci:
+    name: Jazzy Clearpath Source with Package Server and Head Branch Generator Tests
+    runs-on: ubuntu-latest
+    container:
+      image: rostooling/setup-ros-docker:ubuntu-noble-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Clearpath Package Server
+        run: |
+          sudo apt install wget
+          wget https://packages.clearpathrobotics.com/public.key -O - | sudo apt-key add -
+          sudo sh -c 'echo "deb https://packages.clearpathrobotics.com/stable/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/clearpath-latest.list'
+          sudo apt-get update
+          sudo wget https://raw.githubusercontent.com/clearpathrobotics/public-rosdistro/master/rosdep/50-clearpath.list -O /etc/ros/rosdep/sources.list.d/50-clearpath.list
+          rosdep update
+      - name: "[Repositories Updater] Checkout action"
+        uses: actions/checkout@v3
+        with:
+          repository: clearpathrobotics/repos-dep-update-action
+          ref: 0.0.4
+          path: repos-dep-update-action
+      - name: "[Repositories Updater] Install dependencies"
+        run: |
+          apt-get update
+          apt-get install -y jq git python3 python3-pip
+          python3 -m pip install yq --break-system-packages
+      - name: "[Repositories Updater] Extract branch name"
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - name: "[Repositories Updater] Run action"
+        uses: ./repos-dep-update-action/
+        with:
+          branch: ${{ steps.extract_branch.outputs.branch }}
+          input: dependencies.repos
+          output: updated_dependencies.repos
+      - name: "[Repositories Updater] Print updated dependencies"
+        run: |
+          cat updated_dependencies.repos
+      - uses: ros-tooling/action-ros-ci@v0.3
+        id: action_ros_ci_step
+        with:
+          target-ros2-distro: jazzy
+          package-name: |
+            clearpath_common
+            clearpath_control
+            clearpath_customization
+            clearpath_description
+            clearpath_diagnostics
+            clearpath_generator_common
+            clearpath_mounts_description
+            clearpath_platform_description
+            clearpath_sensors_description
+            clearpath_generator_common_tests
+          vcs-repo-file-url: updated_dependencies.repos
