@@ -36,6 +36,19 @@ from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.utils.dictionary import merge_dict, replace_dict_items
 from clearpath_config.manipulators.types.arms import Franka
 from clearpath_config.manipulators.types.grippers import FrankaGripper
+<<<<<<< HEAD
+=======
+from clearpath_config.platform.battery import BatteryConfig
+from clearpath_config.platform.mcu import MCUConfig
+from clearpath_config.platform.wireless import PeplinkRouter
+from clearpath_config.sensors.types.cameras import BaseCamera, IntelRealsense
+from clearpath_config.sensors.types.gps import BaseGPS, NMEA
+from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
+from clearpath_config.sensors.types.lidars_2d import BaseLidar2D
+from clearpath_config.sensors.types.lidars_3d import BaseLidar3D
+from clearpath_config.sensors.types.ptu import BasePTU
+from clearpath_config.sensors.types.sensor import BaseSensor
+>>>>>>> 209b636 (Feature: PTU (#330))
 from clearpath_generator_common.common import Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
 
@@ -258,6 +271,412 @@ class PlatformParam():
             self.default_parameter_file_package = self.clearpath_control_package
             self.default_parameter_file_path = 'config'
 
+<<<<<<< HEAD
+=======
+    class DiagnosticsAggregatorParam(BaseParam):
+        """Parameter file that decides the aggregation of the diagnostics data for display."""
+
+        DIAGNOSTIC_AGGREGATOR_NODE = 'diagnostic_aggregator'
+
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_package = Package(self.CLEARPATH_DIAGNOSTICS)
+            self.default_parameter_file_path = 'config'
+
+        def generate_parameters(self, use_sim_time: bool = False) -> None:
+            super().generate_parameters(use_sim_time)
+
+            platform_model = self.clearpath_config.get_platform_model()
+            mcu_protocol = self.clearpath_config.platform.mcu.protocol
+
+            # Add MCU diagnostic category for all platforms except A200
+            if platform_model != Platform.A200:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'mcu': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'MCU',
+                                    'expected': [
+                                        'clearpath_diagnostic_updater: MCU Firmware Version',
+                                        'clearpath_diagnostic_updater: MCU Status'
+                                    ],
+                                    'contains': ['MCU']
+                                }
+                            }
+                        }
+                    }
+                })
+
+                if mcu_protocol == MCUConfig.PROTON:
+                    self.param_file.update({
+                        self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                            'platform': {
+                                'analyzers': {
+                                    'proton': {
+                                        'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                        'path': 'MCU/Proton',
+                                        'expected': [
+                                            'proton_ros2: Proton Statistics',
+                                        ],
+                                        'contains': ['proton_ros2']
+                                    }
+                                }
+                            }
+                        }
+                    })
+
+            # Add Lighting for every platform except A200 and J100
+            if platform_model not in (Platform.A200, Platform.J100):
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'lighting': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Lighting',
+                                    'expected': [
+                                        'lighting_node: Light Status'
+                                    ],
+                                    'contains': ['Light']
+                                }
+                            }
+                        }
+                    }
+                })
+
+            # Add cooling for A300 only for now
+            if platform_model == Platform.A300:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'cooling': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Cooling',
+                                    'contains': ['Fan', 'Thermal']
+                                }
+                            }
+                        }
+                    }
+                })
+
+            if self.clearpath_config.platform.enable_ekf:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'odometry': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Odometry',
+                                    'contains': ['odometry', 'ekf_node'],
+                                    'expected': [
+                                        'ekf_node: Filter diagnostic updater',
+                                        'ekf_node: odometry/filtered topic status',
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                })
+
+            # We have a few optional nodes that go into the Networking section
+            # collect them all and then create the aggregator node
+            networking_contains = []
+            networking_expected = []
+
+            if self.clearpath_config.platform.wireless.enable_wireless_watcher:
+                networking_contains.append('Wi-Fi')
+                networking_expected.append('wireless_watcher: Wi-Fi Monitor')
+
+            if self.clearpath_config.platform.wireless.router:
+                if self.clearpath_config.platform.wireless.router == PeplinkRouter.MODEL:
+                    networking_contains.append('Router')
+                    networking_expected.append('router_node: Router')
+                # Put additional supported router hardware here...
+
+            if self.clearpath_config.platform.wireless.base_station:
+                if self.clearpath_config.platform.wireless.base_station == PeplinkRouter.MODEL:
+                    networking_contains.append('Base Station')
+                    networking_expected.append('base_station_node: Base Station')
+                # Put additional supported base station hardware here...
+
+            if len(networking_contains) > 0:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'platform': {
+                            'analyzers': {
+                                'networking': {
+                                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                                    'path': 'Networking',
+                                    'contains': networking_contains,
+                                    'expected': networking_expected,
+                                }
+                            }
+                        }
+                    }
+                })
+
+            sensor_analyzers = {}
+
+            if platform_model not in (Platform.A300, Platform.A200):
+                sensor_analyzers['imu'] = {
+                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                    'path': 'IMU',
+                    'contains': ['imu']
+                }
+
+            if platform_model == Platform.J100:
+                sensor_analyzers['gps'] = {
+                    'type': 'diagnostic_aggregator/GenericAnalyzer',
+                    'path': 'GPS',
+                    'contains': ['gps']
+                }
+
+            # List all topics to be monitored from each launched sensor
+            for sensor in self.clearpath_config.sensors.get_all_sensors():
+
+                if not sensor.launch_enabled:
+                    continue
+
+                match sensor:
+                    case BaseCamera():
+                        sensor_analyzers['cameras'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'Cameras',
+                            'contains': ['camera']
+                        }
+                    case BaseLidar2D():
+                        sensor_analyzers['lidar2d'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'Lidar2D',
+                            'contains': ['lidar2d']
+                        }
+                    case BaseLidar3D():
+                        sensor_analyzers['lidar3d'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'Lidar3D',
+                            'contains': ['lidar3d']
+                        }
+                    case BaseIMU():
+                        sensor_analyzers['imu'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'IMU',
+                            'contains': ['imu']
+                        }
+                    case BaseGPS():
+                        sensor_analyzers['gps'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'GPS',
+                            'contains': ['gps']
+                        }
+                    case BasePTU():
+                        sensor_analyzers['ptu'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'PTU',
+                            'contains': ['ptu']
+                        }
+
+            # Update aggregator sensor sections based on the robot.yaml
+            if sensor_analyzers:
+                self.param_file.update({
+                    self.DIAGNOSTIC_AGGREGATOR_NODE: {
+                        'sensors': {
+                            'type': 'diagnostic_aggregator/AnalyzerGroup',
+                            'path': 'Sensors',
+                            'analyzers': sensor_analyzers
+                        }
+                    }
+                })
+
+    class DiagnosticsUpdaterParam(BaseParam):
+        """Parameter file for Clearpath Diagnostics indicating which topics to monitor."""
+
+        DIAGNOSTIC_UPDATER_NODE = 'clearpath_diagnostic_updater'
+
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_package = Package(self.CLEARPATH_DIAGNOSTICS)
+            self.default_parameter_file_path = 'config'
+            self.diag_dict = {}
+
+        def generate_parameters(self, use_sim_time: bool = False) -> None:
+            super().generate_parameters(use_sim_time)
+
+            # Update parameters based on the robot.yaml
+            platform_model = self.clearpath_config.get_platform_model()
+            self.param_file.update({
+                self.DIAGNOSTIC_UPDATER_NODE: {
+                    'serial_number': self.clearpath_config.get_serial_number(),
+                    'platform_model': platform_model
+                }
+            })
+
+            if use_sim_time:
+                latest_apt_firmware_version = 'simulated'
+                installed_apt_firmware_version = 'simulated'
+            elif platform_model == Platform.A200:
+                latest_apt_firmware_version = PlatformParam.NOT_APPLICABLE
+                installed_apt_firmware_version = PlatformParam.NOT_APPLICABLE
+            else:
+                # Check latest firmware version available and save it in the config
+                cache = Cache()
+                latest_apt_firmware_version = 'not_found'
+                installed_apt_firmware_version = 'none'
+                try:
+                    pkg = cache[f'ros-{ROS_DISTRO}-clearpath-firmware']
+                    latest_apt_firmware_version = pkg.versions[0].version.split('-')[0]
+                    if (pkg.is_installed):
+                        installed_apt_firmware_version = pkg.installed.version.split('-')[0]
+                except KeyError:
+                    print(f'\033[93mWarning: ros-{ROS_DISTRO}-clearpath-firmware'
+                          ' package not found\033[0m')
+
+            # Set expected BMS rate based on the platform battery model
+            bms_state_rate = 10.0
+            bms_state_tolerance = 0.15
+            if (self.clearpath_config.platform.battery.model in [BatteryConfig.S_24V20_U1]):
+                bms_state_rate = 2.5
+                bms_state_tolerance = 0.2
+            elif (self.clearpath_config.platform.battery.model in
+                    [BatteryConfig.VALENCE_U24_12XP, BatteryConfig.VALENCE_U27_12XP]):
+                bms_state_rate = 3.0
+                bms_state_tolerance = 0.25
+            elif (self.clearpath_config.platform.battery.model in [BatteryConfig.NEC_ALM12V35]):
+                bms_state_rate = 1.0
+                bms_state_tolerance = 0.25
+            elif (platform_model == Platform.A200):
+                bms_state_rate = 1.8
+                bms_state_tolerance = 0.25
+
+            self.param_file.update({
+                self.DIAGNOSTIC_UPDATER_NODE: {
+                    'ros_distro': ROS_DISTRO,
+                    'latest_apt_firmware_version': latest_apt_firmware_version,
+                    'installed_apt_firmware_version': installed_apt_firmware_version,
+                    'bms_state_rate': bms_state_rate,
+                    'bms_state_tolerance': bms_state_tolerance,
+                    'mcu_protocol': self.clearpath_config.platform.mcu.protocol
+                }
+            })
+
+            # Additional considerations for A200 platform
+            if platform_model == Platform.A200:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'stop_status_rate': 0.0,  # Disable stop status diagnostic for A200
+                        'mcu_power_rate': 1.8,
+                        'mcu_power_tolerance': 0.25,
+                        'estop_rate': 1.8,
+                        'estop_tolerance': 0.25
+                    }
+                })
+            elif platform_model == Platform.W200:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'stop_status_rate': 0.0,  # Disable stop status diagnostic for W200
+                    }
+                })
+
+            if platform_model not in (Platform.A300, Platform.A200):
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'topics': {
+                            'sensors/imu_0/data': {
+                                'type': BaseIMU.TOPICS.TYPE[BaseIMU.TOPICS.DATA],
+                                'rate': 50.0
+                            }
+                        }
+                    }
+                })
+
+            if platform_model == Platform.J100:
+                self.param_file.update({
+                    self.DIAGNOSTIC_UPDATER_NODE: {
+                        'topics': {
+                            'sensors/gps_0/fix': {
+                                'type': NMEA.TOPICS.TYPE[NMEA.TOPICS.FIX],
+                                'rate': 10.0
+                            }
+                        }
+                    }
+                })
+
+            # List all topics to be monitored from each launched sensor
+            for sensor in self.clearpath_config.sensors.get_all_sensors():
+
+                if not sensor.launch_enabled:
+                    continue
+
+                match sensor:
+                    case IntelRealsense():
+                        if sensor.color_enabled:
+                            self.add_topic(sensor, sensor.TOPICS.COLOR_IMAGE)
+                        if sensor.depth_enabled:
+                            self.add_topic(sensor, sensor.TOPICS.DEPTH_IMAGE)
+                        if sensor.pointcloud_enabled:
+                            self.add_topic(sensor, sensor.TOPICS.POINTCLOUD)
+
+                    case BaseCamera():
+                        self.add_topic(sensor, sensor.TOPICS.COLOR_IMAGE)
+
+                    case BaseLidar2D():
+                        self.add_topic(sensor, sensor.TOPICS.SCAN)
+
+                    case BaseLidar3D():
+                        self.add_topic(sensor, sensor.TOPICS.SCAN)
+                        self.add_topic(sensor, sensor.TOPICS.POINTS)
+
+                    case PhidgetsSpatial():
+                        self.add_topic(sensor, sensor.TOPICS.DATA),
+                        self.add_topic(sensor, sensor.TOPICS.RAW_DATA),
+                        self.add_topic(sensor, sensor.TOPICS.MAG),
+
+                    case BaseIMU():
+                        self.add_topic(sensor, sensor.TOPICS.DATA)
+                        self.add_topic(sensor, sensor.TOPICS.MAG)
+
+                    case BaseGPS():
+                        self.add_topic(sensor, sensor.TOPICS.FIX)
+
+                    case BasePTU():
+                        self.add_topic(sensor, sensor.TOPICS.STATE)
+
+            # Output the list of topics into the parameter file
+            self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {'topics': self.diag_dict}})
+
+        def add_topic(self, sensor: BaseSensor, topic_key: str) -> None:
+            """
+            Add a sensor topic to the dictionary using the topic key string.
+
+            :param sensor: The sensor object from which the topic info will be gotten
+            :param topic_key: The key used to identify the topic to be monitored
+            """
+            rate = float(sensor.get_topic_rate(topic_key))
+            if rate == 0.0:
+                return
+            self.diag_dict[sensor.get_topic_name(topic_key, local=True)] = {
+                'type': sensor.get_topic_type(topic_key),
+                'rate': rate
+            }
+
+    class FoxgloveBridgeParam(BaseParam):
+        def __init__(self,
+                     parameter: str,
+                     clearpath_config: ClearpathConfig,
+                     param_path: str) -> None:
+            super().__init__(parameter, clearpath_config, param_path)
+            self.default_parameter_file_package = Package(self.CLEARPATH_DIAGNOSTICS)
+            self.default_parameter_file_path = 'config'
+
+>>>>>>> 209b636 (Feature: PTU (#330))
     class LocalizationParam(BaseParam):
         EKF_NODE = 'ekf_node'
         imu_config = [False, False, False,
