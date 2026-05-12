@@ -11,7 +11,7 @@
   <xacro:property name="PI" value="3.1415926535897931"/>
   <xacro:include filename="$(find clearpath_platform_description)/urdf/w200/diff_unit.urdf.xacro"/>
 
-  <xacro:macro name="w200" params="control:='diff_fwd' front_wheels:='outdoor' rear_wheels:='outdoor' color:='yellow'">
+  <xacro:macro name="w200" params="control:='diff_4wd' front_wheels:='outdoor' rear_wheels:='outdoor' color:='yellow'">
     <!-- Colors: yellow, orange, olive, sand -->
     <xacro:property name="warthog_color"  value="${'warthog_'+color}"/>
     <material name="warthog_yellow"><color rgba="0.95 0.816 0.082 1.0"/></material>
