@@ -35,8 +35,9 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
@@ -55,7 +56,9 @@ def generate_launch_description():
     )
     arg_config = DeclareLaunchArgument(
         'config',
-        default_value='/etc/clearpath/platform/config/localization.yaml',
+        default_value=PathJoinSubstitution([
+            FindPackageShare('clearpath_control'),
+            'config', 'generic', 'localization.yaml']),
         description='Path to the localization configuration YAML file'
     )
     arg_use_sim_time = DeclareLaunchArgument(

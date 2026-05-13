@@ -34,8 +34,9 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction
 from launch.conditions import IfCondition, UnlessCondition
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 from clearpath_config.common.utils.dictionary import unflatten_dict
 from clearpath_config.common.utils.yaml import read_yaml
 
@@ -115,7 +116,9 @@ def generate_launch_description():
     # Launch Configurations
     arg_config = DeclareLaunchArgument(
         'config',
-        default_value='/etc/clearpath/platform/config/control.yaml',
+        default_value=PathJoinSubstitution([
+            FindPackageShare('clearpath_control'),
+            'config', 'generic', 'control', 'empty.yaml']),
         description='Path to the control configuration YAML file'
     )
 

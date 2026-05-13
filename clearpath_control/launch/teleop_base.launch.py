@@ -34,8 +34,9 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
@@ -48,13 +49,17 @@ def generate_launch_description():
     # Launch Arguments
     arg_config_twist_mux = DeclareLaunchArgument(
         'config_twist_mux',
-        default_value='/etc/clearpath/platform/config/twist_mux.yaml',
+        default_value=PathJoinSubstitution([
+            FindPackageShare('clearpath_control'),
+            'config', 'twist_mux.yaml']),
         description='Path to the twist mux configuration YAML file'
     )
 
     arg_config_interactive_markers = DeclareLaunchArgument(
         'config_interactive_markers',
-        default_value='/etc/clearpath/platform/config/teleop_interactive_markers.yaml',
+        default_value=PathJoinSubstitution([
+            FindPackageShare('clearpath_control'),
+            'config', 'generic', 'teleop_interactive_markers.yaml']),
         description='Path to the interactive markers configuration YAML file'
     )
 
