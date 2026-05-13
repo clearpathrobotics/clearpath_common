@@ -7,7 +7,7 @@
   <xacro:arg name="use_platform_controllers" default="true"/>
 
   <!-- R100 Platform Macro -->
-  <xacro:macro name="r100" params="control:='omni_4wd' front_wheels:='mecanum' rear_wheels:='mecanum'">
+  <xacro:macro name="r100" params="control:='omni_4wd' front_wheels:='mecanum' rear_wheels:='mecanum' hardware_plugin_name='mock_components/GenericSystem'">
     <!-- Variables -->
     <xacro:property name="chassis_length" value="0.960" />
     <xacro:property name="chassis_width" value="0.793" />
@@ -80,6 +80,12 @@
         </geometry>
         <material name="clearpath_yellow" />
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/side-cover.stl"/>
+        </geometry>
+      </collision>
     </link>
     <link name="right_side_cover_link">
       <visual>
@@ -89,6 +95,12 @@
         </geometry>
         <material name="clearpath_yellow" />
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/side-cover.stl"/>
+        </geometry>
+      </collision>
     </link>
 
     <joint name="front_cover_link_joint" type="fixed">
@@ -105,6 +117,12 @@
         </geometry>
         <material name="clearpath_black" />
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/end-cover.stl" />
+        </geometry>
+      </collision>
     </link>
 
     <joint name="rear_cover_link_joint" type="fixed">
@@ -121,6 +139,12 @@
         </geometry>
         <material name="clearpath_black" />
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/end-cover.stl" />
+        </geometry>
+      </collision>
     </link>
 
     <!-- Ligths -->
@@ -143,6 +167,12 @@
         </geometry>
         <material name="clearpath_white" />
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/lights.stl" />
+        </geometry>
+      </collision>
     </link>
     <link name="rear_lights_link">
       <visual>
@@ -152,6 +182,12 @@
         </geometry>
         <material name="clearpath_red" />
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/lights.stl" />
+        </geometry>
+      </collision>
     </link>
 
     <!-- Axle -->
@@ -169,6 +205,12 @@
         </geometry>
         <material name="clearpath_black" />
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${math.pi/2} 0" />
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/r100/axle.stl" />
+        </geometry>
+      </collision>
     </link>
 
     <!-- Riser -->
@@ -224,12 +266,7 @@
     <xacro:include filename="$(find clearpath_platform_description)/urdf/generic/drivetrain/drivetrain.urdf.xacro"/>
 
     <!-- Hardware  -->
-    <xacro:if value="$(arg is_sim)">
-      <xacro:property name="hardware_plugin" value="gz_ros2_control/GazeboSimSystem"/>
-    </xacro:if>
-    <xacro:unless value="$(arg is_sim)">
-      <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/PumaHardware"/>
-    </xacro:unless>
+    <xacro:property name="hardware_plugin" value="${hardware_plugin_name}"/>
 
     <xacro:unless value="${control == 'omni_4wd' or control == 'diff_4wd'}">
       <xacro:error message="Invalid drivetrain control ${control}"/>
