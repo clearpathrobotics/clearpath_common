@@ -35,7 +35,7 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
@@ -43,7 +43,7 @@ def generate_launch_description():
 
     # Launch Configurations
     enable_ekf = LaunchConfiguration('enable_ekf')
-    setup_path = LaunchConfiguration('setup_path')
+    config = LaunchConfiguration('config')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Launch Arguments
@@ -53,9 +53,10 @@ def generate_launch_description():
         choices=['true', 'false'],
         description='Enable localization via EKF node'
     )
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_config = DeclareLaunchArgument(
+        'config',
+        default_value='/etc/clearpath/platform/config/localization.yaml',
+        description='Path to the localization configuration YAML file'
     )
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
@@ -64,23 +65,13 @@ def generate_launch_description():
         description='Use simulation time'
     )
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
-
-    # Configs
-    config_localization = [
-        dir_platform_config,
-        '/localization.yaml'
-    ]
-
     # Localization
     node_localization = Node(
         package='robot_localization',
         executable='ekf_node',
         name='ekf_node',
         output='screen',
-        parameters=[config_localization],
+        parameters=[config],
         remappings=[
             ('odometry/filtered', 'platform/odom/filtered'),
             ('/diagnostics', 'diagnostics'),
@@ -92,7 +83,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     ld.add_action(arg_enable_ekf)
-    ld.add_action(arg_setup_path)
+    ld.add_action(arg_config)
     ld.add_action(arg_use_sim_time)
     ld.add_action(node_localization)
     return ld

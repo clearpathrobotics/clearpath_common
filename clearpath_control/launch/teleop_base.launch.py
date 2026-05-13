@@ -34,20 +34,28 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
 def generate_launch_description():
 
     # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
+    config_twist_mux = LaunchConfiguration('config_twist_mux')
+    config_interactive_markers = LaunchConfiguration('config_interactive_markers')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_config_twist_mux = DeclareLaunchArgument(
+        'config_twist_mux',
+        default_value='/etc/clearpath/platform/config/twist_mux.yaml',
+        description='Path to the twist mux configuration YAML file'
+    )
+
+    arg_config_interactive_markers = DeclareLaunchArgument(
+        'config_interactive_markers',
+        default_value='/etc/clearpath/platform/config/teleop_interactive_markers.yaml',
+        description='Path to the interactive markers configuration YAML file'
     )
 
     arg_use_sim_time = DeclareLaunchArgument(
@@ -56,21 +64,6 @@ def generate_launch_description():
         default_value='false',
         description='Use simulation time'
     )
-
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
-
-    # Configs
-    config_twist_mux = [
-        dir_platform_config,
-        '/twist_mux.yaml'
-    ]
-
-    config_interactive_markers = [
-        dir_platform_config,
-        '/teleop_interactive_markers.yaml'
-    ]
 
     node_interactive_marker_twist_server = Node(
         package='interactive_marker_twist_server',
@@ -105,7 +98,8 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
+    ld.add_action(arg_config_twist_mux)
+    ld.add_action(arg_config_interactive_markers)
     ld.add_action(arg_use_sim_time)
     ld.add_action(node_interactive_marker_twist_server)
     ld.add_action(node_twist_mux)
