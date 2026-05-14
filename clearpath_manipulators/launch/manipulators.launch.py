@@ -55,9 +55,26 @@ def generate_launch_description():
     pkg_clearpath_manipulators = FindPackageShare('clearpath_manipulators')
 
     # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_robot_urdf = DeclareLaunchArgument(
+        'robot_urdf',
+        description='Path to the robot URDF xacro file'
+    )
+
+    arg_config_control = DeclareLaunchArgument(
+        'config_control',
+        description='Path to the manipulators control configuration YAML file'
+    )
+
+    arg_robot_srdf = DeclareLaunchArgument(
+        'robot_srdf',
+        default_value='',
+        description='Path to the robot SRDF file'
+    )
+
+    arg_config_moveit = DeclareLaunchArgument(
+        'config_moveit',
+        default_value='',
+        description='Path to the MoveIt configuration YAML file'
     )
 
     arg_use_sim_time = DeclareLaunchArgument(
@@ -93,7 +110,10 @@ def generate_launch_description():
     )
 
     # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
+    robot_urdf = LaunchConfiguration('robot_urdf')
+    config_control = LaunchConfiguration('config_control')
+    robot_srdf = LaunchConfiguration('robot_srdf')
+    config_moveit = LaunchConfiguration('config_moveit')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
     launch_moveit = LaunchConfiguration('launch_moveit')
@@ -123,18 +143,17 @@ def generate_launch_description():
               PythonLaunchDescriptionSource(launch_file_manipulators_description),
               launch_arguments=[
                   ('namespace', namespace),
-                  ('setup_path', setup_path),
+                  ('robot_urdf', robot_urdf),
                   ('use_sim_time', use_sim_time),
               ]
             ),
 
-            # Launch clearpath_control/control.launch.py which is just robot_localization.
+            # Launch clearpath_manipulators/control.launch.py
             IncludeLaunchDescription(
               PythonLaunchDescriptionSource(launch_file_control),
               launch_arguments=[
                   ('namespace', namespace),
-                  ('setup_path', setup_path),
-                  ('use_sim_time', use_sim_time),
+                  ('config_control', config_control),
               ]
             ),
         ]
@@ -149,8 +168,11 @@ def generate_launch_description():
     moveit_node_action = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(launch_file_moveit),
         launch_arguments=[
-            ('setup_path', setup_path),
-            ('use_sim_time', use_sim_time)
+            ('namespace', namespace),
+            ('robot_urdf', robot_urdf),
+            ('robot_srdf', robot_srdf),
+            ('config_moveit', config_moveit),
+            ('use_sim_time', use_sim_time),
         ],
         condition=IfCondition(launch_moveit)
     )
@@ -161,7 +183,10 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
+    ld.add_action(arg_robot_urdf)
+    ld.add_action(arg_config_control)
+    ld.add_action(arg_robot_srdf)
+    ld.add_action(arg_config_moveit)
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_namespace)
     ld.add_action(arg_launch_moveit)
