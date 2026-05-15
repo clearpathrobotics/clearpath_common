@@ -32,7 +32,6 @@
 import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
-from clearpath_config.common.types.platform import Platform
 from clearpath_config.platform.platform import DescriptionPackagePath
 
 
@@ -83,8 +82,8 @@ class PlatformDescription():
                 parameters=None
             )
 
-    def __new__(cls, model: Platform, config: ClearpathConfig) -> BasePlatform:
-        if model == Platform.GENERIC:
+    def __new__(cls, model: str, config: ClearpathConfig) -> BasePlatform:
+        if model == 'generic':
             return PlatformDescription.GenericPlatform(config)
         else:
             return PlatformDescription.ClearpathPlatform(config)
