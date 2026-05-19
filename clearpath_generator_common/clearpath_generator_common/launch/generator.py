@@ -73,7 +73,18 @@ class LaunchGenerator(BaseGenerator):
             name='platform',
             package=self.pkg_clearpath_common,
             args=[
-                ('setup_path', self.setup_path),
+                ('robot_urdf', os.path.join(self.setup_path, 'robot.urdf.xacro')),
+                ('config_control',
+                 os.path.join(self.platform_params_path, 'control.yaml')),
+                ('config_localization',
+                 os.path.join(self.platform_params_path, 'localization.yaml')),
+                ('config_twist_mux',
+                 os.path.join(self.platform_params_path, 'twist_mux.yaml')),
+                ('config_interactive_markers',
+                 os.path.join(self.platform_params_path,
+                              'teleop_interactive_markers.yaml')),
+                ('config_teleop_joy',
+                 os.path.join(self.platform_params_path, 'teleop_joy.yaml')),
                 ('use_sim_time', 'false'),
                 ('namespace', self.namespace),
                 ('enable_ekf', str(self.clearpath_config.platform.enable_ekf).lower()),
@@ -83,7 +94,6 @@ class LaunchGenerator(BaseGenerator):
             name='platform_extras',
             package=self.pkg_clearpath_common,
             args=[
-                ('setup_path', self.setup_path),
                 ('use_sim_time', 'false'),
                 ('namespace', self.namespace),
             ])
@@ -92,11 +102,16 @@ class LaunchGenerator(BaseGenerator):
             name='manipulators',
             package=self.pkg_clearpath_manipulators,
             args=[
-                ('setup_path', self.setup_path),
+                ('robot_urdf', os.path.join(self.setup_path, 'robot.urdf.xacro')),
+                ('config_control',
+                 os.path.join(self.manipulators_params_path, 'control.yaml')),
+                ('robot_srdf', os.path.join(self.setup_path, 'robot.srdf')),
+                ('config_moveit',
+                 os.path.join(self.manipulators_params_path, 'moveit.yaml')),
                 ('use_sim_time', 'false'),
                 ('namespace', self.namespace),
                 ('launch_moveit', str(self.clearpath_config.manipulators.moveit.enable).lower()),
-                ('delay_moveit', str(self.clearpath_config.manipulators.moveit.delay))
+                ('moveit_delay', str(self.clearpath_config.manipulators.moveit.delay)),
             ]
         )
 

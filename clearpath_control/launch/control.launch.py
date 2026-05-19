@@ -36,6 +36,7 @@ from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction
 from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 from clearpath_config.common.utils.dictionary import unflatten_dict
 from clearpath_config.common.utils.yaml import read_yaml
 
@@ -56,14 +57,11 @@ REMAPPINGS = [
 
 
 def launch_setup(context, *args, **kwargs):
-    setup_path = LaunchConfiguration('setup_path')
+    config = LaunchConfiguration('config')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    # Controllers
-    config_control = PathJoinSubstitution([
-        setup_path, 'platform/config/control.yaml'])
-
-    context_control = unflatten_dict(read_yaml(config_control.perform(context)))
+    config_path = config.perform(context)
+    context_control = unflatten_dict(read_yaml(config_path))
 
     controllers = []
 
@@ -71,7 +69,7 @@ def launch_setup(context, *args, **kwargs):
     controllers.append(Node(
         package='controller_manager',
         executable='ros2_control_node',
-        parameters=[config_control],
+        parameters=[config_path],
         output={
             'stdout': 'screen',
             'stderr': 'screen',
@@ -116,9 +114,12 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
     # Launch Configurations
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_config = DeclareLaunchArgument(
+        'config',
+        default_value=PathJoinSubstitution([
+            FindPackageShare('clearpath_control'),
+            'config', 'generic', 'control', 'empty.yaml']),
+        description='Path to the control configuration YAML file'
     )
 
     arg_use_sim_time = DeclareLaunchArgument(
@@ -129,7 +130,7 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription([
-        arg_setup_path,
+        arg_config,
         arg_use_sim_time
     ])
     ld.add_action(OpaqueFunction(function=launch_setup))

@@ -39,15 +39,15 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
+    robot_urdf = LaunchConfiguration('robot_urdf')
     robot_description_command = LaunchConfiguration('robot_description_command')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
 
     # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_robot_urdf = DeclareLaunchArgument(
+        'robot_urdf',
+        description='Path to the robot URDF xacro file'
     )
 
     arg_namespace = DeclareLaunchArgument(
@@ -55,10 +55,6 @@ def generate_launch_description():
         default_value='',
         description='Robot namespace'
     )
-
-    # Paths
-    robot_urdf = PathJoinSubstitution([
-        setup_path, 'robot.urdf.xacro'])
 
     # Get URDF via xacro
     arg_robot_description_command = DeclareLaunchArgument(
@@ -122,7 +118,7 @@ def generate_launch_description():
     ld = LaunchDescription()
     # Args
     ld.add_action(arg_use_sim_time)
-    ld.add_action(arg_setup_path)
+    ld.add_action(arg_robot_urdf)
     ld.add_action(arg_namespace)
     ld.add_action(arg_robot_description_command)
     # Nodes
