@@ -41,11 +41,7 @@ from clearpath_config.common.utils.yaml import read_yaml
 
 def launch_setup(context, *args, **kwargs):
     namespace = LaunchConfiguration('namespace')
-    setup_path = LaunchConfiguration('setup_path')
-
-    # Controllers
-    config_control = PathJoinSubstitution([
-        setup_path, 'manipulators/config/control.yaml'])
+    config_control = LaunchConfiguration('config_control')
 
     context_control = unflatten_dict(read_yaml(config_control.perform(context)))
 
@@ -101,9 +97,9 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
     # Launch Configurations
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_config_control = DeclareLaunchArgument(
+        'config_control',
+        description='Path to the manipulators control configuration YAML file'
     )
 
     arg_namespace = DeclareLaunchArgument(
@@ -114,7 +110,7 @@ def generate_launch_description():
 
     ld = LaunchDescription([
         arg_namespace,
-        arg_setup_path,
+        arg_config_control,
     ])
     ld.add_action(OpaqueFunction(function=launch_setup))
     return ld

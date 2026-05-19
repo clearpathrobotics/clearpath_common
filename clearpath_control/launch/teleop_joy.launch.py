@@ -26,43 +26,52 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import os
-
-from clearpath_config.clearpath_config import ClearpathConfig
-
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
+from launch.substitutions import (
+    EqualsSubstitution,
+    LaunchConfiguration,
+    PathJoinSubstitution
+)
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
-def launch_setup(context):
+def generate_launch_description():
     # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
+    config = LaunchConfiguration('config')
     use_sim_time = LaunchConfiguration('use_sim_time')
-    setup_path_context = setup_path.perform(context)
+    controller = LaunchConfiguration('controller')
 
-    # Controller type from robot.yaml
-    controller = ClearpathConfig(
-        os.path.join(setup_path_context, 'robot.yaml')
-    ).platform.controller
+    arg_config = DeclareLaunchArgument(
+        'config',
+        default_value=PathJoinSubstitution([
+            FindPackageShare('clearpath_control'),
+            'config', 'generic', 'teleop_joy.yaml']),
+        description='Path to the teleop joy configuration YAML file'
+    )
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use simulation time'
+    )
 
-    # Configs
-    config_teleop_joy = [
-        dir_platform_config,
-        '/teleop_joy.yaml'
-    ]
+    arg_controller = DeclareLaunchArgument(
+        'controller',
+        choices=['ps4', 'ps5', 'logitech'],
+        default_value='ps4',
+        description='Joystick controller type'
+    )
 
     node_bt_cutoff = Node(
         package='clearpath_bt_joy',
         executable='bt_joy_cutoff_node',
         name='bt_cutoff_node',
         parameters=[
-            config_teleop_joy,
+            config,
             {'use_sim_time': use_sim_time},
         ],
         remappings=[
@@ -71,6 +80,7 @@ def launch_setup(context):
             ('/diagnostics', 'diagnostics'),
         ],
         respawn=True,
+        condition=IfCondition(EqualsSubstitution(controller, 'ps5')),
     )
 
     node_joy = Node(
@@ -79,7 +89,7 @@ def launch_setup(context):
         output='screen',
         name='joy_node',
         parameters=[
-            config_teleop_joy,
+            config,
             {'use_sim_time': use_sim_time},
         ],
         remappings=[
@@ -98,7 +108,7 @@ def launch_setup(context):
         output='screen',
         name='teleop_twist_joy_node',
         parameters=[
-            config_teleop_joy,
+            config,
             {'use_sim_time': use_sim_time},
             {'publish_stamped_twist': True},
         ],
@@ -109,28 +119,10 @@ def launch_setup(context):
     )
 
     ld = LaunchDescription()
-    if controller == 'ps5':
-        ld.add_action(node_bt_cutoff)
+    ld.add_action(arg_config)
+    ld.add_action(arg_use_sim_time)
+    ld.add_action(arg_controller)
+    ld.add_action(node_bt_cutoff)
     ld.add_action(node_joy)
     ld.add_action(node_teleop_twist_joy)
-    return [ld]
-
-
-def generate_launch_description():
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    )
-
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
-
-    ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
-    ld.add_action(arg_use_sim_time)
-    ld.add_action(OpaqueFunction(function=launch_setup))
     return ld
