@@ -2,8 +2,8 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.7 (2026-05-21)
+------------------
 * Feature: PTU (`#330 <https://github.com/clearpathrobotics/clearpath_common/issues/330>`_)
   * Added support for Flir PTU-5.
   * Add generator test with package server
