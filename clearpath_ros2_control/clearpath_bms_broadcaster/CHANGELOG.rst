@@ -2,6 +2,9 @@
 Changelog for package clearpath_bms_broadcaster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.6 (2026-04-14)
 ------------------
 * remove left and right prefixes

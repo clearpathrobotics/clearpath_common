@@ -2,6 +2,12 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Change a200 and w200 control parameter default from 'diff_fwd' to 'diff_4wd' (`#338 <https://github.com/clearpathrobotics/clearpath_common/issues/338>`_)
+* Change j100 control parameter from 'diff_fwd' to 'diff_4wd' (`#336 <https://github.com/clearpathrobotics/clearpath_common/issues/336>`_)
+* Contributors: Steve Macenski, Tony Baltovski
+
 2.9.6 (2026-04-14)
 ------------------
 

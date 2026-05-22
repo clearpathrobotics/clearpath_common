@@ -2,6 +2,18 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: PTU (`#330 <https://github.com/clearpathrobotics/clearpath_common/issues/330>`_)
+  * Added support for Flir PTU-5.
+  * Add generator test with package server
+  ---------
+  Co-authored-by: Luis Camero <lcamero@clearpathrobotics.com>
+* Fix: Zed Description (`#329 <https://github.com/clearpathrobotics/clearpath_common/issues/329>`_)
+  * Use 'zed_description' packages instead of 'zed_wrapper'
+  * Add 'zed_description' to package depedencies
+* Contributors: Tony Baltovski, luis-camero
+
 2.9.6 (2026-04-14)
 ------------------
 

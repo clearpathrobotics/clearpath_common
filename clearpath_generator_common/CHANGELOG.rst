@@ -2,6 +2,16 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: PTU (`#330 <https://github.com/clearpathrobotics/clearpath_common/issues/330>`_)
+  * Added support for Flir PTU-5.
+  * Add generator test with package server
+  ---------
+  Co-authored-by: Luis Camero <lcamero@clearpathrobotics.com>
+* Skip diagnostics for disabled topics. (`#326 <https://github.com/clearpathrobotics/clearpath_common/issues/326>`_)
+* Contributors: Tony Baltovski
+
 2.9.6 (2026-04-14)
 ------------------
 * Feature: Generator Sample Tests (`#294 <https://github.com/clearpathrobotics/clearpath_common/issues/294>`_)

@@ -8,6 +8,11 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+Forthcoming
+-----------
+* Skip diagnostics for disabled topics. (`#326 <https://github.com/clearpathrobotics/clearpath_common/issues/326>`_)
+* Contributors: Tony Baltovski
+
 2.9.6 (2026-04-14)
 ------------------
 

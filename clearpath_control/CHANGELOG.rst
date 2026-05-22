@@ -2,6 +2,11 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Replaced deprecated jerk limits and has\_*_limits params. (`#335 <https://github.com/clearpathrobotics/clearpath_common/issues/335>`_)
+* Contributors: Tony Baltovski
+
 2.9.6 (2026-04-14)
 ------------------
 
