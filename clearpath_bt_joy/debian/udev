@@ -30,3 +30,7 @@ KERNEL=="js*", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c21d", SYMLINK+="inpu
 
 # Xbox One controller
 KERNEL=="js*", ATTRS{idVendor}=="1d6b", ATTRS{idProduct}=="0002", ATTRS{name}=="*Xbox*", MODE="0666", SYMLINK="input/xbox"
+
+
+# FORT Robotics VSC
+SUBSYSTEM=="input", KERNEL=="js[0-9]*", ATTRS{idVendor}=="2a99", ATTRS{idProduct}=="d002", MODE="0660", GROUP="input", SYMLINK+="input/fort_vsc"
