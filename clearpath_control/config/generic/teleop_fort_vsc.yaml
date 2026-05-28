@@ -1,0 +1,21 @@
+# Teleop configuration for FORT Robotics VSC joystick controller.
+
+teleop_twist_joy_node:
+  ros__parameters:
+    publish_stamped_twist: True
+    use_sim_time: False
+    axis_linear.x: 1
+    axis_linear.y: 3
+    axis_angular.yaw: 0
+    enable_button: 1
+    enable_turbo_button: 3
+    scale_linear.x: 0.3
+    scale_angular.yaw: 2.4
+    scale_linear_turbo.x: 1.0
+    scale_angular_turbo.yaw: 2.4
+joy_node:
+  ros__parameters:
+    use_sim_time: False
+    deadzone: 0.1
+    autorepeat_rate: 20.0
+    dev: /dev/input/fort_vsc
