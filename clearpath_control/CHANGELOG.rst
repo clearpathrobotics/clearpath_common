@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.8 (2026-05-28)
+------------------
 * Added support for Fort VSC joy. (`#341 <https://github.com/clearpathrobotics/clearpath_common/issues/341>`_)
   * Added support for Fort VSC joy.
   * Removed bluetooth node.
