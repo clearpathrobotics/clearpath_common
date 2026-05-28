@@ -2,6 +2,9 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.7 (2026-05-21)
 ------------------
 * Feature: PTU (`#330 <https://github.com/clearpathrobotics/clearpath_common/issues/330>`_)

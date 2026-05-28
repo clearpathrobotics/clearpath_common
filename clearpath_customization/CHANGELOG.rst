@@ -2,6 +2,9 @@
 Changelog for package clearpath_customization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.7 (2026-05-21)
 ------------------
 
