@@ -2,6 +2,9 @@
 Changelog for package clearpath_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.3.10 (2026-04-14)
 -------------------
 * [Humble] Fix: Update cmake version to 3.20 (`#305 <https://github.com/clearpathrobotics/clearpath_common/issues/305>`_)

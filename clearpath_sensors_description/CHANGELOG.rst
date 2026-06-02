@@ -2,6 +2,15 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Zed Description (`#329 <https://github.com/clearpathrobotics/clearpath_common/issues/329>`_) (`#332 <https://github.com/clearpathrobotics/clearpath_common/issues/332>`_)
+  * Use 'zed_description' packages instead of 'zed_wrapper'
+  * Add 'zed_description' to package depedencies
+  (cherry picked from commit 7192a3f35f145263a521e28e86f904bed1dc4dfb)
+  Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
+* Contributors: mergify[bot]
+
 1.3.10 (2026-04-14)
 -------------------
 * [Humble] Fix: Update cmake version to 3.20 (`#305 <https://github.com/clearpathrobotics/clearpath_common/issues/305>`_)

@@ -2,6 +2,16 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Robotiq 2F 140 Limits and Padding (`#311 <https://github.com/clearpathrobotics/clearpath_common/issues/311>`_) (`#312 <https://github.com/clearpathrobotics/clearpath_common/issues/312>`_)
+  * Use package instead of file to define mesh path
+  * Add padding parameter to define finger joint limits
+  * Tune down to 0.767
+  (cherry picked from commit 38b7ee125015b41d5509eaa1e035719f3b92a180)
+  Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
+* Contributors: mergify[bot]
+
 1.3.10 (2026-04-14)
 -------------------
 * Use package instead of file to define mesh path (`#307 <https://github.com/clearpathrobotics/clearpath_common/issues/307>`_) (`#309 <https://github.com/clearpathrobotics/clearpath_common/issues/309>`_)

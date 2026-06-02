@@ -2,6 +2,19 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed directory creation. (`#343 <https://github.com/clearpathrobotics/clearpath_common/issues/343>`_) (`#344 <https://github.com/clearpathrobotics/clearpath_common/issues/344>`_)
+  (cherry picked from commit 4d5144dfcd2e0afa1d183c87c9f6f16b3d751331)
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+* Fix: Robotiq 2F 140 Limits and Padding (`#311 <https://github.com/clearpathrobotics/clearpath_common/issues/311>`_) (`#312 <https://github.com/clearpathrobotics/clearpath_common/issues/312>`_)
+  * Use package instead of file to define mesh path
+  * Add padding parameter to define finger joint limits
+  * Tune down to 0.767
+  (cherry picked from commit 38b7ee125015b41d5509eaa1e035719f3b92a180)
+  Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
+* Contributors: mergify[bot]
+
 1.3.10 (2026-04-14)
 -------------------
 * [Humble] Fix: Update cmake version to 3.20 (`#305 <https://github.com/clearpathrobotics/clearpath_common/issues/305>`_)
