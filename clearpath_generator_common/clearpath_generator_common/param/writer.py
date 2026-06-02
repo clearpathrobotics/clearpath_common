@@ -30,6 +30,8 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
+import os
+
 from clearpath_generator_common.common import ParamFile
 
 
@@ -38,6 +40,7 @@ class ParamWriter():
 
     def __init__(self, param_file: ParamFile):
         self.param_file = param_file
+        os.makedirs(os.path.dirname(self.param_file.full_path), exist_ok=True)
         self.file = open(self.param_file.full_path, 'w+')
 
     def write(self, string, indent_level=1):
