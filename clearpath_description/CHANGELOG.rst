@@ -2,6 +2,9 @@
 Changelog for package clearpath_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.8 (2026-05-28)
 ------------------
 

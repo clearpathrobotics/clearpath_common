@@ -2,6 +2,9 @@
 Changelog for package clearpath_bt_joy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.8 (2026-05-28)
 ------------------
 * Added support for Fort VSC joy. (`#341 <https://github.com/clearpathrobotics/clearpath_common/issues/341>`_)
