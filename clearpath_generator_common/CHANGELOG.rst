@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.9 (2026-06-02)
+------------------
 * Fixed directory creation. (`#343 <https://github.com/clearpathrobotics/clearpath_common/issues/343>`_)
 * Contributors: Tony Baltovski
 
