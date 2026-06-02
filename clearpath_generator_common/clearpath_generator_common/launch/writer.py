@@ -43,6 +43,7 @@ class LaunchWriter():
         self.nodes: List[LaunchFile.Node] = []
         self.declared_launch_args: List[LaunchFile.LaunchArg] = []
         self.processes: List[LaunchFile.Process] = []
+        os.makedirs(os.path.dirname(self.launch_file.get_full_path()), exist_ok=True)
         self.file = open(self.launch_file.get_full_path(), 'w+')
 
     def write(self, string, indent_level=1):
