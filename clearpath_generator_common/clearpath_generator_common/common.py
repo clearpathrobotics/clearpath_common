@@ -57,6 +57,14 @@ class Package():
     def find_package_share(self) -> str:
         return "{0} = FindPackageShare('{1}')".format(self.declaration, self.name)
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Package):
+            return NotImplemented
+        return self.name == other.name
+
+    def __hash__(self) -> int:
+        return hash(self.name)
+
 
 class LaunchFile():
     class LaunchComponent():
