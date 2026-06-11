@@ -175,7 +175,7 @@ class ManipulatorParam():
                     extra_parameters
                 )
                 self.param_file.parameters = merge_dict(
-                    updated_parameters, self.param_file.parameters)
+                    updated_parameters, self.param_file.parameters, priority=1)
                 # Overwrite ros parameters with extra
                 self.param_file.parameters = merge_dict(
                     extra_parameters, self.param_file.parameters)
