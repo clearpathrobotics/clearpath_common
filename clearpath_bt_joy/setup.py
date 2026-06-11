@@ -57,6 +57,7 @@ setup(
     entry_points={
         'console_scripts': [
             'bt_joy_cutoff_node = clearpath_bt_joy.bt_joy_cutoff_node:main',
+            'pair_bt_controller = clearpath_bt_joy.pair_bt_controller:main',
         ],
     },
 )
