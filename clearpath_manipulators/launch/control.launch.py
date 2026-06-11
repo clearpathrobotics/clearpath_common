@@ -71,14 +71,10 @@ def launch_setup(context, *args, **kwargs):
         arguments=[
             'joint_state_broadcaster', '--controller-manager-timeout', '60',
             '--controller-ros-args',
-            '-r', ['dynamic_joint_states:=',
-                   PathJoinSubstitution([
-                       '/', namespace, 'platform', 'dynamic_joint_states'
-                   ])],
-            '-r', ['joint_states:=',
-                   PathJoinSubstitution([
-                       '/', namespace, 'platform', 'joint_states'
-                   ])],
+            [' --ros-args -r dynamic_joint_states:=',
+             PathJoinSubstitution(['/', namespace, 'platform', 'dynamic_joint_states']),
+             ' -r joint_states:=',
+             PathJoinSubstitution(['/', namespace, 'platform', 'joint_states'])],
         ],
         output='screen',
     ))

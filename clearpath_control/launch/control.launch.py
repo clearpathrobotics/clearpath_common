@@ -44,21 +44,23 @@ CONTROLLER_MANAGER_REMAPPINGS = [
     ('~/robot_description', 'robot_description'),
 ]
 
-JOINT_STATE_BROADCASTER_REMAPPINGS = [
-    '-r', 'joint_states:=platform/joint_states',
-    '-r', 'dynamic_joint_states:=platform/dynamic_joint_states',
-]
+JOINT_STATE_BROADCASTER_REMAPPINGS = (
+    '--ros-args'
+    ' -r joint_states:=platform/joint_states'
+    ' -r dynamic_joint_states:=platform/dynamic_joint_states'
+)
 
-PLATFORM_VELOCITY_CONTROLLER_REMAPPINGS = [
-    '-r', '~/odom:=platform/odom',
-    '-r', '~/odometry:=platform/odom',
-    '-r', '~/cmd_vel:=platform/cmd_vel',
-    '-r', '~/cmd_vel_out:=platform/cmd_vel_out',
-    '-r', '~/reference:=platform/cmd_vel',
-    '-r', '~/transition_event:=platform/transition_event',
-    '-r', '/tf:=tf',
-    '-r', '/tf_static:=tf_static',
-]
+PLATFORM_VELOCITY_CONTROLLER_REMAPPINGS = (
+    '--ros-args'
+    ' -r ~/odom:=platform/odom'
+    ' -r ~/odometry:=platform/odom'
+    ' -r ~/cmd_vel:=platform/cmd_vel'
+    ' -r ~/cmd_vel_out:=platform/cmd_vel_out'
+    ' -r ~/reference:=platform/cmd_vel'
+    ' -r ~/transition_event:=platform/transition_event'
+    ' -r /tf:=tf'
+    ' -r /tf_static:=tf_static'
+)
 
 
 def launch_setup(context, *args, **kwargs):
@@ -91,8 +93,8 @@ def launch_setup(context, *args, **kwargs):
         executable='spawner',
         arguments=[
             '--controller-manager-timeout', '60', 'joint_state_broadcaster',
-            '--controller-ros-args',
-        ] + JOINT_STATE_BROADCASTER_REMAPPINGS,
+            '--controller-ros-args', JOINT_STATE_BROADCASTER_REMAPPINGS,
+        ],
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     ))
@@ -102,8 +104,8 @@ def launch_setup(context, *args, **kwargs):
         executable='spawner',
         arguments=[
             '--controller-manager-timeout', '60', 'platform_velocity_controller',
-            '--controller-ros-args',
-        ] + PLATFORM_VELOCITY_CONTROLLER_REMAPPINGS,
+            '--controller-ros-args', PLATFORM_VELOCITY_CONTROLLER_REMAPPINGS,
+        ],
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     ))
