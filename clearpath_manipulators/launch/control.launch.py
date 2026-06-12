@@ -58,14 +58,6 @@ def launch_setup(context, *args, **kwargs):
         },
         remappings=[
             ('~/robot_description', 'robot_description'),
-            ('dynamic_joint_states',
-                PathJoinSubstitution([
-                    '/', namespace, 'platform', 'dynamic_joint_states'
-                ])),
-            ('joint_states',
-                PathJoinSubstitution([
-                    '/', namespace, 'platform', 'joint_states'
-                ])),
         ],
     ))
     # Add Joint State Broadcaster
@@ -74,6 +66,11 @@ def launch_setup(context, *args, **kwargs):
         executable='spawner',
         arguments=[
             'joint_state_broadcaster', '--controller-manager-timeout', '60',
+            '--controller-ros-args',
+            [' --ros-args -r dynamic_joint_states:=',
+             PathJoinSubstitution(['/', namespace, 'platform', 'dynamic_joint_states']),
+             ' -r joint_states:=',
+             PathJoinSubstitution(['/', namespace, 'platform', 'joint_states'])],
         ],
         output='screen',
     ))
