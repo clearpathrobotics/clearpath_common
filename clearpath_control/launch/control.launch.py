@@ -40,20 +40,28 @@ from launch_ros.substitutions import FindPackageShare
 from clearpath_config.common.utils.dictionary import unflatten_dict
 from clearpath_config.common.utils.yaml import read_yaml
 
-REMAPPINGS = [
-    ('joint_states', 'platform/joint_states'),
-    ('dynamic_joint_states', 'platform/dynamic_joint_states'),
-    ('platform_velocity_controller/odom', 'platform/odom'),
-    ('platform_velocity_controller/odometry', 'platform/odom'),
-    ('platform_velocity_controller/cmd_vel', 'platform/cmd_vel'),
-    ('platform_velocity_controller/cmd_vel_out', 'platform/cmd_vel_out'),
-    ('platform_velocity_controller/reference', 'platform/cmd_vel'),
-    ('platform_velocity_controller/transition_event', 'platform/transition_event'),
+CONTROLLER_MANAGER_REMAPPINGS = [
     ('/diagnostics', 'diagnostics'),
-    ('/tf', 'tf'),
-    ('/tf_static', 'tf_static'),
     ('~/robot_description', 'robot_description'),
 ]
+
+JOINT_STATE_BROADCASTER_REMAPPINGS = (
+    '--ros-args'
+    ' -r joint_states:=platform/joint_states'
+    ' -r dynamic_joint_states:=platform/dynamic_joint_states'
+)
+
+PLATFORM_VELOCITY_CONTROLLER_REMAPPINGS = (
+    '--ros-args'
+    ' -r ~/odom:=platform/odom'
+    ' -r ~/odometry:=platform/odom'
+    ' -r ~/cmd_vel:=platform/cmd_vel'
+    ' -r ~/cmd_vel_out:=platform/cmd_vel_out'
+    ' -r ~/reference:=platform/cmd_vel'
+    ' -r ~/transition_event:=platform/transition_event'
+    ' -r /tf:=tf'
+    ' -r /tf_static:=tf_static'
+)
 
 
 def launch_setup(context, *args, **kwargs):
@@ -74,16 +82,9 @@ def launch_setup(context, *args, **kwargs):
             'stdout': 'screen',
             'stderr': 'screen',
         },
-        remappings=REMAPPINGS,
+        remappings=CONTROLLER_MANAGER_REMAPPINGS,
         condition=UnlessCondition(use_sim_time)
     ))
-
-    # Collect all real-hardware controller names.  joint_state_broadcaster is
-    # always first so joint states are published before command controllers
-    # activate.  All controllers are spawned in a single call so the
-    # system-wide file lock is acquired only once.
-    controller_names = ['joint_state_broadcaster', 'platform_velocity_controller']
-
     # If Simulation, Add All Listed Controllers
     for namespace in context_control:
         for controller in context_control[namespace]:
@@ -101,10 +102,21 @@ def launch_setup(context, *args, **kwargs):
                 condition=IfCondition(use_sim_time),
             ))
 
+    # Spawn all controllers in a single call so the system-wide file lock is
+    # acquired only once. joint_state_broadcaster is first so joint states are
+    # published before command controllers activate. Per-controller
+    # `--controller` arguments scope each set of remappings to its controller.
     controllers.append(Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['--controller-manager-timeout', '60'] + controller_names,
+        arguments=[
+            '--controller-manager-timeout', '60',
+            '--switch-asap',
+            '--controller', 'joint_state_broadcaster',
+            '--controller-ros-args', JOINT_STATE_BROADCASTER_REMAPPINGS,
+            '--controller', 'platform_velocity_controller',
+            '--controller-ros-args', PLATFORM_VELOCITY_CONTROLLER_REMAPPINGS,
+        ],
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     ))
