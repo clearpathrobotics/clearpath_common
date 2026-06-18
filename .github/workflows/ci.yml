@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: 'ros-industrial/industrial_ci@master'
         env: ${{matrix.env}}
   clearpath_common_cpr_ci:
@@ -47,8 +47,8 @@ jobs:
     container:
       image: ghcr.io/clearpathrobotics/clearpath_docker:jazzy-ci-common-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ros-tooling/action-ros-ci@v0.3
+      - uses: actions/checkout@v6
+      - uses: ros-tooling/action-ros-ci@v0.4
         id: action_ros_ci_step
         with:
           target-ros2-distro: jazzy
@@ -69,9 +69,9 @@ jobs:
     container:
       image: ghcr.io/clearpathrobotics/clearpath_docker:jazzy-ci-common-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: "[Repositories Updater] Checkout action"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: clearpathrobotics/repos-dep-update-action
           ref: 0.0.4
@@ -94,7 +94,7 @@ jobs:
       - name: "[Repositories Updater] Print updated dependencies"
         run: |
           cat updated_dependencies.repos
-      - uses: ros-tooling/action-ros-ci@v0.3
+      - uses: ros-tooling/action-ros-ci@v0.4
         id: action_ros_ci_step
         with:
           target-ros2-distro: jazzy
@@ -116,9 +116,9 @@ jobs:
     container:
       image: ghcr.io/clearpathrobotics/clearpath_docker:jazzy-ci-common-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: "[Repositories Updater] Checkout action"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: clearpathrobotics/repos-dep-update-action
           ref: 0.0.4
@@ -137,7 +137,7 @@ jobs:
       - name: "[Repositories Updater] Print updated dependencies"
         run: |
           cat updated_dependencies.repos
-      - uses: ros-tooling/action-ros-ci@v0.3
+      - uses: ros-tooling/action-ros-ci@v0.4
         id: action_ros_ci_step
         with:
           target-ros2-distro: jazzy
@@ -158,9 +158,9 @@ jobs:
     container:
       image: ghcr.io/clearpathrobotics/clearpath_docker:jazzy-ci-common-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: "[Repositories Updater] Checkout action"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: clearpathrobotics/repos-dep-update-action
           ref: 0.0.4
@@ -183,7 +183,7 @@ jobs:
       - name: "[Repositories Updater] Print updated dependencies"
         run: |
           cat updated_dependencies.repos
-      - uses: ros-tooling/action-ros-ci@v0.3
+      - uses: ros-tooling/action-ros-ci@v0.4
         id: action_ros_ci_step
         with:
           target-ros2-distro: jazzy
@@ -207,7 +207,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: "[Repositories Updater] Checkout action"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: clearpathrobotics/repos-dep-update-action
           ref: 0.0.4
@@ -230,7 +230,7 @@ jobs:
       - name: "[Repositories Updater] Print updated dependencies"
         run: |
           cat updated_dependencies.repos
-      - uses: ros-tooling/action-ros-ci@v0.3
+      - uses: ros-tooling/action-ros-ci@v0.4
         id: action_ros_ci_step
         with:
           target-ros2-distro: jazzy
