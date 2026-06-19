@@ -48,9 +48,49 @@ def generate_launch_description():
     pkg_clearpath_platform_description = FindPackageShare('clearpath_platform_description')
 
     # Launch Arguments
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_robot_urdf = DeclareLaunchArgument(
+        'robot_urdf',
+        description='Path to the robot URDF xacro file'
+    )
+
+    arg_config_control = DeclareLaunchArgument(
+        'config_control',
+        default_value=PathJoinSubstitution([
+            pkg_clearpath_control,
+            'config', 'generic', 'control', 'empty.yaml']),
+        description='Path to the control configuration YAML file'
+    )
+
+    arg_config_localization = DeclareLaunchArgument(
+        'config_localization',
+        default_value=PathJoinSubstitution([
+            pkg_clearpath_control,
+            'config', 'generic', 'localization.yaml']),
+        description='Path to the localization configuration YAML file'
+    )
+
+    arg_config_twist_mux = DeclareLaunchArgument(
+        'config_twist_mux',
+        default_value=PathJoinSubstitution([
+            pkg_clearpath_control,
+            'config', 'twist_mux.yaml']),
+        description='Path to the twist mux configuration YAML file'
+    )
+
+    arg_config_interactive_markers = DeclareLaunchArgument(
+        'config_interactive_markers',
+        default_value=PathJoinSubstitution([
+            pkg_clearpath_control,
+            'config', 'generic', 'teleop_interactive_markers.yaml']),
+        description='Path to the interactive markers configuration YAML file'
+    )
+
+    arg_config_teleop_joy = DeclareLaunchArgument(
+        'config_teleop_joy',
+        default_value=PathJoinSubstitution([
+            pkg_clearpath_control,
+            'config', 'generic', 'teleop_joy.yaml']),
+        description='Path to the teleop joy configuration YAML file'
     )
 
     arg_use_sim_time = DeclareLaunchArgument(
@@ -74,7 +114,12 @@ def generate_launch_description():
     )
 
     # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
+    robot_urdf = LaunchConfiguration('robot_urdf')
+    config_control = LaunchConfiguration('config_control')
+    config_localization = LaunchConfiguration('config_localization')
+    config_twist_mux = LaunchConfiguration('config_twist_mux')
+    config_interactive_markers = LaunchConfiguration('config_interactive_markers')
+    config_teleop_joy = LaunchConfiguration('config_teleop_joy')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
     enable_ekf = LaunchConfiguration('enable_ekf')
@@ -112,7 +157,8 @@ def generate_launch_description():
             IncludeLaunchDescription(
               PythonLaunchDescriptionSource(launch_file_platform_description),
               launch_arguments=[
-                ('setup_path', setup_path),
+                ('robot_urdf', robot_urdf),
+                ('config_control', config_control),
                 ('use_sim_time', use_sim_time),
                 ('namespace', namespace),
               ]
@@ -122,7 +168,7 @@ def generate_launch_description():
             IncludeLaunchDescription(
               PythonLaunchDescriptionSource(launch_file_control),
               launch_arguments=[
-                ('setup_path', setup_path),
+                ('config', config_control),
                 ('use_sim_time', use_sim_time),
               ]
             ),
@@ -131,7 +177,7 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(launch_file_localization),
                 launch_arguments=[
-                  ('setup_path', setup_path),
+                  ('config', config_localization),
                   ('use_sim_time', use_sim_time),
                   ('enable_ekf', enable_ekf)
                 ]
@@ -142,7 +188,8 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(launch_file_teleop_base),
                 launch_arguments=[
-                  ('setup_path', setup_path),
+                  ('config_twist_mux', config_twist_mux),
+                  ('config_interactive_markers', config_interactive_markers),
                   ('use_sim_time', use_sim_time),
                 ]
             ),
@@ -152,7 +199,7 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(launch_file_teleop_joy),
                 launch_arguments=[
-                  ('setup_path', setup_path),
+                  ('config', config_teleop_joy),
                   ('use_sim_time', use_sim_time),
                 ]
             ),
@@ -160,7 +207,12 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
+    ld.add_action(arg_robot_urdf)
+    ld.add_action(arg_config_control)
+    ld.add_action(arg_config_localization)
+    ld.add_action(arg_config_twist_mux)
+    ld.add_action(arg_config_interactive_markers)
+    ld.add_action(arg_config_teleop_joy)
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_namespace)
     ld.add_action(arg_enable_ekf)

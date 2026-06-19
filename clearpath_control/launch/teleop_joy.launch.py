@@ -30,16 +30,20 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
     # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
+    config = LaunchConfiguration('config')
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_config = DeclareLaunchArgument(
+        'config',
+        default_value=PathJoinSubstitution([
+            FindPackageShare('clearpath_control'),
+            'config', 'generic', 'teleop_joy.yaml']),
+        description='Path to the teleop joy configuration YAML file'
     )
 
     arg_use_sim_time = DeclareLaunchArgument(
@@ -49,22 +53,12 @@ def generate_launch_description():
         description='Use simulation time'
     )
 
-    # Paths
-    dir_platform_config = PathJoinSubstitution([
-        setup_path, 'platform/config'])
-
-    # Configs
-    config_teleop_joy = [
-        dir_platform_config,
-        '/teleop_joy.yaml'
-    ]
-
     #node_bt_cutoff = Node(
     #    package='clearpath_bt_joy',
     #    executable='clearpath_bt_joy_cutoff_node',
     #    name='bt_cutoff_node',
     #    parameters=[
-    #        config_teleop_joy,
+    #        config,
     #        {'use_sim_time': use_sim_time},
     #    ],
     #    remappings=[
@@ -80,7 +74,7 @@ def generate_launch_description():
         output='screen',
         name='joy_node',
         parameters=[
-            config_teleop_joy,
+            config,
             {'use_sim_time': use_sim_time},
         ],
         remappings=[
@@ -99,7 +93,7 @@ def generate_launch_description():
         output='screen',
         name='teleop_twist_joy_node',
         parameters=[
-            config_teleop_joy,
+            config,
             {'use_sim_time': use_sim_time},
             {'publish_stamped_twist': True},
         ],
@@ -135,7 +129,7 @@ def generate_launch_description():
 
     # Create launch description and add actions
     ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
+    ld.add_action(arg_config)
     ld.add_action(arg_use_sim_time)
     #ld.add_action(node_bt_cutoff)
     ld.add_action(node_joy)
