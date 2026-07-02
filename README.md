@@ -10,7 +10,7 @@ https://docs.clearpathrobotics.com/docs/ros/
 ## Packages
 
 - `clearpath_common`: Metapackage for core common stack.
-- `clearpath_bt_joy`: Bluetooth joystick cutoff node. (Unused at the moment)
+- `clearpath_bt_joy`: Bluetooth joystick watchdog. Monitors HID report-rate on `/dev/hidrawN` and publishes a stop flag when link quality drops below threshold. Only for PS5 at the moment.
 - `clearpath_control`: Platform controllers, localization, and teleoperation launch files.
 - `clearpath_customization`: Templates and generators for project bringup/description customization.
 - `clearpath_description`: Clearpath URDF descriptions metapackage.
@@ -53,5 +53,3 @@ section of `clearpath_generator_tests` for the full process.
 ## License
 
 BSD. See [LICENSE](LICENSE).
-Common ROS 2 packages for Clearpath Platforms, including generators, configuration, description,
-and control.

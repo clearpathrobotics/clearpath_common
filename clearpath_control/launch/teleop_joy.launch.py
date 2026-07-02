@@ -26,28 +26,26 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+import os
+
+from clearpath_config.clearpath_config import ClearpathConfig
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
 
-def generate_launch_description():
+def launch_setup(context):
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
+    setup_path_context = setup_path.perform(context)
 
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    )
-
-    arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
-        choices=['true', 'false'],
-        default_value='false',
-        description='Use simulation time'
-    )
+    # Controller type from robot.yaml
+    controller = ClearpathConfig(
+        os.path.join(setup_path_context, 'robot.yaml')
+    ).platform.controller
 
     # Paths
     dir_platform_config = PathJoinSubstitution([
@@ -59,20 +57,21 @@ def generate_launch_description():
         '/teleop_joy.yaml'
     ]
 
-    #node_bt_cutoff = Node(
-    #    package='clearpath_bt_joy',
-    #    executable='clearpath_bt_joy_cutoff_node',
-    #    name='bt_cutoff_node',
-    #    parameters=[
-    #        config_teleop_joy,
-    #        {'use_sim_time': use_sim_time},
-    #    ],
-    #    remappings=[
-    #        ('bt_quality_stop', 'joy_teleop/bt_quality_stop'),
-    #        ('quality', 'joy_teleop/quality'),
-    #    ],
-    #    respawn=True,
-    #)
+    node_bt_cutoff = Node(
+        package='clearpath_bt_joy',
+        executable='bt_joy_cutoff_node',
+        name='bt_cutoff_node',
+        parameters=[
+            config_teleop_joy,
+            {'use_sim_time': use_sim_time},
+        ],
+        remappings=[
+            ('bt_quality_stop', 'joy_teleop/bt_quality_stop'),
+            ('quality', 'joy_teleop/quality'),
+            ('/diagnostics', 'diagnostics'),
+        ],
+        respawn=True,
+    )
 
     node_joy = Node(
         package='joy_linux',
@@ -109,36 +108,29 @@ def generate_launch_description():
         ]
     )
 
-    #node_twist_mux = Node(
-    #    package='twist_mux',
-    #    executable='twist_mux',
-    #    output='screen',
-    #    name='teleop_cutoff_mux',
-    #    remappings={
-    #        ('cmd_vel_out', 'joy_teleop/cmd_vel'),
-    #        ('/diagnostics', 'diagnostics'),
-    #        ('/tf', 'tf'),
-    #        ('/tf_static', 'tf_static'),
-    #    },
-    #    parameters=[
-    #        {'use_sim_time': use_sim_time},
-    #        {'use_stamped': True},
-    #        {'topics.joy.topic': 'joy_teleop/_cmd_vel'},
-    #        {'topics.joy.timeout': 0.5},
-    #        {'topics.joy.priority': 10},
-    #        {'locks.bt_quality.topic': 'joy_teleop/bt_quality_stop'},
-    #        {'locks.bt_quality.timeout': 1.0},
-    #        {'locks.bt_quality.priority': 255},
-    #    ]
-    #)
+    ld = LaunchDescription()
+    if controller == 'ps5':
+        ld.add_action(node_bt_cutoff)
+    ld.add_action(node_joy)
+    ld.add_action(node_teleop_twist_joy)
+    return [ld]
 
 
-    # Create launch description and add actions
+def generate_launch_description():
+    arg_setup_path = DeclareLaunchArgument(
+        'setup_path',
+        default_value='/etc/clearpath/'
+    )
+
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use simulation time'
+    )
+
     ld = LaunchDescription()
     ld.add_action(arg_setup_path)
     ld.add_action(arg_use_sim_time)
-    #ld.add_action(node_bt_cutoff)
-    ld.add_action(node_joy)
-    ld.add_action(node_teleop_twist_joy)
-    #ld.add_action(node_twist_mux)
+    ld.add_action(OpaqueFunction(function=launch_setup))
     return ld
