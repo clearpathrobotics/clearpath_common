@@ -2,6 +2,9 @@
 Changelog for package clearpath_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.9 (2026-06-02)
 ------------------
 

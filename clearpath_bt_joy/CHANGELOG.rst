@@ -2,6 +2,17 @@
 Changelog for package clearpath_bt_joy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added support for the PS5 joystick and created an actual cutoff to de… (`#342 <https://github.com/clearpathrobotics/clearpath_common/issues/342>`_)
+  * Added support for the PS5 joystick and created an actual cutoff to detect when it about to disconnect.
+  * Added more fine grained udev rules to ensuring the mapping is on the correct joy.
+  * Updated README.
+  * Added pairing script.
+  * Minor changes.
+  * Updated copyright to Rockwell Automation.
+* Contributors: Tony Baltovski
+
 2.9.9 (2026-06-02)
 ------------------
 
