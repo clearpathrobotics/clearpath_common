@@ -7,6 +7,10 @@ This repository provides the core platform bringup, control, robot description a
 ## Packages
 
 - `clearpath_common`: Metapackage for core common stack.
+<<<<<<< HEAD
+=======
+- `clearpath_bt_joy`: Bluetooth joystick watchdog. Monitors HID report-rate on `/dev/hidrawN` and publishes a stop flag when link quality drops below threshold. Only for PS5 at the moment.
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342))
 - `clearpath_control`: Platform controllers, localization, and teleoperation launch files.
 - `clearpath_customization`: Templates and generators for project bringup/description customization.
 - `clearpath_description`: Clearpath URDF descriptions metapackage.
@@ -35,4 +39,8 @@ source install/setup.bash
 
 ## License
 
+<<<<<<< HEAD
 BSD. See [LICENSE](LICENSE).
+=======
+BSD. See [LICENSE](LICENSE).
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342))

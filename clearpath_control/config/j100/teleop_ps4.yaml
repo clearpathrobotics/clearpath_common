@@ -9,11 +9,11 @@
 #      / _____ \                                / _____ \
 #    +.-'_____'-.------------------------------.-'_____'-.+
 #   /   |     |  '.        S O N Y           .'  |  _  |   \
-#  / ___| /|\ |___ \                        / ___| /_\ |___ \      (Y)
+#  / ___| /|\ |___ \                        / ___| /_\ |___ \
 # / |      |      | ;                      ; | _         _ ||
-# | | <---   ---> | |                      | ||_|       (_)||  (X)     (B)
+# | | <---   ---> | |                      | ||_|       (_)||
 # | |___   |   ___| ;                      ; |___       ___||
-# |\    | \|/ |    /  _      ____      _   \    | (X) |    /|      (A)
+# |\    | \|/ |    /  _      ____      _   \    | (X) |    /|
 # | \   |_____|  .','" "',  (_PS_)  ,'" "', '.  |_____|  .' |
 # |  '-.______.-' /       \        /       \  '-._____.-'   |
 # |               |  LJ   |--------|  RJ   |                |
@@ -23,27 +23,20 @@
 #  \          /                                \           /
 #   \________/                                  \_________/
 #
-#          ^ x
-#          |
-#          |
-#  y <-----+      Accelerometer axes
-#           \
-#            \
-#             > z (out)
-#
 # BUTTON         Value
+#   Cross          0
+#   Circle         1
+#   Triangle       2
+#   Square         3
 #   L1             4
-#   L2             6
 #   R1             5
+#   L2             6
 #   R2             7
-#   A              1
-#   B              2
-#   X              0
-#   Y              3
 #
 #    AXIS        Value
 # Left Horiz.      0
 # Left Vert.       1
+<<<<<<< HEAD:clearpath_control/config/j100/teleop_ps4.yaml
 # Right Horiz.     2
 # Right Vert.      5
 #    L2            3
@@ -53,6 +46,14 @@
 # Accel x          7
 # Accel y          6
 # Accel z          8
+=======
+#    L2            2
+# Right Horiz.     3
+# Right Vert.      4
+#    R2            5
+# D-pad Horiz.     6
+# D-pad Vert.      7
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342)):clearpath_control/config/generic/teleop_ps5.yaml
 
 teleop_twist_joy_node:
   ros__parameters:
@@ -65,9 +66,21 @@ teleop_twist_joy_node:
     scale_angular_turbo.yaw: 1.4
     enable_button: 4
     enable_turbo_button: 5
+
 joy_node:
   ros__parameters:
     use_sim_time: False
     deadzone: 0.1
     autorepeat_rate: 20.0
+<<<<<<< HEAD:clearpath_control/config/j100/teleop_ps4.yaml
     dev: /dev/input/ps4
+=======
+    dev: /dev/input/ps5
+
+bt_cutoff_node:
+  ros__parameters:
+    publish_rate: 10.0
+    joy_device: /dev/input/ps5
+    expected_report_hz: 200.0
+    quality_threshold_pct: 40
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342)):clearpath_control/config/generic/teleop_ps5.yaml

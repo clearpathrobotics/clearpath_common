@@ -1,5 +1,6 @@
 twist_mux:
   ros__parameters:
+<<<<<<< HEAD
     use_sim_time: False
     topics.joy.topic: joy_teleop/cmd_vel
     topics.joy.timeout: 0.5
@@ -16,3 +17,36 @@ twist_mux:
     locks.e_stop.topic: platform/emergency_stop
     locks.e_stop.timeout: 0.0
     locks.e_stop.priority: 255
+=======
+    use_stamped: true
+    topics:
+      joy:
+        topic: joy_teleop/cmd_vel
+        timeout: 0.5
+        priority: 10
+      interactive_marker:
+        topic: twist_marker_server/cmd_vel
+        timeout: 0.5
+        priority: 8
+      rc:
+        topic: rc_teleop/cmd_vel
+        timeout: 0.5
+        priority: 12
+      external:
+        topic: cmd_vel
+        timeout: 0.5
+        priority: 1
+    locks:
+      e_stop:
+        topic: platform/emergency_stop
+        timeout: 0.0
+        priority: 255
+      safety_stop:
+        topic: platform/safety_stop
+        timeout: 0.0
+        priority: 254
+      bt_quality:
+        topic: joy_teleop/bt_quality_stop
+        timeout: 0.0
+        priority: 253
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342))

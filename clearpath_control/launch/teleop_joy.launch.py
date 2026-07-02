@@ -28,21 +28,29 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+<<<<<<< HEAD
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+=======
+import os
+
+from clearpath_config.clearpath_config import ClearpathConfig
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342))
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
 
-def generate_launch_description():
+def launch_setup(context):
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
+    setup_path_context = setup_path.perform(context)
 
+<<<<<<< HEAD
     # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
         'setup_path',
@@ -55,6 +63,12 @@ def generate_launch_description():
         default_value='false',
         description='Use simulation time'
     )
+=======
+    # Controller type from robot.yaml
+    controller = ClearpathConfig(
+        os.path.join(setup_path_context, 'robot.yaml')
+    ).platform.controller
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342))
 
     # Paths
     dir_platform_config = PathJoinSubstitution([
@@ -66,6 +80,25 @@ def generate_launch_description():
         '/teleop_joy.yaml'
     ]
 
+<<<<<<< HEAD
+=======
+    node_bt_cutoff = Node(
+        package='clearpath_bt_joy',
+        executable='bt_joy_cutoff_node',
+        name='bt_cutoff_node',
+        parameters=[
+            config_teleop_joy,
+            {'use_sim_time': use_sim_time},
+        ],
+        remappings=[
+            ('bt_quality_stop', 'joy_teleop/bt_quality_stop'),
+            ('quality', 'joy_teleop/quality'),
+            ('/diagnostics', 'diagnostics'),
+        ],
+        respawn=True,
+    )
+
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342))
     node_joy = Node(
         package='joy_linux',
         executable='joy_linux_node',
@@ -97,9 +130,37 @@ def generate_launch_description():
         ]
     )
 
+<<<<<<< HEAD
     ld = LaunchDescription()
     ld.add_action(arg_setup_path)
     ld.add_action(arg_use_sim_time)
     ld.add_action(node_joy)
     ld.add_action(node_teleop_twist_joy)
+=======
+    ld = LaunchDescription()
+    if controller == 'ps5':
+        ld.add_action(node_bt_cutoff)
+    ld.add_action(node_joy)
+    ld.add_action(node_teleop_twist_joy)
+    return [ld]
+
+
+def generate_launch_description():
+    arg_setup_path = DeclareLaunchArgument(
+        'setup_path',
+        default_value='/etc/clearpath/'
+    )
+
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use simulation time'
+    )
+
+    ld = LaunchDescription()
+    ld.add_action(arg_setup_path)
+    ld.add_action(arg_use_sim_time)
+    ld.add_action(OpaqueFunction(function=launch_setup))
+>>>>>>> bd5537d (Added support for the PS5 joystick and created an actual cutoff to de… (#342))
     return ld
