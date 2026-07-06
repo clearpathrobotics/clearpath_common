@@ -32,8 +32,9 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction
+from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction, RegisterEventHandler
 from launch.conditions import IfCondition, UnlessCondition
+from launch.event_handlers import OnProcessExit
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from clearpath_config.common.utils.dictionary import unflatten_dict
@@ -80,21 +81,30 @@ def launch_setup(context, *args, **kwargs):
         condition=UnlessCondition(use_sim_time)
     ))
     # Add Joint State Broadcaster
-    controllers.append(Node(
+    joint_state_broadcaster_spawner = Node(
         package='controller_manager',
         executable='spawner',
         arguments=['--controller-manager-timeout', '60', 'joint_state_broadcaster'],
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
-    ))
-    # Add Platform Velocity Controller
-    controllers.append(Node(
+    )
+    controllers.append(joint_state_broadcaster_spawner)
+    # Add Platform Velocity Controller (after joint_state_broadcaster)
+    platform_velocity_controller_spawner = Node(
         package='controller_manager',
         executable='spawner',
         arguments=['--controller-manager-timeout', '60', 'platform_velocity_controller'],
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
-    ))
+    )
+    controllers.append(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=joint_state_broadcaster_spawner,
+                on_exit=[platform_velocity_controller_spawner],
+            )
+        )
+    )
     # If Simulation, Add All Listed Controllers
     for namespace in context_control:
         for controller in context_control[namespace]:
