@@ -29,7 +29,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/do100/omni_chassis.dae"/>
+          <mesh filename="package://clearpath_platform_description/meshes/do100/do100_chassis.glb"/>
         </geometry>
       </visual>
       <collision>
@@ -40,7 +40,7 @@
       </collision>
       <inertial>
         <!-- Center of mass -->
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 ${wheel_vertical_offset}" rpy="0 0 0"/>
         <mass value="14"/>
         <!-- Moments of inertia: ( chassis without wheels ) -->
         <inertia
@@ -114,6 +114,7 @@
       <parent link="chassis_link"/>
       <child link="default_mount" />
     </joint>
+
     <joint name="front_0_mount_joint" type="fixed">
       <origin xyz="0.080 0 0" rpy="0 0 0" />
       <parent link="default_mount"/>

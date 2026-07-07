@@ -35,7 +35,7 @@
       <visual>
         <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${PI/2}"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/j100/j100_base.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/j100_chassis.glb"/>
         </geometry>
         <material name="clearpath_dark_grey" />
       </visual>

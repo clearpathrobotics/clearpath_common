@@ -9,13 +9,13 @@
       <visual>
         <material name="clearpath_dark_grey"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/motor.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/motor.glb"/>
         </geometry>
         <origin rpy="0 0 ${rotation_yaw}"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/motor.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/motor.glb"/>
         </geometry>
       </collision>
     </link>

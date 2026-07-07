@@ -12,7 +12,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <mesh filename="package://clearpath_platform_description/meshes/j100/wheels/outdoor.stl"/>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/wheels/outdoor.glb"/>
         </geometry>
         <material name="clearpath_black" />
       </visual>
