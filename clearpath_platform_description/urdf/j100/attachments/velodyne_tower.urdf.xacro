@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="velodyne_tower" params="name:=velodyne_tower parent_link:=default_mount *origin">
+    <xacro:property name="tower_height" value="0.08135"/>
+
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://clearpath_platform_description/meshes/j100/attachments/velodyne_tower.glb"/>
+        </geometry>
+      </visual>
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-09" ixy="0.0" ixz="0.0" iyy="1e-09" iyz="0.0" izz="1e-09"/>
+      </inertial>
+    </link>
+
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="${name}_link"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${name}_lidar_mount"/>
+    <joint name="${name}_lidar_mount_joint" type="fixed">
+      <parent link="${name}_link"/>
+      <child link="${name}_lidar_mount"/>
+      <origin xyz="0 0 ${tower_height}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+</robot>
