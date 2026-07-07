@@ -32,9 +32,8 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction
 from launch.conditions import IfCondition, UnlessCondition
-from launch.event_handlers import OnProcessExit
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from clearpath_config.common.utils.dictionary import unflatten_dict
@@ -80,31 +79,13 @@ def launch_setup(context, *args, **kwargs):
         remappings=REMAPPINGS,
         condition=UnlessCondition(use_sim_time)
     ))
-    # Add Joint State Broadcaster
-    joint_state_broadcaster_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['--controller-manager-timeout', '60', 'joint_state_broadcaster'],
-        output='screen',
-        additional_env={'ROS_SUPER_CLIENT': 'True'},
-    )
-    controllers.append(joint_state_broadcaster_spawner)
-    # Add Platform Velocity Controller (after joint_state_broadcaster)
-    platform_velocity_controller_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['--controller-manager-timeout', '60', 'platform_velocity_controller'],
-        output='screen',
-        additional_env={'ROS_SUPER_CLIENT': 'True'},
-    )
-    controllers.append(
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=joint_state_broadcaster_spawner,
-                on_exit=[platform_velocity_controller_spawner],
-            )
-        )
-    )
+
+    # Collect all real-hardware controller names.  joint_state_broadcaster is
+    # always first so joint states are published before command controllers
+    # activate.  All controllers are spawned in a single call so the
+    # system-wide file lock is acquired only once.
+    controller_names = ['joint_state_broadcaster', 'platform_velocity_controller']
+
     # If Simulation, Add All Listed Controllers
     for namespace in context_control:
         for controller in context_control[namespace]:
@@ -121,6 +102,15 @@ def launch_setup(context, *args, **kwargs):
                 additional_env={'ROS_SUPER_CLIENT': 'True'},
                 condition=IfCondition(use_sim_time),
             ))
+
+    controllers.append(Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['--controller-manager-timeout', '60'] + controller_names,
+        output='screen',
+        additional_env={'ROS_SUPER_CLIENT': 'True'},
+        condition=UnlessCondition(use_sim_time),
+    ))
     return [GroupAction(controllers)]
 
 
