@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.11 (2026-07-14)
+-------------------
 * Fixed failing controllers by using single spawner call to avoid competing for the ros2-control file lock.
 * Contributors: Tony Baltovski
 
