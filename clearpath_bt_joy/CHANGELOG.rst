@@ -2,6 +2,9 @@
 Changelog for package clearpath_bt_joy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.10 (2026-07-02)
 -------------------
 * Added support for the PS5 joystick and created an actual cutoff to de… (`#342 <https://github.com/clearpathrobotics/clearpath_common/issues/342>`_)
