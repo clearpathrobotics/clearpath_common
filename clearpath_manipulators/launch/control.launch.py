@@ -72,30 +72,30 @@ def launch_setup(context, *args, **kwargs):
                 ])),
         ],
     ))
-    # Add Joint State Broadcaster
-    controllers.append(Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=[
-            'joint_state_broadcaster', '--controller-manager-timeout', '60',
-        ],
-        output='screen',
-    ))
-    # If Simulation, Add All Listed Controllers
-    for namespace in context_control:
-        for controller in context_control[namespace]:
+
+    # Collect all controller names from config (excluding manager and platform entries).
+    # joint_state_broadcaster is always first so hardware state is published before
+    # command controllers activate.
+    controller_names = ['joint_state_broadcaster']
+    for ns in context_control:
+        for controller in context_control[ns]:
             if ('controller' not in controller or
                     'manager' in controller or
                     'platform' in controller):
                 continue
-            controllers.append(Node(
-                package='controller_manager',
-                executable='spawner',
-                arguments=[
-                    controller, '--controller-manager-timeout', '60',
-                ],
-                output='screen',
-            ))
+            controller_names.append(controller)
+
+    # Spawn all controllers in a single call so the system-wide file lock
+    # (${ROS_HOME}/locks/ros2-control-controller-spawner.lock) is acquired
+    # only once.
+    controllers.append(Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['--controller-manager-timeout', '60'] + controller_names,
+        output='screen',
+        additional_env={'ROS_SUPER_CLIENT': 'True'},
+    ))
+
     return [GroupAction(controllers)]
 
 
