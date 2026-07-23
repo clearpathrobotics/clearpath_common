@@ -52,7 +52,16 @@ class BashWriter():
         ):
             self.write(f'{self.tab * indent_level}export {envar}={value}')
         else:
-            self.write(f'{self.tab * indent_level}export {envar}="{value}"')
+            has_double_quotes = '"' in value
+            has_single_quotes = "'" in value
+
+            if has_double_quotes and not has_single_quotes:
+                self.write(f"{self.tab * indent_level}export {envar}='{value}'")
+            elif has_single_quotes and has_double_quotes:
+                escaped_value = value.replace('"', '\\"')
+                self.write(f'{self.tab * indent_level}export {envar}="{escaped_value}"')
+            else:
+                self.write(f'{self.tab * indent_level}export {envar}="{value}"')
 
     def add_unset(self, envar: str, indent_level=0):
         self.write(f'{self.tab * indent_level}unset {envar}')
