@@ -41,27 +41,26 @@ class TestBashWriter:
             writer = BashWriter(bash_file)
             writer.add_export('TEST_VAR', 'simple_value')
             writer.close()
-            
+
             with open(bash_file.full_path, 'r') as f:
                 content = f.read()
-            
+
             assert 'export TEST_VAR="simple_value"' in content
 
     def test_add_export_with_double_quotes(self):
-        """Test exporting a value containing double quotes (e.g., Zenoh config)."""
+        """Test exporting a value containing double quotes."""
         with tempfile.TemporaryDirectory() as tmpdir:
             bash_file = BashFile(os.path.join(tmpdir, 'test.bash'))
             writer = BashWriter(bash_file)
-            # This mimics what happens when YAML parses: 'mode="client"'
-            writer.add_export('ZENOH_CONFIG_OVERRIDE', 
-                            'mode="client";connect/endpoints=["tcp/10.27.10.97:7447"]')
+            zenoh_val = 'mode="client";connect/endpoints=["tcp/10.27.10.97:7447"]'
+            writer.add_export('ZENOH_CONFIG_OVERRIDE', zenoh_val)
             writer.close()
-            
+
             with open(bash_file.full_path, 'r') as f:
                 content = f.read()
-            
-            # Should use single quotes to avoid escaping
-            assert "export ZENOH_CONFIG_OVERRIDE='mode=\"client\";connect/endpoints=[\"tcp/10.27.10.97:7447\"]'" in content
+
+            expected = "export ZENOH_CONFIG_OVERRIDE='" + zenoh_val + "'"
+            assert expected in content
 
     def test_add_export_with_single_quotes(self):
         """Test exporting a value containing single quotes."""
@@ -70,25 +69,23 @@ class TestBashWriter:
             writer = BashWriter(bash_file)
             writer.add_export('TEST_VAR', "it's a test")
             writer.close()
-            
+
             with open(bash_file.full_path, 'r') as f:
                 content = f.read()
-            
-            # Should use double quotes
+
             assert 'export TEST_VAR="it\'s a test"' in content
 
     def test_add_export_with_both_quotes(self):
-        """Test exporting a value containing both single and double quotes."""
+        """Test exporting a value with both quote types."""
         with tempfile.TemporaryDirectory() as tmpdir:
             bash_file = BashFile(os.path.join(tmpdir, 'test.bash'))
             writer = BashWriter(bash_file)
             writer.add_export('TEST_VAR', 'it\'s "quoted"')
             writer.close()
-            
+
             with open(bash_file.full_path, 'r') as f:
                 content = f.read()
-            
-            # Should escape double quotes and use double quotes
+
             assert 'export TEST_VAR="it\'s \\"quoted\\""' in content
 
     def test_add_export_already_quoted_double(self):
@@ -98,11 +95,10 @@ class TestBashWriter:
             writer = BashWriter(bash_file)
             writer.add_export('TEST_VAR', '"already_quoted"')
             writer.close()
-            
+
             with open(bash_file.full_path, 'r') as f:
                 content = f.read()
-            
-            # Should not double-quote
+
             assert 'export TEST_VAR="already_quoted"' in content
 
     def test_add_export_already_quoted_single(self):
@@ -112,9 +108,8 @@ class TestBashWriter:
             writer = BashWriter(bash_file)
             writer.add_export('TEST_VAR', "'already_quoted'")
             writer.close()
-            
+
             with open(bash_file.full_path, 'r') as f:
                 content = f.read()
-            
-            # Should not double-quote
+
             assert "export TEST_VAR='already_quoted'" in content
