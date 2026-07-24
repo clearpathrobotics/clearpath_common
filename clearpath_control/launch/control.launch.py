@@ -109,7 +109,6 @@ def launch_setup(context, *args, **kwargs):
         arguments=['--controller-manager-timeout', '60'] + controller_names,
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
-        condition=UnlessCondition(use_sim_time),
     ))
     return [GroupAction(controllers)]
 
