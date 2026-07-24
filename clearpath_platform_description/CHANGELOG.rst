@@ -2,6 +2,11 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added support for A300 witn indoor tires. (`#362 <https://github.com/clearpathrobotics/clearpath_common/issues/362>`_)
+* Contributors: Tony Baltovski
+
 2.9.11 (2026-07-14)
 -------------------
 

@@ -2,6 +2,11 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed controller spawner to run in both simulation and real hardware as reported as bug in `#363 <https://github.com/clearpathrobotics/clearpath_common/issues/363>`_. (`#364 <https://github.com/clearpathrobotics/clearpath_common/issues/364>`_)
+* Contributors: Tony Baltovski
+
 2.9.11 (2026-07-14)
 -------------------
 * Fixed failing controllers by using single spawner call to avoid competing for the ros2-control file lock.

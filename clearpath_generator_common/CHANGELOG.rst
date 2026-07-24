@@ -2,6 +2,12 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed bash writer to use single quotes for values containing double q… (`#365 <https://github.com/clearpathrobotics/clearpath_common/issues/365>`_)
+  * Fixed bash writer to use single quotes for values containing double quotes.
+* Contributors: Tony Baltovski
+
 2.9.11 (2026-07-14)
 -------------------
 
