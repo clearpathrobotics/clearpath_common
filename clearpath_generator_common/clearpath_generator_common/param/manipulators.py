@@ -59,7 +59,7 @@ class ManipulatorParam():
                 manipulator.MANIPULATOR_MODEL == FrankaGripper.MANIPULATOR_MODEL):
             return replace_dict_items(
                 parameters,
-                {r'${name}': f'{manipulator.name}_{manipulator.arm_id}'}
+                {r'${name}': f'{manipulator.name}_{manipulator.robot_type}'}
             )
         else:
             return replace_dict_items(

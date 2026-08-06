@@ -136,14 +136,16 @@ class ManipulatorDescription():
         def __init__(self, arm: BaseArm):
             super().__init__(arm)
             self.parameters.pop(self.PORT)
-            self.parameters[arm.ARM_ID] = arm.arm_id
+            self.parameters[arm.ROBOT_TYPE] = arm.robot_type
+            print(self.parameters)
             self.parameters.update(arm.get_urdf_parameters())
+            print(self.parameters)
 
     class FrankaGripperDescription(BaseDescription):
 
         def __init__(self, gripper: FrankaGripper):
             super().__init__(gripper)
-            self.parameters[Franka.ARM_ID] = gripper.arm_id
+            self.parameters[Franka.ROBOT_TYPE] = gripper.robot_type
 
     class BaseRobotiqGripperDescription(BaseDescription):
 

@@ -67,7 +67,7 @@ class ManipulatorPoseMacro():
 
         def __init__(self, manipulator, pose):
             super().__init__(manipulator, pose)
-            self.parameters[Franka.ARM_ID] = self.manipulator.arm_id
+            self.parameters[Franka.ROBOT_TYPE] = self.manipulator.robot_type
 
     MODEL = {
         Franka.MANIPULATOR_MODEL: FrankaPoseMacro,
@@ -109,7 +109,7 @@ class ManipulatorSemanticDescription():
         def __init__(self, manipulator):
             super().__init__(manipulator)
             self.parameters[self.NAME] = f'{manipulator.name}'
-            self.parameters[Franka.ARM_ID] = f'{manipulator.arm_id}'
+            self.parameters[Franka.ROBOT_TYPE] = f'{manipulator.robot_type}'
 
     class Robotiq2F140SemanticDescription(BaseSemanticDescription):
 
