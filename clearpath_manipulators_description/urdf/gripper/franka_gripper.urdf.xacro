@@ -8,15 +8,15 @@
     name
     parent_link
     *origin
-    arm_id:=''
+    robot_type:=''
   ">
 
     <xacro:include filename="$(find franka_description)/end_effectors/common/utils.xacro" />
     <xacro:include filename="$(find franka_description)/end_effectors/common/franka_hand.xacro"/>
 
     <xacro:property name="_connected_to" value="${parent_link}" lazy_eval="false"/>
-    <xacro:property name="_arm_id" value="fr3" lazy_eval="false"/>
-    <xacro:unless value="${arm_id == ''}"><xacro:property name="_arm_id" value="${arm_id}" lazy_eval="false"/></xacro:unless>
+    <xacro:property name="_robot_type" value="fr3" lazy_eval="false"/>
+    <xacro:unless value="${robot_type == ''}"><xacro:property name="_robot_type" value="${robot_type}" lazy_eval="false"/></xacro:unless>
 
     <xacro:property name="_ee_id" value="franka_hand" lazy_eval="false"/>
     <xacro:property name="_ee_color" value="white" lazy_eval="false"/>
@@ -31,7 +31,7 @@
 
     <xacro:franka_hand
       connected_to="${_connected_to}"
-      arm_id="${_arm_id}"
+      robot_type="${_robot_type}"
       arm_prefix="${name}_"
       ee_id="${_ee_id}_${_ee_color}"
       ee_inertials="${_ee_inertials}"
@@ -51,7 +51,7 @@
         <hardware>
           <plugin>gz_ros2_control/GazeboSimSystem</plugin>
         </hardware>
-        <joint name="${name}_${_arm_id}_finger_joint1">
+        <joint name="${name}_${_robot_type}_finger_joint1">
           <command_interface name="position"/>
           <command_interface name="velocity"/>
           <state_interface name="position">

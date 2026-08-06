@@ -26,10 +26,11 @@
     accelerometer_config
     dynamics
     arm_prefix:=''
-    no_prefix:=false'
-    gazebo:='false'
+    no_prefix:=false
+    gazebo:=false
     safety_distance:=0
-    with_sc:=false">
+    with_sc:=false
+    description_pkg:='franka_description'">
 
     <!-- Define a property that defaults to 'arm_prefix_robot_type' concatenated with an underscore if 'no_prefix' is not set -->
     <xacro:property name="prefix" value="${'' if no_prefix else arm_prefix + robot_type + '_'}" />
@@ -187,6 +188,7 @@
     with_sc:=''
     is_async:=''
     thread_priority:=''
+    description_pkg:=''
   ">
 
     <!-- Franka Type -->
@@ -195,11 +197,16 @@
       <xacro:property name="_robot_type" value="${robot_type}" lazy_eval="false"/>
     </xacro:if>
 
+    <xacro:property name="_description_pkg" value="franka_description" lazy_eval="false"/>
+    <xacro:if value="${description_pkg != ''}">
+      <xacro:property name="_description_pkg" value="${description_pkg}" lazy_eval="false"/>
+    </xacro:if>
+
     <!-- Description Parameter Files -->
-    <xacro:property name="_joint_limits_parameters_file" value="$(find franka_description)/robots/${_robot_type}/joint_limits.yaml" lazy_eval="false"/>
-    <xacro:property name="_inertials_parameters_file" value="$(find franka_description)/robots/${_robot_type}/inertials.yaml" lazy_eval="false"/>
-    <xacro:property name="_kinematics_parameters_file" value="$(find franka_description)/robots/${_robot_type}/kinematics.yaml" lazy_eval="false"/>
-    <xacro:property name="_dynamics_parameters_file" value="$(find franka_description)/robots/${_robot_type}/dynamics.yaml" lazy_eval="false"/>
+    <xacro:property name="_joint_limits_parameters_file" value="$(find ${_description_pkg})/robots/${_robot_type}/joint_limits.yaml" lazy_eval="false"/>
+    <xacro:property name="_inertials_parameters_file" value="$(find ${_description_pkg})/robots/${_robot_type}/inertials.yaml" lazy_eval="false"/>
+    <xacro:property name="_kinematics_parameters_file" value="$(find ${_description_pkg})/robots/${_robot_type}/kinematics.yaml" lazy_eval="false"/>
+    <xacro:property name="_dynamics_parameters_file" value="$(find ${_description_pkg})/robots/${_robot_type}/dynamics.yaml" lazy_eval="false"/>
     <xacro:if value="${joint_limits_parameters_file != ''}">
       <xacro:property name="_joint_limits_parameters_file" value="${joint_limits_parameters_file}" lazy_eval="false"/>
     </xacro:if>
@@ -235,7 +242,7 @@
     <xacro:property name="_ros2_control" value="$(arg use_manipulation_controllers)" lazy_eval="false"/>
     <xacro:property name="_robot_ip" value="192.168.131.40" lazy_eval="false"/>
     <xacro:property name="_is_async" value="false" lazy_eval="false"/>
-    <xacro:property name="_thread_priority" value="50" lazy_eval="false"/>
+    <xacro:property name="_thread_priority" value="99" lazy_eval="false"/>
     <xacro:if value="${ros2_control != ''}">
       <xacro:property name="_ros2_control" value="${ros2_control}" lazy_eval="false"/>
     </xacro:if>
@@ -283,7 +290,7 @@
     <xacro:property name="_multi_arm" value="false" lazy_eval="false"/>
     <xacro:property name="_connected_to" value="" lazy_eval="false"/>
     <xacro:property name="_no_prefix" value="false" lazy_eval="false"/>
-    <xacro:property name="_arm_prefix" value="${name}" lazy_eval="false"/>
+    <xacro:property name="_arm_prefix" value="${name}_" lazy_eval="false"/>
     <xacro:property name="_accelerometer_config" value="none" lazy_eval="false"/>
 
     <!-- Instantiate Clearpath version of franka_arm xacro-->
@@ -295,11 +302,12 @@
       kinematics="${_kinematics}"
       dynamics="${_dynamics}"
       accelerometer_config="${_accelerometer_config}"
-      arm_prefix:="${_arm_prefix}"
-      no_prefix:="${_no_prefix}"
-      gazebo:="${_gazebo}"
-      safety_distance:="${_safety_distance}"
-      with_sc:="${_with_sc}">
+      arm_prefix="${_arm_prefix}"
+      no_prefix="${_no_prefix}"
+      gazebo="${_gazebo}"
+      safety_distance="${_safety_distance}"
+      with_sc="${_with_sc}"
+      description_pkg="${_description_pkg}">
       <xacro:insert_block name="origin" />
     </xacro:franka_arm>
 
@@ -358,17 +366,19 @@
     </xacro:if>
 
     <!-- Franka ros2_control Hardware Interface -->
-    <xacro:franka_arm_ros2_control
-      robot_type="${_robot_type}"
-      robot_ip="${_robot_ip}"
-      use_fake_hardware="${_use_fake_hardware}"
-      fake_sensor_commands="${_fake_sensor_commands}"
-      gazebo="${_gazebo}"
-      hand="${_hand}"
-      gazebo_effort="${_gazebo_effort}"
-      arm_prefix="${_arm_prefix}"
-      is_async="${_is_async}"
-      thread_priority="${_thread_priority}"/>
+    <xacro:if value="${_ros2_control}">
+      <xacro:franka_arm_ros2_control
+        robot_type="${_robot_type}"
+        robot_ip="${_robot_ip}"
+        use_fake_hardware="${_use_fake_hardware}"
+        fake_sensor_commands="${_fake_sensor_commands}"
+        gazebo="${_gazebo}"
+        hand="${_hand}"
+        gazebo_effort="${_gazebo_effort}"
+        arm_prefix="${_arm_prefix}"
+        is_async="${_is_async}"
+        thread_priority="${_thread_priority}"/>
+    </xacro:if>
 
   </xacro:macro>
 
