@@ -2,6 +2,9 @@
 Changelog for package clearpath_manipulators
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.12 (2026-07-24)
 -------------------
 

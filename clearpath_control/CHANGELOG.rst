@@ -2,6 +2,11 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed the name of the imu_filter node to match what is being launched. (`#368 <https://github.com/clearpathrobotics/clearpath_common/issues/368>`_)
+* Contributors: Tony Baltovski
+
 2.9.12 (2026-07-24)
 -------------------
 * Fixed controller spawner to run in both simulation and real hardware as reported as bug in `#363 <https://github.com/clearpathrobotics/clearpath_common/issues/363>`_. (`#364 <https://github.com/clearpathrobotics/clearpath_common/issues/364>`_)
