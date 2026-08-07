@@ -2,8 +2,8 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.13 (2026-08-07)
+-------------------
 * Fixed the name of the imu_filter node to match what is being launched. (`#368 <https://github.com/clearpathrobotics/clearpath_common/issues/368>`_)
 * Contributors: Tony Baltovski
 
