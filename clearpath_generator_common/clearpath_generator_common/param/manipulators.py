@@ -29,6 +29,7 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
+from copy import deepcopy
 import os
 
 from clearpath_config.clearpath_config import ClearpathConfig
@@ -46,6 +47,13 @@ def sort_dict_recursive(d: dict) -> dict:
         k: sort_dict_recursive(v) if isinstance(v, dict) else v
         for k, v in sorted(d.items())
     }
+
+
+def merge_ur_control_parameters(
+        default_parameters: dict,
+        driver_parameters: dict) -> dict:
+    """Merge UR driver parameters over Clearpath's generic defaults."""
+    return merge_dict(deepcopy(driver_parameters), default_parameters)
 
 
 class ManipulatorParam():
@@ -150,7 +158,7 @@ class ManipulatorParam():
                             parameters={}
                         )
                         update_rate_param_file.read()
-                        updated_parameters = merge_dict(
+                        updated_parameters = merge_ur_control_parameters(
                             updated_parameters,
                             update_rate_param_file.parameters)
                     except Exception as e:

@@ -52,6 +52,7 @@ if(BUILD_TESTING)
     test/test_generator_bash.py
     test/test_generator_description.py
     test/test_generator_discovery_server.py
+    test/test_manipulator_parameters.py
     test/test_generator_vcan.py
   )
   foreach(_test_path ${_pytest_tests})
