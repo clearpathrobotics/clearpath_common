@@ -46,6 +46,7 @@ from clearpath_config.sensors.types.gps import BaseGPS, NMEA
 from clearpath_config.sensors.types.imu import BaseIMU, PhidgetsSpatial
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D
 from clearpath_config.sensors.types.lidars_3d import BaseLidar3D
+from clearpath_config.sensors.types.ptu import BasePTU
 from clearpath_config.sensors.types.sensor import BaseSensor
 from clearpath_generator_common.common import Package, ParamFile
 from clearpath_generator_common.param.writer import ParamWriter
@@ -480,6 +481,12 @@ class PlatformParam():
                             'path': 'GPS',
                             'contains': ['gps']
                         }
+                    case BasePTU():
+                        sensor_analyzers['ptu'] = {
+                            'type': 'diagnostic_aggregator/GenericAnalyzer',
+                            'path': 'PTU',
+                            'contains': ['ptu']
+                        }
 
             # Update aggregator sensor sections based on the robot.yaml
             if sensor_analyzers:
@@ -646,6 +653,9 @@ class PlatformParam():
                     case BaseGPS():
                         self.add_topic(sensor, sensor.TOPICS.FIX)
 
+                    case BasePTU():
+                        self.add_topic(sensor, sensor.TOPICS.STATE)
+
             # Output the list of topics into the parameter file
             self.param_file.update({self.DIAGNOSTIC_UPDATER_NODE: {'topics': self.diag_dict}})
 
@@ -656,9 +666,12 @@ class PlatformParam():
             :param sensor: The sensor object from which the topic info will be gotten
             :param topic_key: The key used to identify the topic to be monitored
             """
+            rate = float(sensor.get_topic_rate(topic_key))
+            if rate == 0.0:
+                return
             self.diag_dict[sensor.get_topic_name(topic_key, local=True)] = {
                 'type': sensor.get_topic_type(topic_key),
-                'rate': float(sensor.get_topic_rate(topic_key))
+                'rate': rate
             }
 
     class FoxgloveBridgeParam(BaseParam):

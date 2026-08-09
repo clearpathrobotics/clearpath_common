@@ -27,3 +27,7 @@ twist_mux:
         topic: platform/safety_stop
         timeout: 0.0
         priority: 254
+      bt_quality:
+        topic: joy_teleop/bt_quality_stop
+        timeout: 0.0
+        priority: 253

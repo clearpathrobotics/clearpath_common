@@ -25,7 +25,6 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from glob import glob
 import os
 
 from setuptools import setup
@@ -35,7 +34,7 @@ package_name = 'clearpath_bt_joy'
 
 setup(
     name=package_name,
-    version='2.9.3',
+    version='2.9.13',
     packages=[
         package_name,
     ],
@@ -50,14 +49,15 @@ setup(
         'setuptools',
     ],
     zip_safe=True,
-    maintainer='Chris Iverach-Brereton',
-    maintainer_email='civerachb@clearpathrobotics.com',
+    maintainer='Tony Baltovski',
+    maintainer_email='tbaltovski@clearpathrobotics.com',
     description='Clearpath joy controller link quality monitor',
-    license='BSD-3',
+    license='BSD-3-Clause',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'clearpath_bt_joy_cutoff_node = clearpath_bt_joy.clearpath_bt_joy_cutoff_node:main'
+            'bt_joy_cutoff_node = clearpath_bt_joy.bt_joy_cutoff_node:main',
+            'pair_bt_controller = clearpath_bt_joy.pair_bt_controller:main',
         ],
     },
 )

@@ -2,6 +2,60 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.9.13 (2026-08-07)
+-------------------
+
+2.9.12 (2026-07-24)
+-------------------
+* Fixed bash writer to use single quotes for values containing double q… (`#365 <https://github.com/clearpathrobotics/clearpath_common/issues/365>`_)
+  * Fixed bash writer to use single quotes for values containing double quotes.
+* Contributors: Tony Baltovski
+
+2.9.11 (2026-07-14)
+-------------------
+
+2.9.10 (2026-07-02)
+-------------------
+
+2.9.9 (2026-06-02)
+------------------
+* Fixed directory creation. (`#343 <https://github.com/clearpathrobotics/clearpath_common/issues/343>`_)
+* Contributors: Tony Baltovski
+
+2.9.8 (2026-05-28)
+------------------
+
+2.9.7 (2026-05-21)
+------------------
+* Feature: PTU (`#330 <https://github.com/clearpathrobotics/clearpath_common/issues/330>`_)
+  * Added support for Flir PTU-5.
+  * Add generator test with package server
+  ---------
+  Co-authored-by: Luis Camero <lcamero@clearpathrobotics.com>
+* Skip diagnostics for disabled topics. (`#326 <https://github.com/clearpathrobotics/clearpath_common/issues/326>`_)
+* Contributors: Tony Baltovski
+
+2.9.6 (2026-04-14)
+------------------
+* Feature: Generator Sample Tests (`#294 <https://github.com/clearpathrobotics/clearpath_common/issues/294>`_)
+  * Add clearpath_generator_tests to dependencies.repos
+  * Increase pose trials to 10000
+  * Add CI test to build and tests generators
+  * Ignore non-YAML files in tests
+  * Update CI to use common tests
+  * Use the setup image
+  * Generate moveit.yaml in alphabetical order
+  * Remove unconditional creation of sensor and platform extras directories
+  * Initial add of README with generator tests
+  * Use pathlib to find extension
+* Contributors: luis-camero
+
+2.9.5 (2026-03-25)
+------------------
+
+2.9.4 (2026-03-13)
+------------------
+
 2.9.3 (2026-02-26)
 ------------------
 

@@ -9,7 +9,7 @@
 
   <xacro:property name="M_PI" value="3.14159"/>
 
-  <xacro:macro name="a200" params="control:='diff_fwd' front_wheels:='outdoor' rear_wheels:='outdoor'">
+  <xacro:macro name="a200" params="control:='diff_4wd' front_wheels:='outdoor' rear_wheels:='outdoor'">
 
     <!-- Base Size -->
     <xacro:property name="base_x_size" value="0.98740000" />

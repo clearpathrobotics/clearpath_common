@@ -2,6 +2,58 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.9.13 (2026-08-07)
+-------------------
+* Fixed the name of the imu_filter node to match what is being launched. (`#368 <https://github.com/clearpathrobotics/clearpath_common/issues/368>`_)
+* Contributors: Tony Baltovski
+
+2.9.12 (2026-07-24)
+-------------------
+* Fixed controller spawner to run in both simulation and real hardware as reported as bug in `#363 <https://github.com/clearpathrobotics/clearpath_common/issues/363>`_. (`#364 <https://github.com/clearpathrobotics/clearpath_common/issues/364>`_)
+* Contributors: Tony Baltovski
+
+2.9.11 (2026-07-14)
+-------------------
+* Fixed failing controllers by using single spawner call to avoid competing for the ros2-control file lock.
+* Contributors: Tony Baltovski
+
+2.9.10 (2026-07-02)
+-------------------
+* Added support for the PS5 joystick and created an actual cutoff to de… (`#342 <https://github.com/clearpathrobotics/clearpath_common/issues/342>`_)
+  * Added support for the PS5 joystick and created an actual cutoff to detect when it about to disconnect.
+  * Added more fine grained udev rules to ensuring the mapping is on the correct joy.
+  * Updated README.
+  * Added pairing script.
+  * Minor changes.
+  * Updated copyright to Rockwell Automation.
+* Contributors: Tony Baltovski
+
+2.9.9 (2026-06-02)
+------------------
+
+2.9.8 (2026-05-28)
+------------------
+* Added support for Fort VSC joy. (`#341 <https://github.com/clearpathrobotics/clearpath_common/issues/341>`_)
+  * Added support for Fort VSC joy.
+  * Removed bluetooth node.
+* Contributors: Tony Baltovski
+
+2.9.7 (2026-05-21)
+------------------
+* Fix: Replaced deprecated jerk limits and has\_*_limits params. (`#335 <https://github.com/clearpathrobotics/clearpath_common/issues/335>`_)
+* Contributors: Tony Baltovski
+
+2.9.6 (2026-04-14)
+------------------
+
+2.9.5 (2026-03-25)
+------------------
+
+2.9.4 (2026-03-13)
+------------------
+* Updated W200 acceleration parameters (`#315 <https://github.com/clearpathrobotics/clearpath_common/issues/315>`_)
+* Contributors: Roni Kreinin
+
 2.9.3 (2026-02-26)
 ------------------
 

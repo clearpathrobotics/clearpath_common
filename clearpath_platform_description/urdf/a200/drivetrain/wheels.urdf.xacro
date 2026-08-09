@@ -4,6 +4,7 @@
     <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/drivetrain/wheels/outdoor.urdf.xacro" />
     <xacro:include filename="$(find clearpath_platform_description)/urdf/a200/drivetrain/wheels/indoor.urdf.xacro" />
 
+    <xacro:property name="a200_wheel_vertical_offset" value="0.03282" />
     <!-- Front Wheels -->
 
     <!-- Outdoor -->
@@ -13,12 +14,12 @@
 
       <!-- Wheel -->
       <xacro:a200_outdoor_wheel prefix="front_left">
-        <origin xyz="${wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+        <origin xyz="${wheel_base/2} ${wheel_track/2} ${a200_wheel_vertical_offset}" rpy="0 0 0"/>
       </xacro:a200_outdoor_wheel>
 
       <!-- Wheel -->
       <xacro:a200_outdoor_wheel prefix="front_right">
-        <origin xyz="${wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+        <origin xyz="${wheel_base/2} ${-wheel_track/2} ${a200_wheel_vertical_offset}" rpy="0 0 0"/>
       </xacro:a200_outdoor_wheel>
     </xacro:if>
 
@@ -29,12 +30,12 @@
 
       <!-- Wheel -->
       <xacro:a200_indoor_wheel prefix="front_left">
-        <origin xyz="${wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+        <origin xyz="${wheel_base/2} ${wheel_track/2} ${a200_wheel_vertical_offset}" rpy="0 0 0"/>
       </xacro:a200_indoor_wheel>
 
       <!-- Wheel -->
       <xacro:a200_indoor_wheel prefix="front_right">
-        <origin xyz="${wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+        <origin xyz="${wheel_base/2} ${-wheel_track/2} ${a200_wheel_vertical_offset}" rpy="0 0 0"/>
       </xacro:a200_indoor_wheel>
     </xacro:if>
 
@@ -47,12 +48,12 @@
 
       <!-- Wheel -->
       <xacro:a200_outdoor_wheel prefix="rear_left">
-        <origin xyz="${-wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+        <origin xyz="${-wheel_base/2} ${wheel_track/2} ${a200_wheel_vertical_offset}" rpy="0 0 0"/>
       </xacro:a200_outdoor_wheel>
 
       <!-- Wheel -->
       <xacro:a200_outdoor_wheel prefix="rear_right">
-        <origin xyz="${-wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+        <origin xyz="${-wheel_base/2} ${-wheel_track/2} ${a200_wheel_vertical_offset}" rpy="0 0 0"/>
       </xacro:a200_outdoor_wheel>
     </xacro:if>
 
@@ -63,12 +64,12 @@
 
       <!-- Wheel -->
       <xacro:a200_indoor_wheel prefix="rear_left">
-        <origin xyz="${-wheel_base/2} ${wheel_track/2} 0" rpy="0 0 0"/>
+        <origin xyz="${-wheel_base/2} ${wheel_track/2} ${a200_wheel_vertical_offset}" rpy="0 0 0"/>
       </xacro:a200_indoor_wheel>
 
       <!-- Wheel -->
       <xacro:a200_indoor_wheel prefix="rear_right">
-        <origin xyz="${-wheel_base/2} ${-wheel_track/2} 0" rpy="0 0 0"/>
+        <origin xyz="${-wheel_base/2} ${-wheel_track/2} ${a200_wheel_vertical_offset}" rpy="0 0 0"/>
       </xacro:a200_indoor_wheel>
     </xacro:if>
   </xacro:macro>

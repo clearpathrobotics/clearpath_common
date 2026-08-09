@@ -3,7 +3,7 @@
 
   <xacro:if value="${guard_include_zed}">
     <xacro:property name="guard_include_zed" value="false" lazy_eval="false"/>
-    <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro"/>
+    <xacro:include filename="$(find zed_description)/urdf/zed_macro.urdf.xacro"/>
   </xacro:if>
 
   <xacro:macro name="stereolabs_zed" params="

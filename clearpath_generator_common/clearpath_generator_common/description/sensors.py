@@ -56,6 +56,9 @@ from clearpath_config.sensors.types.lidars_3d import (
     SeyondLidar,
     VelodyneLidar,
 )
+from clearpath_config.sensors.types.ptu import (
+    FlirPTU,
+)
 from clearpath_config.sensors.types.sensor import BaseSensor
 
 
@@ -289,6 +292,16 @@ class SensorDescription():
                 self.MODEL: sensor.device_type
             })
 
+    class FlirPTUDescription(BaseDescription):
+        MODEL = 'model'
+
+        def __init__(self, sensor: FlirPTU) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.MODEL: sensor.ptu_model,
+            })
+
     MODEL = {
         HokuyoUST.SENSOR_MODEL: Lidar2dDescription,
         SickLMS1XX.SENSOR_MODEL: Lidar2dDescription,
@@ -304,6 +317,7 @@ class SensorDescription():
         StereolabsZed.SENSOR_MODEL: StereolabsZedDescription,
         LuxonisOAKD.SENSOR_MODEL: LuxonisOAKDDescription,
         Fixposition.SENSOR_MODEL: InsDescription,
+        FlirPTU.SENSOR_MODEL: FlirPTUDescription,
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:

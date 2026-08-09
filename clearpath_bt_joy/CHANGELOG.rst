@@ -2,6 +2,48 @@
 Changelog for package clearpath_bt_joy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.9.13 (2026-08-07)
+-------------------
+
+2.9.12 (2026-07-24)
+-------------------
+
+2.9.11 (2026-07-14)
+-------------------
+
+2.9.10 (2026-07-02)
+-------------------
+* Added support for the PS5 joystick and created an actual cutoff to de… (`#342 <https://github.com/clearpathrobotics/clearpath_common/issues/342>`_)
+  * Added support for the PS5 joystick and created an actual cutoff to detect when it about to disconnect.
+  * Added more fine grained udev rules to ensuring the mapping is on the correct joy.
+  * Updated README.
+  * Added pairing script.
+  * Minor changes.
+  * Updated copyright to Rockwell Automation.
+* Contributors: Tony Baltovski
+
+2.9.9 (2026-06-02)
+------------------
+
+2.9.8 (2026-05-28)
+------------------
+* Added support for Fort VSC joy. (`#341 <https://github.com/clearpathrobotics/clearpath_common/issues/341>`_)
+  * Added support for Fort VSC joy.
+  * Removed bluetooth node.
+* Contributors: Tony Baltovski
+
+2.9.7 (2026-05-21)
+------------------
+
+2.9.6 (2026-04-14)
+------------------
+
+2.9.5 (2026-03-25)
+------------------
+
+2.9.4 (2026-03-13)
+------------------
+
 2.9.3 (2026-02-26)
 ------------------
 
