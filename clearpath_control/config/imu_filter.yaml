@@ -1,4 +1,4 @@
-imu_filter_node:
+imu_filter_madgwick:
   ros__parameters:
     use_sim_time: False
     stateless: false
