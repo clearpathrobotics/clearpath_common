@@ -87,7 +87,7 @@
     </joint>
 
     <joint name="${name}_arm_mount_joint" type="fixed">
-      <parent link="${parent_link}" />
+      <parent link="${name}_base_link" />
       <child link="${name}_arm_mount" />
       <origin xyz="${arm_pos_x} ${arm_pos_y} ${mount_height}" rpy="0 0 0"/>
     </joint>
