@@ -5,7 +5,35 @@ ROS 2 common packages for Clearpath Robotics platforms.
 This repository provides the core platform bringup, control, diagnostics, robot description assets, and generator utilities used across Clearpath robotic platforms.
 
 For supported platforms, sensors and manipulators plus additional details, please see:
-https://docs.clearpathrobotics.com/docs/ros/
+<https://docs.clearpathrobotics.com/docs/ros/>
+
+## Where this fits in the Clearpath ROS 2 stack
+
+`clearpath_common` holds the platform-agnostic building blocks shared by both real robots
+(`clearpath_robot`) and simulation (`clearpath_simulator`): the URDF descriptions, controllers,
+diagnostics, and — importantly — the **common generator** that turns a parsed `robot.yaml` into
+launch/description output.
+
+```mermaid
+flowchart LR
+    yaml["robot.yaml"] --> config["clearpath_config<br/>YAML parser"]
+    config --> genc["clearpath_generator_common<br/>(this repo)"]
+    config --> genr["clearpath_generator_robot"]
+    config --> geng["clearpath_generator_gz"]
+    genc --> out["/etc/clearpath<br/>generated launch / params / description"]
+    genr --> out
+    geng --> out
+    out --> common["clearpath_common description + control<br/>(this repo)"]
+    out --> robot["clearpath_robot"]
+    out --> sim["clearpath_simulator"]
+    genc -. "expected output" .-> tests["clearpath_generator_tests"]
+```
+
+`clearpath_generator_common` is the shared generator base: `clearpath_generator_robot` and
+`clearpath_generator_gz` build on it. Its generators and templates live under
+[`clearpath_generator_common/clearpath_generator_common`](clearpath_generator_common/clearpath_generator_common)
+and produce bash environment setup, robot description (URDF/xacro), the discovery server config,
+and the manipulator SRDF.
 
 ## Packages
 
@@ -49,6 +77,12 @@ Before merging, ensure a corresponding branch with the **same name** exists in
 `clearpath_generator_tests` with regenerated samples. See the
 [Development Workflow](https://github.com/clearpathrobotics/clearpath_generator_tests#development-workflow)
 section of `clearpath_generator_tests` for the full process.
+
+## Documentation
+
+- [Generators](https://docs.clearpathrobotics.com/docs/ros/config/generators) — how `clearpath_generator_common` turns `robot.yaml` into bash/description/launch/param files.
+- [Robot YAML overview](https://docs.clearpathrobotics.com/docs/ros/config/yaml/overview) — the input configuration format.
+- [Clearpath ROS 2 documentation](https://docs.clearpathrobotics.com/docs/ros/) — full platform documentation.
 
 ## License
 

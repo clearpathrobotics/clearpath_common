@@ -10,4 +10,3 @@ teleop_twist_joy_node:
     scale_linear_turbo.x: 0.4
     scale_linear_turbo.y: 0.4
     scale_angular_turbo.yaw: 0.5
-

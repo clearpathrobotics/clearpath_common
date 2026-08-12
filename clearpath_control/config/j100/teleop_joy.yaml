@@ -8,4 +8,3 @@ teleop_twist_joy_node:
     # Turbo
     scale_linear_turbo.x: 2.0
     scale_angular_turbo.yaw: 1.4
-
