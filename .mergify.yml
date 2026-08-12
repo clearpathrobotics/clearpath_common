@@ -9,7 +9,7 @@ pull_request_rules:
         branches:
           - humble
         assignees:
-          - "{{ author }}"
+          - "{{ merged_by }}"
         title: "[Humble] {{ title }}"
         body: |
           Backport of #{{ number }} to Humble.

@@ -44,7 +44,6 @@ def generate_launch_description():
     # Launch Configurations
     enable_ekf = LaunchConfiguration('enable_ekf')
     setup_path = LaunchConfiguration('setup_path')
-    use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Launch Arguments
     arg_enable_ekf = DeclareLaunchArgument(

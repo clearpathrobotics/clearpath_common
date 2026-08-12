@@ -18,4 +18,3 @@ ekf_node:
                   false, false, false]
     odom0_differential: false
     odom0_queue_size: 10
-
