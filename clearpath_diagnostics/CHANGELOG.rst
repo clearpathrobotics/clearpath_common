@@ -8,6 +8,11 @@ Changelog for package clearpath_diagnostics
 2.3.3 (2025-04-17)
 ------------------
 
+Forthcoming
+-----------
+* Added Github PR templates, precommit and contributing notes. Also, updated CI, updated issue templates and README. (`#372 <https://github.com/clearpathrobotics/clearpath_common/issues/372>`_)
+* Contributors: Tony Baltovski
+
 2.9.13 (2026-08-07)
 -------------------
 

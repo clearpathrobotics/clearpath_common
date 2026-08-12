@@ -2,6 +2,9 @@
 Changelog for package clearpath_bms_broadcaster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.13 (2026-08-07)
 -------------------
 
