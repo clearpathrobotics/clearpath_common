@@ -2,6 +2,21 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed the name of the imu_filter node to match what is being launched. (`#368 <https://github.com/clearpathrobotics/clearpath_common/issues/368>`_) (`#369 <https://github.com/clearpathrobotics/clearpath_common/issues/369>`_)
+  (cherry picked from commit b1308d337489c21f7085c3dbccbb2250d662b6f4)
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+* Fixed controller spawner to run in both simulation and real hardware as reported as bug in `#363 <https://github.com/clearpathrobotics/clearpath_common/issues/363>`_. (`#364 <https://github.com/clearpathrobotics/clearpath_common/issues/364>`_)
+  (cherry picked from commit 8a91ce9669e0c9a500aed8d2f3023d2fcc6c8abb)
+* Fixed failing controllers by using  single spawner call to avoid competing for the ros2-control file lock. (`#361 <https://github.com/clearpathrobotics/clearpath_common/issues/361>`_)
+  * Fixed the launch order by launching platform_velocity_controller spawner only after joint_state_broadcaster
+  spawner exits.
+  * Fixed failing controllers by using  single spawner call to avoid competing for the ros2-control file lock.
+  (cherry picked from commit 3222709ef156957e7694148a780272aac80924b8)
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+* Contributors: Tony Baltovski, mergify[bot]
+
 1.3.11 (2026-06-02)
 -------------------
 

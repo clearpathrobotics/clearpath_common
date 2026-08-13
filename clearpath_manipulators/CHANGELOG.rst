@@ -2,6 +2,16 @@
 Changelog for package clearpath_manipulators
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed failing controllers by using  single spawner call to avoid competing for the ros2-control file lock. (`#361 <https://github.com/clearpathrobotics/clearpath_common/issues/361>`_)
+  * Fixed the launch order by launching platform_velocity_controller spawner only after joint_state_broadcaster
+  spawner exits.
+  * Fixed failing controllers by using  single spawner call to avoid competing for the ros2-control file lock.
+  (cherry picked from commit 3222709ef156957e7694148a780272aac80924b8)
+  Co-authored-by: Tony Baltovski <tbaltovski@clearpathrobotics.com>
+* Contributors: mergify[bot]
+
 1.3.11 (2026-06-02)
 -------------------
 

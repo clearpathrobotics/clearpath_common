@@ -2,6 +2,14 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update hams.urdf.xacro (`#373 <https://github.com/clearpathrobotics/clearpath_common/issues/373>`_) (`#376 <https://github.com/clearpathrobotics/clearpath_common/issues/376>`_)
+  Fixed the HAMS mount plate rotation by setting parent to hams_base_link instead of default_mount
+  (cherry picked from commit e09854508153c9469dde12ae68f1200445c01304)
+  Co-authored-by: thickey-cpr <thickey@clearpathrobotics.com>
+* Contributors: mergify[bot]
+
 1.3.11 (2026-06-02)
 -------------------
 

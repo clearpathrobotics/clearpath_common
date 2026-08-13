@@ -2,6 +2,9 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.3.11 (2026-06-02)
 -------------------
 * Fix: Zed Description (`#329 <https://github.com/clearpathrobotics/clearpath_common/issues/329>`_) (`#332 <https://github.com/clearpathrobotics/clearpath_common/issues/332>`_)
