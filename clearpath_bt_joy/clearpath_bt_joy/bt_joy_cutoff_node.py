@@ -178,12 +178,9 @@ class BtJoyCutoffNode(Node):
         """Return (stop, reason) for the current link health."""
         with self._lock:
             fd_ok = self._fd_healthy
-        if not self.hidraw_path:
-            return True, 'No hidraw path resolved'
-        if not self._hidraw_present():
-            return True, 'hidraw node missing (link lost)'
-        if not fd_ok:
-            return True, 'Reader fd unhealthy'
+        # Controller not connected -> do NOT engage the stop
+        if not self.hidraw_path or not self._hidraw_present() or not fd_ok:
+            return False, 'Controller not connected; stop not engaged'
         if quality_pct < self.quality_threshold_pct:
             return True, f'Link quality {quality_pct}% < {self.quality_threshold_pct}%'
         return False, f'Link healthy ({quality_pct}%)'
