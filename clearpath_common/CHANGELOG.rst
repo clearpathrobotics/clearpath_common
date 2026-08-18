@@ -2,6 +2,9 @@
 Changelog for package clearpath_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.14 (2026-08-12)
 -------------------
 * Added Github PR templates, precommit and contributing notes. Also, updated CI, updated issue templates and README. (`#372 <https://github.com/clearpathrobotics/clearpath_common/issues/372>`_)
