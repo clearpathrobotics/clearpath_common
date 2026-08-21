@@ -133,7 +133,8 @@ class ManipulatorParam():
                         update_rate_param_file.read()
                         updated_parameters = merge_dict(
                             updated_parameters,
-                            update_rate_param_file.parameters)
+                            update_rate_param_file.parameters,
+                            priority=1)
                     except Exception as e:
                         print(f'Unable to get UniversalRobots {arm.ur_type}_'
                               f'update_rate.yaml parameter file: {e.args[0]}')
