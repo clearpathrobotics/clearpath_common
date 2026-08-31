@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="intel_realsense" params="name parent_link *origin
                                               update_rate:=30.0 image_height:=480 image_width:=640">
+<<<<<<< HEAD
 
     <xacro:macro name="sensor_d435"
                  params="parent *origin name:=camera
@@ -36,6 +37,17 @@
 
       <!-- camera body, with origin at bottom screw mount -->
       <joint name="${name}_joint" type="fixed">
+=======
+    <xacro:if value="${model == 'd405'}">
+      <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d405.urdf.xacro" />
+      <xacro:sensor_d405 name="${name}" parent="${parent_link}">
+        <xacro:insert_block name="origin" />
+      </xacro:sensor_d405>
+    </xacro:if>
+    <xacro:if value="${model == 'd415'}">
+      <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d415.urdf.xacro" />
+      <xacro:sensor_d415 name="${name}" parent="${parent_link}">
+>>>>>>> 0349ed7 (Feature: Add Realsense d405 to URDF (#382))
         <xacro:insert_block name="origin" />
         <parent link="${parent}"/>
         <child link="${name}_bottom_screw_frame" />
