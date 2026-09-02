@@ -88,6 +88,30 @@ Before merging, ensure a corresponding branch with the **same name** exists in
 [Development Workflow](https://github.com/clearpathrobotics/clearpath_generator_tests#development-workflow)
 section of that repository for the full process.
 
+## Continuous integration
+
+Every pull request runs [`clearpath_common_ci`](.github/workflows/ci.yml). The jobs differ in
+whether they pick up **upstream changes** — commits on a branch with the **same name** as your
+branch in one of the repositories listed in [`dependencies.repos`](dependencies.repos) (for example
+`clearpath_config`). The
+[repos-dep-update-action](https://github.com/clearpathrobotics/repos-dep-update-action) swaps those
+matching branches in for the "Head Branch" jobs, so those are the jobs that reflect your upstream
+work.
+
+| Job | Sees your upstream branches? | Expected result |
+| --- | --- | --- |
+| **Jazzy OSRF Industrial** (`testing`/`main`) | Not your feature branches, but builds against the live `testing`/`main` binaries | Can fail when upstream packages change/regress in the `testing`/`main`  ROS repos or changes to Clearpath packages this depends on |
+| **Jazzy Clearpath Release** | Not your feature branches, but builds against released binaries | Can fail if a released upstream dependency regresses |
+| **Jazzy Clearpath Source** | No — default `dependencies.repos` branches | Should pass; unaffected by unmerged upstream branches |
+| **Jazzy Clearpath Source with Head Branch** | Yes — your matching upstream branches | Must pass; a failure means your upstream changes broke the build |
+| **Jazzy Clearpath Source with Base Branch** (PRs only) | Base branch of upstream | Baseline for the state before your change |
+| **Jazzy Clearpath Source with Head Branch Generator Tests** | Yes, plus `clearpath_generator_common_tests` | Fails if your change alters generator output and no matching branch with regenerated samples exists in `clearpath_generator_tests` |
+
+If the **Generator Tests** job is the only source job that fails, the build itself is fine — your
+change altered the generated output and you need a matching-named branch in
+`clearpath_generator_tests` with regenerated samples (see [Generator tests](#generator-tests)
+above).
+
 ## Submitting a pull request
 
 1. Make sure the workspace builds and `colcon test` passes.
