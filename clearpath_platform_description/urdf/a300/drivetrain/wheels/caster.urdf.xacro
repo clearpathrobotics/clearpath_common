@@ -98,11 +98,10 @@
       </plugin>
     </gazebo> -->
 
-    <joint name="${prefix}_${side}_wheel_joint" type="continuous">
+    <joint name="${prefix}_${side}_wheel_joint" type="fixed">
       <parent link="${prefix}_${side}_bracket_swivel_link"/>
       <child link="${prefix}_${side}_wheel_link"/>
       <origin xyz="-0.054 0 -0.108762881" rpy="0 0 0"/>
-      <axis xyz="0 1 0"/>
     </joint>
 
   </xacro:macro>
