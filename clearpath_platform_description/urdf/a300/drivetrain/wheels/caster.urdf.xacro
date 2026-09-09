@@ -41,12 +41,22 @@
       </visual>
     </link>
 
-    <joint name="${prefix}_${side}_bracket_swivel_joint" type="fixed">
-      <parent link="${prefix}_${side}_bracket_plate_link"/>
-      <child link="${prefix}_${side}_bracket_swivel_link"/>
-      <origin xyz="0 0 -0.006237119"/>
-      <axis xyz="0 0 1"/>
-    </joint>
+    <!-- Simulated as continuous so Gazebo can articulate it, fixed on real hardware since it is not measured. -->
+    <xacro:if value="$(arg is_sim)">
+      <joint name="${prefix}_${side}_bracket_swivel_joint" type="continuous">
+        <parent link="${prefix}_${side}_bracket_plate_link"/>
+        <child link="${prefix}_${side}_bracket_swivel_link"/>
+        <origin xyz="0 0 -0.006237119"/>
+        <axis xyz="0 0 1"/>
+      </joint>
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+      <joint name="${prefix}_${side}_bracket_swivel_joint" type="fixed">
+        <parent link="${prefix}_${side}_bracket_plate_link"/>
+        <child link="${prefix}_${side}_bracket_swivel_link"/>
+        <origin xyz="0 0 -0.006237119"/>
+      </joint>
+    </xacro:unless>
 
     <gazebo reference="${prefix}_${side}_bracket_swivel_joint">
       <springStiffness>0.5</springStiffness>
@@ -98,12 +108,22 @@
       </plugin>
     </gazebo> -->
 
-    <joint name="${prefix}_${side}_wheel_joint" type="continuous">
-      <parent link="${prefix}_${side}_bracket_swivel_link"/>
-      <child link="${prefix}_${side}_wheel_link"/>
-      <origin xyz="-0.054 0 -0.108762881" rpy="0 0 0"/>
-      <axis xyz="0 1 0"/>
-    </joint>
+    <!-- Simulated as continuous so Gazebo can articulate it, fixed on real hardware since it is not measured. -->
+    <xacro:if value="$(arg is_sim)">
+      <joint name="${prefix}_${side}_wheel_joint" type="continuous">
+        <parent link="${prefix}_${side}_bracket_swivel_link"/>
+        <child link="${prefix}_${side}_wheel_link"/>
+        <origin xyz="-0.054 0 -0.108762881" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+      </joint>
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+      <joint name="${prefix}_${side}_wheel_joint" type="fixed">
+        <parent link="${prefix}_${side}_bracket_swivel_link"/>
+        <child link="${prefix}_${side}_wheel_link"/>
+        <origin xyz="-0.054 0 -0.108762881" rpy="0 0 0"/>
+      </joint>
+    </xacro:unless>
 
   </xacro:macro>
 </robot>
