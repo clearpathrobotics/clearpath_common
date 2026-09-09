@@ -2,6 +2,18 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Add Support for Hesai Lidar (`#380 <https://github.com/clearpathrobotics/clearpath_common/issues/380>`_)
+  RPSW-2837
+  Added HesaiLidarDescription to sensors.py
+  Added hesai_lidar.urdf.xacro
+  Added hesai-xt32.stl
+  Co-authored-by: Mark Ibrahim <mibrahim@clearpathrobotics.com>
+* Fix: Merge Dict (`#377 <https://github.com/clearpathrobotics/clearpath_common/issues/377>`_)
+  Invert priority of UR update rate
+* Contributors: luis-camero, mibrahim-cpr
+
 2.9.15 (2026-08-18)
 -------------------
 

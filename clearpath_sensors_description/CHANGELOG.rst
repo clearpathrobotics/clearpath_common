@@ -2,6 +2,20 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Add Support for Hesai Lidar (`#380 <https://github.com/clearpathrobotics/clearpath_common/issues/380>`_)
+  RPSW-2837
+  Added HesaiLidarDescription to sensors.py
+  Added hesai_lidar.urdf.xacro
+  Added hesai-xt32.stl
+  Co-authored-by: Mark Ibrahim <mibrahim@clearpathrobotics.com>
+* Feature: Add Realsense d405 to URDF (`#382 <https://github.com/clearpathrobotics/clearpath_common/issues/382>`_)
+  * Add Realsense d405 to URDF
+  * Add newline EoF
+* Add Hokuyo collision (`#381 <https://github.com/clearpathrobotics/clearpath_common/issues/381>`_)
+* Contributors: luis-camero, mibrahim-cpr
+
 2.9.15 (2026-08-18)
 -------------------
 
