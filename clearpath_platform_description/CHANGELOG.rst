@@ -2,6 +2,9 @@
 Changelog for package clearpath_platform_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.3.12 (2026-08-13)
 -------------------
 * Update hams.urdf.xacro (`#373 <https://github.com/clearpathrobotics/clearpath_common/issues/373>`_) (`#376 <https://github.com/clearpathrobotics/clearpath_common/issues/376>`_)

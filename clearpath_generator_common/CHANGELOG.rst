@@ -2,6 +2,14 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: Merge Dict (`#377 <https://github.com/clearpathrobotics/clearpath_common/issues/377>`_) (`#384 <https://github.com/clearpathrobotics/clearpath_common/issues/384>`_)
+  Invert priority of UR update rate
+  (cherry picked from commit b0f6d920422ad302372a1c65e31d61648da884ed)
+  Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
+* Contributors: mergify[bot]
+
 1.3.12 (2026-08-13)
 -------------------
 

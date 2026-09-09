@@ -2,6 +2,9 @@
 Changelog for package clearpath_manipulators
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.3.12 (2026-08-13)
 -------------------
 * Fixed failing controllers by using  single spawner call to avoid competing for the ros2-control file lock. (`#361 <https://github.com/clearpathrobotics/clearpath_common/issues/361>`_)
