@@ -2,8 +2,8 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.13 (2026-09-09)
+-------------------
 * Add Hokuyo collision (`#381 <https://github.com/clearpathrobotics/clearpath_common/issues/381>`_) (`#383 <https://github.com/clearpathrobotics/clearpath_common/issues/383>`_)
   (cherry picked from commit eda69e1a52fedf23c1ac5f25dd5bffd5a2272881)
   Co-authored-by: luis-camero <88782189+luis-camero@users.noreply.github.com>
