@@ -25,6 +25,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 #include <moveit_setup_framework/data/urdf_config.hpp>
 #include <moveit/rdf_loader/rdf_loader.hpp>
 #include <boost/program_options.hpp>
+#include <console_bridge/console.h>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/logger.hpp>
 #include <rclcpp/logging.hpp>
@@ -83,40 +84,51 @@ int main(int argc, char * argv[])
   }
 
   rclcpp::init(argc, argv);
-  rclcpp::Node::SharedPtr node = std::make_shared<rclcpp::Node>("moveit_collision_updater");
-  moveit_setup::DataWarehousePtr config_data = std::make_shared<moveit_setup::DataWarehouse>(node);
+  try {
+    {
+      moveit_setup::srdf_setup::DefaultCollisions setup_step;
+      rclcpp::Node::SharedPtr node = std::make_shared<rclcpp::Node>("moveit_collision_updater");
+      moveit_setup::DataWarehousePtr config_data =
+        std::make_shared<moveit_setup::DataWarehouse>(node);
+      setup_step.initialize(node, config_data);
 
-  moveit_setup::srdf_setup::DefaultCollisions setup_step;
-  setup_step.initialize(node, config_data);
+      auto config = config_data->get<moveit_setup::URDFConfig>("urdf");
+      auto srdf_config = config_data->get<moveit_setup::SRDFConfig>("srdf");
 
-  auto config = config_data->get<moveit_setup::URDFConfig>("urdf");
-  auto srdf_config = config_data->get<moveit_setup::SRDFConfig>("srdf");
+      config->loadFromPath(urdf_path, xacro_args);
+      srdf_config->loadSRDFFile(srdf_path);
+      setup_step.startGenerationThread(never_trials, min_collision_fraction, verbose);
+      int thread_progress;
+      int last_progress = 0;
+      while ((thread_progress = setup_step.getThreadProgress()) < 100) {
+        if (thread_progress - last_progress > 10) {
+          last_progress = thread_progress;
+        }
+      }
+      setup_step.joinGenerationThread();
 
-  config->loadFromPath(urdf_path, xacro_args);
-  srdf_config->loadSRDFFile(srdf_path);
-  setup_step.startGenerationThread(never_trials, min_collision_fraction, verbose);
-  int thread_progress;
-  int last_progress = 0;
-  while ((thread_progress = setup_step.getThreadProgress()) < 100) {
-    if (thread_progress - last_progress > 10) {
-      last_progress = thread_progress;
+      size_t skip_mask = 0;
+      if (!include_default) {
+        skip_mask |= (1 << moveit_setup::srdf_setup::DEFAULT);
+      }
+      if (!include_always) {
+        skip_mask |= (1 << moveit_setup::srdf_setup::ALWAYS);
+      }
+      setup_step.linkPairsToSRDFSorted(skip_mask);
+
+      if (output_path.empty()) {
+        srdf_config->write(srdf_config->getPath());
+      } else {
+        srdf_config->write(output_path);
+      }
+
+      // Filter class_loader teardown warnings emitted during process shutdown.
+      console_bridge::setLogLevel(console_bridge::CONSOLE_BRIDGE_LOG_ERROR);
     }
+    rclcpp::shutdown();
+    return 0;
+  } catch (...) {
+    rclcpp::shutdown();
+    throw;
   }
-  setup_step.joinGenerationThread();
-
-  size_t skip_mask = 0;
-  if (!include_default) {
-    skip_mask |= (1 << moveit_setup::srdf_setup::DEFAULT);
-  }
-  if (!include_always) {
-    skip_mask |= (1 << moveit_setup::srdf_setup::ALWAYS);
-  }
-  setup_step.linkPairsToSRDFSorted(skip_mask);
-
-  if (output_path.empty()) {
-    srdf_config->write(srdf_config->getPath());
-  } else {
-    srdf_config->write(output_path);
-  }
-  return 0;
 }
