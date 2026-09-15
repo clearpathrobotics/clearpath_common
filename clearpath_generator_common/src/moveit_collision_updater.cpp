@@ -88,7 +88,8 @@ int main(int argc, char * argv[])
     {
       moveit_setup::srdf_setup::DefaultCollisions setup_step;
       rclcpp::Node::SharedPtr node = std::make_shared<rclcpp::Node>("moveit_collision_updater");
-      moveit_setup::DataWarehousePtr config_data = std::make_shared<moveit_setup::DataWarehouse>(node);
+      moveit_setup::DataWarehousePtr config_data =
+        std::make_shared<moveit_setup::DataWarehouse>(node);
       setup_step.initialize(node, config_data);
 
       auto config = config_data->get<moveit_setup::URDFConfig>("urdf");
