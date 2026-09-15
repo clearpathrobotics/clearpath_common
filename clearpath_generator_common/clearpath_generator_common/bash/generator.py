@@ -87,8 +87,18 @@ class BashGenerator(BaseGenerator):
 
         # Custom DDS Profile
         if self.clearpath_config.system.middleware.profile:
-            bash_writer.add_export(
-                'FASTRTPS_DEFAULT_PROFILES_FILE', self.clearpath_config.system.middleware.profile)
+            if rmw == 'rmw_fastrtps_cpp':
+                bash_writer.add_comment('Using custom Fast DDS profile')
+                bash_writer.add_export(
+                    'FASTRTPS_DEFAULT_PROFILES_FILE', self.clearpath_config.system.middleware.profile)
+            elif rmw == 'rmw_cyclonedds_cpp':
+                bash_writer.add_comment('Using custom Cyclone DDS profile')
+                bash_writer.add_export(
+                    'CYCLONEDDS_URI', self.clearpath_config.system.middleware.profile)
+            elif rmw == 'rmw_zenoh_cpp':
+                bash_writer.add_comment('Using custom Zenoh profile')
+                bash_writer.add_export(
+                    'ZENOH_ROUTER_CONFIG_URI', self.clearpath_config.system.middleware.profile)
 
         # Fast DDS Discovery Server
         if self.clearpath_config.system.middleware.discovery == Discovery.SERVER:
