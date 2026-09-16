@@ -57,8 +57,24 @@ class ManipulatorPoseMacro():
             'joint_positions': f'${{[{", ".join(str_joints)}]}}'
         }
 
+<<<<<<< HEAD
     def blocks(self) -> str:
         return None
+=======
+        def __init__(self, manipulator, pose):
+            super().__init__(manipulator, pose)
+            self.parameters[Franka.ROBOT_TYPE] = self.manipulator.robot_type
+
+    MODEL = {
+        Franka.MANIPULATOR_MODEL: FrankaPoseMacro,
+        FrankaGripper.MANIPULATOR_MODEL: FrankaPoseMacro
+    }
+
+    def __new__(cls, manipulator: BaseManipulator, pose: ManipulatorPose) -> BaseManipulator:
+        return ManipulatorPoseMacro.MODEL.setdefault(
+            manipulator.MANIPULATOR_MODEL,
+            ManipulatorPoseMacro.BasePoseMacro)(manipulator, pose)
+>>>>>>> da9029c (Feature: Franka V2 (#396))
 
 
 class ManipulatorSemanticDescription():
@@ -89,7 +105,12 @@ class ManipulatorSemanticDescription():
 
         def __init__(self, manipulator):
             super().__init__(manipulator)
+<<<<<<< HEAD
             self.parameters[self.NAME] = f'{manipulator.name}_{manipulator.arm_id}'
+=======
+            self.parameters[self.NAME] = f'{manipulator.name}'
+            self.parameters[Franka.ROBOT_TYPE] = f'{manipulator.robot_type}'
+>>>>>>> da9029c (Feature: Franka V2 (#396))
 
     class Robotiq2F140SemanticDescription(BaseSemanticDescription):
 
