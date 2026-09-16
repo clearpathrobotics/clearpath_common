@@ -143,11 +143,11 @@ class PlatformParam():
                     if arm.MANIPULATOR_MODEL == Franka.MANIPULATOR_MODEL:
                         updated_parameters = replace_dict_items(
                             arm_param_file.parameters,
-                            {r'${name}': f'{arm.name}_{arm.arm_id}'}
+                            {r'${name}': f'{arm.name}_{arm.robot_type}'}
                         )
                         extra_parameters = replace_dict_items(
                             arm.ros_parameters,
-                            {r'${name}': f'{arm.name}_{arm.arm_id}'}
+                            {r'${name}': f'{arm.name}_{arm.robot_type}'}
                         )
                     else:
                         updated_parameters = replace_dict_items(
@@ -192,11 +192,11 @@ class PlatformParam():
                     if gripper.MANIPULATOR_MODEL == FrankaGripper.MANIPULATOR_MODEL:
                         updated_parameters = replace_dict_items(
                             gripper_param_file.parameters,
-                            {r'${name}': f'{gripper.name}_{gripper.arm_id}'}
+                            {r'${name}': f'{gripper.name}_{gripper.robot_type}'}
                         )
                         extra_parameters = replace_dict_items(
                             gripper.ros_parameters,
-                            {r'${name}': f'{gripper.name}_{gripper.arm_id}'}
+                            {r'${name}': f'{gripper.name}_{gripper.robot_type}'}
                         )
                     else:
                         updated_parameters = replace_dict_items(
