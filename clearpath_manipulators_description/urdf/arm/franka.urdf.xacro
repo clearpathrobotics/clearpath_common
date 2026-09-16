@@ -15,7 +15,7 @@
   <!-- inertials: description of the inertials that comes from a YAML file. Example definition: ${xacro.load_yaml('$(find franka_description)/robots/fr3/inertials.yaml')} -->
   <!-- dynamics: description of the dynamics that comes from a YAML file. Example definition: ${xacro.load_yaml('$(find franka_description)/robots/fr3/dynamics.yaml')} -->
 
-  <!-- Re-definiton of `franka_arm` to adhere to Clearpath descriptions -->
+  <!-- Re-definition of `franka_arm` to adhere to Clearpath descriptions -->
   <xacro:macro name="franka_arm" params="
     robot_type
     parent_link
