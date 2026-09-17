@@ -2,6 +2,9 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.16 (2026-09-09)
 -------------------
 * Feature: Add Support for Hesai Lidar (`#380 <https://github.com/clearpathrobotics/clearpath_common/issues/380>`_)

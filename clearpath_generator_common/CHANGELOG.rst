@@ -2,6 +2,20 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Franka V2 (`#396 <https://github.com/clearpathrobotics/clearpath_common/issues/396>`_)
+  * Initial rework to match new franka URDF
+  * Update Franka URDF and generators to use new parameters
+  * Fix typo
+* Fix: Default MoveIt Collision Updater (`#394 <https://github.com/clearpathrobotics/clearpath_common/issues/394>`_)
+  * Appropriately handle shutdown of MoveIt default collision updater
+  * Lint code style divergence
+* Feature: RMW Configuration Environment Variables (`#393 <https://github.com/clearpathrobotics/clearpath_common/issues/393>`_)
+  * Write the correspond RMW config environment variable for selected RMW
+  * Lint line length
+* Contributors: luis-camero
+
 2.9.16 (2026-09-09)
 -------------------
 * Feature: Add Support for Hesai Lidar (`#380 <https://github.com/clearpathrobotics/clearpath_common/issues/380>`_)

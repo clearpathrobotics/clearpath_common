@@ -2,6 +2,14 @@
 Changelog for package clearpath_manipulators_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Franka V2 (`#396 <https://github.com/clearpathrobotics/clearpath_common/issues/396>`_)
+  * Initial rework to match new franka URDF
+  * Update Franka URDF and generators to use new parameters
+  * Fix typo
+* Contributors: luis-camero
+
 2.9.16 (2026-09-09)
 -------------------
 
