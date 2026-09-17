@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.17 (2026-09-17)
+-------------------
 * Feature: Franka V2 (`#396 <https://github.com/clearpathrobotics/clearpath_common/issues/396>`_)
   * Initial rework to match new franka URDF
   * Update Franka URDF and generators to use new parameters
