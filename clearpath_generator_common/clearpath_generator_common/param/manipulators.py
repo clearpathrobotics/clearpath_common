@@ -43,6 +43,32 @@ class ManipulatorParam():
     MOVEIT = 'moveit'
     CONTROL = 'control'
 
+<<<<<<< HEAD
+=======
+    def replace_name(
+            manipulator: BaseManipulator,
+            parameters: dict) -> dict:
+        if (manipulator.MANIPULATOR_MODEL == Franka.MANIPULATOR_MODEL or
+                manipulator.MANIPULATOR_MODEL == FrankaGripper.MANIPULATOR_MODEL):
+            return replace_dict_items(
+                parameters,
+                {r'${name}': f'{manipulator.name}_{manipulator.robot_type}'}
+            )
+        else:
+            return replace_dict_items(
+                parameters,
+                {r'${name}': manipulator.name}
+            )
+
+    def replace_controller_name(
+            manipulator: BaseManipulator,
+            parameters: dict) -> dict:
+        return replace_dict_items(
+            parameters,
+            {r'${controller_name}': manipulator.name}
+        )
+
+>>>>>>> da9029c (Feature: Franka V2 (#396))
     class BaseParam():
         CLEARPATH_MANIPULATORS_DESCRIPTION = 'clearpath_manipulators_description'
         CLEARPATH_MANIPULATORS = 'clearpath_manipulators'
