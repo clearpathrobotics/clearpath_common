@@ -17,6 +17,11 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+<<<<<<< HEAD
+=======
+  <exec_depend>axis_description</exec_depend>
+  <exec_depend>flir_ptu_description</exec_depend>
+>>>>>>> 209b636 (Feature: PTU (#330))
   <exec_depend>microstrain_inertial_description</exec_depend>
   <exec_depend>realsense2_description</exec_depend>
   <exec_depend>velodyne_description</exec_depend>

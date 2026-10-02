@@ -45,7 +45,19 @@ from clearpath_config.sensors.types.imu import (
     RedshiftUM7
 )
 from clearpath_config.sensors.types.lidars_2d import BaseLidar2D, HokuyoUST, SickLMS1XX
+<<<<<<< HEAD
 from clearpath_config.sensors.types.lidars_3d import BaseLidar3D, OusterOS1, VelodyneLidar
+=======
+from clearpath_config.sensors.types.lidars_3d import (
+    BaseLidar3D,
+    OusterOS1,
+    SeyondLidar,
+    VelodyneLidar,
+)
+from clearpath_config.sensors.types.ptu import (
+    FlirPTU,
+)
+>>>>>>> 209b636 (Feature: PTU (#330))
 from clearpath_config.sensors.types.sensor import BaseSensor
 
 
@@ -200,6 +212,16 @@ class SensorDescription():
                 self.MODEL: sensor.device_type
             })
 
+    class FlirPTUDescription(BaseDescription):
+        MODEL = 'model'
+
+        def __init__(self, sensor: FlirPTU) -> None:
+            super().__init__(sensor)
+
+            self.parameters.update({
+                self.MODEL: sensor.ptu_model,
+            })
+
     MODEL = {
         HokuyoUST.SENSOR_MODEL: Lidar2dDescription,
         SickLMS1XX.SENSOR_MODEL: Lidar2dDescription,
@@ -212,6 +234,12 @@ class SensorDescription():
         CHRoboticsUM6.SENSOR_MODEL: ImuDescription,
         RedshiftUM7.SENSOR_MODEL: ImuDescription,
         StereolabsZed.SENSOR_MODEL: StereolabsZedDescription,
+<<<<<<< HEAD
+=======
+        LuxonisOAKD.SENSOR_MODEL: LuxonisOAKDDescription,
+        Fixposition.SENSOR_MODEL: InsDescription,
+        FlirPTU.SENSOR_MODEL: FlirPTUDescription,
+>>>>>>> 209b636 (Feature: PTU (#330))
     }
 
     def __new__(cls, sensor: BaseSensor) -> BaseDescription:
