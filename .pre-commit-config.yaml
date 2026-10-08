@@ -45,7 +45,6 @@ repos:
           - --no-must-find-files
           - --no-progress
           - --no-summary
-          - --language-id cpp
           - --files
           - .git/COMMIT_EDITMSG
         stages: [commit-msg]
