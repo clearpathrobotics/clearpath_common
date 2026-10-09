@@ -736,7 +736,6 @@ class PlatformParam():
                 gpss = self.clearpath_config.sensors.get_all_gps()
                 for gps in gpss:
                     if gps.launch_enabled and gps.has_imu():
-                        imu_idx += 1
                         gps_name = f'imu{imu_idx}'
                         gps_parameters = {
                             gps_name: f'sensors/{gps.name}/imu/data',
@@ -746,6 +745,7 @@ class PlatformParam():
                             f'{gps_name}_remove_gravitational_acceleration': True
                         }
                         self.param_file.update({self.EKF_NODE: gps_parameters})
+                        imu_idx += 1
 
     class TeleopJoyParam(BaseParam):
         def __init__(self,
