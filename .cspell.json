@@ -238,6 +238,7 @@
     "rosidl",
     "rostest",
     "RPSW",
+    "RSSI",
     "rtde",
     "RTPS",
     "schematypens",
