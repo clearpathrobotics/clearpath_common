@@ -49,9 +49,11 @@ if(BUILD_TESTING)
   # pytest
   find_package(ament_cmake_pytest REQUIRED)
   set(_pytest_tests
+    test/test_bash_writer.py
     test/test_generator_bash.py
     test/test_generator_description.py
     test/test_generator_discovery_server.py
+    test/test_generator_param.py
     test/test_generator_vcan.py
   )
   foreach(_test_path ${_pytest_tests})
