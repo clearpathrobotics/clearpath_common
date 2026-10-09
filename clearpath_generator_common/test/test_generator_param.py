@@ -39,7 +39,13 @@ class TestLocalizationParam:
     @staticmethod
     def _get_sample_path(platform: str, sample_name: str) -> str:
         share_dir = get_package_share_directory('clearpath_config')
-        return os.path.join(share_dir, 'sample', platform, sample_name)
+        flat_path = os.path.join(share_dir, 'sample', sample_name)
+        if os.path.exists(flat_path):
+            return flat_path
+        sub_path = os.path.join(share_dir, 'sample', platform, sample_name)
+        if os.path.exists(sub_path):
+            return sub_path
+        return flat_path
 
     def test_a200_default_no_imu(self):
         config = ClearpathConfig(self._get_sample_path('a200', 'a200_default.yaml'))
