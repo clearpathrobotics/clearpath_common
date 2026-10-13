@@ -49,12 +49,9 @@ After the first successful pair the controller will reconnect automatically
 on every subsequent power-on without running this script again.
 """
 
-import collections
 import os
-import pty
+import queue
 import re
-import select
-import subprocess
 import sys
 import time
 
@@ -65,159 +62,433 @@ STABLE_TIME = 5
 DEVICE_NAME = 'DualSense'
 MAC = r'(?:[0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}'
 MAC_RE = re.compile(MAC)
-ANSI_RE = re.compile(r'\x1b\[[0-9;?]*[A-Za-z]|[\x01\x02\r]')
-DEVICE_EVENT_RE = re.compile(rf'\[(NEW|CHG)\] Device ({MAC}) (.*)')
-CONNECTED_RE = re.compile(rf'\[CHG\] Device ({MAC}) Connected: (yes|no)')
-AGENT_PROMPT_RE = re.compile(r'\(yes/no\)')
+BLUEZ = 'org.bluez'
+OBJECT_MANAGER = 'org.freedesktop.DBus.ObjectManager'
+PROPERTIES = 'org.freedesktop.DBus.Properties'
+ADAPTER = 'org.bluez.Adapter1'
+DEVICE = 'org.bluez.Device1'
+AGENT_MANAGER = 'org.bluez.AgentManager1'
+AGENT_PATH = '/com/clearpath/bt_joy/agent'
+HID_UUID = '00001124-0000-1000-8000-00805f9b34fb'
 
 
 class PairingError(Exception):
-    """Raised when a bluetoothctl step fails or times out."""
+    """Raised when a BlueZ D-Bus operation fails or times out."""
 
 
-def cached_devices():
-    """Return {MAC: name} for every device already in BlueZ's cache."""
-    out = subprocess.run(
-        ['bluetoothctl', 'devices'], capture_output=True, text=True
-    ).stdout
-    return {
-        m.group(1).upper(): m.group(2)
-        for m in re.finditer(rf'Device ({MAC}) (.*)', out)
-    }
+def _unwrap(value):
+    """Convert D-Bus variants and containers into ordinary Python values."""
+    if hasattr(value, 'value'):
+        return _unwrap(value.value)
+    if isinstance(value, dict):
+        return {key: _unwrap(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_unwrap(item) for item in value]
+    return value
 
 
-class BluetoothCtl:
-    """A single long-lived interactive bluetoothctl session on a PTY."""
+def _is_dualsense(properties, mac=None):
+    """Return whether Device1 properties identify the requested DualSense."""
+    name = properties.get('Name') or properties.get('Alias') or ''
+    address = properties.get('Address', '').upper()
+    return (name == 'DualSense Wireless Controller') and (
+        (mac is None) or (address == mac)
+    )
 
-    def __init__(self):
-        self._master, slave = pty.openpty()
-        self._proc = subprocess.Popen(
-            ['bluetoothctl'],
-            stdin=slave,
-            stdout=slave,
-            stderr=slave,
-            close_fds=True,
+
+def _bluez_error(reply):
+    """Format a structured D-Bus error reply for a user-facing pairing error."""
+    if hasattr(reply, 'get_dbus_name'):
+        name = reply.get_dbus_name()
+    else:
+        name = type(reply).__name__
+    return f'{name}: {reply}'.rstrip(': ')
+
+
+class BlueZPairing:
+    """Pair a DualSense through BlueZ's structured system D-Bus API."""
+
+    def __init__(self, mac=None):
+        self.mac = mac  # Optional address to restrict which DualSense is selected.
+        self.bus = None  # System D-Bus connection used to communicate with BlueZ.
+        self.dbus = None  # Imported dbus-python module used for D-Bus types and calls.
+        self.context = None  # GLib event loop context that dispatches D-Bus callbacks.
+        self.objects = {}  # Latest cached BlueZ adapter and device properties.
+        self.adapter_path = None  # BlueZ object path of the selected Bluetooth radio.
+        self.discovery_started = False  # If instance must stop scanning on exit.
+        self.agent_registered = False  # If instance must unregister its pairing agent.
+
+        # Exported Agent1 object used to authorize controller pairing.
+        self.agent = None
+
+        # Device paths reported during Bluetooth discovery.
+        self.device_events = queue.Queue()
+
+        # D-Bus signal subscriptions removed during cleanup.
+        self.signal_matches = []
+
+    def connect(self):
+        """Connect to the system bus and prepare the BlueZ client."""
+        try:
+            import dbus
+            from dbus.mainloop.glib import DBusGMainLoop
+            import dbus.service
+            from gi.repository import GLib
+        except ImportError as exc:
+            raise PairingError(
+                'Python D-Bus bindings are required; install python3-dbus '
+                'and python3-gi'
+            ) from exc
+
+        self.dbus = dbus
+        try:
+            DBusGMainLoop(set_as_default=True)
+            self.bus = dbus.SystemBus()
+            self.context = GLib.MainContext.default()
+        except Exception as exc:
+            raise PairingError(f'Could not connect to the system D-Bus: {exc}') from exc
+
+        # Setup Listener for InterfacesAdded signals.
+        # New Device1 objects can appear as controllers start advertising.
+        self.signal_matches.append(
+            self.bus.add_signal_receiver(
+                self._on_interfaces_added,
+                signal_name='InterfacesAdded',
+                dbus_interface=OBJECT_MANAGER,
+                path='/',
+                bus_name=BLUEZ,
+            )
         )
-        os.close(slave)
-        self._buf = ''
-        self._pending_lines = collections.deque()
-        self.connected = {}
+        # Listen for Device1 RSSI and connection-state updates.
+        self.signal_matches.append(
+            self.bus.add_signal_receiver(
+                self._on_properties_changed,
+                signal_name='PropertiesChanged',
+                dbus_interface=PROPERTIES,
+                bus_name=BLUEZ,
+                path_keyword='path',
+            )
+        )
 
-    def send(self, cmd):
-        """Write a command to the bluetoothctl prompt."""
-        os.write(self._master, (cmd + '\n').encode())
-
-    def lines(self, timeout):
-        """Yield output lines until timeout, auto-accepting agent prompts."""
+    def _wait_until(self, predicate, timeout):
+        """Dispatch GLib D-Bus work until a callback completes or times out."""
         deadline = time.monotonic() + timeout
-        while True:
-            if self._pending_lines:
-                line = self._pending_lines.popleft()
-                m = CONNECTED_RE.search(line)
-                if m:
-                    self.connected[m.group(1).upper()] = m.group(2) == 'yes'
-                yield line
-                continue
-
+        while not predicate():
+            self.context.iteration(False)
             remaining = deadline - time.monotonic()
             if remaining <= 0:
-                return
-            r, _, _ = select.select([self._master], [], [], min(1.0, remaining))
-            if not r:
-                continue
-            try:
-                data = os.read(self._master, 4096)
-            except OSError:
-                data = b''
-            if not data:
-                raise PairingError('bluetoothctl exited unexpectedly')
-            self._buf += ANSI_RE.sub('', data.decode('utf-8', errors='replace'))
-            *complete, self._buf = self._buf.split('\n')
-            # Agent prompts have no trailing newline.
-            if AGENT_PROMPT_RE.search(self._buf):
-                self.send('yes')
-                self._buf = ''
-            self._pending_lines.extend(complete)
+                return False
+            time.sleep(min(0.01, remaining))
+        return True
 
-    def wait_for(self, success, failure=None, timeout=CMD_TIMEOUT):
-        """Return the first success match, or raise on failure/timeout."""
-        for line in self.lines(timeout):
-            if failure and re.search(failure, line):
-                raise PairingError(line.strip())
-            m = re.search(success, line)
-            if m:
-                return m
+    def _call(self, path, interface, member, *args, timeout=CMD_TIMEOUT):
+        """Call a BlueZ method asynchronously while dispatching D-Bus callbacks."""
+        result = {'done': False, 'body': None, 'error': None}
+
+        def on_reply(*body):
+            result['body'] = body
+            result['done'] = True
+
+        def on_error(error):
+            result['error'] = error
+            result['done'] = True
+
+        try:
+            proxy = self.bus.get_object(BLUEZ, path, introspect=False)
+            method = getattr(self.dbus.Interface(proxy, interface), member)
+            method(
+                *args,
+                reply_handler=on_reply,
+                error_handler=on_error,
+                timeout=timeout,
+            )
+        except Exception as exc:
+            raise PairingError(f'BlueZ {interface}.{member} failed: {exc}') from exc
+
+        if self._wait_until(lambda: result['done'], timeout):
+            if result['error'] is not None:
+                raise PairingError(_bluez_error(result['error']))
+            return result.get('body', ())
+
+        # If we reach here, the call did not complete within the timeout.
+        raise PairingError(f'BlueZ {interface}.{member} timed out')
+
+    def get_objects(self):
+        """Fetch and cache BlueZ's current ObjectManager snapshot."""
+        body = self._call('/', OBJECT_MANAGER, 'GetManagedObjects')
+        self.objects = _unwrap(body[0])
+        return self.objects
+
+    def _on_interfaces_added(self, path, interfaces):
+        """Cache new BlueZ objects and enqueue newly discovered devices."""
+        path = str(path)
+        interfaces = _unwrap(interfaces)
+        self.objects.setdefault(path, {}).update(interfaces)
+        device = self.objects[path].get(DEVICE)
+        if device and 'RSSI' in device:
+            self.device_events.put(path)
+
+    def _on_properties_changed(self, interface, changed, invalidated, path=None):
+        """Update cached properties and signal newly reported RSSI values."""
+        path = str(path)
+        if interface != DEVICE or path not in self.objects:
+            return
+        properties = self.objects[path].setdefault(DEVICE, {})
+        properties.update(_unwrap(changed))
+        for name in invalidated:
+            properties.pop(name, None)
+        if 'RSSI' in changed:
+            self.device_events.put(path)
+
+    def select_adapter(self):
+        """Choose a powered adapter, powering on the first if necessary."""
+        objects = self.get_objects()
+        adapters = [
+            (path, interfaces[ADAPTER])
+            for path, interfaces in objects.items()
+            if ADAPTER in interfaces
+        ]
+        if not adapters:
+            raise PairingError('BlueZ has no Bluetooth adapter')
+        self.adapter_path, properties = next(
+            ((path, props) for path, props in adapters if props.get('Powered')),
+            adapters[0],
+        )
+        if not properties.get('Powered'):
+            print('Powering on the Bluetooth adapter ...')
+            self._call(
+                self.adapter_path,
+                PROPERTIES,
+                'Set',
+                ADAPTER,
+                'Powered',
+                self.dbus.Boolean(True, variant_level=1),
+            )
+        for path, interfaces in objects.items():
+            if DEVICE in interfaces:
+                self.objects[path] = interfaces
+
+    def start_discovery(self):
+        """Start BlueZ device discovery on the selected adapter."""
+        self._call(self.adapter_path, ADAPTER, 'StartDiscovery')
+        self.discovery_started = True
+
+    def stop_discovery(self):
+        """Stop this client's BlueZ discovery session."""
+        if self.discovery_started:
+            self._call(self.adapter_path, ADAPTER, 'StopDiscovery')
+            self.discovery_started = False
+
+    def find_advertising_device(self, timeout):
+        """Wait for a matching DualSense with a fresh RSSI discovery update."""
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            self.context.iteration(False)
+            try:
+                path = str(self.device_events.get_nowait())
+            except queue.Empty:
+                time.sleep(0.01)
+                continue
+            properties = self.objects.get(path, {}).get(DEVICE, {})
+            if properties.get('Adapter') != self.adapter_path:
+                continue
+            if _is_dualsense(properties, self.mac):
+                return path, properties
         return None
 
+    def remove_existing_bond(self, path, properties):
+        """Remove an existing bond and rediscover the device before pairing."""
+        if not properties.get('Paired'):
+            return path, properties
+        address = properties['Address'].upper()
+        print(f'Removing previous pairing for {address} ...')
+        self.stop_discovery()
+        self._call(
+            self.adapter_path,
+            ADAPTER,
+            'RemoveDevice',
+            self.dbus.ObjectPath(path),
+        )
+        self.objects.pop(path, None)
+        while not self.device_events.empty():
+            self.device_events.get_nowait()
+        self.start_discovery()
+        result = self.find_advertising_device(REDISCOVER_TIMEOUT)
+        if not result:
+            raise PairingError(
+                f'{address} was not rediscovered after removing its bond'
+            )
+        return result
+
+    def register_agent(self, device_path):
+        """Register an agent that authorizes only this controller's HID service."""
+        dbus = self.dbus
+
+        class Rejected(dbus.DBusException):
+            _dbus_error_name = 'org.bluez.Error.Rejected'
+
+        def agent_method(member, in_signature='', out_signature=''):
+            def decorate(callback):
+                callback.__name__ = member
+                return dbus.service.method(
+                    'org.bluez.Agent1',
+                    in_signature=in_signature,
+                    out_signature=out_signature,
+                )(callback)
+
+            return decorate
+
+        class PairingAgent(dbus.service.Object):
+            """Authorize pairing callbacks for the selected controller only."""
+
+            def __init__(self, bus, target_path):
+                super().__init__(bus, AGENT_PATH)
+                self.target_path = str(target_path)
+
+            def _check_device(self, path):
+                if str(path) != self.target_path:
+                    raise Rejected('Unexpected Bluetooth device')
+
+            @agent_method('Release')
+            def release(self):
+                return
+
+            @agent_method('RequestAuthorization', 'o')
+            def request_authorization(self, device):
+                self._check_device(device)
+
+            @agent_method('AuthorizeService', 'os')
+            def authorize_service(self, device, uuid):
+                self._check_device(device)
+                if uuid.lower() != HID_UUID:
+                    raise Rejected('Only the HID service is allowed')
+
+            @agent_method('RequestConfirmation', 'ou')
+            def request_confirmation(self, device, passkey):
+                self._check_device(device)
+
+            @agent_method('RequestPinCode', 'o', 's')
+            def request_pin_code(self, device):
+                self._check_device(device)
+                raise Rejected('PIN entry is not supported')
+
+            @agent_method('RequestPasskey', 'o', 'u')
+            def request_passkey(self, device):
+                self._check_device(device)
+                raise Rejected('Passkey entry is not supported')
+
+            @agent_method('DisplayPinCode', 'os')
+            def display_pin_code(self, device, pincode):
+                self._check_device(device)
+
+            @agent_method('DisplayPasskey', 'ouq')
+            def display_passkey(self, device, passkey, entered):
+                self._check_device(device)
+
+            @agent_method('Cancel')
+            def cancel(self):
+                return
+
+        self.agent = PairingAgent(self.bus, device_path)
+        self._call(
+            '/org/bluez',
+            AGENT_MANAGER,
+            'RegisterAgent',
+            self.dbus.ObjectPath(AGENT_PATH),
+            'NoInputNoOutput',
+        )
+        self.agent_registered = True
+
+    def trust_pair_connect(self, path, properties):
+        """Trust, pair, connect, and verify stable connection state."""
+        address = properties['Address'].upper()
+        self.register_agent(path)
+        self.stop_discovery()
+        self._call(
+            path,
+            PROPERTIES,
+            'Set',
+            DEVICE,
+            'Trusted',
+            self.dbus.Boolean(True, variant_level=1),
+        )
+        print(f'Pairing with {address} ...')
+        self._call(path, DEVICE, 'Pair')
+
+        properties = self.get_objects().get(path, {}).get(DEVICE, {})
+        if not properties.get('Connected'):
+            print(f'Connecting to {address} ...')
+            self._call(path, DEVICE, 'Connect')
+
+        deadline = time.monotonic() + CMD_TIMEOUT
+        while time.monotonic() < deadline:
+            properties = self.get_objects().get(path, {}).get(DEVICE, {})
+            if properties.get('Connected'):
+                break
+            self.context.iteration(False)
+            time.sleep(0.2)
+        else:
+            raise PairingError(f'Timed out connecting to {address}')
+
+        print(f'Connected to {address}; checking link stability ...')
+        deadline = time.monotonic() + STABLE_TIME
+        while time.monotonic() < deadline:
+            time.sleep(0.2)
+            properties = self.get_objects().get(path, {}).get(DEVICE, {})
+            if not properties.get('Connected'):
+                raise PairingError(f'{address} disconnected right after connecting')
+
     def close(self):
-        """Quit bluetoothctl and release the PTY."""
+        """Release discovery, the temporary agent, and the system bus."""
+        if self.bus is None:
+            return
+        if self.discovery_started:
+            try:
+                self.stop_discovery()
+            except PairingError:
+                pass
+        if self.agent_registered:
+            try:
+                self._call(
+                    '/org/bluez',
+                    AGENT_MANAGER,
+                    'UnregisterAgent',
+                    self.dbus.ObjectPath(AGENT_PATH),
+                )
+            except PairingError:
+                pass
+        if self.agent is not None:
+            self.agent.remove_from_connection()
+        for match in self.signal_matches:
+            match.remove()
+        self.bus.close()
+        self.bus = None
+
+    def run(self):
+        """Run controller discovery and pairing, cleaning up even on failure."""
         try:
-            self.send('quit')
-            self._proc.wait(timeout=3)
-        except (OSError, subprocess.TimeoutExpired):
-            self._proc.terminate()
-            self._proc.wait()
-        try:
-            os.close(self._master)
-        except OSError:
-            pass
+            self.connect()
+            self.select_adapter()
+            print(
+                f'Hold Create + PS on the DualSense until the light bar pulses blue, '
+                f'then wait for up to {SCAN_TIMEOUT}s...'
+            )
+            self.start_discovery()
+            result = self.find_advertising_device(SCAN_TIMEOUT)
+            if not result:
+                target = f'device {self.mac}' if self.mac else DEVICE_NAME
+                raise PairingError(
+                    f'No {target} found in pairing mode within {SCAN_TIMEOUT}s'
+                )
+            path, properties = result
+            address = properties['Address'].upper()
+            name = properties.get('Alias') or properties.get('Name')
+            print(f'Found: {name} ({address})')
 
-
-def wait_for_advertising(bt, cache, timeout, mac=None):
-    """Return the MAC of a DualSense (or `mac`) that is actively advertising."""
-    for line in bt.lines(timeout):
-        m = DEVICE_EVENT_RE.search(line)
-        if not m:
-            continue
-        found, rest = m.group(2).upper(), m.group(3)
-        if mac and found != mac:
-            continue
-        if found in cache:
-            # Cached devices are replayed as [NEW] at startup; only a fresh RSSI
-            # report proves the controller is advertising right now.
-            if rest.startswith('RSSI') and (mac or DEVICE_NAME in cache[found]):
-                return found
-        elif mac or DEVICE_NAME in rest:
-            return found
-    return None
-
-
-def trust_pair_connect(bt, mac):
-    """Trust, pair, and connect `mac`, then verify the link stays up."""
-    not_available = rf'Device {mac} not available'
-
-    bt.send('scan off')
-    bt.wait_for(r'Discovery stopped|Discovering: no', timeout=5)
-
-    # Trusting first lets BlueZ accept the controller's incoming HID
-    # connection without an authorization prompt.
-    print(f'Trusting {mac} ...')
-    bt.send(f'trust {mac}')
-    if not bt.wait_for(
-        rf'trust succeeded|{mac} Trusted: yes',
-        rf'Failed to set .*trust|{not_available}',
-    ):
-        raise PairingError(f'Timed out trusting {mac}')
-
-    print(f'Pairing with {mac} ...')
-    bt.send(f'pair {mac}')
-    if not bt.wait_for(
-        rf'Pairing successful|{mac} (Paired|Bonded): yes',
-        rf'Failed to pair|{not_available}',
-    ):
-        raise PairingError(f'Timed out pairing {mac}')
-
-    if not bt.connected.get(mac):
-        print(f'Connecting to {mac} ...')
-        bt.send(f'connect {mac}')
-        if not bt.wait_for(
-            rf'Connection successful|{mac} Connected: yes|AlreadyConnected',
-            rf'Failed to connect(?!.*(AlreadyConnected|InProgress))|{not_available}',
-        ):
-            raise PairingError(f'Timed out connecting to {mac}')
-
-    if bt.wait_for(rf'{mac} Connected: no', timeout=STABLE_TIME):
-        raise PairingError(f'{mac} disconnected right after connecting')
+            path, properties = self.remove_existing_bond(path, properties)
+            self.trust_pair_connect(path, properties)
+        finally:
+            self.close()
 
 
 def main():
@@ -232,50 +503,18 @@ def main():
             )
             sys.exit(1)
 
-    cache = cached_devices()
-    print(
-        f'Hold Create + PS on the DualSense until the light bar pulses blue, '
-        f'then wait for up to {SCAN_TIMEOUT}s...'
-    )
-
-    bt = BluetoothCtl()
     try:
-        bt.send('power on')
-        bt.wait_for(r'power on succeeded|Powered: yes', timeout=5)
-        bt.send('agent NoInputNoOutput')
-        bt.send('default-agent')
-        bt.send('scan on')
-
-        found = wait_for_advertising(bt, cache, SCAN_TIMEOUT, mac)
-        if not found:
-            raise PairingError(
-                f'No {"device " + mac if mac else DEVICE_NAME} found in pairing mode '
-                f'within {SCAN_TIMEOUT}s'
-            )
-        print(f'Found: {cache.get(found, DEVICE_NAME)} ({found})')
-
-        if found in cache:
-            # A stale bond makes the controller reject the link and power off.
-            print(f'Removing previous pairing for {found} ...')
-            bt.send(f'remove {found}')
-            bt.wait_for(rf'\[DEL\] Device {found}|has been removed', timeout=10)
-            del cache[found]
-            if not wait_for_advertising(bt, cache, REDISCOVER_TIMEOUT, found):
-                raise PairingError(f'{found} was not rediscovered after removing it')
-
-        trust_pair_connect(bt, found)
-    except PairingError as e:
-        print(f'\nError: {e}', file=sys.stderr)
+        BlueZPairing(mac).run()
+    except PairingError as exc:
+        print(f'\nError: {exc}', file=sys.stderr)
         print(
             'Put the controller back in pairing mode '
             '(hold Create + PS until the light bar pulses blue) and try again.',
             file=sys.stderr,
         )
         sys.exit(1)
-    finally:
-        bt.close()
 
-    print(f"\nDone. '{found}' is now paired, trusted, and connected.")
+    print('\nDone. Controller is now paired, trusted, and connected.')
     print('It will reconnect automatically on future power-ons.')
 
 

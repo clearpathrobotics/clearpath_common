@@ -10,6 +10,8 @@
   <exec_depend>bluez</exec_depend>
   <exec_depend>diagnostic_msgs</exec_depend>
   <exec_depend>diagnostic_updater</exec_depend>
+  <exec_depend>python3-dbus</exec_depend>
+  <exec_depend>python3-gi</exec_depend>
   <exec_depend>rclpy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
 
