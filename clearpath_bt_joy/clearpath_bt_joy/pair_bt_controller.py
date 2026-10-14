@@ -89,7 +89,7 @@ def _unwrap(value):
 
 def _is_dualsense(properties, mac: str | None = None):
     """Return whether Device1 properties identify the requested DualSense."""
-    name = properties.get('Name') or properties.get('Alias') or ''
+    name = properties.get('Name') or properties.get('Alias', '')
     address = properties.get('Address', '').upper()
     return (name == 'DualSense Wireless Controller') and (
         (mac is None) or (address == mac)
