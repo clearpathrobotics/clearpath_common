@@ -87,7 +87,7 @@ def _unwrap(value):
     return value
 
 
-def _is_dualsense(properties, mac=None):
+def _is_dualsense(properties, mac: str | None = None):
     """Return whether Device1 properties identify the requested DualSense."""
     name = properties.get('Name') or properties.get('Alias') or ''
     address = properties.get('Address', '').upper()
