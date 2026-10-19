@@ -2,6 +2,14 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix(test): fallback to flat sample path for installed clearpath_config
+* test(generator): exclude unbundled test_bash_writer from pytest suite
+* Fix: IMU indexing in LocalizationParam for GPS sensors
+  Assign GPS IMU parameters using imu_idx before incrementing the counter, ensuring contiguous IMU index progression in ekf_node and preventing index gaps when platforms lack built-in IMUs or standalone IMUs.
+* Contributors: Fire162
+
 2.9.17 (2026-09-17)
 -------------------
 * Feature: Franka V2 (`#396 <https://github.com/clearpathrobotics/clearpath_common/issues/396>`_)

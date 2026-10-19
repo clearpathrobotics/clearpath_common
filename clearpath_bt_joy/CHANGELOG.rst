@@ -2,6 +2,24 @@
 Changelog for package clearpath_bt_joy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix PS5 Controller Bluetooth pairing and joystick device selection (`#399 <https://github.com/clearpathrobotics/clearpath_common/issues/399>`_)
+  * Fix PS5 Controller Bluetooth pairing and joystick device selection
+  Replace bluetoothctl pairing with BlueZ D-Bus.
+  Use dbus-python to discover, trust, pair, and connect DualSense controllers
+  through BlueZ's D-Bus API. Add scoped pairing-agent authorization, structured
+  error handling, and tests for discovery and pairing behavior.
+  Add a regression tests.
+  * Update clearpath_bt_joy/clearpath_bt_joy/pair_bt_controller.py
+  Co-authored-by: Tom Wallis <thomas.wallis@rockwellautomation.com>
+  * Update clearpath_bt_joy/clearpath_bt_joy/pair_bt_controller.py
+  Co-authored-by: Tom Wallis <thomas.wallis@rockwellautomation.com>
+  ---------
+  Co-authored-by: Mark Ibrahim <mibrahim@clearpathrobotics.com>
+  Co-authored-by: Tom Wallis <thomas.wallis@rockwellautomation.com>
+* Contributors: mibrahim-cpr
+
 2.9.17 (2026-09-17)
 -------------------
 
