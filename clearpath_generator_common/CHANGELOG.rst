@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.18 (2026-10-19)
+-------------------
 * fix(test): fallback to flat sample path for installed clearpath_config
 * test(generator): exclude unbundled test_bash_writer from pytest suite
 * Fix: IMU indexing in LocalizationParam for GPS sensors

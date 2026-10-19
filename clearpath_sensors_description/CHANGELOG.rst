@@ -2,8 +2,8 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.18 (2026-10-19)
+-------------------
 * Fix: D405 Materials (`#405 <https://github.com/clearpathrobotics/clearpath_common/issues/405>`_)
   Removed realsense2_description materials.urdf.xacro and changed 'aluminum' to 'clearpath_aluminum'
 * Contributors: thickey-cpr
