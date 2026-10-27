@@ -4,37 +4,37 @@
                                               update_rate:=30.0 image_height:=480 image_width:=640">
     <xacro:if value="${model == 'd405'}">
       <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d405.urdf.xacro" />
-      <xacro:sensor_d405 name="${name}" parent="${parent_link}">
+      <xacro:sensor_d405 name="${name}" parent="${parent_link}" use_nominal_extrinsics="$(arg is_sim)">
         <xacro:insert_block name="origin" />
       </xacro:sensor_d405>
     </xacro:if>
     <xacro:if value="${model == 'd415'}">
       <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d415.urdf.xacro" />
-      <xacro:sensor_d415 name="${name}" parent="${parent_link}">
+      <xacro:sensor_d415 name="${name}" parent="${parent_link}" use_nominal_extrinsics="$(arg is_sim)">
         <xacro:insert_block name="origin" />
       </xacro:sensor_d415>
     </xacro:if>
     <xacro:if value="${model == 'd435'}">
       <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d435.urdf.xacro" />
-      <xacro:sensor_d435 name="${name}" parent="${parent_link}">
+      <xacro:sensor_d435 name="${name}" parent="${parent_link}" use_nominal_extrinsics="$(arg is_sim)">
         <xacro:insert_block name="origin" />
       </xacro:sensor_d435>
     </xacro:if>
     <xacro:if value="${model == 'd435i'}">
       <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d435i.urdf.xacro" />
-      <xacro:sensor_d435i name="${name}" parent="${parent_link}">
+      <xacro:sensor_d435i name="${name}" parent="${parent_link}" use_nominal_extrinsics="$(arg is_sim)">
         <xacro:insert_block name="origin" />
       </xacro:sensor_d435i>
     </xacro:if>
     <xacro:if value="${model == 'd455'}">
       <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d455.urdf.xacro" />
-      <xacro:sensor_d455 name="${name}" parent="${parent_link}">
+      <xacro:sensor_d455 name="${name}" parent="${parent_link}" use_nominal_extrinsics="$(arg is_sim)">
         <xacro:insert_block name="origin" />
       </xacro:sensor_d455>
     </xacro:if>
     <xacro:if value="${model == 'd456'}">
       <xacro:include filename="$(find clearpath_sensors_description)/urdf/intel/d456.urdf.xacro" />
-      <xacro:sensor_d456 name="${name}" parent="${parent_link}">
+      <xacro:sensor_d456 name="${name}" parent="${parent_link}" use_nominal_extrinsics="$(arg is_sim)">
         <xacro:insert_block name="origin" />
       </xacro:sensor_d456>
     </xacro:if>
