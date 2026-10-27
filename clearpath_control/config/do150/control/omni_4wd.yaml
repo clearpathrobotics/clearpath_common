@@ -21,7 +21,7 @@ platform_velocity_controller:
 
     kinematics.base_frame_offset: { x: 0.0, y: 0.0, theta: 0.0 }
     kinematics.wheels_radius: 0.05
-    kinematics.sum_of_robot_center_projection_on_X_Y_axis: 0.4704
+    kinematics.sum_of_robot_center_projection_on_X_Y_axis: 0.4954
     wheel_separation_multiplier: 1.0
     wheel_radius_multiplier: 1.0
 

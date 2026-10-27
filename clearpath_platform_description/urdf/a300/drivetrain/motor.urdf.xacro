@@ -17,6 +17,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/motor.stl"/>
         </geometry>
+        <origin rpy="0 0 ${rotation_yaw}"/>
       </collision>
     </link>
 

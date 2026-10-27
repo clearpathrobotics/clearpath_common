@@ -4,6 +4,7 @@
   <xacro:macro name="a300_suspension_beam" params="side">
     <xacro:property name="rotation_yaw" value="${math.pi if side == 'right' else 0}"/>
     <xacro:property name="spacer_offset" value="${-0.0159 if side == 'right' else 0.0159}"/>
+    <xacro:property name="mount_offset" value="${-0.0095 if side == 'right' else 0.0095}"/>
     <!-- Suspension beam spacer -->
     <link name="${side}_suspension_beam_spacer_link">
       <visual>
@@ -17,6 +18,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/suspension_spacer.stl"/>
         </geometry>
+        <origin rpy="0 0 ${rotation_yaw}"/>
       </collision>
     </link>
 
@@ -38,6 +40,7 @@
         <geometry>
           <mesh filename="package://clearpath_platform_description/meshes/a300/drivetrain/suspension_beam.stl"/>
         </geometry>
+        <origin rpy="0 0 ${rotation_yaw}"/>
       </collision>
     </link>
 
@@ -54,13 +57,13 @@
     <joint name="${side}_suspension_beam_front_mount_joint" type="fixed">
       <parent link="${side}_suspension_beam_link"/>
       <child link="${side}_suspension_beam_front_mount"/>
-      <origin xyz="0.256 0.0095 -0.0085" rpy="0 0 0"/>
+      <origin xyz="0.256 ${mount_offset} -0.0085" rpy="0 0 0"/>
     </joint>
 
     <joint name="${side}_suspension_beam_rear_mount_joint" type="fixed">
       <parent link="${side}_suspension_beam_link"/>
       <child link="${side}_suspension_beam_rear_mount"/>
-      <origin xyz="-0.256 0.0095 -0.0085" rpy="0 0 0"/>
+      <origin xyz="-0.256 ${mount_offset} -0.0085" rpy="0 0 0"/>
     </joint>
 
   </xacro:macro>
