@@ -13,9 +13,15 @@ platform_velocity_controller:
     left_wheel_names: [ "front_left_wheel_joint", "rear_left_wheel_joint" ]
     right_wheel_names: [ "front_right_wheel_joint", "rear_right_wheel_joint" ]
 
+<<<<<<< HEAD:clearpath_control/config/a200/control.yaml
     wheel_separation: 0.555  #0.1  # 0.256  # 0.512
     wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
     wheel_radius: 0.1651  # 0.015
+=======
+    wheel_separation: 0.5945
+    wheels_per_side: 2
+    wheel_radius: 0.0759
+>>>>>>> aeb8842 (Fixed the wheel separation for all platforms. (#408)):clearpath_control/config/r100/control/diff_4wd.yaml
 
     wheel_separation_multiplier: 1.875
     left_wheel_radius_multiplier: 1.0
