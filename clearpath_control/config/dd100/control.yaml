@@ -13,7 +13,7 @@ platform_velocity_controller:
     left_wheel_names: [ "front_left_wheel_joint" ]
     right_wheel_names: [ "front_right_wheel_joint" ]
 
-    wheel_separation: 0.37559
+    wheel_separation: 0.45232
     wheels_per_side: 1
     wheel_radius: 0.049
 
