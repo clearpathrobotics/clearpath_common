@@ -273,6 +273,9 @@ class PlatformParam():
             if extras:
                 self.param_file.update({self.EKF_NODE: extras})
             else:
+                # Count the IMU index individually so we can continue counting for GPS
+                imu_idx = 0
+
                 if self.platform != Platform.A200:
                     imu0_parameters = {
                         'imu0': 'sensors/imu_0/data',
@@ -283,15 +286,12 @@ class PlatformParam():
                         'imu0_remove_gravitational_acceleration': True
                     }
                     self.param_file.update({self.EKF_NODE: imu0_parameters})
-
-                # Count the IMU index individually so we can continue counting for GPS
-                imu_idx = 0
+                    imu_idx += 1
 
                 # Add all additional IMU's
                 imus = self.clearpath_config.sensors.get_all_imu()
                 for imu in imus:
                     if imu.launch_enabled:
-                        imu_idx += 1
                         imu_name = f'imu{imu_idx}'
                         imu_parameters = {
                             imu_name: f'sensors/{imu.name}/data',
@@ -301,12 +301,12 @@ class PlatformParam():
                             f'{imu_name}_remove_gravitational_acceleration': True
                         }
                         self.param_file.update({self.EKF_NODE: imu_parameters})
+                        imu_idx += 1
 
                 # Add all GPS sensors that have IMUs
                 gpss = self.clearpath_config.sensors.get_all_gps()
                 for gps in gpss:
                     if gps.launch_enabled and gps.has_imu():
-                        imu_idx += 1
                         gps_name = f'imu{imu_idx}'
                         gps_parameters = {
                             gps_name: f'sensors/{gps.name}/imu/data',
@@ -316,6 +316,7 @@ class PlatformParam():
                             f'{gps_name}_remove_gravitational_acceleration': True
                         }
                         self.param_file.update({self.EKF_NODE: gps_parameters})
+                        imu_idx += 1
 
     class TeleopJoyParam(BaseParam):
         def __init__(self,
