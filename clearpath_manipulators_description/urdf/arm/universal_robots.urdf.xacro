@@ -285,6 +285,7 @@
         <xacro:ur_ros2_control
           name="${name}"
           tf_prefix="${_tf_prefix}"
+          ur_type="${ur_type}"
           kinematics_parameters_file="${_kinematics_parameters_file}"
           transmission_hw_interface="${_transmission_hw_interface}"
           use_mock_hardware="${_use_mock_hardware}"
