@@ -2,8 +2,8 @@
 Changelog for package clearpath_sensors_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.19 (2026-10-28)
+-------------------
 * [clearpath_sensors_description] Set OAK-D sim frame id. (`#415 <https://github.com/clearpathrobotics/clearpath_common/issues/415>`_)
 * [clearpath_sensors_description] Restored sim optical frames. (`#409 <https://github.com/clearpathrobotics/clearpath_common/issues/409>`_)
 * Contributors: Tony Baltovski
