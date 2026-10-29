@@ -2,6 +2,9 @@
 Changelog for package clearpath_bt_joy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.9.18 (2026-10-19)
 -------------------
 * Fix PS5 Controller Bluetooth pairing and joystick device selection (`#399 <https://github.com/clearpathrobotics/clearpath_common/issues/399>`_)

@@ -2,6 +2,11 @@
 Changelog for package clearpath_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed the wheel separation for all platforms. (`#408 <https://github.com/clearpathrobotics/clearpath_common/issues/408>`_)
+* Contributors: Tony Baltovski
+
 2.9.18 (2026-10-19)
 -------------------
 
