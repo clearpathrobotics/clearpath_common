@@ -8,6 +8,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(clearpath_platform_msgs REQUIRED)
+find_package(diagnostic_msgs REQUIRED)
 find_package(diagnostic_updater REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -15,6 +16,7 @@ find_package(sensor_msgs REQUIRED)
 set(DEPENDENCIES
   ament_cmake
   clearpath_platform_msgs
+  diagnostic_msgs
   diagnostic_updater
   rclcpp
   sensor_msgs
