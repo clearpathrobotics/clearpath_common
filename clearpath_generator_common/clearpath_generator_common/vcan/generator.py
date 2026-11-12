@@ -31,7 +31,6 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
-from clearpath_config.common.types.platform import Platform
 from clearpath_config.platform.can import (
     PhysicalCANAdapter,
     SerialCANAdapter,
@@ -41,12 +40,12 @@ from clearpath_generator_common.bash.writer import BashWriter
 from clearpath_generator_common.common import BaseGenerator, BashFile
 
 PLATFORMS = [
-    Platform.A300,
-    Platform.DD100,
-    Platform.DD150,
-    Platform.DO100,
-    Platform.DO150,
-    Platform.R100,
+    'a300',
+    'dd100',
+    'dd150',
+    'do100',
+    'do150',
+    'r100',
 ]
 
 

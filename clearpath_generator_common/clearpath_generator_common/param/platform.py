@@ -101,7 +101,7 @@ class PlatformParam():
             self.default_parameter = self.parameter
 
             # Generic Control
-            if self.platform == Platform.GENERIC and self.parameter == PlatformParam.CONTROL:
+            if self.platform == 'generic' and self.parameter == PlatformParam.CONTROL:
                 control = self.clearpath_config.platform.control
                 self.default_parameter = os.path.basename(control['path'])
                 self.default_parameter = os.path.splitext(self.default_parameter)[0]
@@ -300,7 +300,7 @@ class PlatformParam():
             mcu_protocol = self.clearpath_config.platform.mcu.protocol
 
             # Add MCU diagnostic category for all platforms except A200
-            if platform_model != Platform.A200:
+            if platform_model != 'a200':
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -338,7 +338,7 @@ class PlatformParam():
                     })
 
             # Add Lighting for every platform except A200 and J100
-            if platform_model not in (Platform.A200, Platform.J100):
+            if platform_model not in ('a200', 'j100'):
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -357,7 +357,7 @@ class PlatformParam():
                 })
 
             # Add cooling for A300 only for now
-            if platform_model == Platform.A300:
+            if platform_model == 'a300':
                 self.param_file.update({
                     self.DIAGNOSTIC_AGGREGATOR_NODE: {
                         'platform': {
@@ -430,14 +430,14 @@ class PlatformParam():
 
             sensor_analyzers = {}
 
-            if platform_model not in (Platform.A300, Platform.A200):
+            if platform_model not in ('a300', 'a200'):
                 sensor_analyzers['imu'] = {
                     'type': 'diagnostic_aggregator/GenericAnalyzer',
                     'path': 'IMU',
                     'contains': ['imu']
                 }
 
-            if platform_model == Platform.J100:
+            if platform_model == 'j100':
                 sensor_analyzers['gps'] = {
                     'type': 'diagnostic_aggregator/GenericAnalyzer',
                     'path': 'GPS',
@@ -529,7 +529,7 @@ class PlatformParam():
             if use_sim_time:
                 latest_apt_firmware_version = 'simulated'
                 installed_apt_firmware_version = 'simulated'
-            elif platform_model == Platform.A200:
+            elif platform_model == 'a200':
                 latest_apt_firmware_version = PlatformParam.NOT_APPLICABLE
                 installed_apt_firmware_version = PlatformParam.NOT_APPLICABLE
             else:
@@ -559,7 +559,7 @@ class PlatformParam():
             elif (self.clearpath_config.platform.battery.model in [BatteryConfig.NEC_ALM12V35]):
                 bms_state_rate = 1.0
                 bms_state_tolerance = 0.25
-            elif (platform_model == Platform.A200):
+            elif (platform_model == 'a200'):
                 bms_state_rate = 1.8
                 bms_state_tolerance = 0.25
 
@@ -575,7 +575,7 @@ class PlatformParam():
             })
 
             # Additional considerations for A200 platform
-            if platform_model == Platform.A200:
+            if platform_model == 'a200':
                 self.param_file.update({
                     self.DIAGNOSTIC_UPDATER_NODE: {
                         'stop_status_rate': 0.0,  # Disable stop status diagnostic for A200
@@ -585,14 +585,14 @@ class PlatformParam():
                         'estop_tolerance': 0.25
                     }
                 })
-            elif platform_model == Platform.W200:
+            elif platform_model == 'w200':
                 self.param_file.update({
                     self.DIAGNOSTIC_UPDATER_NODE: {
                         'stop_status_rate': 0.0,  # Disable stop status diagnostic for W200
                     }
                 })
 
-            if platform_model not in (Platform.A300, Platform.A200):
+            if platform_model not in ('a300', 'a200'):
                 self.param_file.update({
                     self.DIAGNOSTIC_UPDATER_NODE: {
                         'topics': {
@@ -604,7 +604,7 @@ class PlatformParam():
                     }
                 })
 
-            if platform_model == Platform.J100:
+            if platform_model == 'j100':
                 self.param_file.update({
                     self.DIAGNOSTIC_UPDATER_NODE: {
                         'topics': {
@@ -705,7 +705,7 @@ class PlatformParam():
                 # Count the IMU index individually so we can continue counting for GPS
                 imu_idx = 0
 
-                if Platform.INDEX[self.platform].imu > 0:
+                if Platform.get(self.platform).INDEXING.imu > 0:
                     imu0_parameters = {
                         'imu0': 'sensors/imu_0/data',
                         'imu0_config': self.imu_config,
@@ -808,7 +808,7 @@ class PlatformParam():
                      clearpath_config: ClearpathConfig,
                      param_path: str) -> None:
             super().__init__(parameter, clearpath_config, param_path)
-            if self.platform != Platform.GENERIC:
+            if self.platform != 'generic':
                 self.default_parameter_file_path = f'config/{self.platform}/control'
                 self.default_parameter = self.clearpath_config.platform.drivetrain.control
 

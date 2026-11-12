@@ -87,10 +87,12 @@ def test_call_raises_structured_bluez_error():
     """Raise a D-Bus error name instead of parsing command output."""
 
     class FakeBus:
+
         def get_object(self, service, path, introspect=False):
             return object()
 
     class FakeInterface:
+
         def start_discovery(self, reply_handler, error_handler, timeout):
             error_handler(FakeDBusError('Pairing authentication failed'))
 
@@ -100,6 +102,7 @@ def test_call_raises_structured_bluez_error():
             raise AttributeError(member)
 
     class FakeDBus:
+
         @staticmethod
         def interface(proxy, interface):
             return FakeInterface()
@@ -124,6 +127,7 @@ def test_agent_exports_bluez_names_and_limits_authorization():
         pass
 
     class FakeObject:
+
         def __init__(self, bus, path):
             self.path = path
 
@@ -190,6 +194,7 @@ def test_connect_filters_dbus_signals_by_bluez_sender(monkeypatch):
     receivers = []
 
     class FakeBus:
+
         def add_signal_receiver(self, handler, **kwargs):
             receivers.append((handler, kwargs))
             return object()

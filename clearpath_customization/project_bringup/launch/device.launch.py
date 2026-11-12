@@ -1,6 +1,6 @@
-from clearpath_config.clearpath_config import ClearpathConfig
 from launch import LaunchDescription
-from launch.substitutions import PathJoinSubstitution
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
@@ -11,9 +11,15 @@ def generate_launch_description():
     package = 'realsense2_camera'
     executable = 'realsense2_camera_node'
 
-    # Namespace from Clearpath Config
-    namespace = ClearpathConfig('/etc/clearpath/robot.yaml').system.namespace
+    # Namespace
+    namespace = LaunchConfiguration('namespace')
     extra_namespace = '/extras/device/'
+
+    arg_namespace = DeclareLaunchArgument(
+        'namespace',
+        default_value='',
+        description='Robot namespace'
+    )
 
     # Project Directory
     pkg_project_bringup = FindPackageShare('project_bringup')
@@ -24,7 +30,7 @@ def generate_launch_description():
     # Node
     device_node = Node(
         name=name,
-        namespace=namespace + extra_namespace,
+        namespace=[namespace, extra_namespace],
         package=package,
         executable=executable,
         parameters=[device_params],
@@ -33,5 +39,6 @@ def generate_launch_description():
 
     # Launch Description
     ld = LaunchDescription()
+    ld.add_action(arg_namespace)
     ld.add_action(device_node)
     return ld
