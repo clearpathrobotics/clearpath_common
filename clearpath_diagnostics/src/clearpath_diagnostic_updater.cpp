@@ -125,6 +125,15 @@ ClearpathDiagnosticUpdater::ClearpathDiagnosticUpdater()
     RCLCPP_INFO(this->get_logger(), "MCU diagnostics started.");
   }
 
+  if (mcu_protocol_ == DiagnosticLabels::PROTON && platform_model_ != "j100") {
+    sub_firmware_info_ = this->create_subscription<DiagnosticStatus>(
+      "platform/firmware_info",
+      rclcpp::QoS(rclcpp::KeepLast(1)).transient_local(),
+      std::bind(&ClearpathDiagnosticUpdater::firmware_info_callback, this, std::placeholders::_1));
+    updater_.add("Proton Firmware Info", this,
+      &ClearpathDiagnosticUpdater::firmware_info_diagnostic);
+  }
+
   // Diagnostics Applicable to all robot platforms irrelevant of which MCU or battery
   // Create subscriptions
   sub_mcu_power_ =
@@ -352,6 +361,32 @@ void ClearpathDiagnosticUpdater::mcu_status_callback(
   mcu_firmware_version_ = Version(msg.firmware_version);
   mcu_status_msg_ = msg;
   mcu_status_freq_status_->tick();
+}
+
+/**
+ * @brief Save the retained Proton firmware-info status.
+ */
+void ClearpathDiagnosticUpdater::firmware_info_callback(const DiagnosticStatus & msg)
+{
+  firmware_info_msg_ = msg;
+  firmware_info_received_ = true;
+}
+
+/**
+ * @brief Report the Proton firmware-info status to diagnostics.
+ */
+void ClearpathDiagnosticUpdater::firmware_info_diagnostic(DiagnosticStatusWrapper & stat)
+{
+  if (!firmware_info_received_) {
+    stat.summary(DiagnosticStatus::WARN, "Waiting for Proton firmware info");
+    return;
+  }
+
+  stat.summary(firmware_info_msg_.level, firmware_info_msg_.message);
+  stat.add("Firmware Hardware ID", firmware_info_msg_.hardware_id);
+  for (const auto & value : firmware_info_msg_.values) {
+    stat.add(value.key, value.value);
+  }
 }
 
 /**
