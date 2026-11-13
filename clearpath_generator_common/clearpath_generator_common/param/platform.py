@@ -139,6 +139,16 @@ class PlatformParam():
                         parameters={}
                     )
                     arm_param_file.read()
+                    # Simulation overrides, replacing values (lists included) rather than merging
+                    arm_sim_param_file = ParamFile(
+                        name='control_sim',
+                        package=arm_param_file.package,
+                        path=arm_param_file.path,
+                        parameters={}
+                    )
+                    if os.path.exists(arm_sim_param_file.full_path):
+                        arm_sim_param_file.read()
+                        arm_param_file.update(arm_sim_param_file.parameters)
                     # Franka Exception. Add Arm ID.
                     if arm.MANIPULATOR_MODEL == Franka.MANIPULATOR_MODEL:
                         updated_parameters = replace_dict_items(
