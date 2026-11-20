@@ -41,11 +41,7 @@ from clearpath_config.common.utils.yaml import read_yaml
 
 def launch_setup(context, *args, **kwargs):
     namespace = LaunchConfiguration('namespace')
-    setup_path = LaunchConfiguration('setup_path')
-
-    # Controllers
-    config_control = PathJoinSubstitution([
-        setup_path, 'manipulators/config/control.yaml'])
+    config_control = LaunchConfiguration('config_control')
 
     context_control = unflatten_dict(read_yaml(config_control.perform(context)))
 
@@ -62,28 +58,28 @@ def launch_setup(context, *args, **kwargs):
         },
         remappings=[
             ('~/robot_description', 'robot_description'),
-            ('dynamic_joint_states',
-                PathJoinSubstitution([
-                    '/', namespace, 'platform', 'dynamic_joint_states'
-                ])),
-            ('joint_states',
-                PathJoinSubstitution([
-                    '/', namespace, 'platform', 'joint_states'
-                ])),
         ],
     ))
 
     # Collect all controller names from config (excluding manager and platform entries).
     # joint_state_broadcaster is always first so hardware state is published before
-    # command controllers activate.
-    controller_names = ['joint_state_broadcaster']
+    # command controllers activate. Per-controller `--controller` arguments scope the
+    # joint state remappings to the joint_state_broadcaster only.
+    controller_args = [
+        '--controller', 'joint_state_broadcaster',
+        '--controller-ros-args',
+        [' --ros-args -r dynamic_joint_states:=',
+         PathJoinSubstitution(['/', namespace, 'platform', 'dynamic_joint_states']),
+         ' -r joint_states:=',
+         PathJoinSubstitution(['/', namespace, 'platform', 'joint_states'])],
+    ]
     for ns in context_control:
         for controller in context_control[ns]:
             if ('controller' not in controller or
                     'manager' in controller or
                     'platform' in controller):
                 continue
-            controller_names.append(controller)
+            controller_args += ['--controller', controller]
 
     # Spawn all controllers in a single call so the system-wide file lock
     # (${ROS_HOME}/locks/ros2-control-controller-spawner.lock) is acquired
@@ -91,7 +87,7 @@ def launch_setup(context, *args, **kwargs):
     controllers.append(Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['--controller-manager-timeout', '60'] + controller_names,
+        arguments=['--controller-manager-timeout', '60', '--switch-asap'] + controller_args,
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     ))
@@ -101,9 +97,9 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
     # Launch Configurations
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
+    arg_config_control = DeclareLaunchArgument(
+        'config_control',
+        description='Path to the manipulators control configuration YAML file'
     )
 
     arg_namespace = DeclareLaunchArgument(
@@ -114,7 +110,7 @@ def generate_launch_description():
 
     ld = LaunchDescription([
         arg_namespace,
-        arg_setup_path,
+        arg_config_control,
     ])
     ld.add_action(OpaqueFunction(function=launch_setup))
     return ld

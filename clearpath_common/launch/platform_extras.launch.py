@@ -33,11 +33,6 @@ from launch.actions import (
 
 ARGUMENTS = [
     DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/'
-    ),
-
-    DeclareLaunchArgument(
         'use_sim_time',
         choices=['true', 'false'],
         default_value='false',

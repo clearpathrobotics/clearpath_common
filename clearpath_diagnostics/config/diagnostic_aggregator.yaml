@@ -36,6 +36,10 @@ diagnostic_aggregator:
             'twist_mux',
             'joy_node'
           ]
+        firmware_info:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Firmware Info
+          contains: [ 'Proton Firmware Info' ]
     # sensors:
     #   type: diagnostic_aggregator/AnalyzerGroup
     #   path: Sensors

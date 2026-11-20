@@ -31,7 +31,6 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
-import os
 import xacro
 
 from launch import LaunchDescription
@@ -39,31 +38,31 @@ from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
-from clearpath_config.clearpath_config import ClearpathConfig
-
 
 def launch_setup(context, *args, **kwargs):
     # Launch Configurations
-    setup_path = LaunchConfiguration('setup_path')
+    namespace = LaunchConfiguration('namespace')
+    robot_urdf = LaunchConfiguration('robot_urdf')
+    robot_srdf = LaunchConfiguration('robot_srdf')
+    config_moveit = LaunchConfiguration('config_moveit')
     use_sim_time = LaunchConfiguration('use_sim_time')
-    setup_path_context = setup_path.perform(context)
 
-    # Namespace
-    namespace = ClearpathConfig(
-        os.path.join(setup_path_context, 'robot.yaml')
-    ).get_namespace()
+    namespace_context = namespace.perform(context)
+    robot_urdf_context = robot_urdf.perform(context)
+    robot_srdf_context = robot_srdf.perform(context)
+    config_moveit_context = config_moveit.perform(context)
 
     # Robot Description
     robot_description = {
         'robot_description': xacro.process_file(
-            os.path.join(setup_path_context, 'robot.urdf.xacro')
+            robot_urdf_context
         ).toxml()
     }
 
     # Semantic Robot Description
     robot_description_semantic = {
         'robot_description_semantic': xacro.process_file(
-            os.path.join(setup_path_context, 'robot.srdf')
+            robot_srdf_context
         ).toxml()
     }
 
@@ -72,9 +71,9 @@ def launch_setup(context, *args, **kwargs):
             package='moveit_ros_move_group',
             executable='move_group',
             output='log',
-            namespace=namespace,
+            namespace=namespace_context,
             parameters=[
-                os.path.join(setup_path_context, 'manipulators', 'config', 'moveit.yaml'),
+                config_moveit_context,
                 robot_description,
                 robot_description_semantic,
                 {'use_sim_time': use_sim_time},
@@ -89,10 +88,22 @@ def launch_setup(context, *args, **kwargs):
 
 
 def generate_launch_description():
-    arg_setup_path = DeclareLaunchArgument(
-        'setup_path',
-        default_value='/etc/clearpath/',
-        description='Clearpath setup path'
+    arg_namespace = DeclareLaunchArgument(
+        'namespace',
+        default_value='',
+        description='Robot namespace'
+    )
+    arg_robot_urdf = DeclareLaunchArgument(
+        'robot_urdf',
+        description='Path to the robot URDF xacro file'
+    )
+    arg_robot_srdf = DeclareLaunchArgument(
+        'robot_srdf',
+        description='Path to the robot SRDF file'
+    )
+    arg_config_moveit = DeclareLaunchArgument(
+        'config_moveit',
+        description='Path to the MoveIt configuration YAML file'
     )
     arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
@@ -101,7 +112,10 @@ def generate_launch_description():
         description='use_sim_time'
     )
     ld = LaunchDescription()
-    ld.add_action(arg_setup_path)
+    ld.add_action(arg_namespace)
+    ld.add_action(arg_robot_urdf)
+    ld.add_action(arg_robot_srdf)
+    ld.add_action(arg_config_moveit)
     ld.add_action(arg_use_sim_time)
     ld.add_action(OpaqueFunction(function=launch_setup))
     return ld
