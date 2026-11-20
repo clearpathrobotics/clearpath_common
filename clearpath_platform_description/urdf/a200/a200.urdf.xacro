@@ -20,6 +20,7 @@
     <xacro:property name="wheel_base" value="0.5120" />
     <xacro:property name="wheel_track" value="0.555" />
     <xacro:property name="wheel_vertical_offset" value="0.03282" />
+    <xacro:property name="max_speed" value="1.0" />
 
     <!-- Base link is the center of the robot's bottom plate -->
     <link name="base_link">
@@ -92,39 +93,39 @@
             <plugin>clearpath_hardware_interfaces/A200Hardware</plugin>
             <param name="wheel_diameter">${front_wheel_radius * 2}</param>
             <param name="max_accel">5.0</param>
-            <param name="max_speed">1.0</param>
+            <param name="max_speed">${max_speed}</param>
             <param name="polling_timeout">0.1</param>
             <param name="serial_port">$(arg serial_port)</param>
           </xacro:unless>
         </hardware>
         <joint name="front_left_wheel_joint">
           <command_interface name="velocity">
-            <param name="min">-1</param>
-            <param name="max">1</param>
+            <param name="min">${-max_speed / front_wheel_radius}</param>
+            <param name="max">${max_speed / front_wheel_radius}</param>
           </command_interface>
           <state_interface name="position"/>
           <state_interface name="velocity"/>
         </joint>
         <joint name="rear_left_wheel_joint">
           <command_interface name="velocity">
-            <param name="min">-1</param>
-            <param name="max">1</param>
+            <param name="min">${-max_speed / rear_wheel_radius}</param>
+            <param name="max">${max_speed / rear_wheel_radius}</param>
           </command_interface>
           <state_interface name="position"/>
           <state_interface name="velocity"/>
         </joint>
         <joint name="front_right_wheel_joint">
           <command_interface name="velocity">
-            <param name="min">-1</param>
-            <param name="max">1</param>
+            <param name="min">${-max_speed / front_wheel_radius}</param>
+            <param name="max">${max_speed / front_wheel_radius}</param>
           </command_interface>
           <state_interface name="position"/>
           <state_interface name="velocity"/>
         </joint>
         <joint name="rear_right_wheel_joint">
           <command_interface name="velocity">
-            <param name="min">-1</param>
-            <param name="max">1</param>
+            <param name="min">${-max_speed / rear_wheel_radius}</param>
+            <param name="max">${max_speed / rear_wheel_radius}</param>
           </command_interface>
           <state_interface name="position"/>
           <state_interface name="velocity"/>
