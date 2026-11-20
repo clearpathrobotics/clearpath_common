@@ -291,6 +291,8 @@
     <xacro:property name="_connected_to" value="" lazy_eval="false"/>
     <xacro:property name="_no_prefix" value="false" lazy_eval="false"/>
     <xacro:property name="_arm_prefix" value="${name}_" lazy_eval="false"/>
+    <!-- Gazebo block below and franka_description transmission macros read arm_prefix from this scope -->
+    <xacro:property name="arm_prefix" value="${_arm_prefix}" lazy_eval="false"/>
     <xacro:property name="_accelerometer_config" value="none" lazy_eval="false"/>
 
     <!-- Instantiate Clearpath version of franka_arm xacro-->

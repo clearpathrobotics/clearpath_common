@@ -1,0 +1,5 @@
+${controller_name}_joint_trajectory_controller:
+  ros__parameters:
+    # The effort gains in control.yaml are tuned for the real arm's 1 kHz controller manager
+    command_interfaces:
+      - position
