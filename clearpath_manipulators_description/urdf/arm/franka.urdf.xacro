@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false"/>
-  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="use_manipulation_controllers" default="false"/>
 
   <!-- Includes -->
@@ -180,8 +180,8 @@
     accelerometer_config:=''
     ros2_control:=''
     robot_ip:=''
-    use_fake_hardware:=''
-    fake_sensor_commands:=''
+    use_mock_hardware:=''
+    mock_sensor_commands:=''
     gazebo:=''
     gazebo_effort:=''
     safety_distance:=''
@@ -259,19 +259,19 @@
     <!-- Simulation -->
     <xacro:property name="_gazebo" value="$(arg is_sim)" lazy_eval="false"/>
     <xacro:property name="_gazebo_effort" value="false" lazy_eval="false"/>
-    <xacro:property name="_use_fake_hardware" value="false" lazy_eval="false"/>
-    <xacro:property name="_fake_sensor_commands" value="false" lazy_eval="false"/>
+    <xacro:property name="_use_mock_hardware" value="$(arg use_mock_hardware)" lazy_eval="false"/>
+    <xacro:property name="_mock_sensor_commands" value="false" lazy_eval="false"/>
     <xacro:if value="${gazebo != ''}">
       <xacro:property name="_gazebo" value="${gazebo}" lazy_eval="false"/>
     </xacro:if>
     <xacro:if value="${gazebo_effort != ''}">
       <xacro:property name="_gazebo_effort" value="${gazebo_effort}" lazy_eval="false"/>
     </xacro:if>
-    <xacro:if value="${use_fake_hardware != ''}">
-      <xacro:property name="_use_fake_hardware" value="${use_fake_hardware}" lazy_eval="false"/>
+    <xacro:if value="${use_mock_hardware != ''}">
+      <xacro:property name="_use_mock_hardware" value="${use_mock_hardware}" lazy_eval="false"/>
     </xacro:if>
-    <xacro:if value="${fake_sensor_commands != ''}">
-      <xacro:property name="_fake_sensor_commands" value="${fake_sensor_commands}" lazy_eval="false"/>
+    <xacro:if value="${mock_sensor_commands != ''}">
+      <xacro:property name="_mock_sensor_commands" value="${mock_sensor_commands}" lazy_eval="false"/>
     </xacro:if>
 
     <!-- Collision Parameter -->
@@ -372,8 +372,8 @@
       <xacro:franka_arm_ros2_control
         robot_type="${_robot_type}"
         robot_ip="${_robot_ip}"
-        use_fake_hardware="${_use_fake_hardware}"
-        fake_sensor_commands="${_fake_sensor_commands}"
+        use_fake_hardware="${_use_mock_hardware}"
+        fake_sensor_commands="${_mock_sensor_commands}"
         gazebo="${_gazebo}"
         hand="${_hand}"
         gazebo_effort="${_gazebo_effort}"

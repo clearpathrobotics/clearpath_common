@@ -91,7 +91,7 @@
     </xacro:if>
 
     <!-- Default Simulation Parameters -->
-    <xacro:property name="_use_mock_hardware" value="false" />
+    <xacro:property name="_use_mock_hardware" value="$(arg use_mock_hardware)" />
     <xacro:property name="_mock_sensor_commands" value="false" />
     <xacro:property name="_sim_gazebo" value="false" />
     <xacro:property name="_sim_ignition" value="$(arg is_sim)" />

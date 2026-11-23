@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false"/>
-  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="use_manipulation_controllers" default="false"/>
 
   <xacro:include filename="$(find ewellix_description)/urdf/ewellix_macro.xacro"/>
@@ -17,7 +17,7 @@
     initial_positions:=''
     initial_positions_file:=''
     generate_ros2_control_tag:=''
-    use_fake_hardware:=''
+    use_mock_hardware:=''
     sim_gazebo:=''
     port=''
     baud=''
@@ -36,7 +36,7 @@
     <xacro:property name="_generate_ros2_control_tag" value="$(arg use_manipulation_controllers)" lazy_eval="false"/>
 
     <!-- Default Simulation Parameters -->
-    <xacro:property name="_use_fake_hardware" value="false" />
+    <xacro:property name="_use_mock_hardware" value="$(arg use_mock_hardware)" />
     <xacro:property name="_sim_gazebo" value="$(arg is_sim)" />
 
     <!-- Default Hardware Parameters -->
@@ -55,7 +55,7 @@
     <xacro:if value="${initial_positions_file != ''}"> <xacro:property name="_initial_positions" value="${xacro.load_yaml(initial_positions_file)}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${parameters_file != ''}"> <xacro:property name="$_parameters_file" value="${parameters_file}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${generate_ros2_control_tag != ''}"> <xacro:property name="_generate_ros2_control_tag" value="${generate_ros2_control_tag}" lazy_eval="false"/> </xacro:if>
-    <xacro:if value="${use_fake_hardware != ''}"> <xacro:property name="_use_fake_hardware" value="${use_fake_hardware}" lazy_eval="false"/> </xacro:if>
+    <xacro:if value="${use_mock_hardware != ''}"> <xacro:property name="_use_mock_hardware" value="${use_mock_hardware}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${sim_gazebo != ''}"> <xacro:property name="_sim_gazebo" value="${sim_gazebo}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${add_plate != ''}"> <xacro:property name="_add_plate" value="${add_plate}" lazy_eval="false"/> </xacro:if>
     <xacro:if value="${add_mount != ''}"> <xacro:property name="_add_mount" value="${add_mount}" lazy_eval="false"/> </xacro:if>
@@ -75,7 +75,7 @@
       initial_positions="${_initial_positions}"
       parameters_file="${_parameters_file}"
       generate_ros2_control_tag="${_generate_ros2_control_tag}"
-      use_fake_hardware="${_use_fake_hardware}"
+      use_fake_hardware="${_use_mock_hardware}"
       sim_gazebo="${_sim_gazebo}"
       port="${_port}"
       baud="${_baud}"

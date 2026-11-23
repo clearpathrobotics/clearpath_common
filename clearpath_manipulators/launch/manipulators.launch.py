@@ -36,6 +36,7 @@ from launch.actions import (
     DeclareLaunchArgument,
     GroupAction,
     IncludeLaunchDescription,
+    OpaqueFunction,
     TimerAction
 )
 from launch.conditions import IfCondition
@@ -92,6 +93,13 @@ def generate_launch_description():
         description='MoveIt launch delay in seconds.'
     )
 
+    arg_use_mock_hardware = DeclareLaunchArgument(
+        'use_mock_hardware',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use mock hardware if true'
+    )
+
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -99,6 +107,7 @@ def generate_launch_description():
     launch_moveit = LaunchConfiguration('launch_moveit')
     control_delay = LaunchConfiguration('control_delay')
     moveit_delay = LaunchConfiguration('moveit_delay')
+    use_mock_hardware = LaunchConfiguration('use_mock_hardware')
 
     # Launch files
     launch_file_manipulators_description = PathJoinSubstitution([
@@ -125,6 +134,7 @@ def generate_launch_description():
                   ('namespace', namespace),
                   ('setup_path', setup_path),
                   ('use_sim_time', use_sim_time),
+                  ('use_mock_hardware', use_mock_hardware),
               ]
             ),
 
@@ -140,11 +150,6 @@ def generate_launch_description():
         ]
     )
 
-    control_delayed = TimerAction(
-        period=control_delay,
-        actions=[group_manipulators_action]
-    )
-
     # Launch MoveIt
     moveit_node_action = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(launch_file_moveit),
@@ -155,10 +160,18 @@ def generate_launch_description():
         condition=IfCondition(launch_moveit)
     )
 
-    moveit_delayed = TimerAction(
-        period=moveit_delay,
-        actions=[moveit_node_action]
-    )
+    def launch_delayed(context):
+        # Resolve periods before an enclosing group restores its launch configurations.
+        return [
+            TimerAction(
+                period=float(control_delay.perform(context)),
+                actions=[group_manipulators_action],
+            ),
+            TimerAction(
+                period=float(moveit_delay.perform(context)),
+                actions=[moveit_node_action],
+            ),
+        ]
 
     ld = LaunchDescription()
     ld.add_action(arg_setup_path)
@@ -167,6 +180,6 @@ def generate_launch_description():
     ld.add_action(arg_launch_moveit)
     ld.add_action(arg_control_delay)
     ld.add_action(arg_moveit_delay)
-    ld.add_action(control_delayed)
-    ld.add_action(moveit_delayed)
+    ld.add_action(arg_use_mock_hardware)
+    ld.add_action(OpaqueFunction(function=launch_delayed))
     return ld

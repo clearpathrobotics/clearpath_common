@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <robot name="robotiq_2f_85_model" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false"/>
-  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="use_manipulation_controllers" default="false"/>
 
   <xacro:macro name="robotiq_2f_85" params="
     name
     parent_link
     *origin
-    use_fake_hardware:=$(arg use_fake_hardware)
+    use_mock_hardware:=$(arg use_mock_hardware)
     use_controllers:=$(arg use_manipulation_controllers)
-    fake_sensor_commands:=false
+    mock_sensor_commands:=false
     sim_ignition:=$(arg is_sim)
     sim_gazebo:=false
     sim_isaac:=false
@@ -25,8 +25,8 @@
         parent="${parent_link}"
         include_ros2_control="${use_controllers}"
         com_port="${com_port}"
-        use_fake_hardware="${use_fake_hardware}"
-        fake_sensor_commands="${fake_sensor_commands}"
+        use_fake_hardware="${use_mock_hardware}"
+        fake_sensor_commands="${mock_sensor_commands}"
         sim_ignition="${sim_ignition}"
         sim_isaac="${sim_isaac}">
         <xacro:insert_block name="origin"/>

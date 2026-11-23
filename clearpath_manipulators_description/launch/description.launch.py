@@ -43,6 +43,7 @@ def generate_launch_description():
     robot_description_command = LaunchConfiguration('robot_description_command')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
+    use_mock_hardware = LaunchConfiguration('use_mock_hardware')
 
     # Launch Arguments
     arg_setup_path = DeclareLaunchArgument(
@@ -54,6 +55,13 @@ def generate_launch_description():
         'namespace',
         default_value='',
         description='Robot namespace'
+    )
+
+    arg_use_mock_hardware = DeclareLaunchArgument(
+        'use_mock_hardware',
+        choices=['true', 'false'],
+        default_value='false',
+        description='Use mock hardware if true'
     )
 
     # Paths
@@ -74,8 +82,8 @@ def generate_launch_description():
             'namespace:=',
             namespace,
             ' ',
-            'use_fake_hardware:=',
-            'false',
+            'use_mock_hardware:=',
+            use_mock_hardware,
             ' ',
             'use_manipulation_controllers:=',
             'true',
@@ -124,6 +132,7 @@ def generate_launch_description():
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_setup_path)
     ld.add_action(arg_namespace)
+    ld.add_action(arg_use_mock_hardware)
     ld.add_action(arg_robot_description_command)
     # Nodes
     ld.add_action(manipulator_state_publisher)

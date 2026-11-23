@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false"/>
-  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="use_manipulation_controllers" default="false"/>
 
   <xacro:macro name="franka_gripper" params="

@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <robot name="robotiq_2f_140_model" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false"/>
-  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="use_manipulation_controllers" default="false"/>
 
   <xacro:macro name="robotiq_2f_140" params="
     name
     parent_link
     *origin
-    use_fake_hardware:=$(arg use_fake_hardware)
+    use_mock_hardware:=$(arg use_mock_hardware)
     use_controllers:=$(arg use_manipulation_controllers)
-    fake_sensor_commands:=false
+    mock_sensor_commands:=false
     sim_ignition:=$(arg is_sim)
     sim_gazebo:=false
     sim_isaac:=false
@@ -314,12 +314,12 @@
           <xacro:if value="${sim_gazebo}">
             <plugin>gz_ros2_control/GazeboSimSystem</plugin>
           </xacro:if>
-          <xacro:if value="${use_fake_hardware}">
+          <xacro:if value="${use_mock_hardware}">
             <plugin>mock_components/GenericSystem</plugin>
             <param name="mock_sensor_commands">${mock_sensor_commands}</param>
             <param name="state_following_offset">0.0</param>
           </xacro:if>
-          <xacro:unless value="${use_fake_hardware or sim_gazebo or sim_isaac}">
+          <xacro:unless value="${use_mock_hardware or sim_gazebo or sim_isaac}">
             <plugin>robotiq_driver/RobotiqGripperHardwareInterface</plugin>
             <param name="gripper_closed_position">0.695</param>
             <param name="COM_port">${com_port}</param>
@@ -338,7 +338,7 @@
           <state_interface name="velocity"/>
         </joint>
         <!-- When simulating we need to include the rest of the gripper joints -->
-        <xacro:if value="${use_fake_hardware or sim_isaac or sim_gazebo}">
+        <xacro:if value="${use_mock_hardware or sim_isaac or sim_gazebo}">
           <joint name="${prefix}left_inner_knuckle_joint">
             <xacro:unless value="${sim_gazebo}">
               <state_interface name="position"/>

@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false"/>
-  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="use_manipulation_controllers" default="false"/>
 
   <xacro:macro name="kinova_2f_lite" params="
     name
     parent_link
     *origin
-    use_fake_hardware:=$(arg use_fake_hardware)
+    use_mock_hardware:=$(arg use_mock_hardware)
     use_controllers:=$(arg use_manipulation_controllers)
-    fake_sensor_commands:=false
+    mock_sensor_commands:=false
     sim_ignition:=$(arg is_sim)
     sim_gazebo:=false
     sim_isaac:=false
@@ -190,7 +190,7 @@
       <mimic joint="${name}_right_finger_bottom_joint" multiplier="-0.676" offset="0.149" />
     </joint>
 
-    <xacro:if value="${use_controllers and (use_fake_hardware or sim_gazebo or sim_ignition or sim_isaac)}">
+    <xacro:if value="${use_controllers and (use_mock_hardware or sim_gazebo or sim_ignition or sim_isaac)}">
       <ros2_control name="${name}_hardware" type="system">
           <hardware>
               <xacro:if value="${sim_isaac}">
@@ -205,9 +205,9 @@
               <xacro:if value="${sim_ignition}">
                   <plugin>gz_ros2_control/GazeboSimSystem</plugin>
               </xacro:if>
-              <xacro:if value="${use_fake_hardware}">
+              <xacro:if value="${use_mock_hardware}">
                   <plugin>mock_components/GenericSystem</plugin>
-                  <param name="fake_sensor_commands">${fake_sensor_commands}</param>
+                  <param name="mock_sensor_commands">${mock_sensor_commands}</param>
                   <param name="state_following_offset">0.0</param>
               </xacro:if>
           </hardware>
@@ -219,7 +219,7 @@
               </state_interface>
               <state_interface name="velocity"/>
           </joint>
-          <xacro:if value="${use_fake_hardware or sim_isaac or sim_ignition}">
+          <xacro:if value="${use_mock_hardware or sim_isaac or sim_ignition}">
               <joint name="${name}_right_finger_tip_joint">
                   <param name="mimic">${name}_right_finger_bottom_joint</param>
                   <param name="multiplier">-1</param>
