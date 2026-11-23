@@ -147,6 +147,70 @@ failed setups and logs are retained at the path printed in the test output. Test
 remain in the package's build directory. Neither the source configuration nor
 `~/clearpath/` is modified.
 
+### Velocity limit integration tests
+
+The velocity integration tests are disabled by default to keep ordinary `colcon test`
+runs short. The platform bringup tests and fast velocity-helper pytest tests remain
+enabled. To register and run the velocity tests, enable the CMake option when building:
+
+```bash
+colcon build --packages-select clearpath_mock_hardware \
+  --cmake-force-configure --cmake-args -DCLEARPATH_MOCK_VELOCITY_TESTS=ON
+colcon test --packages-select clearpath_mock_hardware \
+  --ctest-args -R '^test_mock_velocity_' --output-on-failure
+```
+
+The option is cached in the build directory, so subsequent ordinary test runs also
+include the velocity tests until it is disabled again:
+
+```bash
+colcon build --packages-select clearpath_mock_hardware \
+  --cmake-force-configure --cmake-args -DCLEARPATH_MOCK_VELOCITY_TESTS=OFF
+```
+
+Existing test result files from an earlier enabled run may still appear in
+`colcon test-result` after the option is disabled.
+
+The nine `test_mock_velocity_<platform>` tests cover DD100, DD150, DO100, DO150,
+J100, A200, A300, R100, and W200 using their default drivetrains. They reuse the same
+platform launch, readiness, and shutdown checks, with a shared `velocity_checks.py`
+helper. A test-side
+`rclpy` node publishes freshly stamped `TwistStamped` commands at 50 Hz and subscribes
+to the controller's raw `platform/odom` topic. Node-specific remappings route the
+controller's command input to `platform/test_cmd_vel`, bypassing the normal twist mux.
+The test verifies that it is the only publisher on that isolated input; no command-line
+topic tools or physical hardware are used.
+
+Differential-drive platforms exercise linear X and angular Z; the mecanum platforms
+DO100, DO150, and R100 exercise linear X/Y and angular Z.
+Each axis checks 40%-of-limit tracking, positive and negative saturation using requests
+at 150% of the bound, and return to rest when command publication stops. Generated and
+running velocity limits, acceleration settings, and command timeouts are checked against
+independent expectations for the shipped defaults. Differential-drive feedback odometry
+is explicitly required (`open_loop=false`). W200 uses velocity feedback
+(`position_feedback=false`) and a 0.25-second command timeout; other differential-drive
+platforms use 0.5 seconds. Mecanum controllers use a 0.1-second reference timeout.
+
+Measurements must have finite values and fresh, advancing timestamps. Tracking requires
+at least five samples spanning 0.3 seconds, within an absolute tolerance of 0.02 plus
+3% of the expected target. The settling window is time-based so it works at both
+20 Hz and 50 Hz odometry rates; synthetic pytest regressions cover both rates.
+Saturation additionally checks that measured velocity never
+exceeds the configured bounds beyond 0.02 plus 3% of the largest bound. Each scenario
+starts and finishes at rest, and settling deadlines allow for the configured acceleration
+and odometry filtering. Timeout scenarios stop publication without sending a zero command;
+their stop deadline allows the target/acceleration ramp time plus two seconds.
+Acceleration slopes, jerk limits, combined-axis behavior, non-default drivetrain
+variants, and manipulators are not tested yet.
+
+On failure, the retained run directory contains `velocity_trace.csv`, recording the
+scenario, commands, expected velocities, odometry velocities, and timestamps alongside
+the generated setup and ROS logs. Cleanup attempts to publish zero and verify rest before
+destroying the test node. The nine velocity tests take approximately 5 minutes 21 seconds
+together on the development machine (23-44 seconds per platform); the package suite
+with velocity tests enabled takes approximately 6 minutes 7 seconds. Each velocity launch test has a
+240-second overall timeout.
+
 ## Generator Tests
 
 Changes to the generators in this repository (`clearpath_generator_common`) may affect the

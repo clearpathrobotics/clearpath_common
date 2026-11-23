@@ -34,6 +34,7 @@ from launch.event_handlers import OnProcessExit, OnProcessStart
 from launch.events.process import ProcessExited
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.logging import launch_config
+from launch_ros.actions import SetRemap
 import launch_testing
 from launch_testing.actions import ReadyToTest
 from lifecycle_msgs.msg import State
@@ -43,6 +44,7 @@ import rclpy
 from rclpy.executors import SingleThreadedExecutor
 from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import JointState
+from velocity_checks import LIMITS, verify_velocity_limits
 
 
 PLATFORMS = {'dd100', 'dd150', 'do100', 'do150', 'j100', 'a200', 'a300', 'r100', 'w200'}
@@ -111,6 +113,11 @@ def generate_test_description():
         SetEnvironmentVariable('ROS_HOME', str(run_directory / 'ros_home')),
         RegisterEventHandler(OnProcessStart(on_start=started)),
         RegisterEventHandler(OnProcessExit(on_exit=exited)),
+        *([SetRemap(
+            src='platform_velocity_controller:~/'
+                + ('cmd_vel' if EXPECTED[platform][0] == DIFF_CONTROLLER else 'reference'),
+            dst=f'/{namespace}/platform/test_cmd_vel',
+        )] if os.environ.get('MOCK_TEST_VELOCITY') == 'true' else []),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(str(mock_launch)),
             launch_arguments={'setup_path': str(setup), 'generate': 'true'}.items(),
@@ -132,6 +139,8 @@ class TestPlatformBringup(unittest.TestCase):
         self.assertEqual(set(Platform.ALL) - {'generic'}, PLATFORMS,
                          'Update the platform test matrix when platform support changes')
         self.assertEqual(set(EXPECTED), PLATFORMS)
+        self.assertEqual(set(LIMITS), PLATFORMS)
+        self.assertEqual('linear.y' in LIMITS[platform], EXPECTED[platform][0] == OMNI_CONTROLLER)
         controller_type, wheels = EXPECTED[platform]
         deadline = time.monotonic() + 90
         context = rclpy.context.Context()
@@ -251,7 +260,12 @@ class TestPlatformBringup(unittest.TestCase):
                     f'{event.process_name}: {event.returncode}',
                 )
                 self.assertEqual(event.returncode, 0, event.process_name)
-            state['passed'] = True
+            if os.environ.get('MOCK_TEST_VELOCITY') == 'true':
+                state['passed'] = verify_velocity_limits(
+                    self, node, executor, platform, namespace, setup, run_directory)
+                self.assertTrue(state['passed'], 'One or more velocity scenarios failed')
+            else:
+                state['passed'] = True
         finally:
             executor.shutdown()
             node.destroy_subscription(subscription)
