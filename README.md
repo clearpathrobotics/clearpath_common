@@ -66,6 +66,42 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
+## Mock Hardware
+
+Launch the platform and configured manipulators using mock hardware instead of physical
+drivers:
+
+```bash
+ros2 launch clearpath_mock_hardware mock.launch.py
+```
+
+The setup directory defaults to `~/clearpath/` and must contain `robot.yaml`. To use a
+different setup directory:
+
+```bash
+ros2 launch clearpath_mock_hardware mock.launch.py setup_path:=/path/to/mock_setup
+```
+
+The launch file runs the common description and semantic-description generators, then the
+mock launch and parameter generators before including the generated platform, manipulator,
+sensor, and platform-extras service launch files. Mock hardware uses wall time; no Gazebo
+simulator or simulation clock is required. Sensors are not mocked yet.
+
+Manipulators configured in `robot.yaml` are brought up automatically with mock hardware
+and their configured controllers under `<namespace>/manipulators`. MoveIt is started only
+when enabled in the manipulator configuration. For example, check the arm controllers with:
+
+```bash
+ros2 control list_controllers -c /<namespace>/manipulators/controller_manager
+```
+
+Generation replaces generated files in the selected setup directory. Use a separate setup
+directory from a physical robot. To launch previously generated mock files without regenerating:
+
+```bash
+ros2 launch clearpath_mock_hardware mock.launch.py generate:=false
+```
+
 ## Generator Tests
 
 Changes to the generators in this repository (`clearpath_generator_common`) may affect the

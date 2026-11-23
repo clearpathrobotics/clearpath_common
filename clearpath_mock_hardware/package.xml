@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>clearpath_mock_hardware</name>
+  <version>2.9.17</version>
+  <description>Clearpath custom mock hardware interfaces for ros2_control</description>
+
+  <maintainer email="lcamero@clearpathrobotics.com">Luis Camero</maintainer>
+  <license>BSD</license>
+
+  <author email="lcamero@clearpathrobotics.com">Luis Camero</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>hardware_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_lifecycle</depend>
+
+  <exec_depend>clearpath_generator_common</exec_depend>
+  <exec_depend>clearpath_generator_mock</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>ament_cmake_ros</test_depend>
+  <test_depend>ament_index_python</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>clearpath_manipulators</test_depend>
+  <test_depend>clearpath_config</test_depend>
+  <test_depend>controller_manager_msgs</test_depend>
+  <test_depend>geometry_msgs</test_depend>
+  <test_depend>nav_msgs</test_depend>
+  <test_depend>python3-yaml</test_depend>
+  <test_depend>launch_testing</test_depend>
+  <test_depend>launch_testing_ament_cmake</test_depend>
+  <test_depend>lifecycle_msgs</test_depend>
+  <test_depend>rcl_interfaces</test_depend>
+  <test_depend>rclpy</test_depend>
+  <test_depend>sensor_msgs</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
