@@ -102,6 +102,51 @@ directory from a physical robot. To launch previously generated mock files witho
 ros2 launch clearpath_mock_hardware mock.launch.py generate:=false
 ```
 
+### Mock platform integration tests
+
+The `clearpath_mock_hardware` package registers nine `launch_testing` integration tests:
+DD100, DD150, DO100, DO150, J100, A200, A300, R100, and W200. Each uses the default
+drivetrain with no manipulators or sensors. The `generic` platform is intentionally
+excluded: its empty description defines no drivetrain hardware and does not satisfy
+the physical-platform controller contract. A coverage assertion detects new platform
+entries that need to be added to the matrix.
+
+After building and sourcing the workspace, run:
+
+```bash
+colcon test --packages-select clearpath_mock_hardware --event-handlers console_direct+
+colcon test-result --verbose
+```
+
+To run just one platform:
+
+```bash
+colcon test --packages-select clearpath_mock_hardware \
+  --ctest-args -R '^test_mock_a200$' --output-on-failure
+```
+
+Each test writes a minimal `setup/robot.yaml` under a unique
+`build/clearpath_mock_hardware/test_runs/<platform>-<unique-id>/` directory and includes
+the installed `mock.launch.py` with `setup_path` pointing there and `generate:=true`.
+The entry point runs description, semantic-description, mock launch, and mock parameter
+generation before bringing up the generated services. No generators or controller
+processes are substituted with test doubles.
+
+The active test waits up to 90 seconds for generation and startup, then checks controller
+types and activation, the active `mock_components/GenericSystem` backend, claimed wheel
+interfaces, wall-time parameters, and sustained finite wheel velocity state publication.
+It also checks generated artifacts and generator/spawner completion. Post-shutdown
+checks verify that all tracked processes terminate without unexpected exit codes.
+
+Tests run serially and use the standard `ament_cmake_ros` isolated runner to allocate
+a ROS domain shared by the test client and launched nodes. As with other ROS isolated
+tests, an explicitly exported `ROS_DOMAIN_ID` or `DISABLE_ROS_ISOLATION` overrides automatic
+domain allocation; leave both unset for isolated runs. Each run also has its own
+`ROS_HOME` and ROS log directory. Successful run directories are removed after shutdown;
+failed setups and logs are retained at the path printed in the test output. Test results
+remain in the package's build directory. Neither the source configuration nor
+`~/clearpath/` is modified.
+
 ## Generator Tests
 
 Changes to the generators in this repository (`clearpath_generator_common`) may affect the

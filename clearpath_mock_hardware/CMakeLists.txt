@@ -28,6 +28,24 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_mock_launch test/test_mock_launch.py
     TIMEOUT 60
   )
+  find_package(ament_cmake_ros REQUIRED)
+  find_package(launch_testing_ament_cmake REQUIRED)
+  set(mock_platforms dd100 dd150 do100 do150 j100 a200 a300 r100 w200)
+  foreach(platform IN LISTS mock_platforms)
+    add_launch_test(test/test_platform_bringup.launch.py
+      TARGET test_mock_${platform}
+      TIMEOUT 150
+      RUNNER "${ament_cmake_ros_DIR}/run_test_isolated.py"
+      ENV
+        "MOCK_TEST_PLATFORM=${platform}"
+        "MOCK_TEST_RUN_ROOT=${CMAKE_CURRENT_BINARY_DIR}/test_runs"
+        "MOCK_TEST_VELOCITY=false"
+      APPEND_ENV "PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}/test"
+    )
+    set_tests_properties(test_mock_${platform} PROPERTIES
+      RUN_SERIAL TRUE
+    )
+  endforeach()
 endif()
 
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
