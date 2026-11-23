@@ -73,11 +73,19 @@ def generate_launch_description():
         description='Enable localization via EKF node'
     )
 
+    arg_use_mock_hardware = DeclareLaunchArgument(
+        'use_mock_hardware',
+        default_value='false',
+        choices=['true', 'false'],
+        description='Use mock_components/GenericSystem for the platform hardware'
+    )
+
     # Launch Configurations
     setup_path = LaunchConfiguration('setup_path')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
     enable_ekf = LaunchConfiguration('enable_ekf')
+    use_mock_hardware = LaunchConfiguration('use_mock_hardware')
 
     # Launch files
     launch_file_platform_description = PathJoinSubstitution([
@@ -115,6 +123,7 @@ def generate_launch_description():
                 ('setup_path', setup_path),
                 ('use_sim_time', use_sim_time),
                 ('namespace', namespace),
+                ('use_mock_hardware', use_mock_hardware),
               ]
             ),
 
@@ -164,5 +173,6 @@ def generate_launch_description():
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_namespace)
     ld.add_action(arg_enable_ekf)
+    ld.add_action(arg_use_mock_hardware)
     ld.add_action(group_platform_action)
     return ld

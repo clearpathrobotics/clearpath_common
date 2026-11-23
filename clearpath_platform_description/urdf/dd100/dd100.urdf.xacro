@@ -3,6 +3,7 @@
 
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="use_mock_hardware" default="false" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/dd100/control/diff_fwd.yaml"/>
   <xacro:arg name="use_platform_controllers" default="true"/>
 
@@ -63,6 +64,9 @@
     <xacro:unless value="$(arg is_sim)">
       <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/PumaHardware"/>
     </xacro:unless>
+    <xacro:if value="$(arg use_mock_hardware)">
+      <xacro:property name="hardware_plugin" value="mock_components/GenericSystem"/>
+    </xacro:if>
 
     <xacro:unless value="${control == 'diff_fwd'}">
       <xacro:error message="Invalid drivetrain control ${control}"/>

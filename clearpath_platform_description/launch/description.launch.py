@@ -13,7 +13,7 @@ def generate_launch_description():
     robot_description_command = LaunchConfiguration('robot_description_command')
     use_sim_time = LaunchConfiguration('use_sim_time')
     namespace = LaunchConfiguration('namespace')
-    use_fake_hardware = LaunchConfiguration('use_fake_hardware')
+    use_mock_hardware = LaunchConfiguration('use_mock_hardware')
     use_manipulation_controllers = LaunchConfiguration('use_manipulation_controllers')
     use_platform_controllers = LaunchConfiguration('use_platform_controllers')
 
@@ -29,10 +29,10 @@ def generate_launch_description():
         description='Robot namespace'
     )
 
-    arg_use_fake_hardware = DeclareLaunchArgument(
-        'use_fake_hardware',
+    arg_use_mock_hardware = DeclareLaunchArgument(
+        'use_mock_hardware',
         default_value='false',
-        description='Use fake hardware if true'
+        description='Use mock hardware if true'
     )
 
     arg_use_manipulation_controllers = DeclareLaunchArgument(
@@ -70,8 +70,8 @@ def generate_launch_description():
             'namespace:=',
             namespace,
             ' ',
-            'use_fake_hardware:=',
-            use_fake_hardware,
+            'use_mock_hardware:=',
+            use_mock_hardware,
             ' ',
             'use_manipulation_controllers:=',
             use_manipulation_controllers,
@@ -114,7 +114,7 @@ def generate_launch_description():
     ld.add_action(arg_use_sim_time)
     ld.add_action(arg_setup_path)
     ld.add_action(arg_namespace)
-    ld.add_action(arg_use_fake_hardware)
+    ld.add_action(arg_use_mock_hardware)
     ld.add_action(arg_use_manipulation_controllers)
     ld.add_action(arg_use_platform_controllers)
     ld.add_action(arg_robot_description_command)

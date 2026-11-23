@@ -2,6 +2,7 @@
 <robot name="j100"
   xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="use_mock_hardware" default="false" />
   <xacro:arg name="prefix" default="" />
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/j100/control.yaml"/>
@@ -66,6 +67,9 @@
     <xacro:unless value="$(arg is_sim)">
       <xacro:property name="hardware_plugin" value="clearpath_hardware_interfaces/J100Hardware"/>
     </xacro:unless>
+    <xacro:if value="$(arg use_mock_hardware)">
+      <xacro:property name="hardware_plugin" value="mock_components/GenericSystem"/>
+    </xacro:if>
 
     <xacro:if value="$(arg use_platform_controllers)">
       <xacro:generic_drivetrain

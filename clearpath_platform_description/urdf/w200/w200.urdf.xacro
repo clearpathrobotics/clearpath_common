@@ -4,6 +4,7 @@
 
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="is_sim" default="false" />
+  <xacro:arg name="use_mock_hardware" default="false" />
   <xacro:arg name="gazebo_controllers" default="$(find clearpath_control)/config/w200/control.yaml"/>
   <xacro:arg name="use_platform_controllers" default="true"/>
 
@@ -160,12 +161,18 @@
     <xacro:if value="$(arg use_platform_controllers)">
       <ros2_control name="w200_hardware" type="system">
         <hardware>
-          <xacro:if value="$(arg is_sim)">
-            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+          <xacro:if value="$(arg use_mock_hardware)">
+            <plugin>mock_components/GenericSystem</plugin>
+            <param name="calculate_dynamics">true</param>
           </xacro:if>
-          <xacro:unless value="$(arg is_sim)">
-            <plugin>clearpath_hardware_interfaces/W200Hardware</plugin>
-            <param name="wheel_diameter">0.6</param>
+          <xacro:unless value="$(arg use_mock_hardware)">
+            <xacro:if value="$(arg is_sim)">
+              <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+            </xacro:if>
+            <xacro:unless value="$(arg is_sim)">
+              <plugin>clearpath_hardware_interfaces/W200Hardware</plugin>
+              <param name="wheel_diameter">0.6</param>
+            </xacro:unless>
           </xacro:unless>
         </hardware>
         <joint name="front_left_wheel_joint">

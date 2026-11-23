@@ -10,6 +10,9 @@
     <ros2_control name="${name}_hardware" type="system">
       <hardware>
         <plugin>${hardware_plugin}</plugin>
+        <xacro:if value="${hardware_plugin == 'mock_components/GenericSystem'}">
+          <param name="calculate_dynamics">true</param>
+        </xacro:if>
       </hardware>
       <joint name="rear_left_wheel_joint">
         <command_interface name="velocity"/>
