@@ -28,6 +28,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 #include <map>
 #include <list>
 
+#include "diagnostic_msgs/msg/diagnostic_status.hpp"
 #include "diagnostic_updater/diagnostic_updater.hpp"
 #include "diagnostic_updater/publisher.hpp"
 #include "diagnostic_updater/update_functions.hpp"
@@ -85,6 +86,7 @@ private:
 
   // Callbacks
   void mcu_status_callback(const clearpath_platform_msgs::msg::Status & msg);
+  void firmware_info_callback(const DiagnosticStatus & msg);
   void mcu_alerts_callback(const std_msgs::msg::String & msg);
   void mcu_power_callback(const clearpath_platform_msgs::msg::Power & msg);
   void bms_state_callback(const BatteryState & msg);
@@ -93,6 +95,7 @@ private:
 
   // Diagnostic Tasks
   void firmware_diagnostic(DiagnosticStatusWrapper & stat);
+  void firmware_info_diagnostic(DiagnosticStatusWrapper & stat);
   void mcu_status_diagnostic(DiagnosticStatusWrapper & stat);
   void firmware_alerts_diagnostic(DiagnosticStatusWrapper & stat);
   void mcu_power_diagnostic(DiagnosticStatusWrapper & stat);
@@ -137,6 +140,8 @@ private:
 
   // Message Data
   Version mcu_firmware_version_;
+  DiagnosticStatus firmware_info_msg_;
+  bool firmware_info_received_{false};
   clearpath_platform_msgs::msg::Status mcu_status_msg_;
   std_msgs::msg::String mcu_alerts_msg_;
   clearpath_platform_msgs::msg::Power mcu_power_msg_;
@@ -153,6 +158,7 @@ private:
 
   // Subscriptions
   rclcpp::Subscription<clearpath_platform_msgs::msg::Status>::SharedPtr sub_mcu_status_;
+  rclcpp::Subscription<DiagnosticStatus>::SharedPtr sub_firmware_info_;
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub_mcu_alerts_;
   rclcpp::Subscription<clearpath_platform_msgs::msg::Power>::SharedPtr sub_mcu_power_;
   rclcpp::Subscription<BatteryState>::SharedPtr sub_bms_state_;

@@ -14,6 +14,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend version_gte="2.4.0">clearpath_platform_msgs</depend>
+  <depend>diagnostic_msgs</depend>
   <depend>diagnostic_updater</depend>
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
