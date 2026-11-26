@@ -627,11 +627,6 @@
 
     <!-- Gazebo Plug-in -->
     <xacro:if value="${sim_ignition}">
-      <gazebo>
-        <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
-          <render_engine>ogre2</render_engine>
-        </plugin>
-      </gazebo>
       <gazebo reference="camera_color_frame">
         <sensor name="camera_sensor" type="rgbd_camera">
           <camera>
